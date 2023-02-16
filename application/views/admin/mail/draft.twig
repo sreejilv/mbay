@@ -1,0 +1,211 @@
+{% include('admin/layout/header.twig')%}
+
+<link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="assets/css/shCore.css">
+<script type="text/javascript" language="javascript" src="assets/js/jquery.dataTables.js">
+</script>
+<script type="text/javascript" language="javascript" src="assets/js/shCore.js">
+</script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
+<script type="text/javascript" language="javascript" src="assets/js/lead_datatable.js">
+</script>
+<script type="text/javascript" language="javascript" class="init">
+
+    $(document).ready(function () {
+        var oTable = $('#draft_list').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/mail/draft_list",
+            "dataType": "json",
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+</script>
+
+<link rel="stylesheet" href="assets/css/mail_sys.css">
+<div id="js_messages" style="display: none;"> 
+    <span id="success_js">{{lang('success_js')}}</span>
+    <span id="marked_as_spam_msg">{{lang('marked_as_spam_msg')}}</span>   
+    <span id="unmarked_from_spam_msg">{{lang('unmarked_from_spam_msg')}}</span>   
+    <span id="marked_as_starred_msg">{{lang('marked_as_starred_msg')}}</span>   
+    <span id="unmarked_from_starred_msg">{{lang('unmarked_from_starred_msg')}}</span> 
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title">{{lang('mail_box')}} <span class="text-bold"></span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                
+
+                <section class="content">
+                    <div class="row">
+                        <div class="col-md-3">
+                            {% include('admin/mail/compose_mail.twig')%}
+                            <div class="box box-solid">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">{{lang('folders')}}</h3>
+
+                                    <div class="box-tools">
+                                        <button type="button" class="btn btn-box-tool expand" id='expand_btn1' onclick="expand_oprtn('expand_btn1','folder_expand')" data-widget="collapse"><i class="fa fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="box-body no-padding" id="folder_expand">
+                                    <ul class="nav nav-pills nav-stacked">
+                                        <li ><a href="admin/inbox"><i class="fa fa-inbox"></i> {{lang('Inbox')}}
+                                                {% if unread_mail > 0 %}<span class="label label-primary pull-right">{{unread_mail}}</span>{% endif %}
+                                            </a></li>
+                                        <li><a href="admin/sent"><i class="fa fa-envelope-o"></i> {{lang('Sent')}}</a></li>
+                                        <li class="active"><a href="admin/draft"><i class="fa fa-file-text-o"></i> {{lang('Drafts')}}</a></li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="box box-solid">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">{{lang('more')}}</h3>
+
+                                    <div class="box-tools">
+                                        <button type="button" class="btn btn-box-tool expand" id='expand_btn2' onclick="expand_oprtn('expand_btn2','more_expand')" data-widget="collapse"><i class="fa fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="box-body no-padding" id='more_expand'>
+                                    <ul class="nav nav-pills nav-stacked">
+                                        <li><a href="admin/stared"><i class="fa fa-circle-o text-yellow"></i> {{lang('Stared')}}</a></li>
+                                        <li><a href="admin/spam"><i class="fa fa-circle-o text-red"></i> {{lang('Spam')}}</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="box box-primary">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">{{lang('draft_masseges')}}</h3>
+
+
+                                </div>
+                                <div class="box-body no-padding">
+                                     {{ form_open('', ' id="draft" name="draft"')|raw }}
+                                        <div class="mailbox-controls">
+                                            <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i>
+                                            </button>
+                                            <div class="btn-group">
+                                                <button type="submit" name="delete" value="1" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                                            </div>
+                                            <button onclick="refrsh_datatable()" type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+                                            
+                                        </div>
+                                       
+                                        <div class="table-responsive mailbox-messages">
+                                            
+                                            <table class="table table-hover table-striped" id="draft_list">
+                                            <thead>
+                                                <tr style="display:none">
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                            
+                                        </div>
+                                        {{ form_close()|raw }}
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+            </div>
+        </div>
+    </div>                                    
+</div>
+{% include('admin/layout/footer.twig')%}
+<script src="assets/js/file_extension.js"></script>
+<script src="assets/js/compose_mail.js"></script>
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css"/>
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
+<script src="assets/js/typeahead.js"></script><script src="assets/js/compose_mail.js"></script>
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css"/>
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
+<script src="assets/js/typeahead.js"></script>
+<script src="assets/js/mail_validate.js"></script>
+<script>
+    $(function () {
+        $(".checkbox-toggle").click(function () {
+            var clicks = $(this).data('clicks');
+            if (clicks) {
+                //Uncheck all checkboxes
+                $(".mailbox-messages input[type='checkbox']").iCheck("uncheck");
+                $(".fa", this).removeClass("fa-check-square-o").addClass('fa-square-o');
+            } else {
+                //Check all checkboxes
+                $(".mailbox-messages input[type='checkbox']").iCheck("check");
+                $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
+            }
+            $(this).data("clicks", !clicks);
+        });
+        $(".mailbox-star").click(function (e) {
+            e.preventDefault();
+            //detect type
+            var $this = $(this).find("a > i");
+
+            var glyph = $this.hasClass("glyphicon");
+            var fa = $this.hasClass("fa");
+            // alert(glyph);
+            // alert(fa);
+
+            if (glyph) {
+                $this.toggleClass("glyphicon-star");
+                $this.toggleClass("glyphicon-star-empty");
+            }
+            if (fa) {
+
+                $this.toggleClass("fa-star");
+                $this.toggleClass("fa-star-o");
+
+            }
+        });
+    });
+</script>
+<script>
+    $('input.typeahead').typeahead({
+        source: function (query, process) {
+            var url = "admin/mail/get_usernames";
+            return $.get(url, {query: query}, function (data) {
+                data = $.parseJSON(data);
+                return process(data);
+            });
+        }
+    }); 
+    function refrsh_datatable() {
+    var table = $('#draft_list').DataTable();
+    table.clear().draw();
+}
+</script>
+<style>
+    table.dataTable thead th{border-bottom:1px #111}
+    table.dataTable.no-footer{border-bottom:1px #dfe1e5 solid}
+</style>

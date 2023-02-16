@@ -1,0 +1,15 @@
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+$lang['add_kyc_details'] = 'Add KYC Details';
+$lang['form_error_messages'] = 'You have some form errors. Please check below.';
+$lang['form_success_messages'] = 'Your form validation is successful!';
+$lang['bank_details'] = 'Bank Details';
+$lang['id_proof'] = 'Identity Proof Details';
+$lang['bank_account_no'] = 'Bank Account Number';
+$lang['upload_proof'] = 'Upload Bank Proof';
+$lang['bank_ifc_code'] = 'IFC/SWIFT Code';
+$lang['name_as_per_proof'] = 'Name as per Proof';
+$lang['id_number'] = 'Id Number';
+$lang['please_select_allowcd_iamges'] = 'Please select images';
+$lang['please_select_allocated_iamges'] = 'Please select allocated images jpeg/png/gif';
+$lang['successfully_upload_kyc_details'] = 'Sucessfully Uploaded KYC Details';
+$lang['error_upload_kyc_details'] = 'Error while upload KYC Details';

@@ -1,0 +1,97 @@
+{% include'admin/layout/header.twig' %}
+<div id="js_messages" style="display: none;"> 
+    <span id="tran_pass_req_js">{{lang('tran_pass_req_js')}}</span>
+    <span id="inv_tran_pass_js">{{lang('inv_tran_pass_js')}}</span>    
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('menu_name_94')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                {{ form_open_multipart('', ' id="gift_send" name="gift_send"')|raw }}
+                <div class="form-horizontal">                                            
+                    <div class="errorHandler alert alert-danger no-display">
+                        <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                    </div>                    
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('req_user')}} : <span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-4">
+                            <label class="col-sm-3 control-label">
+                                {{request.username}}
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('req_amount')}} : <span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-4">
+                            <label class="col-sm-3 control-label">
+                                {{request.gift_amount}}
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('user_balance')}} : <span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-4">
+                            <label class="col-sm-3 control-label">
+                                {{user_balance}}
+                            </label>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('tran_pass')}} : <span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-4">
+                            <input class="form-control" type="password" name="tran_pass" id="tran_pass" tabindex='1'>
+                            {% if gift_error.tran_pass is defined %}<code> {{ gift_error.tran_pass}} </code> {% endif %} 
+                        </div>
+                    </div>                        
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+
+                        </label>
+                        <div class="col-sm-4">
+                            <button type="submit"class="btn btn-primary" value="gift_help" name="gift_help">
+                                {{lang('help')}} <i class="fa fa-arrow-circle-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {{ form_close()|raw }} 
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include'admin/layout/footer.twig' %}
+<script src="assets/js/help_request.js"></script>
+<script>
+    jQuery(document).ready(function () {
+        valGiftHelp();
+    });
+</script>

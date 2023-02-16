@@ -1,0 +1,248 @@
+{% include('admin/layout/header.twig')%}
+<link rel="stylesheet" href="assets/css/multiple_options.css">
+<link rel="stylesheet" href="assets/css/bootstrap-datetimepicker.css">
+<link rel="stylesheet" href="assets/css/bootstrap-datetimepicker.min.css">
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"> <span class="text-bold">{{ lang('block_list') }}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                {{ form_open('', ' id="change_password" name="change_password"')|raw }}
+
+
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="tabbable tabs-left faq">
+                            <ul id="myTab3" class="nav nav-tabs">
+                                <li class="{{tab1}}">
+                                    <a href="javascript:#faq_example1" data-toggle="tab">
+                                        <i class="fa fa-exclamation-triangle"></i>{{ lang('login_block') }}
+                                    </a>
+                                </li>
+                                <li class="{{tab2}}">
+                                    <a href="javascript:#faq_example2" data-toggle="tab">
+                                        <i class="fa fa-exclamation-triangle"></i> {{ lang('registeration_block') }}
+                                    </a>
+                                </li>
+                                <li class="{{tab3}}">
+                                    <a href="javascript:#faq_example3" data-toggle="tab">
+                                        <i class="fa fa-exclamation-circle"></i> {{ lang('maintaince_mode') }}
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane {{tab1}}" id="faq_example1">
+                                    <div id="accordion" class="panel-group accordion accordion-custom accordion-teal">
+
+                                        <h3 class="margin-bottom-15">{{ lang('login_block') }}</h3>
+
+                                        <br>
+                                        <div class="form-horizontal">
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">
+                                                </label>
+                                                <div class="col-sm-6">
+                                                    <span class="input-icon input-icon-right">
+                                                        <div class="text-center">
+                                                            <b>  {{ lang('user_wise_login_block') }} </b>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">
+                                                    {{ lang('select_user_name') }} 
+                                                </label>
+                                                <div class="col-sm-6">
+                                                    <span class="input-icon input-icon-right">
+                                                        <div class="text-center">
+                                                            <input class="typeahead form-control"  type="text" name="login_user" placeholder="Select User Name" id="login_user" autocomplete="off">
+
+
+                                                        </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">
+
+                                                </label>
+                                                <div class="col-sm-4">
+                                                    <button onclick="block_login()" type="button"class="btn btn-primary" value="1" name="submit_password">
+                                                        {{ lang('block') }}
+                                                    </button>
+                                                </div>
+                                                <div class=" col-sm-3">
+                                                    <button onclick="unblock_login()" type="button"class="btn btn-primary" value="1" name="submit_password">
+                                                        {{ lang('unblock') }}
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane {{tab2}}" id="faq_example2">
+                                    <div id="accordion2" class="panel-group accordion accordion-custom accordion-teal">
+                                        <h3 class="margin-bottom-15">{{ lang('registeration_block') }}  </h3>
+                                        <br>
+                                        <div class="form-horizontal">
+
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">
+
+                                                </label>
+                                                <div class="col-sm-6">
+                                                    <span class="input-icon input-icon-right">
+                                                        <div class="text-center">
+                                                            {{ lang('user_wise_registration_block') }} 
+                                                        </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">
+                                                    {{ lang('select_user_name') }}
+                                                </label>
+                                                <div class="col-sm-6">
+                                                    <span class="input-icon input-icon-right">
+                                                        <div class="text-center">
+                                                            <input type="text" name="register_user" placeholder="Select User Name" id="register_user" class="typeahead form-control" autocomplete="off">
+
+                                                        </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">
+
+                                                </label>
+                                                <div class="col-sm-3">
+                                                    <button onclick="block_register()" type="button"class="btn btn-primary" value="1" name="submit_password">
+                                                        {{ lang('block') }}
+                                                    </button>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <button onclick="unblock_register()" type="button"class="btn btn-primary" value="1" name="submit_password">
+                                                        {{ lang('unblock') }}
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">
+
+                                                </label>
+                                                <div class="col-sm-6">
+                                                    <span class="input-icon input-icon-right">
+                                                        <div class="text-center">
+                                                            {{ lang('block_all_user_registration') }} 
+                                                        </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">
+
+                                                </label>
+                                                <div class="col-sm-4">
+                                                    <label class="switch">
+                                                        <input type="checkbox" {% if registration_block_status == "active" %} checked {% endif %} id="togBtn" onchange='changeRegistrationStatus(this)'>                                                            
+                                                        <div class="slider round">
+                                                            <span class="on">{{lang('block')}}</span>
+                                                            <span class="off">{{lang('unblock')}}</span>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane {{tab3}}" id="faq_example3">
+                                    <div id="accordion3" class="panel-group accordion accordion-custom accordion-teal">
+                                        <h3 class="margin-bottom-15">{{ lang('maintence_mode_activate_inactivate') }}</h3>
+                                        <div class="form-horizontal">
+                                            <br>
+                                            <br>
+                                            {% if maintences_status == "inactive" %}
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">
+                                                        Estimated Time
+                                                    </label>
+                                                    <div class="col-sm-6">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="fa fa-clock-o" aria-hidden="true"></i>
+                                                            </span>
+                                                            <input name="time" type="text" placeholder="select date and time" id="time" class="form-control form_datetime">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+
+
+
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">
+
+                                                </label>
+                                                <div class="col-sm-4">
+                                                    <label class="switch">
+                                                        <input type="checkbox" {% if maintences_status == "active" %} checked {% endif %} id="togBtn" onchange='changeMaintenceStatus(this)'>                                                            
+                                                        <div class="slider round">
+                                                            <span class="on">{{lang('block')}}</span>
+                                                            <span class="off">{{lang('unblock')}}</span>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{ form_close()|raw }}
+            </div>
+        </div>                                    
+    </div>
+</div>
+{% include('admin/layout/footer.twig')%}
+<link href="assets/plugins/sweetalert/lib/sweet-alert.css" rel="stylesheet" />
+<script src="assets/plugins/sweetalert/lib/sweet-alert.min.js"></script>
+<script src="assets/js/block_list.js"></script>
+<script src="assets/js/bootstrap-datetimepicker.js"></script>
+<script src="assets/js/bootstrap-datetimepicker.min.js"></script>
+<script src="assets/js/typeahead.js">
+</script>
+<script>
+    $('input.typeahead').typeahead({
+        source: function (query, process) {
+            var url = "{{BASE_URL}}admin/member/get_usernames";
+            return $.get(url, {query: query}, function (data) {
+                data = $.parseJSON(data);
+                return process(data);
+            });
+        }
+    });
+</script>
+<script type="text/javascript">
+    $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii'});
+</script>
+
+

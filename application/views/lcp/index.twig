@@ -1,0 +1,273 @@
+<html>
+    <head>
+        <title>{{lang('lcp')}} | {{COMPANY_NAME}}</title>
+        <base href="{{BASE_URL}}" />
+        <link rel="shortcut icon" href="assets/images/logos/{{COMPANY_FAV_ICON}}" />
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="description" content="Lead Capture Page">
+        <meta name="keywords" content="Lead Capture Page,LCP Site,mlm Lead Capture Site,Network Lead Capture Page">
+        <link href="{{BASE_URL}}assets/lcp/layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
+        <link href="{{BASE_URL}}assets/plugins/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" media="all">
+        <link href="{{BASE_URL}}assets/css/bootstrap-dropdownhover.css" rel="stylesheet" type="text/css" media="all">
+        <script src="{{BASE_URL}}assets/plugins/jQuery/jquery-2.1.1.min.js"></script>
+    </head>
+    <body id="top">
+        <div class="bgded" style="background-image:url('{{BASE_URL}}assets/lcp/layout/lcp.png');">
+            <div class="wrapper overlay">
+                <header id="header" class="hoc clear">
+                    <div id="logo"> 
+                        <h1><a href="{{BASE_URL}}">{{COMPANY_NAME}}</a></h1>
+                        <p>{{lang('lcp')}}</p>
+                    </div>
+                    {% if MULTI_LANG_STATUS %}                        
+                        <div class="dropdown pull-right">
+                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" data-hover="dropdown">
+                                <img src="assets/images/flags/lang/{{MLM_LANG_FLAG}}" class="img-circle" alt=""><span class="username hidden-xs"><small>{{MLM_LANG_NAME|capitalize}}</small></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                {% for LANGUAGE  in  MLM_LANG_LIST  %}
+                                    <li >
+                                        <a href="javascript:switchLanguage('{{LANGUAGE.lang_code}}')" >
+                                            {{LANGUAGE.lang_name}} 
+
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% elseif GOOGLE_TRANSLATOR %}
+                        <li class="hidden-xs">
+                            <a  href="javascript:;"  title="Google Translate"  class="dropdown-toggle">
+                                <span id="google_translate_element"> </span>
+                            </a>
+                        </li> 
+                    {% endif %} 
+                </header>
+            </div>
+            <div id="pageintro" class="hoc clear"> 
+                <article>
+                    <div class="introtxt">
+                        <h2 class="heading" align="center">{{username}} `s {{lang('lead_capture_page')}}</h2>
+                        {% include('admin/layout/notification.twig')%}
+
+                        {{ form_open('', ' id="lcp_form" name="lcp_form"')|raw }}
+
+                        <div align="center" >
+                            <input class="btmspace-15" type="text" id="first_name" name="first_name" value="" placeholder="{{lang('enter_first_name')}}" tabindex='1'>
+                            <input class="btmspace-15" type="text" id="last_name" name="last_name" value="" placeholder="{{lang('enter_last_name')}}" tabindex='2'>
+                            <input class="btmspace-15" type="email" id="email" name="email" value="" placeholder="{{lang('enter_email')}}" tabindex='3'>
+                            <input class="btmspace-15" type="text" id="mobile" name="mobile" value="" placeholder="{{lang('enter_phone_number')}}" tabindex='4'>
+                            <select class="form-control textbox_style" id="country" name="country" style='width: 195px;' tabindex='5'>
+                                <option value="">{{ lang('select_a_country')}}</option>
+                                {% for cntrs in countries %}
+                                    <option value="{{cntrs.id}}" {% if register_data.country==cntrs.id %} selected {% endif %}>{{cntrs.name}}</option>
+                                {% endfor %}
+                            </select>
+
+                            <textarea name="comment" id="comment" type="text"  placeholder="{{lang('enter_comment')}}" tabindex='6'></textarea>
+                            <br>
+                            <button type="submit" class="btn" value="lead" name="lead">
+                                {{lang('add')}} <i class="fa fa-arrow-circle-right"></i>
+                            </button>            
+                        </div>
+                        {{ form_close()|raw }}
+                    </div>
+                </article>
+            </div>
+        </div>
+        <div id="js_validation_messages" style="display: none;"> 
+            <span id="this_field_is_required_msg_js">{{lang('this_field_is_required_msg_js')}}</span>    
+            <span id="characters_msg_js">{{lang('characters_msg_js')}}</span>
+            <span id="enter_valid_email_msg_js">{{lang('enter_valid_email_msg_js')}}</span>
+            <span id="enter_digits_only_msg_js">{{lang('enter_digits_only_msg_js')}}</span>
+            <span id="invalid_number_msg_js">{{lang('invalid_number_msg_js')}}</span>
+            <span id="number_gt_msg_js">{{lang('number_gt_msg_js')}}</span>
+            <span id="number_lt_msg_js">{{lang('number_lt_msg_js')}}</span>
+            <span id="pls_enter_atleast_msg_js">{{lang('pls_enter_atleast_msg_js')}}</span>
+            <span id="pls_enter_atmost_msg_js">{{lang('pls_enter_atmost_msg_js')}}</span>
+
+            <span id="country_required_msg_js">{{lang('country_required_msg_js')}}</span>
+            <span id="comment_required_msg_js">{{lang('comment_required_msg_js')}}</span>
+            <span id="mobile_number_required_msg_js">{{lang('mobile_number_required_msg_js')}}</span>
+            <span id="mobile_number_length_msg_js">{{lang('mobile_number_length_msg_js')}}</span>
+            <span id="mobile_number_allow_number_only_msg_js">{{lang('mobile_number_allow_number_only_msg_js')}}</span>
+            <span id="email_required_msg_js">{{lang('email_required_msg_js')}}</span>
+            <span id="valid_email_msg_js">{{lang('valid_email_msg_js')}}</span>
+            <span id="last_name_required_msg_js">{{lang('last_name_required_msg_js')}}</span>
+            <span id="last_name_length_msg_js">{{lang('last_name_length_msg_js')}}</span>
+            <span id="last_name_msg_js">{{lang('last_name_msg_js')}}</span>
+        </div>
+    </body>
+</html>
+<link rel="stylesheet" href="{{BASE_URL}}assets/plugins/bootstrap/css/bootstrap.min.css">
+<script src="{{BASE_URL}}assets/lcp/layout/scripts/jquery.min.js"></script>
+<script src="{{BASE_URL}}assets/lcp/layout/scripts/jquery.backtotop.js"></script>
+<script src="{{BASE_URL}}assets/lcp/layout/scripts/jquery.mobilemenu.js"></script>
+<script src="{{BASE_URL}}assets/lcp/layout/scripts/jquery.placeholder.min.js"></script>
+<script src='{{BASE_URL}}assets/plugins/jquery-validation/dist/jquery.validate.min.js'></script>
+<script src='{{BASE_URL}}assets/js/bootstrap-dropdownhover.js'></script>
+<style>
+    input:focus, textarea:focus, *:required:focus{border-color: #fbeee6;}
+    .help-block {
+        color:#a94442;
+    }
+
+    input, select, textarea{
+        width:195px;
+        border:5px solid  #d5d8dc ;
+    }
+    .show-on-hover:hover > ul.dropdown-menu {
+        display: block;    
+    }
+
+</style>
+
+<script>
+    $(document).ready(function () {
+        valLcp();
+        jQuery.extend(jQuery.validator.messages, {
+            required: $('#this_field_is_required_msg_js').html(),
+            email: $('#enter_valid_email_msg_js').html(),
+            digits: $('#enter_digits_only_msg_js').html(),
+            number: $('#invalid_number_msg_js').html(),
+            min: $('#number_gt_msg_js').html() + ' {0}.',
+            max: $('#number_lt_msg_js').html() + ' {0}.',
+            minlength: $('#pls_enter_atleast_msg_js').html() + ' {0} ' + $('#characters_msg_js').html(),
+            maxlength: $('#pls_enter_atmost_msg_js').html() + ' {0} ' + $('#characters_msg_js').html()
+        });
+    });
+
+
+    var valLcp = function () {
+
+        var first_name_msg = $('#last_name_msg_js').html();
+        var last_name_msg_length = $('#last_name_length_msg_js').html();
+        var last_name_msg = $('#last_name_required_msg_js').html();
+        var email_valid_msg = $('#valid_email_msg_js').html();
+        var email_msg = $('#email_required_msg_js').html();
+        var number_msg = $('#mobile_number_allow_number_only_msg_js').html();
+        var number_length = $('#mobile_number_length_msg_js').html();
+        var number_reguired = $('#mobile_number_required_msg_js').html();
+        var comment_msg = $('#comment_required_msg_js').html();
+        var country_msg = $('#country_required_msg_js').html();
+
+
+        var form = $('#lcp_form');
+        var errorHandler2 = $('.errorHandler', form);
+        var successHandler2 = $('.successHandler', form);
+        form.validate({
+            errorElement: "span", // contain the error msg in a small tag
+            errorClass: 'help-block',
+            errorPlacement: function (error, element) {
+                error.insertAfter(element);
+            },
+            ignore: "",
+            rules: {
+                first_name: {
+                    required: true,
+                }, last_name: {
+                    minlength: 2,
+                    required: true
+                }, email: {
+                    email: true,
+                    required: true
+                }, mobile: {
+                    number: true,
+                    minlength: 2,
+                    required: true
+                }, comment: {
+                    required: true
+                }, country: {
+                    required: true
+                }
+            },
+            messages: {
+                first_name: {
+                    required: first_name_msg,
+                }, last_name: {
+                    minlength: last_name_msg_length,
+                    required: last_name_msg
+                }, email: {
+                    email: email_valid_msg,
+                    required: email_msg
+                }, mobile: {
+                    number: number_msg,
+                    minlength: number_length,
+                    required: number_reguired,
+                }, comment: {
+                    required: comment_msg,
+                }, country: {
+                    required: country_msg
+                }
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit
+                successHandler2.hide();
+                errorHandler2.show();
+            },
+            highlight: function (element) {
+                $(element).closest('.help-block').removeClass('valid');// display OK icon
+                $(element).closest('.form-group').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
+                // add the Bootstrap error class to the control group
+            },
+            unhighlight: function (element) { // revert the change done by hightlight
+                $(element).closest('.form-group').removeClass('has-error');
+                // set error class to the control group
+            },
+            success: function (label, element) {
+                label.addClass('help-block valid');
+                // mark the current input as valid and display OK icon
+                $(element).closest('.form-group').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
+            },
+            submitHandler: function (form) {
+                successHandler2.show();
+                errorHandler2.hide();
+                // submit form//$('#form2').submit();
+
+                form.submit();
+
+            }
+        });
+    };
+
+</script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $.ajaxSetup({
+            data: {
+                '{{CSRF_TOKEN_NAME}}': '{{CSRF_TOKEN_VALUE}}'
+            }
+        });
+    });
+
+</script>
+<script type="text/javascript">
+
+    function switchLanguage(lang_code) {
+        var LOG_USER_TYPE = '{{type}}';
+        LOG_USER_TYPE = (LOG_USER_TYPE == 'employee') ? 'admin' : LOG_USER_TYPE;
+        var path_root = '{{BASE_URL}}';
+
+        $.ajax({
+            type: 'POST',
+            url: path_root + 'api/general/changeLanguageSettings',
+            data: {'lang_code': lang_code},
+            beforeSend: function () {
+            },
+            success: function (data) {
+
+                location.reload();
+
+            },
+            error: function (xhr) {
+                //alert("Error occured.please try again");
+            },
+            complete: function () {
+            },
+            dataType: 'json'
+        });
+
+    }
+
+</script>

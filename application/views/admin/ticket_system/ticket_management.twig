@@ -1,0 +1,206 @@
+{% include('admin/layout/header.twig')%}
+<link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="assets/css/shCore.css">
+<script type="text/javascript" language="javascript" src="assets/js/jquery.dataTables.js">
+</script>
+<script type="text/javascript" language="javascript" src="assets/js/shCore.js">
+</script> 
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
+<script type="text/javascript" language="javascript" src="assets/js/lead_datatable.js">
+</script>
+<script type="text/javascript" language="javascript" class="init">
+
+    $(document).ready(function () {
+        var oTable = $('#new_ticket_list').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/ticket_system/new_ticket_list",
+            "order": [[ 6, "desc" ]],
+            "dataType": "json",
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+    $(document).ready(function () {
+        var oTable = $('#open_ticket_list').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/ticket_system/open_ticket_list",
+            "dataType": "json",
+            "order": [[ 6, "desc" ]],
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+    $(document).ready(function () {
+        var oTable = $('#processing_ticket_list').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/ticket_system/processing_ticket_list",
+            "dataType": "json",
+            "order": [[ 6, "desc" ]],
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+    $(document).ready(function () {
+        var oTable = $('#completed_ticket_list').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/ticket_system/completed_ticket_list",
+            "dataType": "json",
+            "order": [[ 6, "desc" ]],
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+</script>
+<div id="js_messages" style="display: none;"> 
+    <span id="are_you_sure">{{lang('are_you_sure')}}</span>
+    <span id="open_this_ticket">{{lang('open_this_ticket')}}</span>
+    <span id="yes_open_it">{{lang('yes_open_it')}}</span>
+    <span id="no_cancel_pls">{{lang('no_cancel_pls')}}</span>
+    <span id="canceled">{{lang('canceled')}}</span>
+    <span id="oprn_canceled">{{lang('oprn_canceled')}}</span>
+    <span id="delete_this_ticket">{{lang('delete_this_ticket')}}</span>
+    <span id="yes_delete_it">{{lang('yes_delete_it')}}</span>        
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('menu_name_174')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+
+                <div class="form-horizontal"> 
+                    <div class="tabbable">
+                        <ul id="myTab2" class="nav nav-tabs">
+                            <li class="active">
+                                <a href="javascript:#myTab2_example1" data-toggle="tab">
+                                    {{lang('new_ticket')}} <span class="badge badge-danger">{{new_ticket}}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:#myTab2_example2" data-toggle="tab">
+                                    {{lang('open_ticket')}} <span class="badge badge-danger">{{open_ticket}}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:#myTab2_example3" data-toggle="tab">
+                                    {{lang('processing_ticket')}} <span class="badge badge-danger">{{processing_ticket}}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:#myTab2_example4" data-toggle="tab">
+                                    {{lang('completed_ticket')}} <span class="badge badge-danger">{{completed_ticket}}</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" id="myTab2_example1">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-striped" id="new_ticket_list">
+                                        <thead>
+                                            <tr>
+                                                <th>{{ lang('slno') }}</th>
+                                                <th>{{lang('created_user')}}</th>
+                                                <th>{{ lang('ticket_id') }}</th>
+                                                <th>{{ lang('title') }}</th>
+                                                <th>{{lang('subject')}}</th>
+                                                <th>{{lang('description')}}</th>
+                                                <th>{{lang('created_date')}}</th>        
+                                                <th>{{lang('action')}}</th>        
+                                            </tr>
+                                        </thead>                            
+                                    </table>
+                                </div>
+
+                            </div>
+                            <div class="tab-pane fade" id="myTab2_example2">
+                                <div class="table-responsive">
+                                    <table class="table  table-hover table-striped" id="example_credit"> 
+                                        <table class="table table-hover table-striped" id="open_ticket_list">
+                                            <thead>
+                                                <tr>
+                                                    <th>{{ lang('slno') }}</th>
+                                                    <th>{{lang('created_user')}}</th>
+                                                    <th>{{ lang('ticket_id') }}</th>
+                                                    <th>{{ lang('title') }}</th>
+                                                    <th>{{lang('subject')}}</th>
+                                                    <th>{{lang('description')}}</th>
+                                                    <th>{{lang('created_date')}}</th>       
+                                                </tr>
+                                            </thead>                            
+                                        </table>
+                                    </table>
+                                </div>
+
+                            </div>
+                            <div class="tab-pane fade" id="myTab2_example3">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-striped" id="processing_ticket_list">
+                                        <thead>
+                                            <tr>
+                                                <th>{{ lang('slno') }}</th>
+                                                <th>{{lang('created_user')}}</th>
+                                                <th>{{ lang('ticket_id') }}</th>
+                                                <th>{{ lang('title') }}</th>
+                                                <th>{{lang('subject')}}</th>
+                                                <th>{{lang('description')}}</th>
+                                                <th>{{lang('created_date')}}</th>       
+                                            </tr>
+                                        </thead>                            
+                                    </table>
+                                </div>
+
+                            </div>
+                            <div class="tab-pane fade" id="myTab2_example4">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-striped" id="completed_ticket_list">
+                                        <thead>
+                                            <tr>
+                                                <th>{{ lang('slno') }}</th>
+                                                <th>{{lang('created_user')}}</th>
+                                                <th>{{ lang('ticket_id') }}</th>
+                                                <th>{{ lang('title') }}</th>
+                                                <th>{{lang('subject')}}</th>
+                                                <th>{{lang('description')}}</th>
+                                                <th>{{lang('created_date')}}</th>       
+                                            </tr>
+                                        </thead>                            
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% include('admin/layout/footer.twig')%}   
+<link href="assets/plugins/sweetalert/lib/sweet-alert.css" rel="stylesheet" />
+<script src="assets/plugins/sweetalert/lib/sweet-alert.min.js"></script>
+<script src='assets/js/ticket_management.js'></script>
+<style>
+    table.dataTable thead th{border-bottom:1px #111}
+    table.dataTable.no-footer{border-bottom:1px #dfe1e5 solid}
+</style>

@@ -1,0 +1,1005 @@
+{% if logged_user %}
+    {% include(user_type~'/layout/header.twig')%}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-white">
+                <div class="panel-heading">
+                    <h4 class="panel-title"><span class="text-bold"> {{ lang('multiple_step_registration')}} </span></h4>
+                    <div class="panel-tools">
+                        <div class="dropdown">
+                            <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                            <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                                <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                                <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                                <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                            </ul>
+                        </div>
+                        <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <hr>
+                {% else %}
+                    {% include('layout/header.twig')%}
+                    <body class="login">
+                        <div class="row">
+                            <div class="main-login col-xs-10 col-xs-offset-1 col-sm-offset-2 col-md-8 col-md-offset-2">
+                                <div class="logo">
+                                    <img src="assets/images/logos/{{COMPANY_LOGO}}">
+                                </div>
+                                <div class="box-login">
+
+                                    <div class="row">
+                                        <div  class="col-xs-6 col-sm-6 col-lg-6">
+                                            <h3>{{ lang('multiple_step_registration') }}</h3>
+                                        </div>        
+                                        <div class="col-xs-6 col-sm-6 col-lg-6" style="hover:none;">
+                                            <p>
+                                            <div class="topbar-tools pull-right"  style="color:black !important; hover:none!important;">
+                                                <ul class="nav navbar-right">
+
+                                                    {% if MULTI_LANG_STATUS %}
+                                                        <li class="dropdown current-user">
+                                                            <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="javascript:;"  title="Change Language"
+                                                               style="color: gray;" 
+                                                               >
+                                                                <img src="assets/images/flags/lang/{{MLM_LANG_FLAG}}" class="img-circle" alt="">
+                                                                <span class="username hidden-xs"><small>{{MLM_LANG_NAME|capitalize}}</small></span> <i class="fa fa-caret-down hidden-xs "></i>
+                                                            </a>
+
+                                                            <ul class="dropdown-menu dropdown-light dropdown-subview" >
+                                                                {% for LANGUAGE  in  MLM_LANG_LIST  %}
+                                                                    <li onclick="switchLanguage('{{LANGUAGE.lang_code}}');">
+                                                                        <a href="javascript:;" >
+                                                                            {{LANGUAGE.lang_name}} 
+
+                                                                        </a>
+                                                                    </li>
+                                                                {% endfor %}
+                                                            </ul>
+                                                        </li>
+
+                                                    {% elseif GOOGLE_TRANSLATOR %}
+
+                                                        <li class="hidden-xs">
+                                                            <a  href="javascript:;"  title="Google Translate"  class="dropdown-toggle">
+                                                                <span id="google_translate_element"> </span>
+                                                            </a>
+                                                        </li> 
+
+                                                    {% endif %} 
+
+                                                </ul>
+                                            </div>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    {% include('layout/header.twig')%}
+                                    <body class="login">
+                                        <input type="hidden" name="path" id="path" value="{{BASE_URL}}"/>        
+
+                                    {% endif %}
+
+                                    <div id="js_messages" style="display: none;"> 
+                                        <span id="invalid_sponsor_js">{{lang('invalid_sponsor_js')}}</span>    
+                                        <span id="sponsor_req_js">{{lang('sponsor_req_js')}}</span>    
+                                        <span id="invalid_username_js">{{lang('invalid_username_js')}}</span>    
+                                        <span id="min_4_js">{{lang('min_4_js')}}</span>    
+                                        <span id="username_req_js">{{lang('username_req_js')}}</span>    
+                                        <span id="invalid_email_js">{{lang('invalid_email_js')}}</span>    
+                                        <span id="email_req_js">{{lang('email_req_js')}}</span>    
+                                        <span id="enter_valid_email_js">{{lang('enter_valid_email_js')}}</span>    
+                                        <span id="min_6_js">{{lang('min_6_js')}}</span>    
+                                        <span id="min_2_js">{{lang('min_2_js')}}</span>    
+                                        <span id="password_req_js">{{lang('password_req_js')}}</span>    
+                                        <span id="password_mismatch_js">{{lang('password_mismatch_js')}}</span>    
+                                        <span id="first_name_req_js">{{lang('first_name_req_js')}}</span>    
+                                        <span id="agree_req_js">{{lang('agree_req_js')}}</span>    
+                                        <span id="register_leg_req_js">{{lang('register_leg_req_js')}}</span>    
+                                        <span id="country_req_js">{{lang('country_req_js')}}</span>    
+                                        <span id="privacy_policy_req_js">{{lang('privacy_policy_req_js')}}</span>
+                                        <span id="phone_number_req_js">{{lang('phone_number_req_js')}}</span>
+                                        <span id="gender_req_js">{{lang('gender_req_js')}}</span>
+                                        <span id="address_req_js">{{lang('address_req_js')}}</span>
+                                        <span id="this_is_req_js">{{lang('this_is_req_js')}}</span>
+                                        <span id="msg">{{lang('please_enter_epin_details')}}</span>
+                                        <span  id="msg2" >{{lang('error_insufficent_pin_amount')}}</span>
+                                        <span  id="epin_created_by_user" >{{lang('epin_created_by_user')}}</span>
+                                        <span  id="msg3" >{{lang('invalid_epin_details')}}</span>
+                                        <span id="success_message">{{lang('success_message')}}</span>
+                                        <span id="error_message">{{lang('you_have_some_errors_please_check_below')}}</span>
+                                        <span id="alphanumeric_js">{{lang('alphanumeric_js')}}</span>
+                                        <span id="fullname_js">{{lang('fullname_js')}}</span>
+                                        <span id="email_js">{{lang('email_js')}}</span>
+                                        <span id="passwaord_validation_js">{{lang('passwaord_validation_js')}}</span>
+
+                                        <input type="hidden" id="currency_symbol" value="({{MLM_CURRENCY_LEFT~MLM_CURRENCY_RIGHT}})"/>
+                                    </div>
+
+                                    <div id="term_modal" class="modal extended-modal fade no-display" tabindex="-1" data-width="760">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <h4 class="modal-title">{{ lang('terms_condition')}}</h4>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                    {{terms_and_condition|raw}}
+                                                </div>
+                                                <div class="modal-footer">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div id="privacy_modal" class="modal extended-modal fade no-display" tabindex="-1" data-width="760">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <h4 class="modal-title">{{ lang('privacy_policy')}}</h4>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                    {{privacy_policy|raw}}
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    {%if not logged_user %}
+                                        {%include('admin/layout/notification.twig')%}
+                                    {% endif %}
+                                    {{ form_open('', ' class="smart-wizard form-horizontal" id="form" name="form"')|raw }}
+                                    <div id="wizard" class="swMain">
+                                        <ul>
+                                            <li>
+                                                <a href="#step-1">
+                                                    <div class="stepNumber">
+                                                        1
+                                                    </div>
+                                                    <span class="stepDesc">{{ lang('step-1') }}
+                                                        <br />
+                                                        <small>{{ lang('sponsor_info') }}</small> </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#step-2">
+                                                    <div class="stepNumber">
+                                                        2
+                                                    </div>
+                                                    <span class="stepDesc"> {{ lang('step-2') }}
+                                                        <br />
+                                                        <small>{{ lang('personal_info') }}</small> </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#step-3">
+                                                    <div class="stepNumber">
+                                                        3
+                                                    </div>
+                                                    <span class="stepDesc"> {{ lang('stpe-3') }}
+                                                        <br />
+                                                        <small>{{ lang('billing_info') }} </small> </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#step-4">
+                                                    <div class="stepNumber">
+                                                        4
+                                                    </div>
+                                                    <span class="stepDesc"> {{ lang('step-4') }} 
+                                                        <br />
+                                                        <small>{{ lang('payment_options') }}</small> </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <div class="progress progress-xs transparent-black no-radius active">
+                                            <div aria-valuemax="100" aria-valuemin="0" role="progressbar" class="progress-bar partition-green step-bar">
+                                                <span class="sr-only"> 0% Complete (success)</span>
+                                            </div>
+                                        </div>
+                                        <div id="step-1">
+                                            <h2 class="StepTitle">{{ lang('sponsor_info') }}</h2>
+
+                                            {% for fld in fields['step-1'] %}
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">
+                                                        {{ lang(fld.field_name) }} : {% if fld.required_status %}  <span class="symbol required"></span> {% endif %}
+                                                    </label>
+                                                    <div class="col-sm-7">
+
+                                                        {% if fld.field_type=='radio' %}
+                                                            <label class="radio-inline">
+                                                                <input type="radio" id="{{ fld.field_name }}1" name="{{ fld.field_name }}" value="{{fld.radio_value1}}"  {% if register_data[fld.field_name]==fld.radio_value1 %} checked {% endif %} class="grey" {% if fld.required_status %} required {% endif %} tabindex='{{ fld.tab_index }}'>
+                                                                {{ lang(fld.radio_value1)}}
+                                                            </label>
+                                                            <label class="radio-inline">
+                                                                <input type="radio" id="{{ fld.field_name }}2" name="{{ fld.field_name }}" value="{{fld.radio_value2}}"  {% if register_data[fld.field_name]==fld.radio_value2 %} checked {% endif %} class="grey" {% if fld.required_status %} required {% endif %} tabindex='{{ fld.tab_index }}'>
+                                                                {{lang(fld.radio_value2)}}
+                                                            </label>                                    
+                                                        {% elseif fld.field_type=='select_box' %}
+
+
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"> <i class="fa {{ fld.icon }}"></i> </span>
+                                                                <span id="{{ fld.field_name }}_span">
+                                                                    <select class="form-control tooltips search-select" id="{{ fld.field_name }}" name="{{ fld.field_name }}" {% if fld.required_status %} required {% endif %} tabindex='{{ fld.tab_index }}'>
+                                                                        <option value="">{{lang('select_a')}}  {{ lang(fld.field_name) }}</option>
+                                                                        {% for selec in fld.select_box_values %}
+                                                                            <option value="{{selec.id}}" {% if register_data[fld.field_name] == selec.id %} selected {% endif %} >{{selec.name|raw}}</option>
+                                                                        {% endfor %}
+
+                                                                    </select>
+                                                                </span>
+                                                            </div>
+
+                                                        {% elseif fld.field_type=='text_area' %}
+
+                                                            <textarea id="{{ fld.field_name }}" name="{{ fld.field_name }}" {% if fld.required_status %} required {% endif %} tabindex='{{ fld.tab_index }}'>
+                                                                {{ register_data[fld.field_name] }}
+                                                            </textarea> 
+
+                                                        {% elseif fld.field_type=='password' %}
+
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"> <i class="fa {{ fld.icon }}"></i> </span>
+                                                                <input type="password" id="{{ fld.field_name }}" name="{{ fld.field_name }}" class="form-control"  {% if fld.required_status %} required {% endif %} placeholder="{{ lang(fld.field_name) }}" tabindex='{{ fld.tab_index }}'>
+                                                            </div>
+
+                                                        {% elseif fld.field_type=='text' %}
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"> <i class="fa {{ fld.icon }}"></i> </span>
+                                                                <input type="text" id="{{ fld.field_name }}" name="{{ fld.field_name }}" value="{{ register_data[fld.field_name] }}" class="form-control"  {% if fld.required_status %} required {% endif %} placeholder="{{ lang(fld.field_name) }}" {% if fld.html_max_length %} maxlength="{{fld.html_max_length}}" {% endif %} tabindex='{{ fld.tab_index }}'>
+                                                            </div>
+
+                                                        {% endif %}
+                                                        {% if register_error[fld.field_name] is defined %}<code> {{ register_error[fld.field_name] }} </code> {% endif %}
+                                                    </div>
+                                                </div>
+                                                {% if fld.field_type=='text'and fld.field_name=='sponser_name'%}
+                                                    <div class="form-group">
+                                                        <label class="col-sm-3 control-label">
+
+                                                        </label>
+                                                        <div class="col-sm-7" id="full_name">
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+
+
+
+                                            {% if placement_username %}
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">
+                                                        {{ lang('placement_user')}} : <span class="symbol required"></span>
+                                                    </label>
+                                                    <div class="col-sm-7">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"> <i class="fa fa-user-plus"></i> </span>
+                                                            <input type="text" class="form-control tooltips" id="placement_user" name="placement_user" value="{{ placement_username }}" placeholder="{{ lang('placement_user')}}" tabindex='2' maxlength="18" readonly>
+                                                        </div>
+                                                        {% if register_error.placement_user is defined %}<code> {{ register_error.placement_user}} </code> {% endif %}
+                                                    </div>                            
+                                                </div>
+                                            {% endif %}
+
+
+                                            <div class="form-group">
+                                                <div class="col-sm-2 col-sm-offset-8">
+                                                    <button class="btn btn-blue next-step btn-block">
+                                                        {{ lang('next') }}  <i class="fa fa-arrow-circle-right"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="step-2">
+                                            <h2 class="StepTitle">{{ lang('personal_info') }}</h2>
+                                            {% for fld in fields['step-2'] %}
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">
+                                                        {{ lang(fld.field_name) }} : {% if fld.required_status %} <span class="symbol required"></span> {% endif %}
+                                                    </label>
+                                                    <div class="col-sm-7">
+
+                                                        {% if fld.field_type=='radio' %}
+                                                            <label class="radio-inline">
+                                                                <input type="radio" id="{{ fld.field_name }}1" name="{{ fld.field_name }}" value="{{fld.radio_value1}}"  {% if register_data[fld.field_name]==fld.radio_value1 %} checked {% endif %} class="grey" {% if fld.required_status %} required {% endif %} tabindex='{{ fld.tab_index }}'>
+                                                                {{ lang(fld.radio_value1)}}
+                                                            </label>
+                                                            <label class="radio-inline">
+                                                                <input type="radio" id="{{ fld.field_name }}2" name="{{ fld.field_name }}" value="{{fld.radio_value2}}"  {% if register_data[fld.field_name]==fld.radio_value2 %} checked {% endif %} class="grey" {% if fld.required_status %} required {% endif %} tabindex='{{ fld.tab_index }}'>
+                                                                {{lang(fld.radio_value2)}}
+                                                            </label>                                    
+                                                        {% elseif fld.field_type=='select_box' %}
+
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"> <i class="fa {{ fld.icon }}"></i> </span>
+                                                                <span id="{{ fld.field_name }}_span">
+                                                                    <select class="form-control tooltips search-select" id="{{ fld.field_name }}" name="{{ fld.field_name }}" {% if fld.required_status %} required {% endif %} tabindex='{{ fld.tab_index }}'>
+                                                                        <option value="">{{lang('select_a')}}  {{ lang(fld.field_name) }}</option>
+                                                                        {% for selec in fld.select_box_values %}
+                                                                            <option value="{{selec.id}}" {% if register_data[fld.field_name] == fld.select_option1 %} selected {% endif %} >{{selec.name|raw}}</option>
+                                                                        {% endfor %}
+
+                                                                    </select>
+                                                                </span>
+                                                            </div>
+
+                                                        {% elseif fld.field_type=='text_area' %}
+
+                                                            <textarea id="{{ fld.field_name }}" name="{{ fld.field_name }}" {% if fld.required_status %} required {% endif %} tabindex='{{ fld.tab_index }}'>
+                                                                {{ register_data[fld.field_name] }}
+                                                            </textarea> 
+
+                                                        {% elseif fld.field_type=='password' %}
+
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"> <i class="fa {{ fld.icon }}"></i> </span>
+                                                                <input type="password" id="{{ fld.field_name }}" name="{{ fld.field_name }}" class="form-control"  {% if fld.required_status %} required {% endif %} placeholder="{{ lang(fld.field_name) }}" tabindex='{{ fld.tab_index }}'>
+                                                            </div>
+
+                                                        {% elseif fld.field_type=='text' %}
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"> <i class="fa {{ fld.icon }}"></i> </span>
+                                                                <input type="text" id="{{ fld.field_name }}" name="{{ fld.field_name }}" value="{{ register_data[fld.field_name] }}" class="form-control"  {% if fld.required_status %} required {% endif %} placeholder="{{ lang(fld.field_name) }}" {% if fld.html_max_length %} maxlength="{{fld.html_max_length}}" {% endif %}>
+                                                            </div>
+
+                                                        {% endif %}
+                                                        {% if register_error[fld.field_name] is defined %}<code> {{ register_error[fld.field_name] }} </code> {% endif %}
+                                                    </div>
+                                                </div>
+                                            {% endfor %}                      
+
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">
+
+                                                </label>
+                                                <div class="col-sm-7">
+                                                    <input type="checkbox" class="grey agree" id="privacy_policy" name="privacy_policy">
+                                                    <a href="#" data-toggle="modal" data-target="#privacy_modal">{{ lang('agree_to_the_privacy_policy') }}</a>
+                                                    {% if register_error.privacy_policy is defined %}<code> {{ register_error.privacy_policy}} </code> {% endif %}    
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-sm-2 col-sm-offset-3">
+                                                    <button class="btn btn-light-grey back-step btn-block">
+                                                        <i class="fa fa-circle-arrow-left"></i> {{ lang('back') }} 
+                                                    </button>
+                                                </div>
+                                                <div class="col-sm-2 col-sm-offset-3">
+                                                    <button class="btn btn-blue next-step btn-block">
+                                                        {{ lang('next') }}  <i class="fa fa-arrow-circle-right"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="step-3">
+                                            <h2 class="StepTitle">{{ lang('billing_info') }}</h2>
+
+                                            {% for fld in fields['step-3'] %}
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">
+                                                        {{ lang(fld.field_name) }} : {% if fld.required_status %} <span class="symbol required"></span> {% endif %}
+                                                    </label>
+                                                    <div class="col-sm-7">
+
+                                                        {% if fld.field_type=='radio' %}
+                                                            <label class="radio-inline">
+                                                                <input type="radio" id="{{ fld.field_name }}1" name="{{ fld.field_name }}" value="{{fld.radio_value1}}"  {% if register_data[fld.field_name]==fld.radio_value1 %} checked {% endif %} class="grey" {% if fld.required_status %} required {% endif %} tabindex='{{ fld.tab_index }}'>
+                                                                {{ lang(fld.radio_value1)}}
+                                                            </label>
+                                                            <label class="radio-inline">
+                                                                <input type="radio" id="{{ fld.field_name }}2" name="{{ fld.field_name }}" value="{{fld.radio_value2}}"  {% if register_data[fld.field_name]==fld.radio_value2 %} checked {% endif %} class="grey" {% if fld.required_status %} required {% endif %} tabindex='{{ fld.tab_index }}'>
+                                                                {{lang(fld.radio_value2)}}
+                                                            </label>                                    
+                                                        {% elseif fld.field_type=='select_box' %}
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"> <i class="fa {{ fld.icon }}"></i> </span>
+                                                                <span id="{{ fld.field_name }}_span">
+                                                                    <select class="form-control tooltips search-select" id="{{ fld.field_name }}" name="{{ fld.field_name }}" {% if fld.required_status %} required {% endif %} tabindex='{{ fld.tab_index }}'>
+                                                                        <option value="">{{lang('select_a')}}  {{ lang(fld.field_name) }}</option>
+                                                                        {% for selec in fld.select_box_values %}
+                                                                            <option value="{{selec.id}}" {% if register_data[fld.field_name] == fld.select_option1 %} selected {% endif %} >{{selec.name|raw}}</option>
+                                                                        {% endfor %}
+
+                                                                    </select>
+                                                                </span>
+                                                            </div>
+
+                                                        {% elseif fld.field_type=='text_area' %}
+
+                                                            <textarea id="{{ fld.field_name }}" name="{{ fld.field_name }}" {% if fld.required_status %} required {% endif %} tabindex='{{ fld.tab_index }}'>
+                                                                {{ register_data[fld.field_name] }}
+                                                            </textarea> 
+
+                                                        {% elseif fld.field_type=='password' %}  
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"> <i class="fa {{ fld.icon }}"></i> </span>
+                                                                <input type="password" id="{{ fld.field_name }}" name="{{ fld.field_name }}" class="form-control"  {% if fld.required_status %} required {% endif %} placeholder="{{ lang(fld.field_name) }}" tabindex='{{ fld.tab_index }}'>
+                                                            </div>
+
+                                                        {% elseif fld.field_type=='text' %}
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"> <i class="fa {{ fld.icon }}"></i> </span>
+                                                                <input type="text" id="{{ fld.field_name }}" name="{{ fld.field_name }}" value="{{ register_data[fld.field_name] }}" class="form-control"  {% if fld.required_status %} required {% endif %} placeholder="{{ lang(fld.field_name) }}" {% if fld.html_max_length %} maxlength="{{fld.html_max_length}}" {% endif %} tabindex='{{ fld.tab_index }}'>
+                                                            </div>
+
+                                                        {% endif %}
+                                                        {% if register_error[fld.field_name] is defined %}<code> {{ register_error[fld.field_name] }} </code> {% endif %}
+                                                    </div>
+                                                </div>
+                                            {% endfor %}   
+
+
+                                            <div class="form-group">
+                                                <div class="col-sm-2 col-sm-offset-3">
+                                                    <button class="btn btn-light-grey back-step btn-block">
+                                                        <i class="fa fa-circle-arrow-left"></i> {{ lang('back') }} 
+                                                    </button>
+                                                </div>
+                                                <div class="col-sm-2 col-sm-offset-3">
+                                                    <button class="btn btn-blue next-step btn-block">
+                                                        {{ lang('next') }}  <i class="fa fa-arrow-circle-right"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div id="step-4">
+                                            <h2 class="StepTitle">{{ lang('payment_options')}}</h2>
+                                            <input type="hidden" name="reg_amount" id="reg_amount" value="{{ total_amount }}">
+                                            {% if entry_fee>0 %}
+                                                <h4 align="center">{{lang('register_fee')}}: {{MLM_CURRENCY_LEFT}} {{(entry_fee*MLM_CURRENCY_VALUE)|round(CURRENCY_ROUND, 'floor')}} {{MLM_CURRENCY_RIGHT}}</h4>                                       
+                                            {% endif %}
+
+                                            {% if pro_amount>0 %}
+                                                <h4 align="center">{{lang('pro_amount')}}: {{MLM_CURRENCY_LEFT}} {{(pro_amount*MLM_CURRENCY_VALUE)|round(CURRENCY_ROUND, 'floor')}} {{MLM_CURRENCY_RIGHT}}</h4>  
+                                            {% endif %}
+
+                                            {% if delivery_charge>0 %}
+                                                <h4 align="center">{{lang('delivery_charge')}}: {{MLM_CURRENCY_LEFT}} {{(delivery_charge*MLM_CURRENCY_VALUE)|round(CURRENCY_ROUND, 'floor')}} {{MLM_CURRENCY_RIGHT}}</h4>  
+                                            {% endif %}
+
+                                            {% if shipping_charge>0 %}
+                                                <h4 align="center">{{lang('shipping_charge')}}: {{MLM_CURRENCY_LEFT}} {{(shipping_charge*MLM_CURRENCY_VALUE)|round(CURRENCY_ROUND, 'floor')}} {{MLM_CURRENCY_RIGHT}}</h4>
+                                            {% endif %}
+
+                                            {% if tax>0 %}
+                                                <h4 align="center">{{lang('tax')}}: {{MLM_CURRENCY_LEFT}} {{(tax*MLM_CURRENCY_VALUE)|round(CURRENCY_ROUND, 'floor')}} {{MLM_CURRENCY_RIGHT}}</h4>
+                                            {% endif %}
+
+                                            {% if total_amount>0 %}
+                                                <h4 align="center">{{lang('total_amount')}}: {{MLM_CURRENCY_LEFT}} {{(total_amount*MLM_CURRENCY_VALUE)|round(CURRENCY_ROUND, 'floor')}} {{MLM_CURRENCY_RIGHT}}</h4>
+                                            {% endif %}
+
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">
+
+                                                </label>
+                                                <div class="col-sm-7">
+                                                    <input type="checkbox" {% if register_data.agree %} checked {% endif %} class="grey agree" id="agree" name="agree">
+                                                    <a href="#" data-toggle="modal" data-target="#term_modal">{{ lang('agree_to_the_terms_and_condition') }}</a>
+                                                    {% if register_error.agree is defined %}<code> {{ register_error.agree}} </code> {% endif %}    
+
+                                                </div>
+                                            </div>                                            
+
+                                            <div class="tabbable">
+                                                <ul id="myTab" class="nav nav-tabs"> 
+                                                    {% if free_registration %}
+                                                        <li class="{{ free_registration_tab }}">
+                                                            <a href="javascript:#free_registration_tab" data-toggle="tab">
+                                                                <i class="green fa fa-credit-card"></i> {{lang('free_registration')}}
+                                                            </a>
+                                                        </li>
+                                                    {% endif %}
+
+                                                    {% if bank_transfer %}
+                                                        <li class="{{ bank_transfer_tab }}">
+                                                            <a href="javascript:#bank_transfer_tab" data-toggle="tab">
+                                                                <i class="green fa fa-code"></i> {{lang('bank_transfer')}}
+                                                            </a>
+                                                        </li>
+                                                    {% endif %}
+
+                                                    {% if ewallet %}
+                                                        <li class="{{ ewallet_tab }}">
+                                                            <a href="javascript:#ewallet_tab" data-toggle="tab">
+                                                                <i class="green fa fa-credit-card"></i> {{lang('ewallet')}}
+                                                            </a>
+                                                        </li>
+                                                    {% endif %}
+
+
+                                                    {% if epin %}
+                                                        <li class="{{ epin_tab }}">
+                                                            <a href="javascript:#epin_tab" data-toggle="tab">
+                                                                <i class="green fa fa-barcode"></i> {{lang('epin')}}
+                                                            </a>
+                                                        </li>
+                                                    {% endif %}
+
+                                                    {% if paypal %}
+                                                        <li class="{{ paypal_tab }}">
+                                                            <a href="javascript:#paypal_tab" data-toggle="tab">
+                                                                <i class="green fa fa-paypal"></i> {{lang('paypal')}}
+                                                            </a>
+                                                        </li>
+                                                    {% endif %}
+
+                                                    {% if coinpayments %}
+                                                        <li class="{{ coinpayments_tab }}">
+                                                            <a href="javascript:#coinpayments_tab" data-toggle="tab">
+                                                                <i class="green fa fa-bitcoin"></i> {{lang('coinpayments')}}
+                                                            </a>
+                                                        </li>
+                                                    {% endif %}
+
+                                                </ul>
+                                                <div class="tab-content">
+                                                    {% if free_registration %}
+                                                        <div class="tab-pane fade in {{ free_registration_tab }}" id="free_registration_tab">
+
+                                                            <div class="alert alert-block alert-warning fade in">
+                                                                <button data-dismiss="alert" class="close" type="button">
+                                                                    ×
+                                                                </button>
+                                                                <h4 class="alert-heading"><i class="fa fa-exclamation"></i> {{lang('notice')}}</h4>
+                                                                <p>
+                                                                    {{lang('free_register_notification')}}
+                                                                </p>
+
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <div class="col-sm-2 col-sm-offset-3">
+                                                                    <button class="btn btn-light-grey back-step btn-block">
+                                                                        <i class="fa fa-circle-arrow-left"></i> {{ lang('back')}}
+                                                                    </button>
+                                                                </div>
+                                                                <div class="col-sm-2 col-sm-offset-3">
+                                                                    <button type="submit"class="btn btn-primary" value="free_registration" name="add_user">
+                                                                        {{ lang('register')}} <i class="fa fa-arrow-circle-right"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                    {% endif %}
+
+
+                                                    {% if bank_transfer %}
+                                                        <div class="tab-pane fade in {{ bank_transfer_tab }}" id="bank_transfer_tab">
+                                                            <div class="alert alert-block alert-warning fade in">
+                                                                <button data-dismiss="alert" class="close" type="button">
+                                                                    ×
+                                                                </button>
+                                                                <h4 class="alert-heading"><i class="fa fa-exclamation"></i> {{lang('notice')}}</h4>
+                                                                <p>
+                                                                    {{lang('bank_transfer_notification')}}
+                                                                </p>
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <ul class="list-group">
+                                                                        <li class="list-group-item">
+                                                                            <span class="badge">{{ company_bank_details.bank_ac_number}}</span>
+                                                                            {{ lang('bank_ac_number')}}
+                                                                        </li>
+                                                                        <li class="list-group-item">
+                                                                            <span class="badge">{{ company_bank_details.bank_name}}</span>
+                                                                            {{ lang('bank_name')}}
+                                                                        </li>
+                                                                        <li class="list-group-item">
+                                                                            <span class="badge">{{ company_bank_details.bank_holder_name}}</span>
+                                                                            {{ lang('bank_holder_name')}}
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <ul class="list-group">
+                                                                        <li class="list-group-item">
+                                                                            <span class="badge">{{ company_bank_details.bank_ifsc}}</span>
+                                                                            {{ lang('bank_ifsc')}}
+                                                                        </li>
+                                                                        <li class="list-group-item">
+                                                                            <span class="badge">{{ company_bank_details.bank_branch}}</span>
+                                                                            {{ lang('bank_branch')}}
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <div class="col-sm-2 col-sm-offset-3">
+                                                                    <button class="btn btn-light-grey back-step btn-block">
+                                                                        <i class="fa fa-circle-arrow-left"></i> {{ lang('back')}}
+                                                                    </button>
+                                                                </div>
+                                                                <div class="col-sm-2 col-sm-offset-3">
+                                                                    <button type="submit"class="btn btn-primary" value="bank_transfer" name="add_user">
+                                                                        {{ lang('register')}} <i class="fa fa-arrow-circle-right"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    {% endif %}
+
+
+                                                    {% if ewallet %}
+                                                        <div class="tab-pane fade in {{ ewallet_tab }}" id="ewallet_tab">
+                                                            <div class="alert alert-block alert-warning fade in">
+                                                                <button data-dismiss="alert" class="close" type="button">
+                                                                    ×
+                                                                </button>
+                                                                <h4 class="alert-heading"><i class="fa fa-exclamation"></i> {{lang('notice')}}</h4>
+                                                                <p>
+                                                                    {{lang('ewallet_notification')}}
+                                                                </p>
+
+                                                            </div>
+
+                                                            <div class="form-horizontal">                                            <span id="success_msg"></span>
+
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-4 control-label">
+                                                                        {{lang('wallet_username')}} :<span class="symbol required"></span>
+                                                                    </label>
+                                                                    <div class="col-sm-4">
+                                                                        <input class="form-control" type="text" name="wallet_username" id="wallet_username" value="{{checkout_data.username}}" placeholder="{{lang('wallet_username')}}">
+                                                                        {% if checkout_error.wallet_username is defined %}<code> {{ checkout_error.wallet_username}} </code> {% endif %} 
+                                                                        <span name="wallet_username_span" id="wallet_username_span" style="color: #a94442;"></span>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-4 control-label">
+                                                                        {{lang('transaction_password')}} :<span class="symbol required"></span>
+                                                                    </label>
+                                                                    <div class="col-sm-4">
+                                                                        <input class="form-control" type="password" name="transaction_password" id="transaction_password" placeholder="{{lang('transaction_password')}}">
+                                                                        {% if checkout_error.transaction_password is defined %}<code> {{ checkout_error.transaction_password}} </code> {% endif %} 
+                                                                        <span name="transaction_password_span" id="transaction_password_span" style="color: #a94442;"></span>
+                                                                    </div>
+                                                                    <div class="col-sm-3">
+                                                                        <a href="javascript:validate_wallet()" class="btn btn-primary">{{lang('validate')}}
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+
+
+                                                            <div class="form-group">
+                                                                <div class="col-sm-2 col-sm-offset-3">
+                                                                    <button class="btn btn-light-grey back-step btn-block">
+                                                                        <i class="fa fa-circle-arrow-left"></i> {{ lang('back')}}
+                                                                    </button>
+                                                                </div>
+                                                                <div class="col-sm-2 col-sm-offset-3">
+                                                                    <button type="submit"class="btn btn-primary" value="ewallet" name="add_user" id='ewallet_register' disabled >
+                                                                        {{ lang('register')}} <i class="fa fa-arrow-circle-right"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    {% endif %}
+
+                                                    {% if epin %}
+                                                        <div class="tab-pane fade in {{ epin_tab }}" id="epin_tab">
+                                                            <div class="alert alert-block alert-warning fade in">
+                                                                <button data-dismiss="alert" class="close" type="button">
+                                                                    ×
+                                                                </button>
+                                                                <h4 class="alert-heading"><i class="fa fa-exclamation"></i> {{lang('notice')}}</h4>
+                                                                <p>
+                                                                    {{lang('epin_notification')}}
+                                                                </p>
+
+                                                            </div>
+                                                            <div class="form-horizontal" >
+                                                                <span id="form_msg"></span>
+                                                                <div class="row">
+                                                                    <div class="input_fields_wrap">
+                                                                        <div class="form-group" id="div1">
+                                                                            <label class="control-label col-sm-2">{{lang('epin')}} : <span class="symbol required"></span></label>
+
+                                                                            <div class="col-sm-4 " style='display:flex;'>
+                                                                                <input class="form-control e_pin" type="text" name="epin[]" id="epin1" >
+                                                                                <span class="form-group-addon btn btn-success" id="add_button"><i class="fa fa-plus-circle"></i></span>
+
+                                                                            </div>
+                                                                            <div id="epin_ajaxmsg1" style="color:red;position: absolute;padding-left:193px; top: 34px;"></div>
+
+                                                                        </div>
+                                                                    </div> 
+                                                                    <div class="form-group col-sm-5">
+                                                                        <label class="control-label col-sm-5">{{lang('epin_balance_amount')}}:</label><div id="epin_amount" style="color:green;margin-top:8px;" class="col-sm-offset-6"><b>({{MLM_CURRENCY_LEFT~MLM_CURRENCY_RIGHT}})</b>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-4 col-sm-offset-4">
+                                                                        <input type="button"  class="btn btn-primary" name="btn_submit" id="btn_submit"  value="{{lang('validate')}}" />
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <br>
+                                                            <div class="form-group">
+                                                                <div class="col-sm-2 col-sm-offset-3">
+                                                                    <button class="btn btn-light-grey back-step btn-block">
+                                                                        <i class="fa fa-circle-arrow-left"></i> {{ lang('back')}}
+                                                                    </button>
+                                                                </div>
+                                                                <div class="col-sm-2 col-sm-offset-3">
+                                                                    <button type="submit"class="btn btn-primary" value="epin" name="add_user" id='add_user'>
+                                                                        {{ lang('register')}} <i class="fa fa-arrow-circle-right"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                    {% endif %}
+
+
+                                                    {% if paypal %}
+                                                        <div class="tab-pane fade in {{ paypal_tab }}" id="paypal_tab">
+
+                                                            <div class="alert alert-block alert-warning fade in">
+                                                                <button data-dismiss="alert" class="close" type="button">
+                                                                    ×
+                                                                </button>
+                                                                <h4 class="alert-heading"><i class="fa fa-exclamation"></i> {{lang('notice')}}</h4>
+                                                                <p>
+                                                                    {{lang('paypal_notification')}}
+                                                                </p>
+
+                                                            </div>
+
+
+                                                            <div class="form-group">
+                                                                <div class="col-sm-2 col-sm-offset-3">
+                                                                    <button class="btn btn-light-grey back-step btn-block">
+                                                                        <i class="fa fa-circle-arrow-left"></i> {{ lang('back')}}
+                                                                    </button>
+                                                                </div>
+                                                                <div class="col-sm-2 col-sm-offset-3">
+                                                                    <button type="submit"class="btn btn-primary" value="paypal" name="add_user">
+                                                                        {{ lang('register')}} <i class="fa fa-arrow-circle-right"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                    {% endif %}
+
+                                                    {% if coinpayments %}
+                                                        <div class="tab-pane fade in {{ coinpayments_tab }}" id="coinpayments_tab">
+
+                                                            <div class="alert alert-block alert-warning fade in">
+                                                                <button data-dismiss="alert" class="close" type="button">
+                                                                    ×
+                                                                </button>
+                                                                <h4 class="alert-heading"><i class="fa fa-exclamation"></i> {{lang('notice')}}</h4>
+                                                                <p>
+                                                                    {{lang('coinpayments_notification')}}
+                                                                </p>
+
+                                                            </div>
+
+
+                                                            <div class="form-group">
+                                                                <div class="col-sm-2 col-sm-offset-3">
+                                                                    <button class="btn btn-light-grey back-step btn-block">
+                                                                        <i class="fa fa-circle-arrow-left"></i> {{ lang('back')}}
+                                                                    </button>
+                                                                </div>
+                                                                <div class="col-sm-2 col-sm-offset-3">
+                                                                    <button type="submit"class="btn btn-primary" value="coinpayments" name="add_user">
+                                                                        {{ lang('register')}} <i class="fa fa-arrow-circle-right"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                    {% endif %}
+
+
+                                                </div>
+                                            </div>
+                                        </div>                
+                                        {{ form_close()|raw }} 
+                                    </div>
+
+
+
+
+                                    {% if logged_user%}
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                {% include(user_type~'/layout/footer.twig')%}
+            {% else %}
+            </div>
+        </div>
+    </div>
+    {% include('layout/footer.twig')%}
+
+
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/styles-responsive.css">
+    <link rel="stylesheet" href="assets/minify/css/print.min.css_styles.min.css">
+    <script src="assets/plugins/bootstrap-modal/js/bootstrap-modal.js"></script>
+    <script src="assets/plugins/bootstrap-modal/js/bootstrap-modalmanager.js"></script>
+    <script src="assets/js/ui-modals.js"></script>
+{% endif %}
+
+<link rel="stylesheet" href="assets/plugins/select2/select2.css">		
+<link rel="stylesheet" href="assets/css/plugins.css">
+<script src="assets/plugins/select2/select2.min.js"></script>
+<script src="assets/js/form-elements.js"></script>
+
+
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css"/>
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
+
+<script src="assets/plugins/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
+<script src="assets/js/advanced_form-wizard.js"></script>
+<script src="assets/js/pwdchecker.js">
+</script>
+<script>
+    jQuery(document).ready(function () {
+        AdvanceWizard.init();
+        jQuery.extend(jQuery.validator.messages, {
+            required: $('#this_is_req_js').html()
+        });
+        FormElements.init2();
+    });
+
+
+    $('#country').on('change', function (e) {
+        var optionSelected = $("option:selected", this);
+        var valueSelected = this.value;
+
+        $.ajax({url: "register/get_states",
+            data: {country_id: valueSelected},
+            async: false,
+            success: function (msg) {
+                $('#state_span').html(msg);
+
+                $("#state").select2({
+                    placeholder: "Select a State",
+                    allowClear: false
+                });
+
+            }
+        });
+
+    });
+
+
+    function validate_user(username) {
+        var isSuccess = false;
+        $.ajax({url: "cart/validate_username",
+            data: {username: username},
+            async: false,
+            success:
+                    function (msg) {
+                        isSuccess = msg.trim() === "yes" ? true : false
+                    }
+        });
+        return isSuccess;
+    }
+
+    function validate_password(username, tp) {
+        var isSuccess = false;
+        $.ajax({url: "cart/validate_user_tp",
+            data: {username: username, tp: tp},
+            async: false,
+            success:
+                    function (msg) {
+                        isSuccess = msg.trim() === "yes" ? true : false
+                    }
+        });
+        return isSuccess;
+    }
+
+    function check_user_balance(username, amount) {
+        var isSuccess = false;
+        $.ajax({url: "cart/validate_user_balance",
+            data: {username: username, amount: amount},
+            async: false,
+            success:
+                    function (msg) {
+                        isSuccess = msg.trim() === "yes" ? true : false
+                    }
+        });
+        return isSuccess;
+    }
+
+
+    function validate_wallet() {
+        $('#wallet_username_span').html();
+        $('#transaction_password_span').html();
+
+        var user_flag = 0;
+        var user_msg = '';
+
+        var tp_flag = 0;
+        var tp_msg = '';
+
+        var user = $('#wallet_username').val();
+        var tp = $('#transaction_password').val();
+        var amount = $('#reg_amount').val();
+        if (validate_user(user)) {
+            user_msg = '';
+            if (validate_password(user, tp)) {
+                tp_flag = 1;
+                if (check_user_balance(user, amount)) {
+                    user_flag = 1;
+                } else {
+                    user_msg = '{{lang('insufficient_balance')}}';
+                }
+            } else {
+                tp_msg = '{{lang('invalid_transaction_password')}}';
+            }
+        } else {
+            user_msg = '{{lang('please_enter_a_valid_username')}}';
+        }
+        if (user_flag && tp_flag) {
+            $('#ewallet_register').prop("disabled", false);
+
+            var msg = '{{lang('validate_successfully_please_click_checkout_button_to_finish')}}';
+            var well_done = '{{lang('well_done')}}';
+            $('#success_msg').html('<div class="alert alert-success"><button data-dismiss="alert" class="close">×</button><strong>' + well_done + '</strong>' + msg + '</div>');
+
+        } else {
+            $('#wallet_username_span').html(user_msg);
+            $('#transaction_password_span').html(tp_msg);
+
+            var msg = '{{lang('you_have_some_errors_please_check_below')}}';
+            var failed = '{{lang('failed')}}';
+
+            $('#success_msg').html('<div class="alert alert-danger"><button data-dismiss="alert" class="close">×</button><strong>' + failed + '</strong>' + msg + '</div>');
+
+        }
+    }
+
+    $("#wallet_username").change(function () {
+        $('#success_msg').html('');
+        $('#wallet_username_span').html('');
+        $('#transaction_password_span').html('');
+        $('#ewallet_register').prop("disabled", true);
+    });
+
+
+    $("#transaction_password").change(function () {
+        $('#success_msg').html('');
+        $('#wallet_username_span').html('');
+        $('#transaction_password_span').html('');
+        $('#ewallet_register').prop("disabled", true);
+    });
+
+
+
+
+</script>

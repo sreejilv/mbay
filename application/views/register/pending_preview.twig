@@ -1,0 +1,214 @@
+{% if logged_user%}
+    {% include('admin/layout/header.twig')%}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-white">
+                <div class="panel-heading">
+                    <h4 class="panel-title"><span class="text-bold">{{lang('register_preview')}}</span></h4>
+                    <div class="panel-tools">
+                        <div class="dropdown">
+                            <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                            <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                                <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                                <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                                <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                            </ul>
+                        </div>
+                        <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <hr>
+                {% else %}
+                    {% include('layout/header.twig')%}
+                    <style type="text/css">
+                        /*//for language change   */
+                        .dropdown-subview:after {
+                            right: auto !important;
+                            left: 105px !important;
+                        }
+                        .dropdown-subview:before {
+                            right: auto !important;
+                            left: 104px !important;
+                        }
+                        .nav>li>a:focus, .nav>li>a:hover {
+                            background-color:transparent;
+                        }
+                        .nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
+                            background-color:transparent;
+                        }
+                    </style>
+                    <body class="login">
+                        <input type="hidden" name="path" id="path" value="{{BASE_URL}}"/>
+                        <div id="js_messages" style="display: none;"> 
+                            <span id="username_req_js">{{lang('username_req_js')}}</span>
+                            <span id="username_inv_js">{{lang('username_inv_js')}}</span>
+                            <span id="password_req_js">{{lang('password_req_js')}}</span>
+                        </div>
+                        <div class="row">
+                            <div class="main-login col-xs-10 col-xs-offset-1 col-sm-offset-2 col-md-8 col-md-offset-2">
+                                <div class="logo">
+                <img src="assets/images/logos/{{COMPANY_LOGO}}">
+            </div>
+                                <div class="box-login">
+
+                                    <div  class="col-xs-6 col-sm-6 col-lg-6">
+                                        <h3>{{lang('register_preview')}}</h3>
+                                    </div>        
+                                    <div class="col-xs-6 col-sm-6 col-lg-6" style="hover:none;">
+                                        <p>
+                                        <div class="topbar-tools pull-right"  style="color:black !important;hover:none!important;">
+                                            <ul class="nav navbar-right">
+
+                                                {% if MULTI_LANG_STATUS %}
+                                                    <li class="dropdown current-user">
+                                                        <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="javascript:;"  title="Change Language"
+                                                           style="color: gray;" 
+                                                           >
+                                                            <img src="assets/images/flags/lang/{{MLM_LANG_FLAG}}" class="img-circle" alt="">
+                                                            <span class="username hidden-xs"><small>{{MLM_LANG_NAME|capitalize}}</small></span> <i class="fa fa-caret-down hidden-xs "></i>
+                                                        </a>
+
+                                                        <ul class="dropdown-menu dropdown-light dropdown-subview" >
+                                                            {% for LANGUAGE  in  MLM_LANG_LIST  %}
+                                                                <li onclick="switchLanguage('{{LANGUAGE.lang_code}}');">
+                                                                    <a href="javascript:;" >
+                                                                        {{LANGUAGE.lang_name}} 
+                                                                        
+                                                                    </a>
+                                                                </li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    </li>
+
+                                                {% elseif GOOGLE_TRANSLATOR %}
+
+                                                    <li class="hidden-xs">
+                                                        <a  href="javascript:;"  title="Google Translate"  class="dropdown-toggle">
+                                                            <span id="google_translate_element"> </span>
+                                                        </a>
+                                                    </li> 
+
+                                                {% endif %} 
+
+                                            </ul>
+                                        </div>
+                                        </p>
+                                    </div>
+
+
+
+                                    {%include('admin/layout/notification.twig')%}
+                                {% endif %}
+
+
+                                <div class="invoice" id="print_invoice">
+                                    <div class="row invoice-logo">
+                                        <div class="col-sm-6">
+                                            <img alt="" src="assets/images/logos/{{COMPANY_LOGO}}" width="300px;" height="100px;">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <p>
+                                                #{{preview_details.new_user_id+18631}} / {{preview_details.date}} <span> {{COMPANY_NAME}} </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <h4>{{lang('company_details')}}.</h4>
+                                            <div class="well">
+                                                <address>
+                                                    <strong>{{COMPANY_NAME}}</strong>
+                                                    <br>
+                                                    <abbr title="{{lang('address')}}"><i class="fa fa-map-marker"></i> </abbr> - {{COMPANY_ADDRESS|striptags}}
+                                                    <br>
+                                                    <abbr title="{{lang('phone_number')}}"><i class="fa fa-mobile-phone"></i> </abbr> - {{COMPANY_PHONE}}
+                                                </address>
+                                                <address>
+                                                    <strong>{{lang('email')}}</strong>
+                                                    <br>
+                                                    <a href="mailto:{{COMPANY_EMAIL}}">
+                                                        {{COMPANY_EMAIL}}
+                                                    </a>
+                                                </address>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <h4>{{lang('preview_msg')}}</h4>
+                                            <div class="padding-vertical-20">
+                                                {{lang('pend_preview_msg1')}}
+                                                <br>
+                                                {{lang('pend_preview_msg2')}}
+                                                <br>
+                                                {{lang('pend_preview_msg3')}}
+                                                <br>
+                                                {{lang('mail')}} {{COMPANY_EMAIL}} {{lang('preview_msg4')}}
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4 pull-right">
+                                            <h4>{{lang('user_details')}}.</h4>
+                                            <ul class="list-unstyled invoice-details">
+                                                <li>
+                                                    <strong>{{lang('username')}}:</strong> {{preview_details.username}}
+                                                </li>
+                                                <li>
+                                                    <strong>{{lang('email')}}:</strong> {{preview_details.email}}
+                                                </li>
+
+                                                <li>
+                                                    <strong>{{lang('full_name')}}:</strong> {{preview_details.first_name ~' '~ preview_details.last_name}}
+                                                </li>
+
+                                                <li>
+                                                    <strong>{{lang('reg_amount')}}:</strong> {{MLM_CURRENCY_LEFT}} {{(preview_details.reg_amount*MLM_CURRENCY_VALUE)|round(CURRENCY_ROUND, 'floor')}} {{MLM_CURRENCY_RIGHT}}
+                                                </li>
+
+                                                <li>
+                                                    <strong>{{lang('date_of_joining')}}:</strong> {{preview_details.date_of_joining}}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="pull-right">
+                                        <a onclick="javascript:window.print();" class="btn btn-lg btn-light-blue hidden-print" align='center'>
+                                            {{lang('print')}} <i class="fa fa-print"></i>
+                                        </a>
+                                    </div>
+
+
+
+
+                                </div>
+
+
+                                {% if logged_user%}
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                {% include('admin/layout/footer.twig')%}
+            {% else %}
+            </div>
+        </div>
+    </div>
+    {% include('layout/footer.twig')%}
+{% endif %}
+<style type="text/css" media="print">
+    @page { size: landscape; }    
+
+    @media print
+    {
+        body * { visibility: hidden; }
+        #print_invoice * { visibility: visible; }
+        #print_invoice { position: absolute; top: 0px; }
+        
+        html, body {
+        border: 1px solid white;
+        height: 99%;
+        page-break-after: avoid;
+        page-break-before: avoid;
+     }
+    }
+</style>

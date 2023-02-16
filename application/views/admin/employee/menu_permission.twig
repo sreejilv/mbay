@@ -1,0 +1,249 @@
+{% include 'admin/layout/header.twig'%}
+<link rel="stylesheet" href="assets/plugins/jQuery-Tags-Input/jquery.tagsinput.css">
+<link rel="stylesheet" href="assets/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css">
+<link rel="stylesheet" href="assets/plugins/select2/select2.css">
+<div style='display:none;'>
+    <span id='emp_username'> {{lang('username')}}</span>
+    <span id='emp_username_req_js'> {{lang('username_req_js')}}</span>
+    <span id="emp_username_valid">{{lang('username_valid')}}</span>
+    <span id="menu_enabled_js">{{lang('menu_enabled_js')}}</span>
+    <span id="menu_disabled_js">{{lang('menu_disabled_js')}}</span>
+    <span id="success_js">{{lang('success_js')}}</span>
+    <span id="failed_js">{{lang('failed_js')}}</span>
+    <span id="something_wrong_js">{{lang('something_wrong_js')}}</span> 
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{page_header}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>                                
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                {{form_open_multipart('','methd="post" name="employee_enroll" id="employee_enroll"')|raw}}
+                <div class="form-horizontal">                                            
+                    <div class="errorHandler alert alert-danger no-display">
+                        <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                    </div>                    
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">
+                            {{lang('user_name')}} : <span class="symbol required"></span>
+                        </label>
+                        <div class="input-group col-sm-3">
+
+                            <input type="text" class="form-control typeahead" name="user_name" id="user_name" placeholder="{{lang('user_name')}}" autocomplete="off" tabindex='1'>
+                            <div  id="full_name">
+
+                            </div>
+                        </div>
+                        {% if error.user_name is defined %}<code> {{ error.user_name}}</code> {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+
+                        </label>
+                        <div class="col-sm-4">
+                            <button class="btn btn-primary" type="submit"  name="set_employee" id="set_employee">
+                                {{lang('submit')}} <i class="fa fa-arrow-circle-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div> 
+                {{form_close()|raw}}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if flag %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-white">
+                <div class="panel-heading">
+                    <h4 class="panel-title"><span class="text-bold"><b>{{user_name}}</b></span> -{{page_header}}</h4>
+                    <div class="panel-tools">
+                        <div class="dropdown">
+                            <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                            <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                                <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                                <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                                <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                            </ul>
+                        </div>
+                        <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <hr>
+                    {% if employee_menu|length %}
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover" id="sample-table-1">
+                                <thead>
+                                    <tr>         
+                                        <th>{{lang('slno')}}</th>
+                                        <th>{{lang('menu_name')}}</th>
+                                        <th>{{lang('sub_menus')}}</th>
+                                        <th>{{lang('menu_permission')}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for em in employee_menu %}
+                                        <tr>                                        
+                                            <td>{{ loop.index }}</td>
+                                            <td>
+                                                {{ lang('menu_name_'~em.id) }}
+                                            </td>                                        
+                                            <td>
+                                                {% if em.sub_menu|length %}
+                                                    <a href="#" data-toggle="modal" data-target="#menu_modal{{em.id}}">{{ lang('edit')}}
+                                                    </a>
+                                                    <div id="menu_modal{{em.id}}" class="modal fade" role="dialog">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                    <h4 class="modal-title">{{ lang('menu_name_'~em.id) }} - {{ lang('sub_menus')}}</h4>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div class="table-responsive">
+                                                                        <table class="table table-bordered table-hover" id="sample-table-1">
+                                                                            <thead>
+                                                                                <tr>         
+                                                                                    <th>{{lang('slno')}}</th>
+                                                                                    <th>{{lang('menu_name')}}</th>
+                                                                                    <th>{{lang('sub_menus')}}</th>
+                                                                                    <th>{{lang('menu_permission')}}</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                {% for esm in em.sub_menu %}
+                                                                                    <tr>                                        
+                                                                                        <td>{{ loop.index }}</td>
+                                                                                        <td>
+                                                                                            {{ lang('menu_name_'~esm.id) }}
+                                                                                        </td>                                        
+                                                                                        <td>
+                                                                                            {% if esm.sub_menu|length %}
+                                                                                                <a href="#" data-toggle="modal" data-target="#menu_modal{{esm.id}}">{{ lang('edit')}}
+                                                                                                </a>
+                                                                                                <div id="menu_modal{{esm.id}}" class="modal fade" role="dialog">
+                                                                                                    <div class="modal-dialog">
+                                                                                                        <div class="modal-content">
+                                                                                                            <div class="modal-header">
+                                                                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                                                                <h4 class="modal-title">{{ lang('menu_name_'~esm.id) }} - {{ lang('sub_menus')}}</h4>
+                                                                                                            </div>
+                                                                                                            <div class="modal-body">
+                                                                                                                <div class="table-responsive">
+                                                                                                                    <table class="table table-bordered table-hover" id="sample-table-1">
+                                                                                                                        <thead>
+                                                                                                                            <tr>         
+                                                                                                                                <th>{{lang('slno')}}</th>
+                                                                                                                                <th>{{lang('menu_name')}}</th>
+                                                                                                                                <th>{{lang('menu_permission')}}</th>
+                                                                                                                            </tr>
+                                                                                                                        </thead>
+                                                                                                                        <tbody>
+                                                                                                                            {% for esmm in esm.sub_menu %}
+                                                                                                                                <tr>                                        
+                                                                                                                                    <td>{{ loop.index }}</td>
+                                                                                                                                    <td>
+                                                                                                                                        {{ lang('menu_name_'~esmm.id) }}
+                                                                                                                                    </td>
+                                                                                                                                    <td>
+                                                                                                                                        <label class="switch">
+                                                                                                                                            <input type="checkbox" {% if esmm.menu_permission %} checked {% endif %} id="togBtn" onchange='change_employee_menu_permission("{{emp_id}}", "{{ esmm.id }}", this)'>
+                                                                                                                                            <div class="slider round">
+                                                                                                                                                <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                                                                                                                                <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                                                                                                                                            </div>
+                                                                                                                                        </label>                                            
+                                                                                                                                    </td>
+                                                                                                                                </tr>
+                                                                                                                            {% endfor %}
+                                                                                                                        </tbody>
+                                                                                                                    </table>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            <div class="modal-footer">
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>                  
+                                                                                            {% endif %}
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <label class="switch">
+                                                                                                <input type="checkbox" {% if esm.menu_permission %} checked {% endif %} id="togBtn" onchange='change_employee_menu_permission("{{emp_id}}", "{{ esm.id }}", this)'>
+                                                                                                <div class="slider round" >
+                                                                                                    <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                                                                                    <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                                                                                                </div>
+                                                                                            </label>                                            
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                {% endfor %}
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>                  
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                <label class="switch">
+                                                    <input type="checkbox" {% if em.menu_permission %} checked {% endif %} id="togBtn" onchange='change_employee_menu_permission("{{emp_id}}", "{{ em.id }}", this)'>
+                                                    <div class="slider round">
+                                                        <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                                        <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                                                    </div>
+                                                </label>                                            
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>  
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endif %}
+
+{% include 'admin/layout/footer.twig'%}
+<link rel="stylesheet" href="assets/css/checkbox_switcher.css">
+<script src="assets/js/typeahead.js"></script>
+<script src="assets/js/employee_menupermission.js">
+</script>
+<script type='text/javascript'>
+    jQuery(document).ready(function () {
+        MenuPermissionEmployee.init();
+    });
+
+    $('input.typeahead').typeahead({
+        source: function (query, process) {
+            var url = "{{BASE_URL}}admin/employee/employee_username";
+            return $.get(url, {query: query}, function (data) {
+                data = $.parseJSON(data);
+                return process(data);
+            });
+        }
+    });
+</script>

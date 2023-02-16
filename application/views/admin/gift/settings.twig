@@ -1,0 +1,84 @@
+{% include('admin/layout/header.twig')%}
+<div id="js_messages" style="display: none;"> 
+    <span id="gift_amount_req_js">{{lang('gift_amount_req_js')}}</span>
+    <span id="amount_req_js">{{lang('amount_req_js')}}</span>    
+    <span id="amount_number_js">{{lang('amount_number_js')}}</span>    
+    <span id="amount_min_js">{{lang('amount_min_js')}}</span> 
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('gift_settings')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>                            
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                {{ form_open_multipart('', ' id="gift_set_form" name="gift_set_form"')|raw }}
+                <div class="form-horizontal">                                            
+                    <div class="errorHandler alert alert-danger no-display">
+                        <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('gift_amount')}}: <span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-4">
+                            <select name="gift_amount" id="gift_amount" class="form-control field_type search-select" tabindex='1'>
+                                <option value="">{{lang('select_gift_amount')}}</option>
+                                <option value="fixed" {% if gift_amount=="fixed" %} selected {% endif %}>{{lang('fixed')}}</option>
+                                <option value="dynamic" {% if gift_amount=="dynamic" %} selected {% endif %}>{{lang('dynamic')}}</option>
+                            </select>
+                            {% if gift_error.gift_amount is defined %}<code> {{ gift_error.gift_amount}} </code> {% endif %} 
+                        </div>
+                    </div>
+                    <div id="gift_amount_div" class="form-group" {% if gift_amount!="fixed" %} style="display:none;" {% endif %}>
+                        <label class="col-sm-3 control-label">
+                            {{lang('amount')}}
+                            <b>({{MLM_CURRENCY_LEFT~MLM_CURRENCY_RIGHT}})</b> : <span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-4">
+                            <input class="form-control" type="text" name="amount" id="amount" value="{{(amount*MLM_CURRENCY_VALUE)|round(CURRENCY_ROUND, 'floor')}}" tabindex='2'>
+                            {% if gift_error.amount is defined %}<code> {{ gift_error.amount}} </code> {% endif %} 
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+
+                        </label>
+                        <div class="col-sm-4">
+                            <button type="submit"class="btn btn-primary" value="gift_set" name="gift_set">
+                                {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {{ form_close()|raw }}  
+            </div>
+        </div>
+    </div>
+</div>
+{% include('admin/layout/footer.twig')%}
+<link rel="stylesheet" href="assets/plugins/select2/select2.css">		
+<link rel="stylesheet" href="assets/css/plugins.css">
+<script src="assets/plugins/select2/select2.min.js"></script>
+<script src="assets/js/form-elements.js"></script>
+
+<script src="assets/js/gift.js"></script>
+<script>
+    $(document).ready(function () {
+        valGiftSettings();
+        FormElements.init2();
+    });
+</script>

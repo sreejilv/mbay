@@ -1,0 +1,22 @@
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+$lang['add_news'] ='أضف الأخبار';
+$lang['view_news'] ='عرض الأخبار';
+$lang['news_title'] ='عنوان الخبر';
+$lang['news_content'] ='محتوى الأخبار';
+$lang['news_image'] ='صورة الأخبار';
+$lang['select_image'] ='اختر صورة';
+$lang['news_added'] ='تمت إضافة الأخبار بنجاح';
+$lang['add_failed'] ='فشل إضافة الأخبار';
+$lang['added_date'] ='تاريخ التكوين';
+$lang['news_activated'] ='أخبار المنشط';
+$lang['failed_to_activate'] ='فشل في التنشيط';
+$lang['news_inactivated'] ='أخبار معطلة';
+$lang['failed_to_inactivate'] ='فشل في تعطيل';
+$lang['news_updated'] ='تحديث الأخبار';
+$lang['update_failed'] ='فشل التحديث';
+$lang['no_news_available'] ='لا يوجد أخبار متاحة';
+$lang['select_from_date'] ='اختر من التاريخ';
+$lang['select_to_date'] ='اختر حتى الآن';
+$lang['news_details'] ='تفاصيل الأخبار';
+$lang['search_news'] ='بحث الأخبار';
+

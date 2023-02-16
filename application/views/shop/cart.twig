@@ -1,0 +1,116 @@
+{% include('shop/layout/header.twig')%}
+
+        <!-- Breadcrumb-area -->
+        <div class="breadcrumb-area bg-gray">
+            <div class="container">
+                <div class="breadcrumb-content text-center">
+                    <ul>
+                        <li><a href="{{BASE_URL}}index">Home</a></li>
+                        <li><a href="{{BASE_URL}}shop">Shop</a></li>
+                        <li class="active">Shop - SAMSUNG Galaxy A03s (Black, 32 GB)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Breadcrumb-area -->
+
+
+        <!-- CART -->
+        <section class="cart-main-area pt-115 pb-120 cart-area">
+            <div class="container">
+                <h3 class="cart-page-title">Your cart items</h3>
+                <div class="row">
+                    <div class="col-lg-8 col-md-12 col-sm-12 col-12">
+                        <form action="#">
+                            <div class="table-content table-responsive cart-table-content">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Image</th>
+                                            <th>Product Name</th>
+                                            <th>Until Price</th>
+                                            <th>Qty</th>
+                                            <th>Subtotal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <!--loop item -->
+                                        <tr>
+                                            <td class="product-thumbnail">
+                                                <a href="#"><img src="assets/shop/images/product/product-sample-1.jpg"
+                                                        alt=""></a>
+                                            </td>
+                                            <td class="product-name">
+                                                <a href="#">SAMSUNG Galaxy F13 (Waterfall Blue, 64
+                                                    GB)</a>
+                                                    <!-- if -5 quantity label -->
+                                                    <span class="d-block text-success"> Only 2 left in stock, order now.</span>
+                                                    <!-- end if -5 quantity label -->
+                                                </td>
+                                            <td class="product-price-cart"><span class="amount">OMR 260.00</span></td>
+                                            <td class="product-quantity pro-details-quality">
+                                                <div class="cart-plus-minus">
+                                                    <input class="cart-plus-minus-box" type="text" name="qtybutton"
+                                                        value="1">
+                                                </div>
+                                                <a class="d-block" href="#">Remove</a>
+                                            </td>
+                                            <td class="product-subtotal">OMR 110.00</td>
+                                        </tr>
+                                        <!--end loop item -->
+                                        <!--loop item -->
+                                        <tr>
+                                            <td class="product-thumbnail">
+                                                <a href="#"><img src="assets/shop/images/product/product-sample-1.jpg"
+                                                        alt=""></a>
+                                            </td>
+                                            <td class="product-name"><a href="#">SAMSUNG Galaxy F13 (Waterfall Blue, 64
+                                                    GB)</a>
+                                                    <!-- if -5 quantity label -->
+                                                    <span class="d-block text-success"> Only 2 left in stock, order now.</span>
+                                                    <!-- end if -5 quantity label -->
+                                                </td>
+                                            <td class="product-price-cart"><span class="amount">OMR 260.00</span></td>
+                                            <td class="product-quantity pro-details-quality">
+                                                <div class="cart-plus-minus">
+                                                    <input class="cart-plus-minus-box" type="text" name="qtybutton"
+                                                        value="1">
+                                                </div>
+                                                <a class="d-block" href="#">Remove</a>
+                                            </td>
+                                            <td class="product-subtotal">OMR 110.00</td>
+                                        </tr>
+                                        <!--end loop item -->
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+
+                        </form>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="grand-totall">
+                            <div class="title-wrap">
+                                <h4 class="cart-bottom-title section-bg-gary-cart">Cart Total</h4>
+                            </div>
+                            <h5>Price (3 items) <span>OMR 260.00</span></h5>
+                            <div class="total-shipping">
+                                <ul>
+                                    <li>Delivery Charges <span>OMR 2.000</span></li>
+                                    <li>Secured Packaging Fee <span>OMR 2.000</span></li>
+                                </ul>
+                            </div>
+                            <h4 class="grand-totall-title">Grand Total <span>OMR 260.00</span></h4>
+                            <a href="{{BASE_URL}}checkout">Checkout Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- END CART -->
+
+
+{% include('shop/layout/footer.twig')%}

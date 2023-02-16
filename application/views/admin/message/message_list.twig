@@ -1,0 +1,70 @@
+<div id='chat_list'>
+    {% if latest|length %}
+        
+    {% else %}
+        {{lang('no_previous_chat_available')}}
+    {% endif %}
+</div>
+
+<script>
+
+    jQuery(document).ready(function () {
+        update_list();
+    });
+    
+    function set_chat(to_user, user_name) {
+        $('#to_user').val(to_user);
+        request_timestamp = 0;
+        $("#received").html('');
+        $("#to_username").html(user_name);
+        first_msg_id = 0;
+        $('#first_msg_id').val(first_msg_id);
+        $("#previous_msg").html('');
+    }
+
+
+    var refresh_chat_list = function (chat_data) {
+        var count = 0;
+        var html = '<ul class="media-list">';
+        chat_data.forEach(function (data) {
+
+            var href = "javascript:set_chat('" + data.to_user + "','" + data.to_username + "')";
+
+            html += '<li class="media">';
+            html += '<a href="' + href + '">';
+            html += '<span class="chat-img pull-left">';
+            html += '<img src="assets/images/users/' + data.to_user_pic + '" class="img-responsive img-circle" style="height: 65px;width: 65px;"></span>';
+            html += '<div class="chat-body clearfix">';
+            html += '<span class="text-large"><b>' + data.to_username + '</b></span>';
+            if (data.unread_msg_count) {
+                html += "<br><font color='#DEB887'><b>" + data.unread_msg_count + "</b> {{lang('new_msgs')}} </font>";
+                //html += '<br><font color="black"><b>' + data.last_message.substr(0,90) + '</b></font>';
+                html += '<br><font color="black"><b>' + data.last_message + '</b></font>';
+            }
+            else {
+                html += '<br><font color="#778899">' + data.last_message + '</font>';
+            }
+
+            html += '</div></a></li>';
+            count = count + 1;
+        });
+        html += '</ul>';
+        if (count == 0) {
+            html = "{{lang('no_previous_chat_available')}}";
+        }
+        $("#chat_list").html(html);
+
+    }
+
+
+    var update_list = function () {
+        $.getJSON('admin/message/get_chat_list', function (data) {
+            refresh_chat_list(data);
+        });
+    }
+
+    setInterval(function () {
+        update_list();
+    }, 5000);
+
+</script>

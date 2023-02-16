@@ -1,0 +1,230 @@
+{%if user_type=='admin' or user_type=='employee' %}
+    {% include('admin/layout/header.twig')%}
+{% elseif(user_type=='user') %}
+    {% include('user/layout/header.twig')%}
+{%else%}
+
+    {% include('layout/header.twig')%}
+    <body class="login">
+        <input type="hidden" name="path" id="path" value="{{BASE_URL}}"/>   
+        <div class="row">
+            <div class="main-login col-sm-offset-1 col-md-10">
+                <div class="logo">
+                    <img src="assets/images/logos/{{COMPANY_LOGO}}" width="150px;" height="40px;">
+                </div>
+            {%endif%}
+            <div id="js_messages" style="display: none;"> 
+                <span id="add_to_cart_js">{{lang('add_to_cart_js')}}</span>    
+                <span id="success_js">{{lang('success_js')}}</span>
+                <span id="failed_to_add_js">{{lang('failed_to_add_js')}}</span>
+                <span id="failed_js">{{lang('failed_js')}}</span>                
+                <span id="added_to_cart_js">{{lang('added_to_cart_js')}}</span>                
+            </div>
+
+
+            <div class="row">            
+                <div class="col-md-12">
+                    <div class="panel panel-white">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-md-12 ">
+                                    {% include('cart/shopping_cart.twig')%}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+
+
+                            {%if not user_type %}
+                                {%include('admin/layout/notification.twig')%}
+                            {% endif %}
+
+                            {% if products|length %}
+                                <div class="pricing-table pricing-bisque">
+                                    {% for pro in products %} 
+                                        <div class="col-sm-4 col-md-3 featured" >
+                                            <div class="thumbnail" style="box-shadow: 0 3px 20px  ">
+                                                {% if pro.images|length %}
+                                                    {% set flag = 'true' %}
+
+                                                    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                                                        <div class="carousel-inner" role="listbox">
+                                                            {% for img in pro.images %}
+
+                                                                <div class="item {% if flag == 'true' %} active {% endif %}" >
+                                                                    {% set flag = 'false' %}
+                                                                    {%if user_type %}
+                                                                        <a class="alert-link show-sv" href="#product_view_{{pro.id}}" data-startFrom="right" title="{{ lang('click_here_for_more_details') }}"> 
+                                                                        {% endif %}
+
+                                                                        <img src="assets/images/products/{{img.file_name}}" alt="product images"  style="width:100%;height: 225px;">
+                                                                        {%if user_type %}
+                                                                        </a>
+                                                                    {% endif %}
+                                                                </div>
+
+                                                            {% endfor %}
+                                                        </div>
+                                                    </div>
+                                                {% else %}
+                                                    {%if user_type %}<a class="alert-link show-sv" href="#product_view_{{pro.id}}" data-startFrom="right" title="{{ lang('click_here_for_more_details') }}">{% endif %}
+                                                        <img src="assets/images/products/our-products.png"  style="width:100%;height: 225px;"/>
+                                                        {%if user_type %}</a>{% endif %}
+
+                                                {% endif %}
+
+
+                                                <div class="caption" style="text-align: center;">
+                                                    <h3>{{pro.short_name}}</h3>
+                                                    <p>
+                                                        {{lang('code')}}: {{pro.product_code}}
+                                                    </p>
+                                                    <p>
+                                                        {{MLM_CURRENCY_LEFT}} 
+                                                        <strong>
+                                                            {{(pro.product_amount*MLM_CURRENCY_VALUE)|round(CURRENCY_ROUND, 'floor')}} 
+                                                        </strong>
+                                                        {{MLM_CURRENCY_RIGHT}}
+
+                                                        {% if pro.original_product_amount %} 
+
+                                                            <del>
+                                                                (<font color="red"> {{MLM_CURRENCY_LEFT}} {{(pro.original_product_amount*MLM_CURRENCY_VALUE)|round(CURRENCY_ROUND, 'floor')}} {{MLM_CURRENCY_RIGHT}}</font>)
+                                                            </del>
+
+                                                        {% endif %}
+                                                        {% if pro.recurring_type %}
+                                                            / {{lang(pro.recurring_type)}}
+
+                                                        {% endif %}
+                                                    </p>
+                                                    <p>
+                                                        {{lang('pv')}} : {{pro.product_pv}}
+                                                    </p>
+                                                    <p>
+
+                                                    <div class="btn-ground text-center">
+                                                        <button type="submit" class="btn   btn-blue btn-squared btn-block" onclick='addToCart({{pro.id}},{{party_id}} )'>{{lang('add_to_cart')}}</button>
+
+                                                    </div>
+
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {%if user_type %}
+
+                                            <div id="product_view_{{pro.id}}" class="no-display">
+                                                <p>                                            
+                                                <div class="col-md-12">
+                                                    <div class="preview col-md-5">
+                                                        <div class="tabbable tabs-bottom faq prod_img_list" style="border: none; padding: 0px; ">
+                                                            <div class="tab-content" style="text-align: center;">
+                                                                {% if pro.images|length %}
+                                                                    {% set first_image = 'true' %}
+
+                                                                    {% for img in pro.images %}
+                                                                        <div class="tab-pane {% if first_image == 'true' %} active {% endif %}" id="subview_image_{{pro.id~'_'~loop.index}}" style="padding: 25px;">
+                                                                            <img src="assets/images/products/{{img.file_name}}" style="height: 315px;max-width: 315px;"/>
+                                                                        </div>
+                                                                        {% set first_image = 'false' %}
+                                                                    {% endfor %}
+                                                                {% else %}
+                                                                    <div class="tab-pane active" id="subview_image_{{pro.id}}" style="padding: 25px;">
+                                                                            <img src="assets/images/products/our-products.png" style="width: 100%;max-width: 500px;max-height: 400px;"/>
+                                                                        </div>
+                                                                {% endif %}
+                                                            </div>
+                                                             <ul class="nav nav-tabs product-tabs" style="border:0px;">
+                                                                {% if pro.images|length  %}
+                                                                    {% set first_image = 'true' %}
+
+                                                                    {% for img in pro.images %}
+                                                                        <li {% if first_image == 'true' %} data-toggle="tab" class="active" {% endif %} style="height: 50px;">
+                                                                            <a href="#subview_image_{{pro.id~'_'~loop.index}}" data-toggle="tab" style="height: 50px;padding: 0px;">
+                                                                                <img src="assets/images/products/{{img.file_name}}" style="width: 50px;height: 50px;"/>
+                                                                            </a>
+                                                                        </li>
+
+                                                                        {% set first_image = 'false' %}
+                                                                    {% endfor %}
+                                                                {% endif %}
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="details col-md-7">
+                                                        <h3 class="product-title">{{pro.product_name}}</h3>
+
+                                                        <p class="product-description">{{pro.description}}</p>
+                                                        <h4 class="price">{{lang('price')}} : <span>{{MLM_CURRENCY_LEFT}} {{(pro.product_amount*MLM_CURRENCY_VALUE)|round(CURRENCY_ROUND, 'floor')}} {{MLM_CURRENCY_RIGHT}}</span></h4>
+
+                                                        <h4 class="price">{{lang('pv')}} : <span>{{pro.product_pv}}</span></h4>                                    
+                                                        <h4 class="price">{{lang('quantity')}} : <span>{{pro.quantity}}</span></h4>                                    
+
+                                                        <h4 class="price">{{lang('code')}} : <span>{{pro.product_code}}</span></h4>    
+                                                        <br /> 
+
+                                                        <div class="action">
+                                                            <button type="button" class="btn btn-primary" onclick='addToCart({{pro.id}},{{party_id}} )' ><span class="glyphicon glyphicon-shopping-cart"></span> {{lang('add_to_cart')}}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+
+                            {% else %}
+                                <h4 align="center"> {{lang('no_products')}}</h4>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>                                    
+            </div>
+
+            {%if user_type=='admin' or user_type=='employee' %}
+                {% include('admin/layout/footer.twig')%}
+            {% elseif(user_type=='user') %}
+                {% include('user/layout/footer.twig')%}
+            {%else%}
+            </div>
+            <link rel="stylesheet" href="assets/plugins/toastr/toastr.min.css">		
+            <script src="assets/plugins/jQuery/jquery-2.1.1.min.js"></script>
+            <script src="assets/plugins/toastr/toastr.js"></script>
+            {% include('layout/footer.twig')%}
+        {%endif%}
+        <link rel="stylesheet" href="assets/css/cart.css">	
+        <script src="assets/js/cart.js"></script>
+
+        {%if user_type %}
+            <script src="assets/js/ui-subview.js">
+            </script>
+            <script>
+            jQuery(document).ready(function () {
+                UISubview.init();
+            });
+                
+            function changeActiveImages(pro_id, image_index){
+                $('.subview_images_' + pro_id).removeClass("active");
+                $('#subview_image_' + pro_id + '_' + image_index).addClass("active");
+            }
+  
+            $('.prod_img_list').on('mouseenter', '[data-toggle="tab"]', function () {
+              $(this).tab('show');
+            });
+            </script>
+        {% endif %}
+
+        <style type="text/css">
+            
+            .product-tabs {
+                display: flex;
+                justify-content: center;
+                flex-direction: row;
+                 background-color: white;
+            }
+
+        </style>
+

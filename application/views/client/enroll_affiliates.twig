@@ -1,0 +1,336 @@
+{% if logged_user%}
+    {% include(user_type~'/layout/header.twig')%}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-white">
+                <div class="panel-heading">
+                    <h4 class="panel-title"><span class="text-bold">{{ lang('enroll_affiliate') }} </span></h4>
+                    <div class="panel-tools">
+                        <div class="dropdown">
+                            <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                            <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                                <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                                <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                                <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                            </ul>
+                        </div>
+                        <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <hr>
+                    <div class="box-register">
+
+
+                    {% else %}
+                        {% include('layout/header.twig')%}
+
+
+
+                        <style type="text/css">
+                            /*//for language change   */
+                            .dropdown-subview:after {
+                                right: auto !important;
+                                left: 105px !important;
+                            }
+                            .dropdown-subview:before {
+                                right: auto !important;
+                                left: 104px !important;
+                            }
+                            .nav>li>a:focus, .nav>li>a:hover {
+                                background-color:transparent;
+                            }
+                            .nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
+                                background-color:transparent;
+                            }
+                        </style>
+
+                        <body class="login">
+                            <div class="row">
+                                <div class="main-login col-xs-10 col-xs-offset-1 col-sm-offset-2 col-md-8 col-md-offset-2">
+                                    <div class="logo">
+                                        <img src="assets/images/logos/{{COMPANY_LOGO}}" width="150px;" height="40px;">
+                                    </div>
+                                    <div class="box-login">
+
+                                        <div class="row">
+                                            <div  class="col-xs-6 col-sm-6 col-lg-6">
+                                                <h3>{{ lang('enroll_affiliate') }}</h3>
+                                            </div>        
+                                            <div class="col-xs-6 col-sm-6 col-lg-6" style="hover:none;">
+                                                <p>
+                                                <div class="topbar-tools pull-right"  style="color:black !important;hover:none!important;">
+                                                    <!-- start: TOP NAVIGATION MENU -->
+                                                    <ul class="nav navbar-right">
+
+                                                        {% if MULTI_LANG_STATUS %}
+                                                            <!-- start: LANGUAGE -->
+                                                            <li class="dropdown current-user">
+                                                                <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="javascript:;"  title="Change Language"
+                                                                   style="color: gray;" 
+                                                                   >
+                                                                    <img src="assets/images/flags/lang/{{MLM_LANG_FLAG}}" class="img-circle" alt="">
+                                                                    <span class="username hidden-xs"><small>{{MLM_LANG_NAME|capitalize}}</small></span> <i class="fa fa-caret-down hidden-xs "></i>
+                                                                </a>
+
+                                                                <ul class="dropdown-menu dropdown-light dropdown-subview" >
+                                                                    {% for LANGUAGE  in  MLM_LANG_LIST  %}
+                                                                        <li onclick="switchLanguage('{{LANGUAGE.lang_code}}');">
+                                                                            <a href="javascript:;" >
+                                                                                {{LANGUAGE.lang_name}} 
+
+                                                                            </a>
+                                                                        </li>
+                                                                    {% endfor %}
+                                                                </ul>
+                                                            </li>
+
+                                                        {% elseif GOOGLE_TRANSLATOR %}
+
+                                                            <li class="hidden-xs">
+                                                                <a  href="javascript:;"  title="Google Translate"  class="dropdown-toggle">
+                                                                    <span id="google_translate_element"> </span>
+                                                                </a>
+                                                            </li> 
+
+                                                        {% endif %} 
+
+                                                    </ul>
+                                                </div>
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        {% include('layout/header.twig')%}
+                                        <body class="login">
+                                            <input type="hidden" name="path" id="path" value="{{BASE_URL}}"/>        
+                                            {%include('admin/layout/notification.twig')%}
+                                        {% endif %}
+
+
+                                        <div id="js_messages" style="display: none;">
+                                            <span id="invalid_sponsor_js">{{lang('invalid_sponsor_js')}}</span>    
+                                            <span id="sponsor_req_js">{{lang('sponsor_req_js')}}</span>    
+                                            <span id="affiliate_not_available_js">{{lang('affiliate_not_available_js')}}</span>    
+                                            <span id="affiliate_req_js">{{lang('affiliate_req_js')}}</span>    
+                                            <span id="email_req_js">{{lang('email_req_js')}}</span>    
+                                            <span id="invalid_email_js">{{lang('invalid_email_js')}}</span>    
+                                            <span id="password_req_js">{{lang('password_req_js')}}</span>    
+                                            <span id="confirm_password_req_js">{{lang('confirm_password_req_js')}}</span>    
+                                            <span id="pass_mismatches_js">{{lang('pass_mismatches_js')}}</span>    
+                                            <span id="first_name_js">{{lang('first_name_js')}}</span>    
+                                            <span id="country_req_js">{{lang('country_req_js')}}</span>    
+                                            <span id="phone_number_req_js">{{lang('phone_number_req_js')}}</span>    
+                                            <span id="invalid_phone_number_js">{{lang('invalid_phone_number_js')}}</span> 
+                                            <span id="alphanumeric_js">{{lang('alphanumeric_js')}}</span>
+
+                                        </div>
+
+
+
+                                        {{ form_open('', ' id="enroll_affiliates_form" name="enroll_affiliates_form"')|raw }}
+
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="errorHandler alert alert-danger no-display">
+                                                    <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                                                </div>                        
+                                            </div>
+
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">
+                                                        {{ lang('sponser_name') }}: <span class="symbol required"></span>
+                                                    </label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"> <i class="fa fa-user-plus"></i> </span>
+                                                        <input type="text" class="form-control" name="sponser_name" id="sponser_name" placeholder="{{ lang('sponser_name') }}" value="{{ sponsername }}" maxlength="18" tabindex='1'>
+                                                    </div>
+
+                                                    {% if register_error.sponser_name is defined %}<code> {{ register_error.sponser_name}} </code> {% endif %} 
+                                                </div>                                           
+
+
+
+                                                <div class="form-group">
+                                                    <label class="control-label">
+                                                        {{ lang('affiliate_name') }}: <span class="symbol required"></span>
+                                                    </label>
+                                                    <span class="input-icon">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"> <i class="fa fa-user"></i> </span>
+                                                            <input type="text" class="form-control" name="affiliate_name" id="affiliate_name" placeholder="{{ lang('affiliate_name') }}" maxlength="10" tabindex='2'>
+                                                        </div> 
+                                                    </span>
+
+                                                    {% if register_error.affiliate_name is defined %}<code> {{ register_error.affiliate_name}}</code> {% endif %} 
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="control-label">
+                                                        {{ lang('password') }}: <span class="symbol required"></span>
+                                                    </label>
+                                                    <span class="input-icon">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"> <i class="fa fa-lock"></i> </span>
+                                                            <input type="password" class="form-control" name="password" id="password" placeholder="{{ lang('password') }}" tabindex='3'>
+                                                        </div> 
+                                                    </span>
+
+                                                    {% if register_error.password is defined %}<code> {{ register_error.password}}</code> {% endif %} 
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="control-label">
+                                                        {{ lang('confirm_password') }}: <span class="symbol required"></span>
+                                                    </label>
+                                                    <span class="input-icon">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"> <i class="fa fa-lock"></i> </span>
+                                                            <input type="password" class="form-control" name="confirm_password" id="confirm_password" placeholder="{{ lang('confirm_password') }}" tabindex='4'>
+                                                        </div> 
+                                                    </span>
+
+                                                    {% if register_error.confirm_password is defined %}<code> {{ register_error.confirm_password}}</code> {% endif %} 
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label">
+                                                        {{ lang('email_address') }}: <span class="symbol required"></span>
+                                                    </label>
+                                                    <span class="input-icon">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"> <i class="fa fa-envelope"></i> </span>
+                                                            <input type="email" class="form-control" name="email" id="email" tabindex='5' placeholder="{{ lang('email_address') }}">
+                                                        </div> 
+                                                    </span>
+
+                                                    {% if register_error.email is defined %}<code> {{ register_error.email}}</code> {% endif %}  
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">
+                                                        {{ lang('mobile_no') }}: <span class="symbol required"></span>
+                                                    </label>
+                                                    <span class="input-icon">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"> <i class="fa fa-mobile"></i> </span>
+                                                            <input type="text" class="form-control" name="mobile_no" id="mobile_no" tabindex='6' placeholder="{{ lang('mobile_no') }}">
+                                                        </div> 
+                                                    </span>    
+                                                    {% if register_error.mobile_no is defined %}<code> {{ register_error.mobile_no}}</code> {% endif %}  
+                                                </div> 
+
+                                                <div class="form-group">
+                                                    <label class="control-label">
+                                                        {{ lang('first_name') }}: <span class="symbol required"></span>
+                                                    </label>
+                                                    <span class="input-icon">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"> <i class="fa fa-text-width"></i> </span>
+                                                            <input type="text" class="form-control" name="first_name" id="first_name" placeholder="{{ lang('first_name') }}" maxlength="15" tabindex='7' style="text-transform: capitalize;">
+                                                        </div> 
+                                                    </span>
+
+                                                    {% if register_error.first_name is defined %}<code> {{ register_error.first_name}}</code> {% endif %} 
+                                                </div>
+
+
+                                                <div class="form-group">
+                                                    <label class="control-label">
+                                                        {{ lang('last_name') }}:
+                                                    </label>
+                                                    <span class="input-icon">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"> <i class="fa fa-text-width"></i> </span>
+                                                            <input type="text" class="form-control" name="last_name" id="last_name" value="{{ register_data.last_name }}" placeholder="{{ lang('last_name') }}" maxlength="15" tabindex='8' style="text-transform: capitalize;">
+                                                        </div> 
+                                                    </span>
+                                                    {% if register_error.last_name is defined %}<code> {{ register_error.last_name}}</code> {% endif %}
+                                                </div>
+
+
+                                                <div class="form-group">
+                                                    <label class="control-label">
+                                                        {{ lang('country')}}: <span class="symbol required"></span>
+                                                    </label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><i class="fa fa-globe"></i></span>
+                                                        <select class="form-control search-select" id="country" name="country" tabindex='9'>
+                                                            <option value="">{{ lang('select_a_country')}}</option>
+                                                            {% for cntrs in countries %}
+                                                                <option value="{{cntrs.id}}">{{cntrs.name|raw}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+
+                                                    {% if register_error.country is defined %}<code> {{ register_error.country}} </code> {% endif %} 
+                                                </div>                                                   
+
+
+
+                                                <div class="form-group">
+                                                    <label class="control-label">
+                                                        {{ lang('state')}}:
+                                                    </label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><i class="fa fa-flag-o" area-hidden="true"></i></span>
+                                                        <span id="state_span">
+
+                                                            <select class="form-control search-select" id="state" name="state" tabindex='10'>
+                                                                <option value="">{{ lang('select_a_state')}}</option>
+                                                                {% for sts in states %}
+                                                                    <option value="{{sts.id}}" {% if register_data.state==sts.id %} selected {% endif %}>{{sts.name|raw}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </span> 
+                                                    </div>
+                                                    {% if register_error.state is defined %}<code> {{ register_error.state}} </code> {% endif %} 
+                                                </div>
+                                            </div>                                        
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-4 pull-right">
+
+                                                <button class="btn btn-primary  btn-block" type="submit" name="enroll" id="enroll" value="enroll">
+                                                    {{ lang('enroll')}} <i class="fa fa-arrow-circle-right"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        {{ form_close()|raw }}
+                                        {% if logged_user%}
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                {% include(user_type~'/layout/footer.twig')%}
+            {% else %}
+            </div>
+        </div>
+    </div>
+    {% include('layout/footer.twig')%}
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/styles-responsive.css">
+    <link rel="stylesheet" href="assets/minify/css/print.min.css_styles.min.css">
+    <script src="assets/plugins/bootstrap-modal/js/bootstrap-modal.js"></script>
+    <script src="assets/plugins/bootstrap-modal/js/bootstrap-modalmanager.js"></script>
+    <script src="assets/js/ui-modals.js"></script>
+{% endif %}
+<link rel="stylesheet" href="assets/plugins/select2/select2.css">		
+<link rel="stylesheet" href="assets/css/plugins.css">
+<script src="assets/plugins/select2/select2.min.js"></script>
+<script src="assets/js/form-elements.js"></script>
+<script src="assets/js/affiliate_register.js">
+
+</script>
+<script>
+    jQuery(document).ready(function () {
+        FormElements.init2();
+        valAffiliate();
+    });
+
+</script>

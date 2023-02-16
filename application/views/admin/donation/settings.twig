@@ -1,0 +1,102 @@
+{% include('admin/layout/header.twig')%}
+<div id="js_messages" style="display: none;"> 
+    <span id="donation_amount_req_js">{{lang('donation_amount_req_js')}}</span>
+    <span id="amount_req_js">{{lang('amount_req_js')}}</span>   
+    <span id="invalid_number_js">{{lang('invalid_number_js')}}</span>
+    <span id="eligibility_order_req_js">{{lang('eligibility_order_req_js')}}</span>  
+    <span id="eligibility_percentage_req_js">{{lang('eligibility_percentage_req_js')}}</span>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('donation_settings')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                {{ form_open_multipart('', ' id="don_set_form" name="don_set_form"')|raw }}
+                <div class="form-horizontal">                                            
+                    <div class="errorHandler alert alert-danger no-display">
+                        <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('donation_amount')}}: <span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-4">
+                            <select name="donation_amount" id="donation_amount" class="form-control field_type search-select" tabindex='1'>
+                                <option value="">{{lang('select_donation_amount')}}</option>
+                                <option value="fixed" {% if donation_amount=="fixed" %} selected {% endif %}>{{lang('fixed')}}</option>
+                                <option value="dynamic" {% if donation_amount=="dynamic" %} selected {% endif %}>{{lang('dynamic')}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="don_amount_div" class="form-group" {% if donation_amount!="fixed" %} style="display:none;" {% endif %}>
+                        <label class="col-sm-3 control-label">
+                            {{lang('amount')}} <b>({{MLM_CURRENCY_LEFT~MLM_CURRENCY_RIGHT}})</b>: <span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-4">
+                            <input class="form-control" type="text" name="amount" id="amount" value="{{(amount*MLM_CURRENCY_VALUE)|round(CURRENCY_ROUND, 'floor')}}" tabindex='2'>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('eligibility_order')}}: <span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-4">
+                            <select name="eligibility_order" id="eligibility_order" class="form-control field_type search-select" tabindex='3'>
+                                <option value="">{{lang('select_eligibility_order')}}</option>
+                                <option value="fifo" {% if eligibility_order=="fifo" %} selected {% endif %}>{{lang('fifo')}}</option>
+                                <option value="random" {% if eligibility_order=="random" %} selected {% endif %}>{{lang('random')}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('eligibility_percentage')}}: <span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-4">
+                            <input class="form-control" type="text" name="eligibility_percentage" id="eligibility_percentage" value="{{ eligibility_percentage }}" tabindex='4'>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+
+                        </label>
+                        <div class="col-sm-4">
+                            <button type="submit"class="btn btn-primary" value="don_set" name="don_set">
+                                {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {{ form_close()|raw }}  
+            </div>
+        </div>
+    </div>
+</div>
+{% include('admin/layout/footer.twig')%}
+<link rel="stylesheet" href="assets/plugins/select2/select2.css">		
+<link rel="stylesheet" href="assets/css/plugins.css">
+<script src="assets/plugins/select2/select2.min.js"></script>
+<script src="assets/js/form-elements.js"></script>
+
+<script src="assets/js/donation.js"></script>
+<script>
+    jQuery(document).ready(function () {
+        valDonationSettings();
+        FormElements.init2();
+    });
+</script>

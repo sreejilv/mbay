@@ -1,0 +1,143 @@
+
+
+<!-- end:  MAIN CONTENT -->
+</div>
+<div class="subviews">
+    <div class="subviews-container"></div>
+</div>
+</div>
+<!-- end: PAGE -->
+</div>
+<!-- end: MAIN CONTAINER -->
+<!-- start: FOOTER -->
+<footer class="inner">
+    <div class="footer-inner">
+        <div class="pull-left">
+            {{ "now"|date("Y") }} &copy; by {{COMPANY_NAME}}.
+        </div>
+        <div class="pull-right">
+            <span class="go-top"><i class="fa fa-chevron-up"></i></span>
+        </div>
+    </div>
+</footer>
+
+</div>
+
+
+{%include('admin/layout/load_footer_script.twig')%}
+
+<div id="js_validation_messages" style="display: none;"> 
+    <span id="this_field_is_required_msg_js">{{lang('this_field_is_required_msg_js')}}</span>    
+    <span id="characters_msg_js">{{lang('characters_msg_js')}}</span>
+    <span id="enter_valid_email_msg_js">{{lang('enter_valid_email_msg_js')}}</span>
+    <span id="enter_digits_only_msg_js">{{lang('enter_digits_only_msg_js')}}</span>
+    <span id="invalid_number_msg_js">{{lang('invalid_number_msg_js')}}</span>
+    <span id="number_gt_msg_js">{{lang('number_gt_msg_js')}}</span>
+    <span id="number_lt_msg_js">{{lang('number_lt_msg_js')}}</span>
+    <span id="pls_enter_atleast_msg_js">{{lang('pls_enter_atleast_msg_js')}}</span>
+    <span id="pls_enter_atmost_msg_js">{{lang('pls_enter_atmost_msg_js')}}</span>
+    <span id="succ_js">{{lang('success_js')}}</span>
+    <span id="theme_changed_successfully">{{lang('theme_changed_successfully')}}</span>
+    <span id="please_wait_js">{{lang('please_wait_js')}}</span>
+    <span id="operation_blocked_msg">{{lang('operation_blocked_msg')}}</span>
+    <span id="operation_blocked">{{lang('operation_blocked')}}</span>
+    <span id="expand_js">{{lang('expand')}}</span>
+    <span id="collapse_js">{{lang('collapse')}}</span>
+    <span id="empty_js">{{lang('empty')}}</span>
+    <span id="failed_js">{{lang('failed_js')}}</span>
+</div>
+<script>
+    jQuery(document).ready(function () {
+        Main.init();
+
+        jQuery.extend(jQuery.validator.messages, {
+            required: $('#this_field_is_required_msg_js').html(),
+            email: $('#enter_valid_email_msg_js').html(),
+            digits: $('#enter_digits_only_msg_js').html(),
+            number: $('#invalid_number_msg_js').html(),
+            min: $('#number_gt_msg_js').html() + ' {0}.',
+            max: $('#number_lt_msg_js').html() + ' {0}.',
+            minlength: $('#pls_enter_atleast_msg_js').html() + ' {0} ' + $('#characters_msg_js').html(),
+            maxlength: $('#pls_enter_atmost_msg_js').html() + ' {0} ' + $('#characters_msg_js').html()
+        });
+    });
+
+    if ($("#active_menu_id").length) {
+        var container = $('.main-navigation'),
+                scrollTo = $('#active_menu_id');
+        container.animate({scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop() - $(window).height() / 4});
+    }
+
+
+    $("form").submit(function(event) {
+        $.blockUI({
+            message: '<i class="fa fa-spinner fa-spin"></i>' + $('#please_wait_js').html()
+        });
+        setTimeout(function () {
+            $.unblockUI();
+        }, 1000);
+    });
+    
+    var changeSystemMod = function () {
+        $.ajax({
+            type: 'POST',
+            url: 'admin/home/change_theme_mode',
+            data: {},
+
+            beforeSend: function () {
+            },
+            success: function (data) {                
+            },
+            error: function (xhr) {
+                //alert("Error occured.please try again");
+            },
+            complete: function () {
+                location.reload();
+            },
+            dataType: 'json'
+        });
+    };
+    
+</script>
+{% if MULTI_LANG_STATUS == 0 %}
+    {% if GOOGLE_TRANSLATOR == 1 %}
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+        <script type="text/javascript">
+            function googleTranslateElementInit() {
+                new google.translate.TranslateElement({pageLanguage: 'en', autoDisplay: false}, 'google_translate_element');
+            }
+        </script>
+    {% endif %}
+{% endif %}
+{% if http_host != 'localhost' %}
+    <script>
+        $(document).keydown(function (e) {
+            if (e.which === 123) {
+                return false;
+            }
+        });
+        $(document).bind("contextmenu", function (e) {
+            e.preventDefault();
+        });
+    </script>
+{% endif %}
+{% if PRESET_DEMO_STATUS %}
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+        (function () {
+            var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/5a66c6d5d7591465c706ff79/default';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
+{% endif %}
+
+
+</body>
+<!-- end: BODY -->
+</html>

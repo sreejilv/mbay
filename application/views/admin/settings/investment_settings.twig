@@ -1,0 +1,85 @@
+{% include('admin/layout/header.twig')%}
+<div id="js_messages" style="display: none;"> 
+    <span id="pls_wait_js">{{lang('pls_wait_js')}}</span>
+    <span id="failed_to_change">{{lang('failed_to_change')}}</span>
+    <span id="success_js">{{lang('success_js')}}</span>        
+    <span id="crypto_curr_enabled_js">{{lang('crypto_curr_enabled_js')}}</span>
+    <span id="crypto_curr_disabled_js">{{lang('crypto_curr_disabled_js')}}</span>
+    <span id="curr_enabled_js">{{lang('curr_enabled_js')}}</span>
+    <span id="curr_disabled_js">{{lang('curr_disabled_js')}}</span>    
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <span class="text-bold">                        
+                        {{lang('investment_settings')}}                        
+                    </span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{ lang('crypto_currenct_status') }}
+                        </label>
+                        <div class="col-sm-4">
+                            <label class="switch">
+                                {% if PRESET_DEMO_STATUS %}
+                                    <input type="checkbox" {% if crypto_currenct_status=="crypto" %} checked {% endif %} onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                                {% else %}
+                                    <input type="checkbox" {% if crypto_currenct_status=="crypto" %} checked {% endif %} onchange='changeInvestmentCurrency(this)'>
+                                {% endif %}
+
+                                <div class="slider round">
+                                    <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                    <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal" id="inv_cat" {% if crypto_currenct_status!='crypto' %} style="display:none;" {% endif %}>
+                    <h3 class="margin-bottom-5">{{lang('investment_currency')}} </h3>
+                    <br>
+                    {% for cr in currency %}
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">
+                                {{ lang(cr.name) }}
+                            </label>
+                            <div class="col-sm-4">
+                                <label class="switch">
+                                    {% if PRESET_DEMO_STATUS %}
+                                        <input type="checkbox" {% if cr.status %} checked {% endif %} id="togBtn"  onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                                    {% else %}
+                                        <input type="checkbox" {% if cr.status %} checked {% endif %} id="togBtn" onchange='changeCurrencyStatus("{{ cr.id }}", this)'>
+                                    {% endif %}
+                                    <div class="slider round">
+                                        <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                        <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>                                    
+</div>
+
+{% include('admin/layout/footer.twig')%}
+<link rel="stylesheet" href="assets/css/checkbox_switcher.css">
+<script src="assets/js/inv_settings.js"></script>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!-- Template Name: Rapido - Responsive Admin Template build with Twitter Bootstrap 3.x Version: 1.2 Author: ClipTheme -->
+<!--[if IE 8]><html class="ie8 no-js" lang="en"><![endif]-->
+<!--[if IE 9]><html class="ie9 no-js" lang="en"><![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" class="no-js">
+    <!--<![endif]-->
+    <!-- start: HEAD -->
+    <head>
+        <title>{{title}} | {{COMPANY_NAME}}</title>
+        <!-- start: META -->
+        <meta charset="utf-8" />
+        <base href="{{BASE_URL}}" />
+        <link rel="shortcut icon" href="assets/images/logos/{{COMPANY_FAV_ICON}}" />
+        <!--[if IE]><meta http-equiv='X-UA-Compatible' content="IE=edge,IE=9,IE=8,chrome=1" /><![endif]-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta content="" name="description" />
+        <meta content="" name="author" />
+        <!-- end: META -->	
+        {%include('admin/layout/load_header_script.twig')%}
+    </head>
+
+    <!-- end: HEAD -->
+    <!-- start: BODY -->
+    <body class="error-full-page">
+        <img id="background" src="" />
+        <div id="cholder">
+            <canvas id="canvas"></canvas>
+        </div>
+        <!-- start: PAGE -->
+        <div class="container">
+            <div class="row">
+                <!-- start: 404 -->
+                <div class="col-sm-12 page-error animated shake">
+                    <div class="error-number text-white">
+                        403
+                    </div>
+                    <div class="error-details col-sm-6 col-sm-offset-3">
+                        <h3>{{ lang('sec_alert') }}:</h3>
+                        <p>
+                            {{ lang('access_denied_message') }}.
+                            <br>
+                            {{ lang('access_denied_warning') }}.
+                            <br>
+                            {% if PRESET_DEMO_STATUS %}
+                                <a href="remove-ip" class="btn btn-red btn-return">
+                                    {{ lang('remove_this_ip') }}
+                                </a>
+                                <br>
+                                {{ lang('remove_btn_msg') }}.
+                                <br>({{ lang('remove_btn_notification') }})
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+                <!-- end: 404 -->
+            </div>
+        </div>
+        <!-- end: PAGE -->
+        <!-- start: MAIN JAVASCRIPTS -->
+        <!--[if lt IE 9]>
+        <script src="assets/plugins/respond.min.js"></script>
+        <script src="assets/plugins/excanvas.min.js"></script>
+        <script type="text/javascript" src="assets/plugins/jQuery/jquery-1.11.1.min.js"></script>
+        <![endif]-->
+        <!--[if gte IE 9]><!-->
+        <script src="assets/plugins/jQuery/jquery-2.1.1.min.js"></script>
+        <!--<![endif]-->
+        <script src="assets/plugins/jquery-ui/jquery-ui-1.10.2.custom.min.js"></script>
+        <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/plugins/jquery-cookie/jquery.cookie.js"></script>
+        <script src="assets/plugins/TouchSwipe/jquery.touchSwipe.min.js"></script>
+        <script src="assets/js/main.js"></script>
+        <!-- end: MAIN JAVASCRIPTS -->
+        <!-- start: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
+        <script src="assets/plugins/rainyday/rainyday.js"></script>
+        <script src="assets/js/utility-error404.js"></script>
+        <!-- end: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
+        <script>
+            jQuery(document).ready(function () {
+                Main.init();
+                Error404.init();
+            });
+        </script>
+    </body>
+    <!-- end: BODY -->
+</html>

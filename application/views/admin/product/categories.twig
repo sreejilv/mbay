@@ -1,0 +1,282 @@
+{% include('admin/partials/head-main.twig')%}
+<head>
+    <base href="{{ base_url() }}" />
+    <?= $title_meta ?>
+
+
+    <!-- DataTables -->
+    <link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+    <!-- Responsive datatable examples -->
+    <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+    <?= $this->include('partials/head-css') ?>
+
+
+{% include('admin/partials/head-css.twig')%}
+</head>
+
+{% include('admin/partials/body.twig')%}
+<!-- <body data-layout="horizontal"> -->
+
+<!-- Begin page -->
+<div id="layout-wrapper">
+
+{% include('admin/partials/menu.twig')%}
+
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+
+    <!-- ============================================================== -->
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+
+                <!-- start page title -->
+                <?= $page_title ?>
+                <h4 class="panel-title">
+                    <span class="text-bold">
+                        {% if edit_flag %} 
+                            {{lang('update_category')}}
+                        {% else %}
+                            {{lang('add_category')}} 
+                        {% endif %}
+                    </span>
+                </h4>
+
+
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div>
+                                    {{ form_open_multipart('', ' id="pristine-valid-example" name="cat_form"')|raw }}
+                                    <form id="pristine-valid-example" novalidate method="post">
+                                        <input type="hidden" />
+                                        <div class="row">
+
+                                            <div class="col-xl-6 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>Category Name</label>
+                                                    <input type="text" required data-pristine-required-message="Please Enter a Category" class="form-control" id="category" name="category" value="{{ category.category }}"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xl-6 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>Parent Category</label>
+                                                    <input type="text" required data-pristine-required-message="Please Enter a Parent" class="form-control" name="parent" id="parent" value="{{ category.parent }}"/>
+                                                </div>
+                                            </div>
+
+                                            {# <div class="row"> #}
+                                                  {# <div class="col-xl-4 col-md-6"> #}
+                                                    {# <div class="card"> #}
+                                                        {# <div class="card-header"> #}
+                                                            {# <h4 class="card-title">Ckeditor Classic editor</h4>
+                                                            <p class="card-title-desc">Example of Ckeditor Classic editor</p> #}
+                                                        {# </div> #}
+                                                        {# <div class="card-body"> #}
+                                                            {# <div id="ckeditor-classic"></div> #}
+                                                        {# </div> #}
+                                                    {# </div> #}
+                                                {# </div> #}
+                                            {# </div> #}
+
+
+                                            <div class="col-xl-12 col-md-12">
+                                                <div class="form-group mb-3">
+                                                    <label>Description</label>
+                                                    <div class="col-sm-12">
+                                                    <textarea id="ckeditor-classic" required data-pristine-required-message="Please Enter a Description"></textarea>
+                                                        {# <textarea required data-pristine-required-message="Please Enter a Description" class="ckeditor"  rows="2" cols="36" name="description" id="ckeditor-classic" value="{{ category.description }}">{{ category.description }}</textarea> #}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            
+                                            {# <div class="col-xl-6 col-md-6">
+                                                <!-- <form action="#" class="dropzone"> -->
+                                                    <div class="fallback">
+                                                        <input type="file" multiple="multiple" id="image" name="image">
+                                                    </div>
+                                                    <div class="dz-message needsclick">
+                                                        <div class="mb-3">
+                                                            <i class="display-4 text-muted bx bx-cloud-upload"></i>
+                                                        </div>
+
+                                                        <h5>Drop files here or click to upload.</h5>
+                                                    </div>
+                                                <!-- </form> -->
+
+                                               <!--  <div class="text-center mt-4">
+                                                    <button type="button" class="btn btn-primary waves-effect waves-light">Send
+                                                        Files</button>
+                                                </div> -->
+                           
+                                            </div> #}
+
+                                            <div class="col-xl-12 col-md-12">
+                                                <div class="form-group mb-3">
+                                                    <label>Category Image</label>
+                                                    <div class="dropzone" id="myDropzone" required data-pristine-required-message="Please Enter a Description"></div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-xl-6 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>Sort Order</label>
+                                                    <input type="text" required data-pristine-required-message="Please Enter a Sort Order" class="form-control" name="sort_order" id="sort_order" value="{{ category.sort_order }}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>SEO Keyword</label>
+                                                    <input type="text" required data-pristine-required-message="Please Enter a Keyword" class="form-control" name="keyword" id="keyword" value="{{ category.keyword }}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end row -->
+
+                                        <div class="form-group">
+                                            {% if edit_flag %}                               
+                                            <button type="submit"class="btn btn-primary" value="{{ product_id }}" name="update_cat" id="update_cat">
+                                                {{lang('update')}}  <i class="fa fa-arrow-circle-right"></i>
+                                            </button>
+                                            {% else %}
+                                                <button type="submit"class="btn btn-primary" value="add_cat" name="add_cat">
+                                                    {{lang('submit')}}  <i class="fa fa-arrow-circle-right"></i>
+                                                </button>
+                                            {% endif %}
+                                        </div>
+                                    </form>
+                                    {{ form_close()|raw }}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end card -->
+                    </div>
+                    <!-- end col -->
+                </div>
+                {% if not edit_flag %} 
+    
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <table id="datatable" class="table table-bordered dt-responsive  nowrap w-100">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>{{lang('cat_name')}}</th>
+                                            <th>{{lang('cat_desc')}}</th>
+                                            <th>{{lang('cat_order')}}</th>
+                                            <th>{{lang('seo_keyword')}}</th>
+                                            <th>{{lang('date')}}</th>
+                                            <th>{{lang('action')}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for row in data %}  
+                                        <tr>
+                                            <td>{{loop.index}}</td>
+                                            <td>{{row.category}}</td>
+                                            <td>{{row.description}}</td>
+                                            <td>{{row.sort_order}}</td>
+                                            <td>{{row.key}}</td>
+                                            <td>{{row.creation_date}}</td>
+                                            <td><a href="{{BASE_URL}}admin/categories/cat_edit/{{row.id}}" button type="submit"class="btn btn-primary"><i class="fas fa-pencil-alt"></i></a> <a href="{{BASE_URL}}admin/categories/cat_delete/{{row.id}}" button type="submit"class="btn btn-danger"><i class="fa fa-trash fa fa-white"></i></a></td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+                {% endif %}
+            </div>
+        </div> <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+
+   {% include('admin/partials/footer.twig')%}
+    </div>
+    <!-- end main content-->
+</div>
+<!-- END layout-wrapper -->
+
+
+{% include('admin/partials/right-sidebar.twig')%}
+<!-- JAVASCRIPT -->
+{% include('admin/partials/vendor-scripts.twig')%}
+
+
+<!-- Required datatable js -->
+<script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+<!-- Buttons examples -->
+<script src="assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+<script src="assets/libs/jszip/jszip.min.js"></script>
+<script src="assets/libs/pdfmake/build/pdfmake.min.js"></script>
+<script src="assets/libs/pdfmake/build/vfs_fonts.js"></script>
+<script src="assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+
+<!-- Responsive examples -->
+<script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+
+<!-- pristine js -->
+<script src="assets/libs/pristinejs/pristine.min.js"></script>
+<!-- form validation -->
+<script src="assets/js/pages/form-validation.init.js"></script>
+
+<!-- Datatable init js -->
+<script src="assets/js/pages/datatables.init.js"></script>
+
+<script src="assets/libs/dropzone/min/dropzone.min.js"></script>
+
+
+
+
+<script src="assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
+<script src="assets/js/pages/form-editor.init.js"></script>
+
+
+
+
+<script src="assets/js/app.js"></script>
+
+<script>
+Dropzone.options.myDropzone = {
+  url: "image_upload",
+  autoProcessQueue: true,
+  paramName: "file",
+  clickable: true,
+  maxFilesize: 5, //in mb
+  addRemoveLinks: true,
+  acceptedFiles: '.png,.jpg',
+  dictDefaultMessage: "Upload your file here",
+  init: function() {
+    this.on("sending", function(file, xhr, formData) {
+      console.log("sending file");
+    });
+    this.on("success", function(file, responseText) {
+      console.log('great success');
+    });
+    this.on("addedfile", function(file){
+  		console.log('file added');
+  	});
+  }
+};
+</script>
+
+</body>
+
+</html>

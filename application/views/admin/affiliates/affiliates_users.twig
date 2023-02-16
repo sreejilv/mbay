@@ -1,0 +1,204 @@
+{% include('admin/layout/header.twig')%}
+<div id="js_messages" style="display: none;"> 
+    <span id="are_you_sure_js">{{lang('are_you_sure_js')}}</span>
+    <span id="edit_it_js">{{lang('edit_it_js')}}</span>
+    <span id="cancel_pls_js">{{lang('cancel_pls_js')}}</span>
+    <span id="canceled_js">{{lang('canceled_js')}}</span>
+    <span id="affiliates_safe_js">{{lang('affiliates_safe_js')}}</span>    
+    <span id="delete_it_js">{{lang('delete_it_js')}}</span>
+    <span id="delete_this_affiliates_js">{{lang('delete_this_affiliates_js')}}</span>
+    <span id="activate_this_affiliates_js">{{lang('activate_this_affiliates_js')}}</span>
+    <span id="edit_this_affiliates_js">{{lang('edit_this_affiliates_js')}}</span>
+    <span id="activate_it_js">{{lang('activate_it_js')}}</span>
+    <span id="edit_it_js">{{lang('edit_it_js')}}</span>
+    <span id="inactivate_this_affiliates_js">{{lang('inactivate_this_affiliates_js')}}</span>
+    <span id="inactivate_it_js">{{lang('inactivate_it_js')}}</span>
+    <span id="email_id_req_js">{{lang('email_id_req_js')}}</span>
+    <span id="mobile_req_js">{{lang('mobile_req_js')}}</span>
+    <span id="first_name_req_js">{{lang('first_name_req_js')}}</span>
+    <span id="last_name_req_js">{{lang('last_name_req_js')}}</span>
+    <span id="country_req_js">{{lang('country_req_js')}}</span>
+    <span id="state_req_js">{{lang('state_req_js')}}</span>
+</div>
+<link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="assets/css/shCore.css">
+<script type="text/javascript" language="javascript" src="assets/js/jquery.dataTables.js">
+</script>
+<script type="text/javascript" language="javascript" src="assets/js/shCore.js">
+</script> 
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
+<script type="text/javascript" language="javascript" src="assets/js/lead_datatable.js">
+</script>
+<script type="text/javascript" language="javascript" class="init">
+
+    $(document).ready(function () {
+        var oTable = $('#affiliate_user_list').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/affiliates/affiliates_user_list",
+            "dataType": "json",
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+</script>
+
+{% if edit_details !='' %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-white">
+                <div class="panel-heading">
+                    <h4 class="panel-title"><span class="text-bold">{{lang('edit_affiliates_details')}}</span></h4>
+
+                </div>
+                <div class="panel-body">
+                    <hr>
+                    {{ form_open('', ' id="affiliate_form" name="affiliate_form"')|raw }}
+                    <input  type="hidden" name="id" id="id" value="{{ edit_details.id }}">
+                    <div class="form-horizontal">
+
+                        <div class="errorHandler alert alert-danger no-display">
+                            <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">
+                                {{lang('email_id')}} :<span class="symbol required"></span>
+                            </label>
+                            <div class="col-sm-4">
+                                <input class="form-control" type="text" name="email" id="email" placeholder='{{lang('email_id')}}' value="{{ edit_details.email }}" tabindex='1'>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">
+                                {{lang('phone_number')}} :<span class="symbol required"></span>
+                            </label>
+                            <div class="col-sm-4">
+                                <input class="form-control" type="text" name="mobile" id="mobile" placeholder='{{lang('phone_number')}}' value="{{ edit_details.mobile }}" tabindex='2'>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">
+                                {{lang('first_name')}} :<span class="symbol required"></span>
+                            </label>
+                            <div class="col-sm-4">
+                                <input class="form-control" type="text" name="first_name" id="first_name" placeholder='{{lang('first_name')}}' value="{{ edit_details.first_name }}" tabindex='3' style="text-transform: capitalize;">
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">
+                                {{lang('last_name')}} :
+                            </label>
+                            <div class="col-sm-4">
+                                <input class="form-control" type="text" name="last_name" id="last_name" placeholder='{{lang('last_name')}}' value="{{ edit_details.last_name }}" tabindex='4' style="text-transform: capitalize;">
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">
+                                {{lang('country')}} :<span class="symbol required"></span>
+                            </label>
+                            <div class="col-sm-4">
+                                <select name="country" id="country" class="form-control search-select" tabindex='5'>
+                                    <option value="">{{lang('select_a_country')}}</option>
+                                    {% for cntrs in countries %}
+                                        <option value="{{cntrs.id}}" {% if edit_details.country==cntrs.id %} selected {% endif %}>{{cntrs.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">
+                                {{lang('state')}} :
+                            </label>
+                            <div class="col-sm-4">
+                                <span class="input-icon" id="state_span">
+                                    <select name="state" id="state" class="form-control search-select" tabindex='6'>
+                                        <option value="">{{lang('select_a_state')}}</option>
+                                        {% for sts in states %}
+                                            <option value="{{sts.id}}" {% if edit_details.state==sts.id %} selected {% endif %}>{{sts.name}}</option>
+                                        {% endfor %}                       
+                                    </select>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">
+                            </label>
+                            <div class="col-sm-4">
+                                <button type="submit"class="btn btn-primary" value="1" name="update_affiliates" id="update_affiliates">
+
+                                    {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                                </button>
+                            </div>                            
+                        </div>
+                    </div>
+                    {{ form_close()|raw }}      
+
+                </div>
+            </div>                                    
+        </div>
+    </div>
+{% endif %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('affiliate_user_list')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped" id="affiliate_user_list">
+                        <thead>
+                            <tr>
+                                <th>{{lang('sl.no')}}</th>
+                                <th>{{lang('affiliate_user_name')}}</th>
+                                <th>{{lang('affiliates_sponsor_name')}}</th>
+                                <th>{{lang('email_id')}}</th>
+                                <th>{{lang('phone_number')}}</th>
+                                <th>{{lang('affiliate_join_date')}}</th>
+                                <th>{{lang('operation')}}</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>                                    
+    </div>
+</div>
+{% include('admin/layout/footer.twig')%}
+
+<link rel="stylesheet" href="assets/plugins/select2/select2.css">		
+<link rel="stylesheet" href="assets/css/plugins.css">
+<script src="assets/plugins/select2/select2.min.js"></script>
+<script src="assets/js/form-elements.js"></script>
+
+<script src="assets/plugins/ckeditor/ckeditor.js"></script>
+<link href="assets/plugins/sweetalert/lib/sweet-alert.css" rel="stylesheet" />
+<script src="assets/plugins/sweetalert/lib/sweet-alert.min.js"></script>
+<script src="assets/js/affiliate_user.js"></script>
+<script>
+    jQuery(document).ready(function () {
+        valUserSearch();
+        FormElements.init2();
+    });
+</script>
+<style>
+    table.dataTable thead th{border-bottom:1px #111}
+    table.dataTable.no-footer{border-bottom:1px #dfe1e5 solid}
+</style>

@@ -1,0 +1,505 @@
+{% include('admin/layout/header.twig')%}
+<link rel="stylesheet" href="assets/dist/css/AdminLTE.min.css">
+<link rel="stylesheet" href="assets/css/rating.css">
+<div style="display:none;">
+    <span id="assignee_change_successfully_js">{{lang('assignee_change_successfully_js')}}</span>
+    <span id="status_change_successfully_js">{{lang('status_change_successfully_js')}}</span>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">{{lang('ticket_details')}} <strong>{{details['from_userid']}}</strong><label></label></h3><label class='label label-success'>{% if details['status']=='Closed'%}{{details['status']}}{% endif %}</label>
+            </div>
+            <div class="box-body">
+                <img class="profile-user-img img-responsive img-circle" src="assets/images/users/{{details['user_image']}}" alt="User profile picture">
+
+                <strong><i class="fa fa-book margin-r-5"></i>{{lang('ticket_id')}}</strong>
+                <input type="hidden" name="ticket_id" id="ticket_id" value="{{details['ticket_id']}}"/>
+                <input type="hidden" name="user_id" id="user_id" value="{{user_id}}"/>
+                <p class="text-muted col-sm-offset-2">
+                    {{details['ticket_id']}}
+                </p>
+                <hr>
+
+                <strong><i class="fa fa-pencil margin-r-5"></i>{{lang('priority')}}</strong>
+
+                <p class='col-sm-offset-2'>
+                    {% if(details['priority']=='High')%}<span class="label label-danger">{{details['priority']}}</span>{%else%}
+                        {% if(details['priority']=='Medium')%}<span class="label label-success">{{details['priority']}}</span>{% else%}
+                            {% if(details['priority']=='Low')%}<span class="label label-info">{{details['priority']}}</span>{%else%}
+                                {% if(details['priority']=='Urgent')%}<span class="label label-warning">{{details['priority']}}</span>{%else%}
+                                    {% if(details['priority']=='Normal')%}<span class="label label-primary">{{details['priority']}}</span>{%endif%}
+                                {%endif%}
+                            {%endif%}
+                        {%endif%}
+                    {%endif%}
+                </p>
+
+                <hr>
+
+                <strong><i class="fa fa-file-text-o margin-r-5"></i>{{lang('title')}}</strong>
+
+                <p class='col-sm-offset-2'>{{details['title']}}</p>
+
+                <hr>
+                <strong><i class="fa fa-file-sound-o margin-r-5"></i>{{lang('email')}}</strong>
+                <p class='col-sm-offset-2'>{{details['email']}}</p>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-9">
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#activity" data-toggle="tab">{{lang('activity')}}</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="active tab-pane" id="activity">
+                    <div class="flush-left">
+                        <h4>
+                            <a><i class='fa fa-info-circle'></i> {{details['ticket_id']}}</a>
+                        </h4>
+                    </div>
+                    <table class="table table-responsive full-width ticket_info" cellspacing="0" cellpadding="0" width="940" border="0" style='background-color:lightblue'>
+                        <tbody><tr>
+                                <td width="50%">
+                                    <table border="0" cellspacing="" cellpadding="4" width="100%">
+                                        <tbody><tr>
+                                                <th width="100">{{lang('status')}}:</th>
+                                                <td><a class="preview" data-preview="" href="javascript:void(0)">{{details['status']}}</a></td>
+                                            </tr>
+                                            <tr>
+                                                <th>{{lang('priority')}}:</th>
+                                                <td>{% if(details['priority']=='High')%}<span class="label label-danger">{{details['priority']}}</span>{%else%}
+                                                    {% if(details['priority']=='Medium')%}<span class="label label-success">{{details['priority']}}</span>{% else%}
+                                                        {% if(details['priority']=='Low')%}<span class="label label-info">{{details['priority']}}</span>{%else%}
+                                                            {% if(details['priority']=='Urgent')%}<span class="label label-warning">{{details['priority']}}</span>{%else%}
+                                                                {% if(details['priority']=='Normal')%}<span class="label label-primary">{{details['priority']}}</span>{%endif%}
+                                                            {%endif%}
+                                                        {%endif%}
+                                                    {%endif%}
+                                                    {%endif%}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>{{lang('department')}}:</th>
+                                                    <td>{{details['department']}}</td>
+                                                </tr>
+
+                                            </tbody></table>
+                                    </td>
+                                    <td width="50%" style="vertical-align:top">
+                                        <table border="0" cellspacing="" cellpadding="4" width="100%">
+                                            <tbody><tr>
+                                                    <th width="100">{{lang('create_user')}}:</th>
+                                                    <td><i class="icon-user"></i> <span id="user-1-name">{{details['from_userid']}}</span>                                                  
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>{{lang('email')}}:</th>
+                                                    <td>
+                                                        <span id="user-1-email">{{details['email']}}</span>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th>{{lang('source')}}:</th>
+                                                    <td>Web&nbsp;&nbsp; <span class="faded"></span>                    </td>
+                                                </tr>
+                                            </tbody></table>
+                                    </td>
+
+
+                                </tr>
+                            </tbody></table>
+                        <br>
+
+                        <table class="table table-responsive full-width ticket_info" cellspacing="0" cellpadding="0"  border="0" style='background-color:lightblue'>
+                            <tbody><tr>
+                                    <td width="50%">
+                                        <table border="0" cellspacing="" cellpadding="4" width="100%">
+                                            <tbody><tr>
+                                                    <th width="100">{{lang('assignee')}}:</th>
+                                                    <td><a class="preview" data-preview="" href="javascript:void(0)" style="font-weight: bolder;">{{details['assignee']}}</a></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>{{lang('due_date')}}:</th>
+                                                    <td style="color:red;">{{details['created_date']}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>{{lang('add_assignee')}}:</th>
+                                                    <td><input type='text' name='assignee_name' id='assignee_name' class='typeahead form-control' autocomplete="off" {%if details['assignee'] is null %}value=""{%else %} value="{{details['assignee']}}" {%endif%}></td>
+                                                </tr>
+
+                                            </tbody></table>
+                                    </td>
+                                    <td width="50%" style="vertical-align:top">
+                                        <table border="0" cellspacing="" cellpadding="4" width="100%">
+                                            <tbody>
+                                                <tr>
+                                                    <th>{{lang('title')}}:</th>
+                                                    <td>
+                                                        <span id="user-1-email">{{details['title']}}</span>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th>{{lang('subject')}}:</th>
+                                                    <td>{{details['subject']|raw}}&nbsp;&nbsp; <span class="faded"></span>                    </td>
+                                                </tr>
+                                            </tbody></table>
+                                    </td>
+
+
+                                </tr>
+                            </tbody></table>
+                        <br>
+
+                        <table class="table table-responsive full-width ticket_info" cellspacing="0" cellpadding="0"  border="0" style='background-color:lightblue'>
+                            <tbody><tr>
+                                    <td width="50%">
+                                        <table border="0" cellspacing="" cellpadding="4" width="100%">
+                                            <tbody><tr>
+                                                    <th width="100">{{lang('attached_files')}}:</th>
+                                                    <td><a class="preview" data-preview="">
+                                                            {% if details.attched_file|length %}
+                                                                <a href='{{BASE_URL}}admin/ticket_system/view_attached_files/{{details['ticket_id']}}'target="_blank">{{lang('click_here')}}</a>
+
+                                                            {% else %}
+                                                                {{ lang('na') }}
+                                                            {% endif %}
+
+                                                    </td>
+                                                </tr>
+
+                                            </tbody></table>
+                                    </td>
+                                <tr>
+                                    <th>{{lang('change_status')}}:</th>
+                                    <th><select class="form-control search-select" name='status' id='status'>
+                                            <option value=''>{{lang('choose_ticket_status')}}</option>
+                                            {%  for item in types %}
+                                                {% if item.id != '12' %}
+                                                    <option {% if item.id == details['status_id'] %} selected {%endif %}value='{{item.id}}'>{{item.type_name}}</option>
+                                                {% endif %}
+                                            {%endfor%}
+                                        </select></th>
+                                </tr>
+
+
+
+
+                                </tr>
+
+                            </tbody></table>
+
+                        <div class="box box-success">
+                            <div class="box-header ui-sortable-handle" style="cursor: move;">
+                                <i class="fa fa-comments-o"></i>
+
+                                <h3 class="box-title">{{lang('reply')}}</h3>
+
+
+                            </div>
+                            <div class="slimScrollDiv" style="overflow-y: hidden; position: relative;  width: auto; height: 100%;">
+                                <div class="box-body chat" id="chat-box" style="overflow-y: scroll; width: auto; height: 250px;">
+                                    <div class="direct-chat-msg right">
+                                        <div class="direct-chat-info clearfix">
+                                            <span class="direct-chat-name pull-left"></span>
+                                            <span class="direct-chat-timestamp pull-right">{{details['from_userid']}}</span>
+                                        </div>
+                                        <img class="direct-chat-img" src="assets/images/users/{{details['user_image']}}" alt="Message User Image">
+                                        <div class="direct-chat-text">
+                                            {{details['message']|raw}}
+                                        </div>
+                                    </div>
+                                    {% for data in details['replies'] %}
+
+                                        {% if (user_id != data['user_id']) %}
+                                            <div class="direct-chat-msg " style="width:auto;height:auto;" id="chatright">
+
+                                                <div class="direct-chat-info clearfix">
+                                                    <span class="direct-chat-name pull-left">{{data['user_name']}}</span>
+                                                    <span class="direct-chat-timestamp pull-right"></span>
+                                                </div>
+                                                <img class="direct-chat-img" src="assets/images/users/{{data['user_image']}}" alt="Message User Image">
+                                                <div class="direct-chat-text" style="background-color: #00a65a;">
+                                                    {{data['message']|raw}}
+                                                    {% for itm in data['attachement'] %}
+                                                        <div class="direct-chat clearfix" style='border: 2px solid lightgray;background-color: white;'>
+                                                            <a href="{{BASE_URL}}assets/images/tickets/{{ itm['file_name']}}" class="file clearfix">
+                                                                <i class="fa fa-file-o" style='float:left;'></i>
+                                                                <div class="fileinfo">
+                                                                    <span class="filename">{{ itm['file_name']}}</span>
+
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    {% endfor  %}
+                                                </div>
+
+                                            </div>
+                                        {% else %}
+
+                                            <div class="direct-chat-msg right " style="width:auto;height:auto;" id="chatright">
+                                                <div class="direct-chat-info clearfix">
+                                                    <span class="direct-chat-name pull-left"></span>
+                                                    <span class="direct-chat-name pull-right">{{data['user_name']}}</span>
+                                                </div>
+                                                <img class="direct-chat-img" src="assets/images/users/{{data['user_image']}}" alt="Message User Image">
+                                                <div class="direct-chat-text">
+                                                    {{data['message']|raw}}
+                                                    {% for itms in data['attachement'] %}
+                                                        <div class="direct-chat-text clearfix" style='border: 2px solid lightgray;background-color: white;'>
+                                                            <a href="{{BASE_URL}}assets/images/tickets/{{ itms['file_name']}}" class="file clearfix">
+                                                                <i class="fa fa-file-o" style='float: left;'></i>
+                                                                {% if itms['file_name']|split('.')|last !='pdf' %}
+                                                                    &nbsp;{{lang('image_link')}}
+                                                                {%else%}
+                                                                    &nbsp;{{lang('pdf')}}
+                                                                {%endif%}
+                                                            </a>
+                                                        </div>
+                                                    {% endfor  %}
+
+                                                </div>
+
+                                            </div>
+                                        {% endif %}
+
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <section class='content'>
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-9">
+                    <div class="panel panel-white">
+                        <div class="panel-heading">
+                            <h4 class="panel-title"><i class="fa fa-comments-o"></i> <span class="text-bold">{{lang('reply')}} </span>  </h4>
+                            <div class="panel-body">
+
+                                {{form_open_multipart('admin/ticket_system/reply_message','class="form-horizontal" role="form" name="create_ticket" id="create_ticket"')|raw}}
+                                <input type="hidden" name="ticket_id" id="ticket_id" value="{{details['ticket_id']}}"/>
+                                <input type="hidden" name="user_id" id="user_id" value="{{user_id}}"/>
+                                <div class="form-group">
+                                    <div class='col-sm-12'>
+                                        <textarea id="message" name="message" rows="10" cols="80" required class="ckeditor"></textarea>
+                                    </div>
+
+                                </div>
+                                <div class="form-group" id="fields">
+                                    <label class="control-label col-sm-2" for="field1">
+                                        {{lang('attach_file')}}
+                                    </label>
+                                    <div class="controls col-sm-6">
+
+                                        <div class="entry input-group col-xs-3">
+                                            <input class="btn btn-primary" name="fields[]" type="file" id='file'>
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-success btn-add" type="button">
+                                                    <span class="glyphicon glyphicon-plus"></span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                        <p>
+                                        <div class="alert alert-warning">
+                                            <span class="label label-warning">{{lang('note')}}!</span>
+                                            <span> {{lang('supported_formats')}} : {{lang('JPEG')}} , {{lang('PNG')}} , {{lang('JPG')}} , {{lang('pdf')}} , {{lang('gif')}} </span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class='form-action'>
+                                    <div class='col-sm-offset-4'>
+                                        <button class='btn btn-primary' name='submit' id='submit' type='submit' value='submit'>{{lang('submit')}}   <span class='fa fa-send'></span></button>
+                                    </div>
+                                </div>
+                                {{form_close()|raw}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    {% include('admin/layout/footer.twig')%}  
+    <link rel="stylesheet" href="assets/plugins/select2/select2.css">		
+    <link rel="stylesheet" href="assets/css/plugins.css">
+    <script src="assets/plugins/select2/select2.min.js"></script>
+    <script src="assets/js/form-elements.js"></script>
+    <script src="assets/js/edit_ticket_details.js"></script>
+    <script src="assets/js/typeahead.js">
+
+    </script>
+    {#<script type="text/javascript">
+        $(document).ready(function () {
+            FormElements.init2();
+        });
+    
+        $('input.typeahead').typeahead({
+            source: function (query, process) {
+                var url = "admin/employee/employee_username";
+                return $.get(url, {query: query}, function (data) {
+                    data = $.parseJSON(data);
+                    return process(data);
+                });
+            }
+        });
+    </script>#}
+
+    <script>
+        let modalId = $('#image-gallery');
+
+        $(document)
+                .ready(function () {
+
+                    loadGallery(true, 'a.thumbnail');
+
+                    //This function disables buttons when needed
+                    function disableButtons(counter_max, counter_current) {
+                        $('#show-previous-image, #show-next-image')
+                                .show();
+                        if (counter_max === counter_current) {
+                            $('#show-next-image')
+                                    .hide();
+                        } else if (counter_current === 1) {
+                            $('#show-previous-image')
+                                    .hide();
+                        }
+                    }
+
+                    /**
+                     *
+                     * @param setIDs        Sets IDs when DOM is loaded. If using a PHP counter, set to false.
+                     * @param setClickAttr  Sets the attribute for the click handler.
+                     */
+
+                    function loadGallery(setIDs, setClickAttr) {
+                        let current_image,
+                                selector,
+                                counter = 0;
+
+                        $('#show-next-image, #show-previous-image')
+                                .click(function () {
+                                    if ($(this)
+                                            .attr('id') === 'show-previous-image') {
+                                        current_image--;
+                                    } else {
+                                        current_image++;
+                                    }
+
+                                    selector = $('[data-image-id="' + current_image + '"]');
+                                    updateGallery(selector);
+                                });
+
+                        function updateGallery(selector) {
+                            let $sel = selector;
+                            current_image = $sel.data('image-id');
+                            $('#image-gallery-title')
+                                    .text($sel.data('title'));
+                            $('#image-gallery-image')
+                                    .attr('src', $sel.data('image'));
+                            disableButtons(counter, $sel.data('image-id'));
+                        }
+
+                        if (setIDs == true) {
+                            $('[data-image-id]')
+                                    .each(function () {
+                                        counter++;
+                                        $(this)
+                                                .attr('data-image-id', counter);
+                                    });
+                        }
+                        $(setClickAttr)
+                                .on('click', function () {
+                                    updateGallery($(this));
+                                });
+                    }
+                });
+
+    // build key actions
+        $(document)
+                .keydown(function (e) {
+                    switch (e.which) {
+                        case 37: // left
+                            if ((modalId.data('bs.modal') || {})._isShown && $('#show-previous-image').is(":visible")) {
+                                $('#show-previous-image')
+                                        .click();
+                            }
+                            break;
+
+                        case 39: // right
+                            if ((modalId.data('bs.modal') || {})._isShown && $('#show-next-image').is(":visible")) {
+                                $('#show-next-image')
+                                        .click();
+                            }
+                            break;
+
+                        default:
+                            return; // exit this handler for other keys
+                    }
+                    e.preventDefault(); // prevent the default action (scroll / move caret)
+                });
+
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            FormElements.init2();
+        });
+
+        $('input.typeahead').typeahead({
+            source: function (query, process) {
+                var url = "admin/employee/employee_username";
+                return $.get(url, {query: query}, function (data) {
+                    data = $.parseJSON(data);
+                    return process(data);
+                });
+            }
+        });
+        $(function ()
+        {
+            $(document).on('click', '.btn-add', function (e)
+            {
+                e.preventDefault();
+                var controlForm = $('.controls:first'),
+                        currentEntry = $(this).parents('.entry:first'),
+                        newEntry = $(currentEntry.clone()).appendTo(controlForm);
+                newEntry.find('input').val('');
+                controlForm.find('.entry:not(:last) .btn-add')
+                        .removeClass('btn-add').addClass('btn-remove')
+                        .removeClass('btn-success').addClass('btn-danger')
+                        .html('<span class="glyphicon glyphicon-minus"></span>');
+            }).on('click', '.btn-remove', function (e)
+            {
+                $(this).parents('.entry:first').remove();
+                e.preventDefault();
+                return false;
+            });
+        });
+    </script>
+    <style>
+        .btn:focus, .btn:active, button:focus, button:active {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+
+        #image-gallery .modal-footer{
+            display: block;
+        }
+
+        .thumb{
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+    </style>

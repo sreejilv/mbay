@@ -1,0 +1,108 @@
+
+<!-- start: PAGESLIDE LEFT -->
+<a class="closedbar inner hidden-sm hidden-xs" href="#">
+</a>
+<nav id="pageslide-left" class="pageslide inner">
+    <div class="navbar-content">
+        <!-- start: SIDEBAR -->
+        <div class="main-navigation left-wrapper transition-left">
+            <span id="date"></span>
+            <div class="navigation-toggler hidden-sm hidden-xs">
+                <a href="#main-navbar" class="sb-toggle-left">
+
+                </a>
+            </div>
+
+            <div class="user-profile border-top padding-horizontal-10 block">
+                <div class="inline-block">
+                    <img src="assets/images/users/{{LOG_USER_DP}}" width="50px;" height="50px;" alt="{{LOG_USER_NAME}}">
+                </div>
+                <div class="inline-block">
+                    <h5 class="no-margin"> {{lang('welcome')}} &nbsp;<span id="time"></span> </h5>
+                    <h4 class="no-margin"> {{LOG_USER_NAME}} &nbsp;<span id="datess"></span></h4>
+                    <!-- for top slider
+                            <a class="btn user-options sb_toggle">
+                            <i class="fa fa-cog"></i> 
+                            </a>
+                    -->
+                </div>
+
+            </div>
+            <!-- start: MAIN NAVIGATION MENU -->
+            <ul class="main-navigation-menu">
+
+                {% for MENU  in USER_MENU %}
+
+                    <li  {% if  MENU.selected == 'selected' and MENU.id != '1' %} {% if loop.index > 5 %} id="active_menu_id" {% endif %} class="active open" {% endif %} >
+                        <a href="{{ MENU.link }}" target="{{ MENU.target }}"><i class="fa {{ MENU.icon }}"  ></i> 
+                            <span class=''> {{ lang('menu_name_' ~ MENU.id) }}  </span><span id="menu_msg_count_{{MENU.id}}"></span>
+                            {% if  MENU.sub_menu  is not null %}
+                                <i class="icon-arrow"></i>
+                            {% endif %}  
+                            <!-- <span class="label label-default pull-right ">LABEL</span> --> 
+                        </a>
+                        {% if  MENU.sub_menu  is not null %}
+                            <ul class="sub-menu">
+                                {% for SUB_MENU  in  MENU.sub_menu  %}
+                                    <li {% if  SUB_MENU.selected == 'selected' %} class="active open" {% endif %}>
+                                            <a href="{{ SUB_MENU.link }}"  target="{{ SUB_MENU.target }}"><!--<i class="fa {{ SUB_MENU.icon }}"></i>-->
+                                            <span class=""> {{ lang('menu_name_' ~  SUB_MENU.id) }}  </span>
+                                            {% if  SUB_MENU.sub_menu  is not null %}
+                                                <i class="icon-arrow"></i>
+                                            {% endif %}  
+                                        </a>
+                                        {% if  SUB_MENU.sub_menu  is not null %}
+                                            <ul class="sub-menu">
+                                                {% for SUB_SUB_MENU  in  SUB_MENU.sub_menu  %}
+                                                    <li {% if  SUB_SUB_MENU.selected == 'selected' %} class="active open" {% endif %}>
+                                                        <a href="{{ SUB_SUB_MENU.link }}"  target="{{ SUB_SUB_MENU.target }}">
+                                                                <!--<i class="fa {{ SUB_MENU.icon }}"></i>-->
+                                                            {{ lang('menu_name_' ~  SUB_SUB_MENU.id) }} 
+                                                        </a>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}    
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}                            
+                    </li>
+                {% endfor %}
+            </ul>
+            <!-- end: MAIN NAVIGATION MENU -->
+        </div>
+        <!-- end: SIDEBAR -->
+    </div>
+    <div class="slide-tools">
+        <div class="col-xs-6 text-left no-padding">
+     {% if LOG_USER_TYPE != 'affiliate' and LOG_USER_TYPE != 'employee' %}
+            <a class="btn btn-sm log-out text-right" href="{{BASE_URL}}login/automatic_systemlock">
+                <i class="fa fa-lock text-white"></i> {{lang('lock_screen')}}
+            </a>
+    {% endif %}
+        </div> 
+        <div class="col-xs-6 text-right no-padding">
+            <a class="btn btn-sm log-out text-right" href="{{BASE_URL}}logout-site">
+                <i class="fa fa-power-off text-red"></i> {{lang('log_out')}}
+            </a>
+        </div> 
+    </div>
+</nav>
+
+<script type="text/javascript">
+    var newDate = new Date('{{SERVER_TIME}}');
+    function makeTimer() {
+        var monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+        var dayNames = ["Sun","Mon","Tues","Wed","Thu","Fri","Sat"];   
+        var seconds = newDate.getSeconds();
+        var minutes = newDate.getMinutes();
+        var hours = newDate.getHours();
+        newDate.setDate(newDate.getDate());
+        $('#date').html("<i class='fa fa-clock-o'/> " + dayNames[newDate.getDay()] + " , " + newDate.getDate() + ' ' + monthNames[newDate.getMonth()] + ' ' + newDate.getFullYear() + ' ' + (hours < 10 ? "0" : "") + hours + ':' + (minutes < 10 ? "0" : "") + minutes + ':' + (seconds < 10 ? "0" : "") + seconds);        
+        newDate.setSeconds(newDate.getSeconds() + 1);
+    }
+    setInterval(function () {
+        makeTimer();
+    }, 1000);
+</script>

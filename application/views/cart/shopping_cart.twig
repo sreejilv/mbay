@@ -1,0 +1,188 @@
+<div id="js_messages" style="display: none;"> 
+    <span id="product_deleted_js">{{lang('product_deleted_js')}}</span>    
+    <span id="success_js">{{lang('success_js')}}</span>    
+    <span id="failed_product_delete_js">{{lang('failed_product_delete_js')}}</span>    
+    <span id="failed_js">{{lang('failed_js')}}</span>    
+    <span id="remove_js">{{lang('remove_js')}}</span>    
+    <span id="price_js">{{lang('price_js')}}</span>    
+    <span id="quantity_js">{{lang('quantity_js')}}</span>    
+    <span id="desc_js">{{lang('desc_js')}}</span>    
+    <span id="no_products_js">{{lang('no_products_js')}}</span>
+</div>
+<div class="col-sm-12 col-xs-12 toolbar" id='cart_toolbar' style="height: 35px;">            
+    <div class="toolbar-tools pull-right">
+        <ul class="nav navbar-right">
+            <li class="dropdown" >
+                <button type="button" data-toggle="dropdown" data-loading-text="Loading..." class="btn btn-light-grey dropdown-toggle" aria-expanded="false">
+                    <i class="fa fa-shopping-cart"></i> 
+                    <small>{{lang('price')}} (<span id="cart_prod_count" class="text-bold">{{items}}</span> - {{lang('items')}}) :<span id="cart_tot_amount" class="text-bold">{{MLM_CURRENCY_LEFT}} {{(total_items_amount*MLM_CURRENCY_VALUE)|round(CURRENCY_ROUND, 'floor')}} {{MLM_CURRENCY_RIGHT}}</span> 
+                    </small>
+                </button>                                                
+                <ul class="dropdown-menu dropdown-light dropdown-messages" style="padding: 10px;">
+                    <li>
+                        <div class="drop-down-wrapper ps-container">
+                            <div id='shopping_cart'>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="view-all" id='checkout_div'>
+                        <div class='form-group'>
+                            <table class="table">
+                                <tbody style="font-weight: bold;">
+                                    <tr>
+                                        <td class="text-right" width="70%;">{{lang('sub_total')}}</td>
+                                        <td width="5%;">:</td>
+                                        <td class="text-left"  width="25%;"><span id="cart_prod_total">
+                                        {{MLM_CURRENCY_LEFT}} {{(total_amount*MLM_CURRENCY_VALUE)|round(CURRENCY_ROUND, 'floor')}} {{MLM_CURRENCY_RIGHT}}</span></td>
+                                    </tr>
+                                    <tr id="cart_delivery_charge_div">
+                                        <td class="text-right" width="70%;">{{lang('delivery_charge')}} </td>
+                                        <td width="5%;">:</td>
+                                        <td class="text-left" width="25%;"><span id="cart_delivery_charge">0</span></td>
+                                    </tr>
+                                    <tr id="cart_shipping_charge_div">
+                                        <td class="text-right" width="70%;">{{lang('shipping_charge')}} </td>
+                                        <td width="5%;">:</td>
+                                        <td class="text-left" width="25%;"><span id="cart_shipping_charge">0</span></td>
+                                    </tr>
+                                    <tr id="cart_tax_div">
+                                        <td class="text-right" width="70%;">{{lang('tax')}} </td>
+                                        <td width="5%;">:</td>
+                                        <td class="text-left" width="25%;"><span id="cart_tax">0</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-right" width="70%;">{{lang('amount_payable')}} </td>
+                                        <td width="5%;">:</td>
+                                        <td class="text-left" width="25%;"><span id="cart_grand_total">0</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p class="text-right">
+                                <a class="btn btn-default" href="shopping-view">
+                                     <strong> <i class="fa fa-shopping-cart"></i> {{lang('view_cart')}}</strong>
+                                </a>
+                                <a class="btn btn-default" href="shopping-checkout">
+                                    <strong> <i class="fa fa-share"></i> {{lang('checkout')}}</strong>
+                                </a>
+                            </p>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+        </ul>                
+    </div>    
+</div>
+<style>
+
+    #cart_toolbar {
+        border-bottom: 0px !important;
+    }
+
+    .table th, .table td { 
+         border-top: none !important; 
+     }
+
+    .table th, .table td   { 
+         padding: 2px !important; 
+         font-size: 14px !important; 
+         color: #676767; 
+     }
+</style>
+<script>
+    update_shopping_cart();
+
+    function removeProduct(key) {
+        $.ajax({
+            url: "cart/remove_product",
+            data: {key: key},
+            success: function (res) {
+                if (res.trim() == "yes")
+                {
+                    var msg = $('#product_deleted_js').html();//"Product Deleted";
+                    var flag = "success";
+                    var title = $('#success_js').html();//"Success";
+                    update_cart_view();
+                    update_shopping_cart();
+                    cart_notification(flag, title, msg);
+                }
+                else
+                {
+                    var msg = $('#failed_product_delete_js').html();
+                    var flag = "error";
+                    var title = $('#failed_js').html();
+                    cart_notification(flag, title, msg);
+                }
+            }
+        });
+    }
+
+    var refresh_shopping_cart = function (chat_data) {
+        var remove = $('#remove_js').html();
+        var price = $('#price_js').html();
+        var quantity = $('#quantity_js').html();
+        var desc = $('#desc_js').html();
+        var no_products = $('#no_products_js').html();
+        var flag = 1;
+
+        var html = '<table class="table"><tbody>';
+        for (var key in chat_data) {
+            html += '<tr>';
+            html += '<td class="text-left" width="12%"> <img src="assets/images/products/' + chat_data[key]['image'] + '" class="img-thumbnail" style="width:100%;" ></a> </td>';
+            html += '<td class="text-center" width="38%">' + chat_data[key]['short_name'] + '</td>';
+            html += '<td class="text-right" width="12%"> x ' + chat_data[key]['qty'] + '</td>';
+            html += '<td class="text-right" width="2%">:</td>';
+            html += '<td class="text-right" width="24%">' + chat_data[key]['conv_price'] + '</td>';
+            html += '<td class="text-center" width="12%"><button type="button" onclick="removeProduct(' + "'" + key + "'" + ')" title="Remove" class="btn btn-danger btn-xs" style="height:20px;"><i class="fa fa-times"></i></button></td>';
+            html += '</tr>';
+            flag = 0;
+        }
+        html += '</tbody></table>';
+        if (flag == 1) {
+            $("#checkout_div").hide();
+            var html = '<div>' + no_products + '</div>';
+        } else {
+            $("#checkout_div").show();
+        }
+        $("#shopping_cart").html(html);
+    }
+
+    function update_shopping_cart() {
+        $.getJSON('cart/refresh_price', function (data) {
+            $("#cart_tot_amount").html(data['grand_total']);
+            $("#cart_prod_total").html(data['total_amount']);
+            $("#cart_prod_count").html(data['items']);            
+            $("#cart_delivery_charge").html(data['delivery_charge']);
+            $("#cart_shipping_charge").html(data['shipping_charge']);
+            $("#cart_tax").html(data['tax']);
+            $("#cart_grand_total").html(data['grand_total']);
+            
+            $("#cart_delivery_charge_div").hide();
+            $("#cart_shipping_charge_div").hide();
+            $("#cart_tax_div").hide();
+            
+            
+            if(data['delivery_charge_only']>0){
+                $("#cart_delivery_charge_div").show();
+            }
+            
+            if(data['shipping_charge_only']>0){
+                $("#cart_shipping_charge_div").show();
+            }
+            
+            if(data['tax_only']>0){
+                $("#cart_tax_div").show();
+            }
+            
+            
+        });
+
+        $.getJSON('cart/refresh_cart', function (data) {
+            refresh_shopping_cart(data);
+        });
+    }
+
+    setInterval(function () {
+        update_shopping_cart();
+    }, 2000);
+
+</script>

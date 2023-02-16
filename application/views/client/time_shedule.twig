@@ -1,0 +1,157 @@
+{% include('layout/header.twig') %}
+<style type="text/css">
+    /*//for language change   */
+    .dropdown-subview:after {
+        right: auto !important;
+        left: 105px !important;
+    }
+    .dropdown-subview:before {
+        right: auto !important;
+        left: 104px !important;
+    }
+    .nav>li>a:focus, .nav>li>a:hover {
+        background-color:transparent;
+    }
+    .nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
+        background-color:transparent;
+    }
+</style>
+<body class="login">
+    <div class="row">
+        <div class="main-login col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
+            <div class="logo">
+                <img src="assets/images/logos/{{COMPANY_LOGO}}" width="150px;" height="40px;">
+            </div>
+            <div class="box-login">
+
+                <div class="row">
+                    <div  class="col-xs-6 col-sm-6 col-lg-6">
+                        <h3>{{ lang('time_shedule') }}</h3>
+                    </div>        
+                    <div class="col-xs-6 col-sm-6 col-lg-6" style="hover:none;">
+                        <p>
+                        <div class="topbar-tools pull-right"  style="color:black !important;hover:none!important;">
+                            <ul class="nav navbar-right">
+
+                                {% if MULTI_LANG_STATUS %}
+                                    <li class="dropdown current-user">
+                                        <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="javascript:;"  title="Change Language"
+                                           style="color: gray;" 
+                                           >
+                                            <img src="assets/images/flags/lang/{{MLM_LANG_FLAG}}" class="img-circle" alt="">
+                                            <span class="username hidden-xs"><small>{{MLM_LANG_NAME|capitalize}}</small></span> <i class="fa fa-caret-down hidden-xs "></i>
+                                        </a>
+
+                                        <ul class="dropdown-menu dropdown-light dropdown-subview" >
+                                            {% for LANGUAGE  in  MLM_LANG_LIST  %}
+                                                <li onclick="switchLanguage('{{LANGUAGE.lang_code}}');">
+                                                    <a href="javascript:;" >
+                                                        {{LANGUAGE.lang_name}} 
+                                                        
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+
+                                {% elseif GOOGLE_TRANSLATOR %}
+
+                                    <li class="hidden-xs">
+                                        <a  href="javascript:;"  title="Google Translate"  class="dropdown-toggle">
+                                            <span id="google_translate_element"> </span>
+                                        </a>
+                                    </li> 
+                                {% endif %} 
+                            </ul>
+                        </div>
+                        </p>
+                    </div>
+                </div>
+                {% include('layout/header.twig')%}
+                <body class="login">
+                    <input type="hidden" name="path" id="path" value="{{BASE_URL}}"/>        
+                    {%include('admin/layout/notification.twig')%}
+                    <div id="js_messages" style="display: none;">
+                        <span id="sdl_date_req_js">{{lang('sdl_date_req_js')}}</span>    
+                        <span id="sdl_time_req_js">{{lang('sdl_time_req_js')}}</span>    
+                        <span id="sdl_date_val_js">{{lang('should_be_greate_than_today_js')}}</span>    
+                    </div>
+
+                    {% if flag %}
+                        {{ form_open('', ' id="shedule_form" name="shedule_form"')|raw }}
+                        <div class="form-horizontal">
+                            <div class="errorHandler alert alert-danger no-display">
+                                <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                            </div>                           
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">
+                                    {{lang('sdl_date')}}:<span class="symbol required"></span>
+                                </label>
+                                <div class="col-sm-8">
+                                    <div class="input-group input-append bootstrap-timepicker">
+                                        <input type="text" data-date-format="yyyy-mm-dd" data-date-viewmode="years" class="form-control date-picker" id='sdl_date' name='sdl_date' placeholder="{{lang('sdl_date')}}" tabindex='1'>
+                                        <span class="input-group-addon add-on"><i class="fa fa-calendar"></i></span>
+                                    </div>
+
+                                    {% if shedule_error.sdl_date is defined %}<code> {{ shedule_error.sdl_date}} </code> {% endif %}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">
+                                    {{lang('sdl_time')}}:<span class="symbol required"></span>
+                                </label>
+                                <div class="col-sm-8">
+                                    <div class="input-group input-append bootstrap-timepicker">
+                                        <input type="text" class="form-control time-picker" id='sdl_time' name='sdl_time' placeholder="{{lang('sdl_time')}}" tabindex='2'>
+                                        <span class="input-group-addon add-on"><i class="fa fa-clock-o"></i></span>
+                                    </div>
+
+                                    {% if shedule_error.sdl_time is defined %}<code> {{ shedule_error.sdl_time}} </code> {% endif %}
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <div  class="col-sm-8 col-md-8" >
+
+                                </div>
+                                <div  class="col-sm-4  col-md-4">
+                                    <button type="submit" class="btn btn-green" id="shedule" name="shedule" value="{{shedule_id}}">
+                                        {{lang('shedule')}} <i class="fa fa-arrow-circle-right"></i>
+                                    </button>
+                                </div>
+                            </div>                
+                        </div>
+                        {{ form_close()|raw }}
+                    {% else %}
+                        <div class="alert alert-danger">
+                            <button data-dismiss="alert" class="close">×</button>
+                            <strong>{{lang('sorry')}}!</strong>
+                            {{lang('link_expired')}},{{lang('please_contact_admin_if_there_any_issue')}} ({{ admin_mail }})
+                        </div>
+                    {% endif %}
+
+                    <div class="copyright">
+                        {{ "now"|date("Y") }} &copy; by {{COMPANY_NAME}}.
+                    </div>
+            </div>
+        </div>
+    </div>
+    {% include('layout/footer.twig') %}
+
+    <link rel="stylesheet" href="assets/plugins/datepicker/css/datepicker.css">
+    <script src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="assets/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+    <script src="assets/js/lead_date_picker.js"></script>
+
+    <link rel="stylesheet" href="assets/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css">
+    <script src="assets/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+    <script src="assets/js/lead_time_picker.js">
+    <script src="assets/js/time_shedule.js">
+    </script>
+    <script>
+        jQuery(document).ready(function () {
+            runSheduleValidator();
+            DpElements.init();
+            DtElements.init();
+        });
+    </script>

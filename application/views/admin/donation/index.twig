@@ -1,0 +1,154 @@
+{% include('admin/layout/header.twig')%}
+<link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="assets/css/shCore.css">
+<script type="text/javascript" language="javascript" src="assets/js/jquery.dataTables.js">
+</script>
+<script type="text/javascript" language="javascript" src="assets/js/shCore.js">
+</script> 
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
+<script type="text/javascript" language="javascript" src="assets/js/lead_datatable.js">
+</script>
+<script type="text/javascript" language="javascript" class="init">
+
+    $(document).ready(function () {
+        var oTable = $('#donation_history').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/donation/donation_history",
+            "dataType": "json",
+            "order": [[ 5, "desc" ]],
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+</script>
+<div id="js_messages" style="display: none;"> 
+    <span id="amount_req_js">{{lang('amount_req_js')}}</span>
+    <span id="invalid_amount_js">{{lang('invalid_amount_js')}}</span>    
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('donate_amount')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                {{ form_open_multipart('', ' id="donation_form" name="donation_form"')|raw }}
+                <div class="form-horizontal">                                            
+                    <div class="errorHandler alert alert-danger no-display">
+                        <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                    </div>                    
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('donation_amount')}} <b>({{MLM_CURRENCY_LEFT~MLM_CURRENCY_RIGHT}})</b>: <span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-4">
+                            <input class="form-control" {% if donation_amount_type=='fixed' %} value="{{(amount*MLM_CURRENCY_VALUE)|round(CURRENCY_ROUND, 'floor')}}" readonly {% endif %} type="text" name="amount" id="amount" tabindex='1'>
+                        </div>
+                    </div>
+                        
+                        
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('user_balance')}} <b>({{MLM_CURRENCY_LEFT~MLM_CURRENCY_RIGHT}})</b> : <span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-4">
+                            <input class="form-control" readonly  type="text" name="user_balance" id="user_balance" value="{{(user_balance*MLM_CURRENCY_VALUE)|round(CURRENCY_ROUND, 'floor')}}" tabindex='2'>
+                        </div>
+                    </div>
+                        
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('payment_method')}} : <span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-4">
+                            <label class="control-label">
+                                <strong>{{lang('slect_payment_method')}}</strong> 
+                            </label>
+                            <div>
+                                <label class="radio-inline">
+                                    <input checked class="grey" value="ewallet" name="payment_method" id="payment_method" type="radio">
+                                    {{lang('ewallet')}}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+
+                        </label>
+                        <div class="col-sm-4">
+                            <button type="submit"class="btn btn-primary" value="donate" name="donate">
+                                {{lang('donate')}} <i class="fa fa-arrow-circle-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {{ form_close()|raw }} 
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-white">
+                <div class="panel-heading">
+                    <h4 class="panel-title"><span class="text-bold">{{lang('user_donations')}}</span></h4>
+                    <div class="panel-tools">
+                        <div class="dropdown">
+                            <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                            <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                                <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                                <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                                <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                            </ul>
+                        </div>
+                        <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <hr>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped" id="donation_history">
+                            <thead>
+                                <tr>                                    
+                                    <th>{{lang('slno')}}</th>
+                                    <th>{{lang('from_user')}}</th>
+                                    <th>{{lang('to_user')}}</th>
+                                    <th>{{lang('amount')}}</th>
+                                    <th>{{lang('reap_amount')}}</th>
+                                    <th>{{lang('date')}}</th>
+                                </tr>
+                            </thead>                            
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% include('admin/layout/footer.twig')%}
+<script src="assets/js/donation.js"></script>
+<script>
+    jQuery(document).ready(function () {
+        valDonation();
+    });
+</script>
+<style>
+    table.dataTable thead th{border-bottom:1px #111}
+    table.dataTable.no-footer{border-bottom:1px #dfe1e5 solid}
+</style>

@@ -1,0 +1,230 @@
+{% include('admin/layout/header.twig')%}
+<div id="js_messages" style="display: none;"> 
+    <span id="please_wait_js">{{lang('please_wait_js')}}</span>
+    <span id="success_js">{{lang('success_js')}}</span>
+    <span id="failed_js">{{lang('failed_js')}}</span>
+    <span id="back_success_msg_js">{{lang('back_success_msg_js')}}</span>
+    <span id="back_failed_msg_js">{{lang('back_failed_msg_js')}}</span>    
+    <span id="backup_deletion_period_req_js">{{lang('backup_deletion_period_req_js')}}</span>   
+    <span id="backup_deletion_period_num_js">{{lang('backup_deletion_period_num_js')}}</span> 
+    <span id="settings_changed_js">{{lang('settings_changed_js')}}</span>
+    <span id="updation_failed_js">{{lang('updation_failed_js')}}</span>
+    <span id="this_operation_blocked_in_preset_demo">{{lang('this_operation_blocked_in_preset_demo')}}</span>
+    <span id="option_enabled_js">{{lang('option_enabled_js')}}</span>
+    <span id="option_disabled_js">{{lang('option_disabled_js')}}</span>
+    <span id="succ_js">{{lang('succ_js')}}</span>
+    <span id="failed_js">{{lang('failed_js')}}</span>
+    <span id="failed_to_update_js">{{lang('failed_to_update_js')}}</span>    
+</div>
+<link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="assets/css/shCore.css">
+<script type="text/javascript" language="javascript" src="assets/js/jquery.dataTables.js">
+</script>
+<script type="text/javascript" language="javascript" src="assets/js/shCore.js">
+</script> 
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
+<script type="text/javascript" language="javascript" src="assets/js/lead_datatable.js">
+</script>
+<script type="text/javascript" language="javascript" class="init">
+
+    $(document).ready(function () {
+        var oTable = $('#backup_list').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/backup/backup_list",
+            "dataType": "json",
+            "order": [[3, "desc"]],
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50, 100, 500, 1000], [10, 50, 100, 500, 1000]],
+        });
+    });
+</script>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('system_backup')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+
+                <div class="form-horizontal">
+
+                    <div class="tabbable">
+                        <ul id="myTab2" class="nav nav-tabs">
+                            <li class="active">
+                                <a href="javascript:#db_backup_tab_1" data-toggle="tab">
+                                    {{lang('backup_settings')}}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:#db_backup_tab_2" data-toggle="tab">
+                                    {{lang('db_backup')}}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:#db_backup_tab_3" data-toggle="tab">
+                                    {{lang('databases')}} <span class="badge badge-danger">{{count}}</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" id="db_backup_tab_1">
+
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        {{ form_open('', ' id="add_field_form" name="add_field_form"')|raw }}
+                                        <div class="form-horizontal">
+                                            <div class="errorHandler alert alert-danger no-display">
+                                                <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-5 control-label">
+                                                    {{lang('backup_type')}}
+                                                </label>
+                                                <div class="col-sm-7">
+                                                    {{lang('zip')}}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-5 control-label">
+                                                    {{lang('dletion_period')}}
+                                                </label>
+                                                <div class="col-sm-7">
+                                                    <input class="form-control" type="number" name="backup_deletion_period" id="backup_deletion_period" value="{{ backup_deletion_period }}"> 
+                                                </div>
+                                            </div>        
+
+
+
+                                            <div class="form-group">
+                                                <label class="col-sm-5 control-label">
+
+                                                </label>
+                                                <div class="col-sm-4">
+                                                    <button type="submit" class="btn btn-primary" value="db_settings" name="db_settings">
+                                                        {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{ form_close()|raw }}
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label class="col-sm-5 control-label">
+                                                {{ lang('db_optimize') }} :
+                                            </label>
+                                            <div class="col-sm-3">
+                                                <label class="switch">
+                                                    {% if PRESET_DEMO_STATUS %}
+                                                        <input type="checkbox" {% if db_optimize %} checked {% endif %} id="togBtn" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                                                    {% else %}                        
+                                                        <input type="checkbox" {% if db_optimize %} checked {% endif %} id="togBtn" onchange='changeOptimizationStatus(this)'>
+                                                    {% endif %}
+
+                                                    <div class="slider round">
+                                                        <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                                        <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                                                    </div>
+                                                </label>
+                                            </div>      
+
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-5 control-label">
+                                                {{ lang('small_db') }} :
+                                            </label>
+                                            <div class="col-sm-3">
+                                                <label class="switch">
+                                                    {% if PRESET_DEMO_STATUS %}
+                                                        <input type="checkbox" {% if small_db %} checked {% endif %} id="togBtn" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                                                    {% else %}                        
+                                                        <input type="checkbox" {% if small_db %} checked {% endif %} id="togBtn" onchange='changeBackupFileSizeLimiterStatus(this)'>
+                                                    {% endif %}
+
+                                                    <div class="slider round">
+                                                        <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                                        <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                                                    </div>
+                                                </label>
+                                            </div>      
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="db_backup_tab_2">
+
+                                <h3 class="margin-bottom-15"> {{lang('db_backup')}}</h3>
+                                <br>
+                                <div class="form-horizontal">
+                                    <div class="alert alert-block alert-warning fade in">
+                                        <button data-dismiss="alert" class="close" type="button">
+                                            ×
+                                        </button>
+                                        <h4 class="alert-heading"><i class="fa fa-exclamation"></i> Notice!</h4>
+                                        <p>
+                                            {{lang('backup_msg')}}
+
+                                        </p>
+                                        <p>
+                                            <a href="javascript:generate_backup()" class="btn btn-yellow tab-pane">
+                                                {{lang('backup')}}
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="db_backup_tab_3">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-striped" id="backup_list">
+                                        <thead>
+                                            <tr>
+                                                <th>{{lang('id')}}</th>
+                                                <th>{{lang('download_link')}}</th>
+                                                <th>{{lang('done_by')}}</th>
+                                                <th>{{lang('date')}}</th>
+                                        </thead>      
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>
+{% include('admin/layout/footer.twig')%}
+
+<link href="assets/plugins/sweetalert/lib/sweet-alert.css" rel="stylesheet" />
+<script src="assets/plugins/sweetalert/lib/sweet-alert.min.js"></script>
+<script src="assets/js/backup.js"></script>
+<script>
+                                                            $(document).ready(function () {
+                                                                valBackup();
+                                                            });
+
+</script>
+<style>
+    table.dataTable thead th{border-bottom:1px #111}
+    table.dataTable.no-footer{border-bottom:1px #dfe1e5 solid}
+</style>
+<link rel="stylesheet" href="assets/css/checkbox_switcher.css">

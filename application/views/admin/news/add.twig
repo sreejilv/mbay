@@ -1,0 +1,187 @@
+{% include('admin/layout/header.twig')%}
+<link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="assets/css/shCore.css">
+<script type="text/javascript" language="javascript" src="assets/js/jquery.dataTables.js">
+</script>
+<script type="text/javascript" language="javascript" src="assets/js/shCore.js">
+</script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
+<script type="text/javascript" language="javascript" src="assets/js/lead_datatable.js">
+</script>
+<script type="text/javascript" language="javascript" class="init">
+
+    $(document).ready(function () {
+        var oTable = $('#news_list').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/news/news_list",
+            "dataType": "json",
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+</script>
+<div id="js_messages" style="display: none;"> 
+    <span id="news_content_req_js">{{lang('news_content_req_js')}}</span>
+    <span id="news_title_req_js">{{lang('news_title_req_js')}}</span>
+    <span id="are_you_sure_js">{{lang('are_you_sure_js')}}</span>
+    <span id="inactivate_this_news_js">{{lang('inactivate_this_news_js')}}</span>
+    <span id="inactivate_it_js">{{lang('inactivate_it_js')}}</span>    
+    <span id="cancel_it_js">{{lang('cancel_it_js')}}</span>   
+    <span id="news_safe_js">{{lang('news_safe_js')}}</span> 
+    <span id="canceled_js">{{lang('canceled_js')}}</span>
+    <span id="activate_this_news_js">{{lang('activate_this_news_js')}}</span>
+    <span id="activate_it_js">{{lang('activate_it_js')}}</span> 
+    <span id="edit_this_news_js">{{lang('edit_this_news_js')}}</span>
+    <span id="edit_it_js">{{lang('edit_it_js')}}</span> 
+    <span id="updation_failed_js">{{lang('updation_failed_js')}}</span>
+    <span id="cache_cleared_failed_js">{{lang('cache_cleared_failed_js')}}</span>
+    <span id="cache_cleared_js">{{lang('cache_cleared_js')}}</span>
+    <span id="user_photo_ext_js">{{lang('user_photo_ext_js')}}</span>
+    <span id="delete_this_news_js">{{lang('delete_this_news_js')}}</span>
+    <span id="delete_it_js">{{lang('delete_it_js')}}</span>
+    
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('add_news')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                {{ form_open_multipart('', ' id="news_form" name="news_form"')|raw }}
+                <div class="form-horizontal">
+                    <div class="errorHandler alert alert-danger no-display">
+                        <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('news_title')}} :<span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-6">
+                            <input class="form-control" type="text" name="news_title" id="news_title" placeholder='{{lang('news_title')}}' value="{{ news_data.title }}" tabindex='1' style="text-transform: capitalize;">
+                            {% if(error.news_title)%}<code>{{error.news_title}} </code>{% endif%}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('news_content')}} :<span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control ckeditor" type="text" rows="4" cols="60" name="news_content" id="news_content" placeholder='{{lang('news_content')}}' tabindex='2'>{{ news_data.content }}</textarea>
+                            {% if(error.news_content)%}<code>{{error.news_content}} </code>{% endif%}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('news_image')}}
+                        </label>
+                        <div class="fileupload fileupload-new col-sm-5" data-provides="fileupload">
+                            <div class="fileupload-new thumbnail">
+                                {% if news_data.image %}
+                                    <img src="assets/images/news/{{ news_data.image }}">
+                                {% else %}
+                                    <img src="assets/images/no-image.png">
+                                {% endif %}
+                            </div>
+                            <div class="fileupload-preview fileupload-exists thumbnail"></div>
+                            <div class="user-edit-image-buttons">
+                                <span class="btn btn-azure btn-file"><span class="fileupload-new"><i class="fa fa-picture"></i>{{lang('select_image')}}</span><span class="fileupload-exists"><i class="fa fa-picture"></i> {{lang('change')}}</span>
+                                    <input type="file" name="news_image" id="news_image" tabindex='3' accept="image/*">
+                                </span>
+                                <a href="#" class="btn fileupload-exists btn-red" data-dismiss="fileupload">
+                                    <i class="fa fa-times"></i> {{lang('remove')}}
+                                </a>
+                            </div>
+                            <div class="alert alert-warning">
+                                <span class="label label-warning">{{lang('note')}}!</span>
+                                <span> {{lang('supported_formats')}} : {{lang('JPEG')}} , {{lang('PNG')}} , {{lang('JPG')}} </span>
+                            </div>
+                        </div>
+                    </div>                    
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                        </label>
+                        <div class="col-sm-4">
+                            {% if edit_flag %}
+                                <button type="submit"class="btn btn-primary" value="{{news_id}}" name="update_news" id="update_news" onclick="validateNewsContent()">
+
+                                    {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                                </button>
+                            {% else %}
+                                <button type="submit"class="btn btn-primary" value="add" name="add_news" id="add_news" onclick="validateNewsContent()">
+                                    {{lang('add')}} <i class="fa fa-arrow-circle-right"></i>
+                                </button>
+
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+                {{ form_close()|raw }}      
+
+            </div>
+        </div>
+    </div>                                    
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('menu_name_45')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>   
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped" id="news_list">
+                        <thead>
+                            <tr>                                    
+                                <th>{{lang('slno')}}</th>
+                                <th>{{lang('news_title')}}</th>
+                                <th>{{lang('news_content')}}</th>
+                                <th>{{lang('news_image')}}</th>
+                                <th>{{lang('added_date')}}</th>                                
+                                <th width='10%'>{{lang('action')}}</th>
+                            </tr>
+                        </thead>                            
+                    </table>
+                </div>
+            </div>
+        </div>                                    
+    </div>
+</div>
+{% include('admin/layout/footer.twig')%}
+<script src="assets/plugins/ckeditor/ckeditor.js"></script>
+<link href="assets/plugins/sweetalert/lib/sweet-alert.css" rel="stylesheet" />
+<script src="assets/plugins/sweetalert/lib/sweet-alert.min.js"></script>
+<script src="assets/js/news.js"></script>
+<script src="assets/js/file_extension.js"></script>
+<style>
+    table.dataTable thead th{border-bottom:1px #111}
+    table.dataTable.no-footer{border-bottom:1px #dfe1e5 solid}
+</style>

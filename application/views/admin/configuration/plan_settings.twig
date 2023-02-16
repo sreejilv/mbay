@@ -1,0 +1,587 @@
+{% include('admin/layout/header.twig')%}
+<div id="js_messages" style="display: none;"> 
+    <span id="pls_wt_js">{{lang('pls_wt_js')}}</span>
+    <span id="bonus_activate_js">{{lang('bonus_activate_js')}}</span>
+    <span id="bonus_inactivate_js">{{lang('bonus_inactivate_js')}}</span>
+    <span id="succ_js">{{lang('succ_js')}}</span>
+    <span id="failed_js">{{lang('failed_js')}}</span>
+    <span id="failed_to_update_js">{{lang('failed_to_update_js')}}</span>
+    <span id="reg_type_changed_js">{{lang('reg_type_changed_js')}}</span>
+    <span id="reg_pack_act_js">{{lang('reg_pack_act_js')}}</span>
+    <span id="reg_pack_inact_js">{{lang('reg_pack_inact_js')}}</span>
+    <span id="payment_activate_js">{{lang('payment_activate_js')}}</span>
+    <span id="payment_inactivate_js">{{lang('payment_inactivate_js')}}</span>
+    <span id="payout_payment_activate_js">{{lang('payout_payment_activate_js')}}</span>
+    <span id="payout_payment_inactivate_js">{{lang('payout_payment_inactivate_js')}}</span>
+    <span id="payout_aut_payment_activate_js">{{lang('payout_aut_payment_activate_js')}}</span>
+    <span id="payout_aut_payment_inactivate_js">{{lang('payout_aut_payment_inactivate_js')}}</span>    
+    <span id="referal_bonus_type_req_js">{{lang('referal_bonus_type_req_js')}}</span>
+    <span id="amount_req_js">{{lang('amount_req_js')}}</span>
+    <span id="invalid_number">{{lang('invalid_number')}}</span>
+    <span id="please_enter_gt_zero">{{lang('please_enter_gt_zero')}}</span>
+    <span id="percentage_req_js">{{lang('percentage_req_js')}}</span>
+    <span id="binary_bonus_type_req_js">{{lang('binary_bonus_type_req_js')}}</span>
+    <span id="pair_amount_req_js">{{lang('pair_amount_req_js')}}</span>
+    <span id="pair_value_req_js">{{lang('pair_value_req_js')}}</span>
+    <span id="pair_percentage_req_js">{{lang('pair_percentage_req_js')}}</span>
+    <span id="percentage_req_js">{{lang('percentage_req_js')}}</span>
+    <span id="cap_type_req_js">{{lang('cap_type_req_js')}}</span>
+    <span id="cap_amount_req_js">{{lang('cap_amount_req_js')}}</span>
+    <span id="pair_bonus_req_js">{{lang('pair_bonus_req_js')}}</span>
+    <span id="referal_bonus_req_js">{{lang('referal_bonus_req_js')}}</span>
+    <span id="register_leg_req_js">{{lang('register_leg_req_js')}}</span>
+    <span id="username_type_req_js">{{lang('username_type_req_js')}}</span>
+    <span id="username_size_req_js">{{lang('username_size_req_js')}}</span>
+    <span id="invalid_number">{{lang('invalid_number')}}</span>
+    <span id="please_enter_lt_10">{{lang('please_enter_lt_10')}}</span>
+    <span id="please_enter_lt_5">{{lang('please_enter_lt_5')}}</span>
+    <span id="matrix_depth_req_js">{{lang('matrix_depth_req_js')}}</span>
+    <span id="matrix_width_req_js">{{lang('matrix_width_req_js')}}</span>
+    <span id="paypal_api_password_req_js">{{lang('paypal_api_password_req_js')}}</span>
+    <span id="paypal_api_username_req_js">{{lang('paypal_api_username_req_js')}}</span>
+    <span id="paypal_signater_req_js">{{lang('paypal_signater_req_js')}}</span>
+    <span id="payout_min_req_js">{{lang('payout_min_req_js')}}</span>
+    <span id="payout_max_req_js">{{lang('payout_max_req_js')}}</span>
+    <span id="payout_transation_charges_req_js">{{lang('payout_transation_charges_req_js')}}</span>
+    <span id="payout_cut_off_balance_req_js">{{lang('payout_cut_off_balance_req_js')}}</span>
+    <span id="other_register_leg_req_js">{{lang('other_register_leg_req_js')}}</span>
+    <span id="other_username_req_js">{{lang('other_username_req_js')}}</span>
+    <span id="invalid_user">{{lang('invalid_user')}}</span>
+    <span id="account_holder_name_req_js">{{lang('account_holder_name_req_js')}}</span>
+    <span id="account_number_req_js">{{lang('account_number_req_js')}}</span>
+    <span id="branch_name_req_js">{{lang('branch_name_req_js')}}</span>
+    <span id="ifsc_code_req_js">{{lang('ifsc_code_req_js')}}</span>  
+    <span id="settings_updated_js">{{lang('settings_updated_js')}}</span>
+    <span id="register_fee_req_js">{{lang('register_fee_req_js')}}</span>
+    <span id="production_mode_activate_js">{{lang('production_mode_activate_js')}}</span>
+    <span id="production_mode_inactivate_js">{{lang('production_mode_inactivate_js')}}</span>
+    <span id="change_maintanance_status">{{lang('change_maintanance_status')}}</span>
+    <span id="blocktrail_api_key_req_js">{{lang('blocktrail_api_key_req_js')}}</span>  
+    <span id="blocktrail_api_secret_req_js">{{lang('blocktrail_api_secret_req_js')}}</span>  
+    <span id="blocktrail_wallet_identifier_req_js">{{lang('blocktrail_wallet_identifier_req_js')}}</span>  
+    <span id="blocktrail_wallet_pass_req_js">{{lang('blocktrail_wallet_pass_req_js')}}</span> 
+    <span id="payout_day_enabled">{{lang('payout_day_enabled')}}</span> 
+    <span id="payout_day_disabled">{{lang('payout_day_disabled')}}</span> 
+    <span id="coin_payment_author_req_js">{{lang('coin_payment_author_req_js')}}</span> 
+    <span id="coin_payment_merchant_req_js">{{lang('coin_payment_merchant_req_js')}}</span> 
+    </div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('plan_settings')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="tabbable">
+                            <ul id="myTab2" class="nav nav-tabs">
+                                <li class="{{tab1}}">
+                                    <a href="javascript:#plan_tab1" data-toggle="tab">
+                                        <i class="fa fa-credit-card"> </i> {{lang('payment_methods')}}
+                                    </a>
+                                </li>
+                                <li class="{{tab2}}">
+                                    <a href="javascript:#plan_tab2" data-toggle="tab">
+                                        <i class="fa fa-dollar"> </i> {{lang('bonuses')}}
+                                    </a>
+                                </li>
+                                {% if mlm_plan == "BINARY" %} 
+                                    <li class="{{tab3}}">
+                                        <a href="javascript:#plan_tab3" data-toggle="tab">
+                                            <i class="fa fa-bullseye"> </i> {{lang('user_position')}}
+                                        </a>
+                                    </li>
+                                {% endif %}
+
+                                {% if mlm_plan == "MATRIX" %} 
+                                    <li class="{{tab4}}">
+                                        <a href="#plan_tab4" data-toggle="tab">
+                                            <i class="fa fa-arrows"> </i>{{lang('depth_width')}} 
+                                        </a>
+                                    </li>
+                                {% endif %}
+
+                                <li class="{{tab5}}">
+                                    <a href="#plan_tab5" data-toggle="tab">
+                                        <i class="fa fa-level-up"> </i> {{lang('payout_setting')}}
+                                    </a>
+                                </li>                                
+
+                                <li class="{{tab6}}">
+                                    <a href="#plan_tab6" data-toggle="tab">
+                                        <i class="fa fa-money"> </i> {{lang('register_fee')}}                          
+                                    </a>
+                                </li>
+
+                                <li class="{{tab7}}">
+                                    <a href="#plan_tab7" data-toggle="tab">
+                                        <i class="fa fa-bolt "> </i> {{lang('maintanance')}}                          
+                                    </a>
+                                </li>
+
+                            </ul>
+                            <div class="tab-content">
+                                <div id="plan_tab1" {% if tab1 ==' active' %}class="tab-pane fade in active"{% else %}class="tab-pane fade" {% endif %}>
+                                    {% include('admin/configuration/payment_setting.twig')%}
+
+                                </div>
+                                <div id="plan_tab2" {% if tab2 ==' active' %}class="tab-pane fade in active"{% else %}class="tab-pane fade" {% endif %}>
+                                    {% include('admin/configuration/compensations.twig')%}
+
+                                </div>
+                                <div id="plan_tab3" {% if tab3 ==' active' %}class="tab-pane fade in active"{% else %}class="tab-pane fade" {% endif %}>
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <h3 class="margin-bottom-15">{{lang('user_position')}}</h3>
+                                            {{ form_open('', ' id="user_position_form" name="user_position_form"')|raw }}
+                                            <div class="form-horizontal">                                            
+                                                <div class="errorHandler alert alert-danger no-display">
+                                                    <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                                                </div>                    
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">
+                                                        {{lang('leg')}}: <span class="symbol required"></span>
+                                                    </label>
+                                                    <div class="col-sm-6">                                
+                                                        <div class="text-center">
+                                                            <select name="register_leg" id="register_leg" class="form-control field_type search-select" >
+                                                                <option value="">{{lang('select_leg')}}</option>
+                                                                <option value="static" {% if register_leg=="static" %} selected {% endif %}>{{lang('static')}}</option>
+                                                                <option value="balanced" {% if register_leg=="balanced" %} selected {% endif %}>{{lang('balanced')}}</option>
+                                                                <option value="left" {% if register_leg=="left" %} selected {% endif %}>{{lang('left')}}</option>
+                                                                <option value="right" {% if register_leg=="right" %} selected {% endif %}>{{lang('right')}}</option>
+                                                            </select>    
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">
+
+                                                    </label>
+                                                    <div class="col-sm-4">
+                                                        {% if PRESET_DEMO_STATUS %}
+                                                            <button type="button" class="btn btn-primary" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                                                                {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                                                            </button>
+                                                        {% else %}                        
+                                                            <button type="submit"class="btn btn-primary" value="leg_settings" name="leg_settings">
+                                                                {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                                                            </button>   
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {{ form_close()|raw }}
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h3 class="margin-bottom-15">{{lang('other_user_position')}}</h3>
+                                            {{ form_open('', ' id="other_user_position_form" name="other_user_position_form"')|raw }}
+
+                                            <div class="form-horizontal">                                            
+                                                <div class="errorHandler alert alert-danger no-display">
+                                                    <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                                                </div>                    
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">
+                                                        {{lang('username')}}: <span class="symbol required"></span>
+                                                    </label>
+                                                    <div class="col-sm-6">                                
+                                                        <input class="form-control typeahead"  type="text" name="other_username" id="other_username" placeholder="{{lang('username')}}">
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">
+                                                        {{lang('leg')}}: <span class="symbol required"></span>
+                                                    </label>
+                                                    <div class="col-sm-6">                                
+                                                        <span class="input-icon" id="leg_span">
+                                                            <select name="other_register_leg" id="other_register_leg" class="form-control field_type search-select" >
+                                                                <option value="">{{lang('select_leg')}}</option>                                                                    
+                                                            </select>
+                                                        </span>   
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">
+
+                                                    </label>
+                                                    <div class="col-sm-4">
+                                                        {% if PRESET_DEMO_STATUS %}
+                                                            <button type="button" class="btn btn-primary" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                                                                {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                                                            </button>
+
+                                                        {% else %}                        
+                                                            <button type="submit"class="btn btn-primary" value="leg_settings" name="leg_settings">
+                                                                {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                                                            </button>  
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {{ form_close()|raw }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="plan_tab4" {% if tab4 ==' active' %}class="tab-pane fade in active"{% else %}class="tab-pane fade" {% endif %}>
+                                    {{ form_open('', ' id="depth_width_form" name="depth_width_form"')|raw }}
+                                    <div class="form-horizontal"> 
+                                        <div class="errorHandler alert alert-danger no-display">
+                                            <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">
+                                                {{lang('depth')}} :<span class="symbol required"></span>
+                                            </label>
+                                            <div class="col-sm-4">
+                                                <input class="form-control" min="1" max="10" type="text" name="matrix_depth" id="matrix_depth" value="{{ matrix_depth }}" placeholder="{{lang('depth')}}">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">
+                                                {{lang('width')}} :<span class="symbol required"></span>
+                                            </label>
+                                            <div class="col-sm-4">
+                                                <input class="form-control" min="1" max="10" type="text" name="matrix_width" id="matrix_width" value="{{ matrix_width }}" placeholder="{{lang('width')}}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">
+
+                                            </label>
+                                            <div class="col-sm-4">
+                                                {% if PRESET_DEMO_STATUS %}
+                                                    <button type="button" class="btn btn-primary" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                                                        {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                                                    </button>                                                            
+                                                {% else %}                        
+                                                    <button type="submit"class="btn btn-primary" value="matrix_settings" name="matrix_settings">
+                                                        {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                                                    </button>    
+                                                {% endif %}
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{ form_close()|raw }}
+
+                                </div>
+
+                                <div id="plan_tab5" {% if tab5 ==' active' %}class="tab-pane fade in active"{% else %}class="tab-pane fade" {% endif %}>
+                                    {{ form_open('', ' id="payout_setting_form" name="payout_setting_form"')|raw }}
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            {{ form_open('', ' id="payout_setting_form" name="payout_setting_form"')|raw }}
+                                            <div class="form-horizontal"> 
+                                                <div class="errorHandler alert alert-danger no-display">
+                                                    <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">
+                                                        {{lang('payout_min')}} (<b>{{MLM_CURRENCY_LEFT~MLM_CURRENCY_RIGHT}}</b>) :<span class="symbol required"></span>
+                                                    </label>
+                                                    <div class="col-sm-6">
+                                                        <input class="form-control"  type="text" name="payout_min" id="payout_min" value="{{payout_setting.payout_min }}" placeholder="{{lang('payout_min')}}">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">
+                                                        {{lang('payout_max')}} (<b>{{MLM_CURRENCY_LEFT~MLM_CURRENCY_RIGHT}}</b>) :<span class="symbol required"></span>
+                                                    </label>
+                                                    <div class="col-sm-6">
+                                                        <input class="form-control" type="text" name="payout_max" id="payout_max" value="{{ payout_setting.payout_max }}" placeholder="{{lang('payout_max')}}">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">
+                                                        {{lang('payout_cut_off_balance')}} (<b>{{MLM_CURRENCY_LEFT~MLM_CURRENCY_RIGHT}}</b>) :<span class="symbol required"></span>
+                                                    </label>
+                                                    <div class="col-sm-6">
+                                                        <input class="form-control" type="text" name="payout_cut_off_balance" id="payout_cut_off_balance" value="{{ payout_setting.payout_cut_off_balance}}" placeholder="{{lang('payout_cut_off_balance')}}">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">
+                                                        {{lang('payout_transation_charges')}} (<b>{{MLM_CURRENCY_LEFT~MLM_CURRENCY_RIGHT}}</b>) :<span class="symbol required"></span>
+                                                    </label>
+                                                    <div class="col-sm-6">
+                                                        <input class="form-control" type="text" name="payout_transation_charges" id="payout_transation_charges" value="{{ payout_setting.payout_transation_charges}}" placeholder="{{lang('payout_transation_charges')}}">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">
+                                                        {{lang('time_limit')}} :<span class="symbol required"></span>
+                                                    </label>
+                                                    <div class="col-sm-3">
+                                                        <input class="form-control" type="text" name="time_limit1" id="time_limit1" value="{{ payout_setting.time_limit1}}" placeholder="{{lang('time_limit1')}}">
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <input class="form-control" type="text" name="time_limit2" id="time_limit2" value="{{ payout_setting.time_limit2}}" placeholder="{{lang('time_limit2')}}">
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">
+
+                                                    </label>
+                                                    <div class="col-sm-4">
+
+                                                        {% if PRESET_DEMO_STATUS %}
+                                                            <button type="button" class="btn btn-primary" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                                                                {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                                                            </button>
+
+                                                        {% else %}                        
+                                                            <button onclick="payoutSetting()" type="submit"class="btn btn-primary" value="payout_settings" name="payout_settings">
+                                                                {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                                                            </button>  
+                                                        {% endif %}
+
+
+
+                                                    </div>
+                                                </div>                                            
+                                            </div>
+                                            {{ form_close()|raw }}
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-horizontal">
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">
+                                                        {{ lang('Sunday') }}
+                                                    </label>
+                                                    <div class="col-sm-4">
+                                                        <label class="switch">
+                                                            <input type="checkbox" {% if payout_setting.Sunday %} checked {% endif %} id="togBtn" onchange='changeDayStatus(this, "Sunday")'>
+                                                            <div class="slider round">
+                                                                <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                                                <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                                                            </div>
+                                                        </label>
+                                                    </div>                
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">
+                                                        {{ lang('Monday') }}
+                                                    </label>
+                                                    <div class="col-sm-4">
+                                                        <label class="switch">
+                                                            <input type="checkbox" {% if payout_setting.Monday %} checked {% endif %} id="togBtn" onchange='changeDayStatus(this, "Monday")'>
+                                                            <div class="slider round">
+                                                                <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                                                <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                                                            </div>
+                                                        </label>
+                                                    </div>                
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">
+                                                        {{ lang('Tuesday') }}
+                                                    </label>
+                                                    <div class="col-sm-4">
+                                                        <label class="switch">
+                                                            <input type="checkbox" {% if payout_setting.Tuesday %} checked {% endif %} id="togBtn" onchange='changeDayStatus(this, "Tuesday")'>
+                                                            <div class="slider round">
+                                                                <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                                                <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                                                            </div>
+                                                        </label>
+                                                    </div>                
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">
+                                                        {{ lang('Wednesday') }}
+                                                    </label>
+                                                    <div class="col-sm-4">
+                                                        <label class="switch">
+                                                            <input type="checkbox" {% if payout_setting.Wednesday %} checked {% endif %} id="togBtn" onchange='changeDayStatus(this, "Wednesday")'>
+                                                            <div class="slider round">
+                                                                <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                                                <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                                                            </div>
+                                                        </label>
+                                                    </div>                
+                                                </div>
+
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">
+                                                        {{ lang('Thursday') }}
+                                                    </label>
+                                                    <div class="col-sm-4">
+                                                        <label class="switch">
+                                                            <input type="checkbox" {% if payout_setting.Thursday %} checked {% endif %} id="togBtn" onchange='changeDayStatus(this, "Thursday")'>
+                                                            <div class="slider round">
+                                                                <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                                                <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                                                            </div>
+                                                        </label>
+                                                    </div>                
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">
+                                                        {{ lang('Friday') }}
+                                                    </label>
+                                                    <div class="col-sm-4">
+                                                        <label class="switch">
+                                                            <input type="checkbox" {% if payout_setting.Friday %} checked {% endif %} id="togBtn" onchange='changeDayStatus(this, "Friday")'>
+                                                            <div class="slider round">
+                                                                <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                                                <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                                                            </div>
+                                                        </label>
+                                                    </div>                
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">
+                                                        {{ lang('Saturday') }}
+                                                    </label>
+                                                    <div class="col-sm-4">
+                                                        <label class="switch">
+                                                            <input type="checkbox" {% if payout_setting.Saturday %} checked {% endif %} id="togBtn" onchange='changeDayStatus(this, "Saturday")'>
+                                                            <div class="slider round">
+                                                                <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                                                <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                                                            </div>
+                                                        </label>
+                                                    </div>                
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{ form_close()|raw }}
+
+
+                                </div>
+
+                                <div id="plan_tab6" {% if tab6 ==' active' %}class="tab-pane fade in active"{% else %}class="tab-pane fade" {% endif %}>
+                                    {{ form_open('', ' id="register_fee_form" name="register_fee_form"')|raw }}
+                                    <div class="form-horizontal"> 
+                                        <div class="errorHandler alert alert-danger no-display">
+                                            <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">
+                                                {{lang('register_fee')}} (<b>{{MLM_CURRENCY_LEFT~MLM_CURRENCY_RIGHT}}</b>) :<span class="symbol required"></span>
+                                            </label>
+                                            <div class="col-sm-4">
+                                                <input class="form-control" type="text" name="register_fee" id="register_fee" value="{{ register_fee }}" placeholder="{{lang('register_fee')}}">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">
+
+                                            </label>
+                                            <div class="col-sm-4">
+
+                                                {% if PRESET_DEMO_STATUS %}
+                                                    <button type="button" class="btn btn-primary" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                                                        {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                                                    </button>
+
+                                                {% else %}                        
+                                                    <button type="submit"class="btn btn-primary" value="matrix_settings" name="matrix_settings">
+                                                        {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                                                    </button>
+                                                {% endif %}
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{ form_close()|raw }}
+
+                                </div>
+
+
+                                <div id="plan_tab7" {% if tab7 ==' active' %}class="tab-pane fade in active"{% else %}class="tab-pane fade" {% endif %}>                                    
+                                    <div class="form-horizontal"> 
+                                        <div class="errorHandler alert alert-danger no-display">
+                                            <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">
+                                                {{ lang('maintanance') }} :
+                                            </label>
+                                            <div class="col-sm-4">
+                                                <label class="switch">
+                                                    <input type="checkbox" {% if maintanance_status %} checked {% endif %} id="togBtn" {% if PRESET_DEMO_STATUS %} onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())" {% else %} onchange='changeMaintanaceStatus(this)'{% endif %}>
+                                                    <div class="slider round">
+                                                        <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                                        <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                                                    </div>
+                                                </label>
+                                            </div>                
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </div> 
+</div>
+{% include('admin/layout/footer.twig')%}
+
+<link rel="stylesheet" href="assets/plugins/select2/select2.css">		
+<link rel="stylesheet" href="assets/css/plugins.css">
+<script src="assets/plugins/select2/select2.min.js"></script>
+<script src="assets/js/form-elements.js"></script>
+
+<link rel="stylesheet" href="assets/css/checkbox_switcher.css">
+<script src="assets/js/plan_settings.js">
+
+</script>
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css"/>
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
+<script src="assets/js/typeahead.js">
+
+</script>
+
+<script>
+    $(document).ready(function () {
+        validateSettings.init();
+        FormElements.init2();
+    });
+
+    $('input.typeahead').typeahead({
+        source: function (query, process) {
+            var url = "admin/member/get_usernames";
+            return $.get(url, {query: query}, function (data) {
+                data = $.parseJSON(data);
+                return process(data);
+            });
+        }
+    });
+</script>

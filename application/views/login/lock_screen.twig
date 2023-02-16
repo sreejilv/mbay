@@ -1,0 +1,121 @@
+{% include 'layout/header.twig' %}
+<style type="text/css">
+    /*//for language change   */
+    .dropdown-subview:after {
+        right: auto !important;
+        left: 105px !important;
+    }
+    .dropdown-subview:before {
+        right: auto !important;
+        left: 104px !important;
+    }
+    .nav>li>a:focus, .nav>li>a:hover {
+        background-color:transparent;
+    }
+    .nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
+        background-color:transparent;
+    }
+</style>
+<body class="lock-screen">
+    <input type="hidden" name="path" id="path" value="{{BASE_URL}}"/>        
+
+
+    <div id="js_messages" style="display: none;"> 
+        <span id="password_req_js">{{lang('password_req_js')}}</span>
+    </div>
+    <div class="main-ls animated flipInX">
+        <div class="logo">
+            <img src="assets/images/logos/{{COMPANY_LOGO}}">
+        </div>
+        <div class="box-ls">
+            <img alt="" src="assets/images/users/{{image}}" width="150px;" height="150px;"/>
+            <div class="user-info">
+                <div class="row">
+                    <div  class="col-xs-6 col-sm-6 col-lg-6">
+                        <h1><i class="fa fa-lock"></i>{{user_name}}</h1>
+                    </div>        
+                    <div class="col-xs-6 col-sm-6 col-lg-6" style="hover:none;">
+                        <p>
+                        <div class="topbar-tools pull-right"  style="color:black !important;hover:none!important;">
+                            <ul class="nav navbar-right">
+
+                                {% if MULTI_LANG_STATUS %}
+                                    <li class="dropdown current-user">
+                                        <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="javascript:;"  title="Change Language"
+                                           style="color: gray;" 
+                                           >
+                                            <img src="assets/images/flags/lang/{{MLM_LANG_FLAG}}" class="img-circle" alt="">
+                                            <span class="username hidden-xs"><small>{{MLM_LANG_NAME|capitalize}}</small></span> <i class="fa fa-caret-down hidden-xs "></i>
+                                        </a>
+
+                                        <ul class="dropdown-menu dropdown-light dropdown-subview" >
+                                            {% for LANGUAGE  in  MLM_LANG_LIST  %}
+                                                <li onclick="switchLanguage('{{LANGUAGE.lang_code}}');">
+                                                    <a href="javascript:;" >
+                                                        {{LANGUAGE.lang_name}} 
+
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+
+                                {% elseif GOOGLE_TRANSLATOR %}
+
+                                    <li class="hidden-xs">
+                                        <a  href="javascript:;"  title="Google Translate"  class="dropdown-toggle">
+                                            <span id="google_translate_element"> </span>
+                                        </a>
+                                    </li> 
+
+                                {% endif %} 
+
+                            </ul>
+                        </div>
+                        </p>
+                    </div>
+                </div>
+
+
+                <span>{{user_full_name}}</span>
+                <span><em>{{lang('lock_lang')}}</em></span>
+                {%include('admin/layout/notification.twig')%}
+                {{ form_open('', 'class="lock_form" id="lock_form" name="lock_form"')|raw }}
+                <input type="hidden" name="username" id='username' value='{{user_name}}'>
+                <div class="input-group">
+                    <input type="password" placeholder="{{lang('password')}}"  name='password' id='password' class="form-control" tabindex='1'>
+                    <span class="input-group-btn">
+                        <button class="btn btn-green" type="submit" name='lock_submit' id='lock_submit' value="unlock">
+                            <i class="fa fa-chevron-right"></i>
+                        </button> 
+                    </span>
+                </div>
+                <div class="relogin">
+                    <a href="login-site">
+                        {{lang('login_anthor_account')}}
+                    </a>
+                </div>
+
+                {{form_close()|raw}}
+            </div>
+        </div>
+        <div class="copyright">
+            {{ "now"|date("Y") }} &copy; by {{COMPANY_NAME}}.
+        </div>
+
+    </div>
+    {% include 'layout/footer.twig' %}
+    <style>
+        .help-block {
+            color:#a94442;
+        }
+    </style>
+    <script src="assets/js/lock_site.js">
+    </script>
+    <script>
+        $(document).ready(function () {
+            validateLockScreen();
+        });
+    </script>
+
+

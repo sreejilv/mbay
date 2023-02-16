@@ -1,0 +1,275 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{{title}}</title>
+        <meta name="description" content="Leadmlmsoftware.com">
+        <meta name="keywords" content="Replication Site,Replication Site,Replica Site,mlm Replication">
+        <base href="{{BASE_URL}}" />
+        <link rel="shortcut icon" href="assets/images/logos/{{COMPANY_FAV_ICON}}" />
+        <link rel='stylesheet' href="assets/css/rail-view.css" type='text/css'>
+        <link rel="stylesheet" href="assets/css/styles-merged.css">
+        <link rel="stylesheet" href="assets/css/style.min.css">
+        <link rel="stylesheet" href="assets/css/custom.css">
+        <link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.min.css">
+        <style>
+            .probootstrap-section.probootstrap-section-colored{
+                background: url('{{BASE_URL}}assets/images/users/{{details['cover_photo']}}') no-repeat;
+
+                background-size: 1200px 385px;
+                position: relative;
+                background-color:black;
+            }
+            .probootstrap-section.probootstrap-section-colored .section-heading h2{color:#fff}
+            .probootstrap-section.probootstrap-section-colored .section-heading p{color:rgba(255,255,255,.6)}
+
+
+        </style>
+    </head>
+    <body>
+
+        <div class="probootstrap-search" id="probootstrap-search">
+            <a href="#" class="probootstrap-close js-probootstrap-close"><i class="fa fa-cross"></i></a>
+            <form action="#">
+                <input type="search" name="s" id="search" placeholder="Search a keyword and hit enter...">
+            </form>
+        </div>
+
+        <div class="probootstrap-page-wrapper">
+
+            <div class="probootstrap-header-top">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-9 col-md-9 col-sm-9 probootstrap-top-quick-contact-info">
+                            <span><i class="fa fa-map-marker"></i>{{details['address']|striptags }}</span>
+                            <span><i class="fa fa-phone"></i>{% if details['phone_number'] is empty%} {{lang('na')}} {% else %} {{details['phone_number']}}{% endif %}</span>
+                            <span><i class="fa fa-envelope"></i>{{details['email']}}</span>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 probootstrap-top-social">
+                            <ul>
+                                <li><a href="{{ details.facebook }}"><i class="fa fa-facebook"></i></a></li>
+                                <li><a href="{{ details.twiter }}"><i class="fa fa-twitter"></i></a></li>
+                                <li><a href="{{ details.instagram }}"><i class="fa fa-instagram"></i></a></li>
+                                <li><a href="{{ details.gplus }}"><i class="fa fa-google"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <nav class="navbar navbar-default probootstrap-navbar">
+                <div class="container">
+                    <div class="navbar-header">
+                        <div class="btn-more js-btn-more visible-xs">
+                            <a href="#"><i class="fa fa-ellipsis-v "></i></a>
+                        </div>
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false" aria-controls="navbar">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="fa fa-list"></span>
+                        </button>
+                        <a class="navbar-navbar" href="{{BASE_URL}}replicate-site/{{details['username']}}" title="{{lang('leadmlmsooftware')}}:{{title}}"><img src="{{BASE_URL}}assets/images/logos/{{COMPANY_LOGO}}"width="auto" height="80"/></a>
+                    </div>
+
+                    <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="{{BASE_URL}}replicate-site/{{details['username']}}"><i class='fa fa-home'></i>&nbsp;{{lang('home')}}</a></li>
+                            <li><a href="{{BASE_URL~REG_MODE}}/{{encode_id}}"><i class='fa fa-user-plus'></i>&nbsp;{{lang('register')}}</a></li>
+                                {% if (login_status=='yes')%}
+                                <li><a href="{{BASE_URL}}{{type}}/home"><i class='fa fa-list'></i>&nbsp;{{lang('back_to_dashboard')}}</a></li>
+                                {%else %}
+                                <li><a href="{{BASE_URL}}"><i class='fa fa-dot-circle-o'></i>&nbsp;{{lang('login')}}</a></li>
+                                {% endif %}
+
+
+                            {% if MULTI_LANG_STATUS %}
+                                <li class="dropdown">
+                                    <a href="#" data-toggle="dropdown" class="dropdown-toggle"  title="Change Language" style="color: gray;" >
+                                        <img src="assets/images/flags/lang/{{MLM_LANG_FLAG}}" class="img-circle" alt="">
+                                        <span class="username hidden-xs"><small>{{MLM_LANG_NAME|capitalize}}</small></span>
+                                    </a>
+
+                                    <ul class="dropdown-menu" >
+                                        {% for LANGUAGE  in  MLM_LANG_LIST  %}
+                                            <li >
+                                                <a href="javascript:switchLanguage('{{LANGUAGE.lang_code}}')" >
+                                                    {{LANGUAGE.lang_name}}
+
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+
+                            {% elseif GOOGLE_TRANSLATOR %}
+
+                                <li class="hidden-xs">
+                                    <a  href="javascript:;"  title="Google Translate"  class="dropdown-toggle">
+                                        <span id="google_translate_element"> </span>
+                                    </a>
+                                </li>
+
+                            {% endif %}
+
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <section class="probootstrap-section probootstrap-section-colored">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 text-left section-heading probootstrap-animate">
+                            <h1>{{lang('welcome_to')}} {{details['username']}}</h1>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="probootstrap-section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="probootstrap-flex-block">
+                                <div class="probootstrap-text probootstrap-animate">
+                                    <div class="text-uppercase probootstrap-uppercase" style="text-align:center;"><img src='{{BASE_URL}}assets/images/users/{{details['cover_dp']}}' style="width:150px;height:150px;"></div>
+                                    <h3><i class="fa fa-user"></i>&nbsp;{{lang('username')}} &nbsp; : {{details['username']}}</h3>
+                                    <p><i class="fa fa-user-md"></i>&nbsp;{{lang('full_name')}} &nbsp; : {{details['full_name']}}<br/>
+                                        <i class="fa fa-envelope"></i>&nbsp;{{lang('email')}}  &nbsp; : {{details['email']}}<br/>
+                                        <i class="fa fa-map-marker"></i>&nbsp;{{lang('address')}}  &nbsp;: {{details['address']|striptags}}<br/>
+                                        <i class="fa fa-phone"></i>&nbsp;{{lang('phone')}}   &nbsp;: {{details['phone_number']}}<br/>
+                                        <i class="fa fa-shield"></i>&nbsp;  {{lang('rank')}}   &nbsp;: <span class='btn btn-primary '>{{details['user_rank']}}</span></p>
+
+                                </div>
+
+                                <div class="probootstrap-image probootstrap-animate" style="border-style: solid;border-color: red;">
+                                  <div class="embed-responsive embed-responsive-16by9">
+                                      <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0" allowfullscreen></iframe>
+                                  </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section
+            <section class="probootstrap-section">
+                <div class="container">
+                    <div class="col-md-12">
+                        <h2 style='text-align:center;'><u>{{lang('ultimate_mlm_software')}}</u></h2>
+                        <p>{{lang('content')}}</p>
+                    </div>
+                </div>
+            </section>
+            <section class="probootstrap-cta" style="padding: 1em 0;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2 class="probootstrap-animate" data-animate-effect="fadeInRight">{{lang('join_now')}}</h2>
+                            <a href="{{BASE_URL}}packages/{{encode_id}}" role="button" class="btn btn-primary btn-lg btn-ghost probootstrap-animate" data-animate-effect="fadeInLeft">{{lang('enroll')}}</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <footer class="probootstrap-footer probootstrap-bg" style="padding: 2em 0;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="probootstrap-footer-widget">
+                                <h3>{{lang('about')}}-{{COMPANY_NAME}}</h3>
+                                <p>{{lang('about_count')}}</p>
+
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-md-push-1">
+                            <div class="probootstrap-footer-widget">
+                                <h3>{{lang('links')}}</h3>
+                                <ul>
+                                    <li><a href="{{BASE_URL}}replicate-site/{{details['username']}}" ><i class='fa fa-home'></i>&nbsp;{{lang('home')}}</a></li>
+                                    <li><a href="{{BASE_URL}}packages/{{encode_id}}"><i class='fa fa-user-plus'></i>&nbsp;{{lang('register')}}</a></li>
+                                        {% if (login_status=='yes')%}
+                                        <li><a href="{{BASE_URL}}{{type}}/home"><i class='fa fa-list'></i>&nbsp;{{lang('back_to_dashboard')}}</a></li>
+                                        {%else %}
+                                        <li><a href="{{BASE_URL}}"><i class='fa  fa-dot-circle-o'></i>&nbsp;{{lang('login')}}</a></li>
+                                        {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="probootstrap-footer-widget">
+                                <h3>{{lang('contact_info')}}</h3>
+                                <ul class="probootstrap-contact-info">
+                                    <li><i class="fa fa-map-marker"></i> <span>{{COMPANY_ADDRESS|striptags}}</span></li>
+                                    <li><i class="fa fa-envelope"></i><span>{{COMPANY_EMAIL}}</span></li>
+                                    <li><i class="fa fa-phone"></i><span>{{COMPANY_PHONE}}</span></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="probootstrap-copyright">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-8 text-left">
+                                <p>&copy; 2018 <a href="#">{{COMPANY_NAME}}</a>. {{lang('rights')}} <i class="fa fa fa fa-heart"></i> by <a href="#">{{COMPANY_EMAIL}}</a></p>
+                            </div>
+                            <div class="col-md-4 probootstrap-back-to-top">
+                                <p><a href="#" class="js-backtotop">{{lang('back_to_top')}}<i class="fa fa-arrow-long-up"></i></a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+        </div>
+        <!-- END wrapper -->
+        <script src="assets/js/scripts.min.js"></script>
+        <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/js/main.min.js"></script>
+        <script src="assets/js/custom.js"></script>
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+                $.ajaxSetup({
+                    data: {
+
+                        '{{CSRF_TOKEN_NAME}}': '{{CSRF_TOKEN_VALUE}}'
+                    }
+                });
+            });
+
+        </script>
+        <script type="text/javascript">
+
+            function switchLanguage(lang_code) {
+                var LOG_USER_TYPE = '{{type}}';
+                LOG_USER_TYPE = (LOG_USER_TYPE == 'employee') ? 'admin' : LOG_USER_TYPE;
+                var path_root = '{{BASE_URL}}';
+
+                $.ajax({
+                    type: 'POST',
+                    url: path_root + 'api/general/changeLanguageSettings',
+                    data: {'lang_code': lang_code},
+
+                    beforeSend: function () {
+                    },
+                    success: function (data) {
+
+                        location.reload();
+
+                    },
+                    error: function (xhr) {
+                        //alert("Error occured.please try again");
+                    },
+                    complete: function () {
+                    },
+                    dataType: 'json'
+                });
+
+            }
+
+        </script>
+
+    </body>
+</html>

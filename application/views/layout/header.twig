@@ -1,0 +1,36 @@
+<html lang="en" class="no-js">
+    <head>
+        <title>{{title}} | {{COMPANY_NAME}}</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta content="" name="description" />
+        <meta content="" name="author" />
+        <base href="{{BASE_URL}}" />
+        <link rel="shortcut icon" href="assets/images/logos/{{COMPANY_FAV_ICON}}" />
+        <script type="text/javascript" src="assets/plugins/jQuery/jquery-1.11.1.min.js"></script>
+        <link rel="stylesheet" href="assets/plugins/iCheck/skins/all.css">
+        <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="assets/css/styles.css">
+        <link rel="stylesheet" href="assets/css/styles-responsive.css">
+        <link rel="stylesheet" href="assets/plugins/animate.css/animate.min.css">
+        <link rel="stylesheet" href="assets/css/print.css" type="text/css" media="print"/>
+        <input type = "hidden" name = "path_root" id="path_root" value="{{BASE_URL}}"/>
+        <meta property="og:title" content="{{COMPANY_NAME}}" />
+        <meta property="og:image" itemprop="image" content="{{BASE_URL}}assets/images/logos/{{COMPANY_LOGO}}">
+        <meta property="og:type" content="website" />
+</head>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $.ajaxSetup({
+            data: {
+
+                '{{CSRF_TOKEN_NAME}}': '{{CSRF_TOKEN_VALUE}}'
+            }
+        });
+    });
+
+</script>

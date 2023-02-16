@@ -1,0 +1,140 @@
+{%if user_type=='admin' or user_type=='employee' %}
+    {% include('admin/layout/header.twig')%}
+{% elseif(user_type=='user') %}
+    {% include('user/layout/header.twig')%}
+{%else%}
+    {% include('layout/header.twig')%}
+<body class="login">
+<div class="row">
+    <div class="main-login col-sm-offset-1 col-md-10">
+        <div class="logo">
+                <img src="assets/images/logos/{{COMPANY_LOGO}}">
+            </div>
+        {%endif%}
+
+        {%if not user_type %}
+            {%include('admin/layout/notification.twig')%}
+        {% endif %}
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-white">
+                    <div class="panel-heading">
+
+                        <div class="row">
+                            <div  class="col-xs-6 col-sm-6 col-lg-6">
+                                <h4 class="panel-title"><span class="text-bold">{{lang('blocktrail')}}</span></h4>
+                            </div>
+
+                            {%if not user_type %}
+
+                                <style type="text/css">
+                                    /*//for language change   */
+                                    .dropdown-subview:after {
+                                        right: auto !important;
+                                        left: 105px !important;
+                                    }
+                                    .dropdown-subview:before {
+                                        right: auto !important;
+                                        left: 104px !important;
+                                    }
+                                    .nav>li>a:focus, .nav>li>a:hover {
+                                        background-color:transparent;
+                                    }
+                                    .nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
+                                        background-color:transparent;
+                                    }
+                                </style>
+
+                                <div class="col-xs-6 col-sm-6 col-lg-6" style="hover:none;">
+                                    <p>
+                                    <div class="topbar-tools pull-right"  style="color:black !important;hover:none!important;">
+                                        <ul class="nav navbar-right">
+
+                                            {% if MULTI_LANG_STATUS %}
+                                                <li class="dropdown current-user">
+                                                    <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="javascript:;"  title="Change Language"
+                                                       style="color: gray;"
+                                                    >
+                                                        <img src="assets/images/flags/lang/{{MLM_LANG_FLAG}}" class="img-circle" alt="">
+                                                        <span class="username hidden-xs"><small>{{MLM_LANG_NAME|capitalize}}</small></span> <i class="fa fa-caret-down hidden-xs "></i>
+                                                    </a>
+
+                                                    <ul class="dropdown-menu dropdown-light dropdown-subview" >
+                                                        {% for LANGUAGE  in  MLM_LANG_LIST  %}
+                                                            <li onclick="switchLanguage('{{LANGUAGE.lang_code}}');">
+                                                                <a href="javascript:;" >
+                                                                    {{LANGUAGE.lang_name}}
+                                                                    
+                                                                </a>
+                                                            </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </li>
+                                            {% elseif GOOGLE_TRANSLATOR %}
+
+                                                <li class="hidden-xs">
+                                                    <a  href="javascript:;"  title="Google Translate"  class="dropdown-toggle">
+                                                        <span id="google_translate_element"> </span>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                    </p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <hr>
+                        <div class="alert alert-info">
+                            <strong>{{lang('info')}}!</strong> {{lang('registration_complete_only_after_confirmation_from_blocktrail')}}.
+                        </div>
+
+                        <div class="alert alert-warning">
+                            <strong>{{lang('warning')}}!</strong> {{lang('please_pay')}} <b>{{ bit_coin }} BTC </b> {{ lang('following_address') }} <b> {{ address }} </b> {{lang('or_scan_qr_code')}}.
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="text-center dark lead">
+                                    {{lang('address')}} :- <b>{{ address }}</b>
+                                </div>
+                                <div class="text-center  dark lead">
+                                    {{lang('amount')}} :- <b>{{ bit_coin }}</b> BTC
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="text-center ">
+                                    <img class="img-responsive" src="{{ qr_code }}"/>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+            {%if user_type=='admin' or user_type=='employee' %}
+            {% include('admin/layout/footer.twig')%}
+            {% elseif(user_type=='user') %}
+                {% include('user/layout/footer.twig')%}
+            {%else%}
+        </div>
+    {% include('layout/footer.twig')%}
+    <link rel="stylesheet" href="assets/plugins/toastr/toastr.min.css">
+        <script src="assets/plugins/jQuery/jquery-2.1.1.min.js"></script>
+        <script src="assets/plugins/toastr/toastr.js"></script>
+        {%endif%}
+        <script src="assets/js/register_cart.js"></script>
+
+        <style type="text/css">
+
+            .btc-img {
+                min-width: 210px;
+                min-height: 210px;
+            }
+
+        </style>>

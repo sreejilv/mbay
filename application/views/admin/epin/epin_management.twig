@@ -1,0 +1,289 @@
+{% include('admin/layout/header.twig')%}
+<link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="assets/css/shCore.css">
+<script type="text/javascript" language="javascript" src="assets/js/jquery.dataTables.js">
+</script>
+<script type="text/javascript" language="javascript" src="assets/js/shCore.js">
+</script> 
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
+<script type="text/javascript" language="javascript" src="assets/js/lead_datatable.js">
+</script>
+<script type="text/javascript" language="javascript" class="init">
+
+    $(document).ready(function () {
+        var oTable = $('#active_pin').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/epin/active_pin",
+            "dataType": "json",
+            "order": [[ 5, "desc" ]],
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+</script>
+<script type="text/javascript" language="javascript" class="init">
+
+    $(document).ready(function () {
+        var oTable = $('#used_pin').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/epin/used_pin",
+            "dataType": "json",
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+</script>
+<script type="text/javascript" language="javascript" class="init">
+
+    $(document).ready(function () {
+        var oTable = $('#request_pin').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/epin/request_pin",
+            "dataType": "json",
+            "order": [[ 5, "desc" ]],
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+</script>
+<div id="js_messages" style="display: none;"> 
+    <span id="invalid_username_js">{{lang('invalid_username_js')}}</span>
+    <span id="username_req_js">{{lang('username_req_js')}}</span>
+    <span id="pin_amount_req_js">{{lang('pin_amount_req_js')}}</span>
+    <span id="invalid_number_js">{{lang('invalid_number_js')}}</span>
+    <span id="pin_count_req_js">{{lang('pin_count_req_js')}}</span>
+    <span id="expiry_date_js">{{lang('expiry_date_js')}}</span>
+    <span id="date_must_be_greater_than_today_js">{{lang('date_must_be_greater_than_today_js')}}</span>
+    <span id="are_you_sure_js">{{lang('are_you_sure_js')}}</span>
+    <span id="delete_this_epin_js">{{lang('delete_this_epin_js')}}</span>
+    <span id="delete_it_js">{{lang('delete_it_js')}}</span>
+    <span id="cancel_it_js">{{lang('cancel_it_js')}}</span>
+    <span id="epin_safe_js">{{lang('epin_safe_js')}}</span>
+    <span id="canceled_js">{{lang('canceled_js')}}</span>
+    <span id="confirm_this_epin_js">{{lang('confirm_this_epin_js')}}</span>
+    <span id="confirm_it_js">{{lang('confirm_it_js')}}</span>
+    <span id="news">{{lang('news')}}</span>
+    <span id="news">{{lang('news')}}</span>
+
+    <span id="yes_activate_it">{{lang('yes_activate_it')}}</span>    
+    <span id="inactivate_this_epin">{{lang('inactivate_this_epin')}}</span>    
+    <span id="activate_this_epin">{{lang('activate_this_epin')}}</span>    
+    <span id="yes_inactivate_it">{{lang('yes_inactivate_it')}}</span> 
+
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading panel-group">
+                <h4 class="panel-title"><span class="text-bold">{{lang('epin_management')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                <div class="tabbable">
+                    <ul id="myTab" class="nav nav-tabs">
+                        <li class="{{tab1}}">
+                            <a data-toggle="tab" href="javascript:#epin_tab1">
+                                {{lang('allocate_pin')}}
+                            </a>
+                        </li>
+                        <li  class="{{tab2}}" onclick="load_datepicker()">
+                            <a data-toggle="tab" href="javascript:#epin_tab2">
+                                {{lang('pin_request')}} <span class="badge badge-danger">{{ pin_req_count }}</span>
+                            </a>
+                        </li>
+                        <li  class="{{tab3}}">
+                            <a data-toggle="tab" href="javascript:#epin_tab3">
+                                {{lang('available_pin')}} <span class="badge badge-danger">{{ active_pins_count }}</span>
+                            </a>
+                        </li>
+                        <li  class="{{tab4}}">
+                            <a data-toggle="tab" href="#epin_tab4">
+                                {{lang('used_pin')}} <span class="badge badge-danger">{{ used_pins_count }}</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="epin_tab1" class="tab-pane fade in {{tab1}}">
+
+                            {{ form_open('', ' id="allocate_pin" name="allocate_pin"')|raw }}
+                            <div class="form-horizontal">  
+                                <div class="errorHandler alert alert-danger no-display">
+                                    <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">
+                                        {{lang('username')}} :<span class="symbol required"></span>
+                                    </label>
+                                    <div class="col-sm-3">
+                                        <input class="form-control typeahead" type="text" name="username" id="username" placeholder='{{lang('username')}}' autocomplete="off" tabindex='1'>
+                                        <div  id="full_name">
+
+                                        </div>
+                                        {% if pin_error.username is defined %}<code> {{ pin_error.username}} </code> {% endif %} 
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">
+                                        {{lang('pin_amount')}} :<span class="symbol required"></span>
+                                    </label>
+                                    <div class="col-sm-3">
+                                        <input class="form-control" type="number" name="pin_amount" id="pin_amount" placeholder='{{lang('pin_amount')}}' tabindex='2'>
+                                        {% if pin_error.pin_amount is defined %}<code> {{ pin_error.pin_amount}} </code> {% endif %} 
+
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">
+                                        {{lang('pin_count')}} :<span class="symbol required"></span>
+                                    </label>
+                                    <div class="col-sm-3">
+                                        <input class="form-control" type="number" name="pin_count" id="pin_count" placeholder='{{lang('pin_count')}}' tabindex='3'>
+                                        {% if pin_error.pin_count is defined %}<code> {{ pin_error.pin_count}} </code> {% endif %} 
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">
+                                        {{lang('expiry_date')}} :<span class="symbol required"></span>
+                                    </label>
+                                    <div class="col-sm-3">
+                                        <div class="input-group">
+                                            <input name="expiry_date" id="expiry_date" type="text" data-date-format="yyyy-mm-dd" data-date-viewmode="years" class="form-control date-picker" placeholder='{{lang('expiry_date')}}' tabindex='4'>
+                                            <span class="input-group-addon"> <i class="fa fa-calendar"></i> </span>
+                                        </div>
+                                        {% if pin_error.expiry_date is defined %}<code> {{ pin_error.expiry_date}} </code> {% endif %} 
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">
+
+                                    </label>
+                                    <div class="col-sm-4">
+                                        <button type="submit"class="btn btn-primary" value="add_pin" name="add_pin">
+                                            {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            {{ form_close()|raw }}
+
+                        </div>
+                        <div id="epin_tab2" class="tab-pane fade in {{tab2}}">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-striped" id="request_pin">
+                                    <thead>
+                                        <tr>                                    
+                                            <th>{{lang('slno')}}</th>
+                                            <th>{{lang('username')}}</th>
+                                            <th>{{lang('user_balance')}}</th>
+                                            <th>{{lang('pin_amount')}}</th>
+                                            <th>{{lang('pin_count')}}</th>
+                                            <th>{{lang('requested_date')}}</th>
+                                            <th>{{lang('expiry_date')|replace({' ': ''})}}</th>
+                                            <th>{{lang('action')}}</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                        <div id="epin_tab3" class="tab-pane fade in {{tab3}}">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-striped" id="active_pin">
+                                    <thead>
+                                        <tr>   
+                                            <th>{{lang('slno')}}</th>
+                                            <th>{{lang('username')}}</th>
+                                            <th> {{lang('pin_number')}}</th>
+                                            <th>{{lang('pin_amount')}}</th>
+                                            <th>{{lang('pin_balance')}}</th>
+                                            <th>{{lang('allocate_date')}}</th>
+                                            <th>{{lang('expiry_date')}}</th>
+                                            <th>{{lang('status')}}</th>
+                                            <th>{{lang('operation')}}</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div id="epin_tab4" class="tab-pane fade in {{tab4}}">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-striped" id="used_pin">
+                                    <thead>
+                                        <tr>    
+                                            <th>{{lang('slno')}}</th>
+                                            <th>{{lang('allocated_user')}}</th>
+                                            <th>{{lang('pin_number')}}</th>
+                                            <th>{{lang('pin_amount')}}</th>
+                                            <th>{{lang('pin_balance')}}</th>
+                                            <th>{{lang('used_for')}}</th>
+                                            <th>{{lang('used_by')}}</th>
+                                        </tr>
+                                    </thead>                                        
+                                </table>
+                            </div>   
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>                                    
+</div>
+</div>
+{% include('admin/layout/footer.twig')%}
+
+<link href="assets/plugins/sweetalert/lib/sweet-alert.css" rel="stylesheet" />
+<script src="assets/plugins/sweetalert/lib/sweet-alert.min.js"></script>
+
+<link rel="stylesheet" href="assets/plugins/datepicker/css/datepicker.css">
+<script src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<script src="assets/js/lead_date_picker.js"></script>
+
+<script src="assets/js/epin_management.js"></script>
+<script src="assets/js/typeahead.js">
+</script>
+<script>
+    jQuery(document).ready(function () {
+        validate_add_pin();
+        load_datepicker();
+    });
+
+    $('input.typeahead').typeahead({
+        source: function (query, process) {
+            var url = "admin/member/get_usernames";
+            return $.get(url, {query: query}, function (data) {
+
+                data = $.parseJSON(data);
+                return process(data);
+            });
+        }
+    });
+</script>
+<style>
+    table.dataTable thead th{border-bottom:1px #111}
+    table.dataTable.no-footer{border-bottom:1px #dfe1e5 solid}
+</style>

@@ -1,0 +1,1005 @@
+{% include('user/layout/header.twig') %}
+<link href="assets/plugins/cropper-master/dist/cropper.min.css" rel="stylesheet">
+<script src="assets/plugins/cropper-master/dist/cropper.min.js"></script>
+<div id="js_messages" style="display: none;">
+    <span id="first_name_js">{{ lang('first_name_js') }}</span>
+    <span id="phone_number_js">{{ lang('phone_number_js') }}</span>
+    <span id="gender_js">{{ lang('gender_js') }}</span>
+    <span id="dob_js">{{ lang('dob_js') }}</span>
+    <span id="address_js">{{ lang('address_js') }}</span>
+    <span id="country_js">{{ lang('country_js') }}</span>
+    <span id="user_name_req_js">{{ lang('user_name_req_js') }}</span>
+    <span id="user_name_inv_js">{{ lang('user_name_inv_js') }}</span>
+    <span id="validate_dob">{{ lang('validate_dob') }}</span>
+    <span id="validate_age">{{ lang('validate_age') }}</span>
+    <span id="success_js">{{ lang('success_js') }}</span>
+    <span id="social_profile_updated_js">{{ lang('social_profile_updated_js') }}</span>
+    <span id="social_profile_failed_js">{{ lang('social_profile_failed_js') }}</span>
+    <span id="cover_pic_req_js">{{ lang('cover_pic_req_js') }}</span>
+    <span id="cover_pic_ext_js">{{ lang('cover_pic_ext_js') }}</span>
+    <span id="prof_pic_req_js">{{ lang('prof_pic_req_js') }}</span>
+    <span id="prof_pic_ext_js">{{ lang('prof_pic_ext_js') }}</span>
+    <span id="link_copied_js">{{ lang('link_copied_js') }}</span>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{ lang('profile') }} </span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i
+                                class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i>
+                                    <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i>
+                                    <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i>
+                                    <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>              
+
+
+
+
+                <div class="fb-profile">
+
+                    <div class="show-image">
+                        <div class="profileBanner">
+                            <img align="left" class="fb-image-lg"
+                                 src="assets/images/users/{{ user_details.user_cover }}"/>
+                            <button class="update btn btn-link" data-toggle="modal" data-target="#myModal"><i
+                                    class="fa fa-edit fa-fw"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="show-image2">
+                        <div class="profilePic">
+                            <img class="img-circle fb-image-profile" src="assets/images/users/{{ user_details.user_dp }}"/>
+                            <button class="update2 btn btn-link" data-toggle="modal" data-target="#myModal2"><i
+                                    class="fa fa-edit fa-fw"></i></button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="fb-profile-text">
+                    <h2> {{ lang('username') }} :- <b>{{ user_details.user_name }}</b></h2>
+                </div>
+
+
+                <div id="myModal" class="modal extended-modal fade no-display" tabindex="-1" data-width="760">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">{{ lang('change_cover_pic') }}</h4>
+                            </div>
+                            <div class="modal-body">
+
+                                <div class="tabbable">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active">
+                                            <a data-toggle="tab" href="javascript:#cover_tab1">
+                                                {{ lang('add_new') }}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a data-toggle="tab" href="javascript:#cover_tab2">
+                                                {{ lang('photos_of_u') }}
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a data-toggle="tab" href="javascript:#cover_tab3">
+                                                {{ lang('default_covers') }}
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a data-toggle="tab" href="#cover_tab4">
+                                                {{ lang('crop') }}
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div id="cover_tab1" class="tab-pane fade in active">
+                                            {{ form_open_multipart('', ' id="cover_form" name="cover_form"')|raw }}
+                                            <div class="form-horizontal">
+                                                <div class="errorHandler alert alert-danger no-display">
+                                                    <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">
+                                                        {{ lang('select_image') }}
+                                                    </label>
+                                                    <div class="fileupload fileupload-new col-sm-6"data-provides="fileupload">
+                                                        <div class="fileupload-new thumbnail" style="height: 75px;"><img src="assets/images/users/{{ user_details.user_cover }}" alt="">
+                                                        </div>
+                                                        <div class="fileupload-preview fileupload-exists thumbnail"></div>
+                                                        <div class="user-edit-image-buttons">
+                                                            <span class="btn btn-azure btn-file">
+                                                                <span class="fileupload-new"><i
+                                                                        class="fa fa-picture"></i> {{ lang('select_image') }}</span>
+                                                                <span class="fileupload-exists"><i
+                                                                        class="fa fa-picture"></i> {{ lang('change') }}</span>
+                                                                <input type="file" id="cover_pic" name="cover_pic" accept="image/*"/>
+                                                            </span>
+                                                            <a href="#" class="btn fileupload-exists btn-red"
+                                                               data-dismiss="fileupload">
+                                                                <i class="fa fa-times"></i> {{ lang('remove') }}
+                                                            </a>
+                                                        </div>
+
+                                                        <div class="alert alert-warning">
+                                                            <span class="label label-warning">{{lang('note')}}!</span>
+                                                            <span> {{lang('supported_formats')}} : {{lang('JPEG')}} , {{lang('PNG')}} , {{lang('JPG')}} </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">
+
+                                                    </label>
+                                                    <div class="col-sm-4">
+                                                        <button type="submit" class="btn btn-primary"
+                                                                value="cover_update" name="cover_update">
+                                                            {{ lang('update') }} <i
+                                                                class="fa fa-arrow-circle-right"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {{ form_close()|raw }}
+                                        </div>
+                                        <div id="cover_tab2" class="tab-pane fade">
+
+                                            <div class="row">
+                                                {% if user_cov|length %}
+                                                    {% for uco in user_cov %}
+                                                        <div class="col-sm-4">
+                                                            <img style="height:100px;width:auto;max-width:145px;"
+                                                                 src="assets/images/users/{{ uco.file }}"
+                                                                 class="img-responsive">
+                                                            <br>
+                                                            <button type="button" class="btn btn-blue btn-xs"
+                                                                    onclick="setCover({{ uco.id }});">
+                                                                {{ lang('set_this_cover') }}
+                                                            </button>
+                                                            <p>
+                                                        </div>
+                                                    {% endfor %}
+                                                {% else %}
+                                                    <h4 align="center">{{ lang('no_image_available') }}</h4>
+                                                {% endif %}
+
+                                            </div>
+                                        </div>
+
+
+                                        <div id="cover_tab3" class="tab-pane fade">
+                                            <div class="row">
+                                                {% if def_cov|length %}
+                                                    {% for df in def_cov %}
+                                                        <div class="col-sm-4">
+                                                            <img style="height:100px;width:auto;max-width:145px;"
+                                                                 src="assets/images/users/{{ df }}"
+                                                                 class="img-responsive">
+                                                            <br>
+                                                            <button type="button" class="btn btn-blue btn-xs"
+                                                                    onclick="setDefCover('{{ df }}');">
+                                                                {{ lang('set_this_cover') }}
+                                                            </button>
+                                                            <p>
+                                                        </div>
+
+
+                                                    {% endfor %}
+                                                {% else %}
+                                                    <h4 align="center">{{ lang('no_image_available') }}</h4>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+
+
+                                        <div id="cover_tab4" class="tab-pane fade">
+                                            <div class="row" id='crop_cvr' style="overflow:auto;">
+                                                <img src="assets/images/users/{{ user_details.user_cover }}"
+                                                     id="crop_target2"/>
+                                                {{ form_open_multipart('', ' id="cover_crop_form" name="cover_crop_form"')|raw }}
+
+                                                <div class="inline-labels" style="display:none">
+                                                    <label>
+                                                        X1
+                                                        <input type="text" size="4" id="x11" name="x11"/>
+                                                    </label>
+                                                    <label>
+                                                        Y1
+                                                        <input type="text" size="4" id="y11" name="y11"/>
+                                                    </label>
+                                                    <label>
+                                                        X2
+                                                        <input type="text" size="4" id="x22" name="x22"/>
+                                                    </label>
+                                                    <label>
+                                                        Y2
+                                                        <input type="text" size="4" id="y22" name="y22"/>
+                                                    </label>
+                                                    <label>
+                                                        W
+                                                        <input type="text" size="4" id="w2" name="w2"/>
+                                                    </label>
+                                                    <label>
+                                                        H
+                                                        <input type="text" size="4" id="h2" name="h2"/>
+                                                    </label>
+                                                </div>
+                                                <br>
+                                                <div class="col-sm-4">
+                                                    <button type="submit" class="btn btn-primary" value="cover_crop"
+                                                            name="cover_crop">
+                                                        {{ lang('crop') }} <i class="fa fa-arrow-circle-right"></i>
+                                                    </button>
+                                                </div>
+
+                                                {{ form_close()|raw }}
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" data-dismiss="modal" class="btn btn-default">
+                                        {{lang('close')}}
+                                    </button>                                
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="myModal2" class="modal extended-modal fade no-display" tabindex="-1" data-width="760">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">{{ lang('change_pro_pic') }}</h4>
+                            </div>
+                            <div class="modal-body">
+
+                                <div class="tabbable">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active">
+                                            <a data-toggle="tab" href="javascript:#dp_tab1">
+                                                {{ lang('add_new') }}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a data-toggle="tab" href="javascript:#dp_tab2">
+                                                {{ lang('photos_of_u') }}
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a data-toggle="tab" href="javascript:#dp_tab3">
+                                                {{ lang('def_photos') }}
+                                            </a>
+                                        </li>
+
+
+                                        <li>
+                                            <a data-toggle="tab" href="#dp_tab4">
+                                                {{ lang('crop') }}
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div id="dp_tab1" class="tab-pane fade in active">
+                                            {{ form_open_multipart('', ' id="dp_form" name="dp_form"')|raw }}
+                                            <div class="form-horizontal">
+                                                <div class="errorHandler alert alert-danger no-display">
+                                                    <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">
+                                                        {{ lang('select_image') }}
+                                                    </label>
+                                                    <div class="fileupload fileupload-new col-sm-6"
+                                                         data-provides="fileupload">
+                                                        <div class="fileupload-new thumbnail"><img
+                                                                src="assets/images/users/{{ user_details.user_dp }}"
+                                                                alt="">
+                                                        </div>
+                                                        <div class="fileupload-preview fileupload-exists thumbnail"></div>
+                                                        <div class="user-edit-image-buttons">
+                                                            <span class="btn btn-azure btn-file">
+                                                                <span class="fileupload-new"><i
+                                                                        class="fa fa-picture"></i> {{ lang('select_image') }}</span>
+                                                                <span class="fileupload-exists"><i
+                                                                        class="fa fa-picture"></i> {{ lang('change') }}</span>
+                                                                <input type="file" id="prof_pic" name="prof_pic" accept="image/*"/>
+                                                            </span>
+                                                            <a href="#" class="btn fileupload-exists btn-red"
+                                                               data-dismiss="fileupload">
+                                                                <i class="fa fa-times"></i> {{ lang('remove') }}
+                                                            </a>
+                                                        </div>
+
+
+                                                        <div class="alert alert-warning">
+                                                            <span class="label label-warning">{{lang('note')}}!</span>
+                                                            <span> {{lang('supported_formats')}} : {{lang('JPEG')}} , {{lang('PNG')}} , {{lang('JPG')}} </span>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">
+
+                                                    </label>
+                                                    <div class="col-sm-4">
+                                                        <button type="submit" class="btn btn-primary" value="dp_update"
+                                                                name="dp_update">
+                                                            {{ lang('update') }} <i
+                                                                class="fa fa-arrow-circle-right"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {{ form_close()|raw }}
+                                        </div>
+                                        <div id="dp_tab2" class="tab-pane fade">
+
+                                            <div class="row">
+                                                {% if user_dps|length %}
+                                                    {% for udp in user_dps %}
+                                                        <div class="col-sm-3">
+                                                            <img style="height:100px;width:auto;max-width:100px;"
+                                                                 src="assets/images/users/{{ udp.file }}"
+                                                                 class="img-responsive">
+                                                            <br>
+                                                            <button type="button" class="btn btn-blue btn-xs"
+                                                                    onclick="setCover({{ udp.id }});">
+                                                                {{ lang('set_this_pic') }}
+                                                            </button>
+                                                            <p>
+                                                        </div>
+                                                    {% endfor %}
+                                                {% else %}
+                                                    <h4 align="center">{{ lang('no_image_available') }}</h4>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+
+
+                                        <div id="dp_tab3" class="tab-pane fade">
+                                            <div class="row">
+                                                {% if def_dp|length %}
+                                                    {% for dd in def_dp %}
+                                                        <div class="col-sm-3">
+                                                            <img style="height:100px;width:auto;max-width:100px;"
+                                                                 src="assets/images/users/{{ dd }}"
+                                                                 class="img-responsive">
+                                                            <br>
+                                                            <button type="button" class="btn btn-blue btn-xs"
+                                                                    onclick="setDefualtDp('{{ dd }}');">
+                                                                {{ lang('set_this_pic') }}
+                                                            </button>
+                                                            <p>
+                                                        </div>
+                                                    {% endfor %}
+                                                {% else %}
+                                                    <h4 align="center">{{ lang('no_image_available') }}</h4>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+
+
+                                        <div id="dp_tab4" class="tab-pane fade">
+                                            <div class="row" id='crop_dp'>
+                                                <img src="assets/images/users/{{ user_details.user_dp }}"
+                                                     id="crop_target"/>
+                                                {{ form_open_multipart('', ' id="dp_crop_form" name="dp_crop_form"')|raw }}
+
+                                                <div class="inline-labels" style="display:none">
+                                                    <label>
+                                                        X1
+                                                        <input type="text" size="4" id="x1" name="x1"/>
+                                                    </label>
+                                                    <label>
+                                                        Y1
+                                                        <input type="text" size="4" id="y1" name="y1"/>
+                                                    </label>
+                                                    <label>
+                                                        X2
+                                                        <input type="text" size="4" id="x2" name="x2"/>
+                                                    </label>
+                                                    <label>
+                                                        Y2
+                                                        <input type="text" size="4" id="y2" name="y2"/>
+                                                    </label>
+                                                    <label>
+                                                        W
+                                                        <input type="text" size="4" id="w" name="w"/>
+                                                    </label>
+                                                    <label>
+                                                        H
+                                                        <input type="text" size="4" id="h" name="h"/>
+                                                    </label>
+                                                </div>
+                                                <br>
+                                                <div class="col-sm-4">
+                                                    <button type="submit" class="btn btn-primary" value="dp_crop"
+                                                            name="dp_crop">
+                                                        {{ lang('crop') }} <i class="fa fa-arrow-circle-right"></i>
+                                                    </button>
+                                                </div>
+
+                                                {{ form_close()|raw }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" data-dismiss="modal" class="btn btn-default">
+                                    {{lang('close')}}
+                                </button>                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-5 col-md-4">
+                        <div class="user-left">
+
+                            <table class="table table-condensed table-hover">
+                                <thead>
+                                    <tr>
+                                        <th colspan="3">{{ lang('contact_info') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{ lang('email') }}:</td>
+                                        <td>{{ user_details.email }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{ lang('phone_number') }}:</td>
+                                        <td>{{ user_details.phone_number }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table table-condensed table-hover">
+                                <thead>
+                                    <tr>
+                                        <th colspan="3">{{ lang('general_info') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{ lang('joining_date') }}</td>
+                                        <td>{{ user_details.date }}</td>
+                                    </tr>
+
+                                    {% if user_details.sponsor_name %}
+                                        <tr>
+                                            <td>{{ lang('sponser_name') }}</td>
+                                            <td>{{ user_details.sponsor_name }}</td>
+                                        </tr>
+                                    {% endif %}
+                                    {% if user_details.rank_name %}
+                                        <tr>
+                                            <td>{{ lang('rank') }}</td>
+                                            <td>{{ user_details.rank_name }}</td>
+                                        </tr>
+                                    {% endif %}
+
+                                    {% if replica_status %}
+                                        {{ form_open('', 'id="replica_form" name="pro_form"')|raw }}
+                                        <tr>
+                                            <td>{{ lang('replica_link') }}</td>
+                                            <td>
+                                                <a class="btn btn-green btn-xs" href="{{ user_details.replica_link }}" target="_BLANK">
+                                                    {{ lang('view') }}
+                                                </a>
+                                                <button type="button" class="btn btn-light-beige btn-xs" onclick="copyToClipboard('replica_link1', 'replica_link2')">
+                                                    {{ lang('copy') }}
+                                                </button>
+                                                <div style="position: absolute;left: -999em;">
+                                                    <span id="replica_link1">{{ user_details.replica_link }}</span>
+
+                                                    <input type="text" id="replica_link2" value="{{ user_details.replica_link }}" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {{ form_close()|raw }}
+                                    {% endif %}
+                                    {% if lcp_status %}
+                                        {{ form_open('', 'id="replica_form" name="pro_form"')|raw }}
+                                        <tr>
+                                            <td>{{ lang('lcp_link') }}</td>
+                                            <td>
+                                                <a class="btn btn-light-purple btn-xs" href="{{ user_details.lcp_link }}" target="_BLANK">
+                                                    {{ lang('view') }}
+                                                </a>
+                                                <button type="button" class="btn btn-light-yellow btn-xs" onclick="copyToClipboard('lcp_link1', 'lcp_link2')">
+                                                    {{ lang('copy') }}
+                                                </button>
+                                                <div style="position: absolute;left: -999em;">
+                                                    <span id="lcp_link1">{{ user_details.lcp_link }}</span>
+
+                                                    <input type="text" id="lcp_link2" value="{{ user_details.lcp_link }}" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {{ form_close()|raw }}
+                                    {% endif %}
+                                    <tr>
+                                        {{ form_open('', 'id="replica_form" name="pro_form"')|raw }}
+                                        <td>{{ lang('ref_link') }}</td>                                        
+                                        <td>
+                                            <a class="btn btn-light-red btn-xs" href="{{ user_details.ref_link }}" target="_BLANK">
+                                                {{ lang('view') }}
+                                            </a>
+                                            <button type="button" class="btn btn-grey btn-xs" onclick="copyToClipboard('ref_link1', 'ref_link2')">
+                                                {{ lang('copy') }}
+                                            </button>
+                                            <div style="position: absolute;left: -999em;">
+                                                <span id="ref_link1">{{ user_details.ref_link }}</span>
+
+                                                <input type="text" id="ref_link2" value="{{ user_details.ref_link }}" />
+                                            </div>
+                                        </td>
+                                        {{ form_close()|raw }}
+                                    </tr>
+
+
+                                </tbody>
+                            </table>
+
+                            <div class="table-responsive">
+                                <table class="table table-condensed table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="3">{{ lang('social_profile') }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <a href="{{ user_details.facebook }}" target="_BLANK">
+                                                    <i class="fa fa-facebook tooltips" data-placement="top" title={{ lang('facebook') }}></i>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="#" id="facebook_xeditable" data-type="url" data-name="facebook"
+                                                   data-url="user/profile/change_social_profile/post"
+                                                   data-original-title="{{ lang('edit_facebook') }}" class="editable_fb">
+                                                    {{ user_details.facebook }}
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="{{ user_details.twiter }}" target="_BLANK">
+                                                    <i class="fa fa-twitter tooltips" data-placement="top"
+                                                       title={{ lang('twiter') }}></i>
+                                                </a></td>
+                                            <td>
+                                                <a href="#" id="facebook_xeditable" data-type="url" data-name="twiter"
+                                                   data-url="user/profile/change_social_profile/post"
+                                                   data-original-title="{{ lang('edit_twiter') }}" class="editable_fb">
+                                                    {{ user_details.twiter }}
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="{{ user_details.gplus }}" target="_BLANK">
+                                                    <i class="fa fa-google-plus tooltips" data-placement="top"
+                                                       title={{ lang('gplus') }}></i></a></td>
+                                            <td>
+                                                <a href="#" id="facebook_xeditable" data-type="url" data-name="gplus"
+                                                   data-url="user/profile/change_social_profile/post"
+                                                   data-original-title="{{ lang('edit_gplus') }}" class="editable_fb">
+                                                    {{ user_details.gplus }}
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="{{ user_details.instagram }}" target="_BLANK">
+                                                    <i class="fa fa-instagram tooltips" data-placement="top"
+                                                       title={{ lang('instagram') }}></i></a></td>
+                                            <td>
+                                                <a href="#" id="facebook_xeditable" data-type="url" data-name="instagram"
+                                                   data-url="user/profile/change_social_profile/post"
+                                                   data-original-title="{{ lang('edit_instagram') }}" class="editable_fb">
+                                                    {{ user_details.instagram }}
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <span id="referal_url" style="visibility:hidden">{{ user_details.ref_link }}</span>
+                            <span id="lcp_link" style="visibility:hidden">{{ user_details.lcp_link }}</span>
+                            <span id="replica_link" style="visibility:hidden">{{ user_details.replica_link }}</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-7 col-md-8">
+                        <div class="center">
+                            <b>{{ lang('edit_ur_profile') }}</b>
+                            <hr>
+                        </div>
+                        {{ form_open('', 'id="profile_update_form" name="profile_update_form"')|raw }}                       
+
+                        <div class="col-md-12">
+                            <div class="errorHandler alert alert-danger no-display">
+                                <i class="fa fa-times-sign"></i> {{ lang('form_error_msg') }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">
+                                    {{ lang('first_name') }} : <span class="symbol required"></span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"> <i class="fa fa-buysellads"></i> </span>
+                                    <input type="text" value="{{ user_details.first_name }}" placeholder="{{ lang('first_name') }}" class="form-control" id="first_name" name="first_name" maxlength="15" tabindex='1' style="text-transform: capitalize;">
+                                </div>
+
+                                {% if profile_error.first_name is defined %}
+                                    <code> {{ profile_error.first_name }} </code> 
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">
+                                    {{ lang('last_name') }}
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"> <i class="fa fa-medium"></i> </span>
+                                    <input type="text" value="{{ user_details.last_name }}"
+                                           placeholder="{{ lang('last_name') }}" class="form-control" id="last_name" name="last_name" maxlength="15" tabindex='2' style="text-transform: capitalize;">
+                                </div>
+                                {% if profile_error.last_name is defined %}
+                                    <code> {{ profile_error.last_name }} </code> 
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">
+                                    {{ lang('phone_number') }} : <span class="symbol required"></span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"> <i class="fa fa-phone"></i> </span>
+
+                                    <input type="text" value="{{ user_details.phone_number }}"
+                                           placeholder="{{ lang('phone_number') }}" class="form-control" id="phone_number" name="phone_number" maxlength="12" tabindex='3'>
+                                </div>
+                                {% if profile_error.phone_number is defined %}
+                                    <code> {{ profile_error.phone_number }} </code> 
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">
+                                    {{ lang('dob') }} (dd/mm/yyyy) : <span class="symbol required"></span>
+                                </label>
+                                <div class="input-group">
+                                    <input type="text" value="{{ user_details.date_of_birth }}" id="dob" name="dob"
+                                           class="form-control input-mask-date" tabindex='4'>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-green">
+                                            <i class="fa fa-calendar"></i>
+                                        </button> </span>
+                                </div>
+                                {% if profile_error.dob is defined %}
+                                    <code> {{ profile_error.dob }} </code> 
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">
+                                    {{ lang('gender') }} : <span class="symbol required"></span>
+                                </label>
+                                <div>
+                                    <label class="radio-inline">
+                                        <input type="radio" class="grey"
+                                               value="f" {% if user_details.gender=='f' %} checked {% endif %}
+                                               name="gender" id="gender" tabindex='5'>
+                                        <i class="fa fa-female"></i> {{ lang('female') }}
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" class="grey"
+                                               value="m" {% if user_details.gender=='m' %} checked {% endif %}
+                                               name="gender" id="gender">
+                                        <i class="fa fa-male"></i> {{ lang('male') }}
+                                    </label>
+                                </div>
+                                {% if profile_error.gender is defined %}
+                                    <code> {{ profile_error.gender }} </code> 
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">
+                                    {{ lang('address') }} : <span class="symbol required"></span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"> <i class="fa fa-map-marker"></i> </span>
+
+                                    <input type="text" value="{{ user_details.address_1 }}" placeholder="{{ lang('address') }}" class="form-control" id="address" name="address" tabindex='6' style="text-transform: capitalize;">
+                                </div>
+                                {% if profile_error.address is defined %}
+                                    <code> {{ profile_error.address }} </code> 
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">
+                                    {{ lang('country') }} : <span class="symbol required"></span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"> <i class="fa fa-globe"></i> </span>
+
+                                    <select name="country" id="country" class="form-control search-select" tabindex='7'>
+                                        <option value="">{{ lang('select_a_country') }}</option>
+                                        {% for cntrs in countries %}
+                                            <option value="{{ cntrs.id }}" {% if user_details.country==cntrs.id %} selected {% endif %}>{{ cntrs.name|raw }}</option>
+                                        {% endfor %}
+
+
+                                    </select>
+                                </div>
+                                {% if profile_error.country is defined %}
+                                    <code> {{ profile_error.country }} </code> 
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">
+                                    {{ lang('state') }}
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"> <i class="fa fa-flag"></i> </span>
+                                    <span class="input-icon" id="state_span">
+                                        <select name="state" id="state" class="form-control search-select" tabindex='8'>
+                                            <option value="">{{ lang('select_a_state') }}</option>
+                                            {% for sts in states %}
+                                                <option value="{{ sts.id }}" {% if user_details.state==sts.id %} selected {% endif %}>{{ sts.name|raw }}</option>
+                                            {% endfor %}                       
+                                        </select>
+                                    </span>
+                                </div>
+                                {% if profile_error.state is defined %}
+                                    <code> {{ profile_error.state }} </code> 
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">
+                                    {{ lang('city') }}
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"> <i class="fa fa-location-arrow"></i> </span>
+
+                                    <input type="text" value="{{ user_details.city }}" placeholder="{{ lang('city') }}" class="form-control" id="city" name="city" maxlength="20" tabindex='9' style="text-transform: capitalize;">
+                                </div>
+                                {% if profile_error.city is defined %}
+                                    <code> {{ profile_error.city }} </code>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">
+                                    {{ lang('zip_code') }}
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"> <i class="fa fa-eraser"></i> </span>
+
+                                    <input type="text" value="{{ user_details.zipcode }}" placeholder="{{ lang('zip_code') }}" class="form-control" id="zipcode" name="zipcode" maxlength="7" tabindex='10'>
+                                </div>
+                                {% if profile_error.zipcode is defined %}
+                                    <code> {{ profile_error.zipcode }} </code> 
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-5 pull-right">
+
+                                <button type="submit" class="btn btn-primary" value="prof_update" name="prof_update">
+                                    {{ lang('update') }} <i class="fa fa-arrow-circle-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                    {{ form_close()|raw }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% include('user/layout/footer.twig') %}
+<link rel="stylesheet" href="assets/plugins/select2/select2.css">		
+<link rel="stylesheet" href="assets/css/plugins.css">
+<script src="assets/plugins/select2/select2.min.js"></script>
+<script src="assets/js/form-elements.js"></script>
+
+<link rel="stylesheet" href="assets/plugins/datepicker/css/datepicker.css">
+<link rel="stylesheet" href="assets/css/profile_update.css">
+<script src="assets/plugins/jquery.maskedinput/src/jquery.maskedinput.js"></script>
+<script src="assets/js/lead_date_masker.js"></script>
+<script src="assets/js/user_profile_update.js"></script>
+<script src="assets/js/typeahead.js"></script>
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css"/>
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" href="assets/plugins/x-editable/css/bootstrap-editable.css">
+<script src="assets/plugins/x-editable/js/bootstrap-editable.min.js">
+</script>
+<script src="assets/js/file_extension.js">
+
+</script>
+<script>
+    $(document).ready(function () {
+        ValidateUserProfile.init();
+        //ImageCropping.init();
+        DmElements.init();
+        FormElements.init2();
+
+        $('a[href="#dp_tab4"]').click(function () {
+            setTimeout(function () {
+                initCrop($('#crop_dp img'), function (event) {
+                    //dp cropping logic
+                    $('#x1').val(event.detail.x);
+                    $('#y1').val(event.detail.y);
+                    $('#x2').val(event.detail.scaleX);
+                    $('#y2').val(event.detail.scaleY);
+                    $('#w').val(event.detail.width);
+                    $('#h').val(event.detail.height);
+                });
+            }, 500);
+        });
+
+        $('a[href="#cover_tab4"]').click(function () {
+            setTimeout(function () {
+                initCrop($('#crop_cvr img'), function (event) {
+                    //bg cropping logic
+                    $('#x11').val(event.detail.x);
+                    $('#y11').val(event.detail.y);
+                    $('#x22').val(event.detail.scaleX);
+                    $('#y22').val(event.detail.scaleY);
+                    $('#w2').val(event.detail.width);
+                    $('#h2').val(event.detail.height);
+                });
+            }, 500);
+        });
+    });
+
+    function initCrop($image, cropCallback) {
+        if ($image.parent().find('.cropper-bg').length)
+            return;
+
+        $image.cropper({
+            //aspectRatio: 16 / 9,
+            viewMode: 2,
+            crop: function (event) {
+                /*console.log(event.detail.x);
+                 console.log(event.detail.y);
+                 console.log(event.detail.width);
+                 console.log(event.detail.height);
+                 console.log(event.detail.rotate);
+                 console.log(event.detail.scaleX);
+                 console.log(event.detail.scaleY);*/
+                if (cropCallback)
+                    cropCallback(event);
+            }
+        });
+        var cropper = $image.data('cropper');
+    }
+
+
+    $('input.typeahead').typeahead({
+        source: function (query, process) {
+            var url = "user/member/get_usernames";
+            return $.get(url, {query: query}, function (data) {
+                data = $.parseJSON(data);
+                return process(data);
+            });
+        }
+    });
+
+
+    $('.editable_fb').editable({
+        type: 'text',
+        url: 'user/profile/change_social_profile/post',
+        pk: 1,
+        title: 'Enter Menu Name',
+        ajaxOptions: {
+            dataType: 'json'
+        },
+        success: function (response, newValue) {
+            var social_profile_failed = $('#social_profile_failed_js').html();
+            var social_profile_updated = $('#social_profile_updated_js').html();
+            var success_js = $('#success_js').html();
+
+            if (!response) {
+                return social_profile_failed;
+            }
+
+            if (response.success === false) {
+                return response.msg;
+            } else {
+                var msg = social_profile_updated;
+                var flag = "success";
+                var title = success_js;
+                show_notification(flag, title, msg);
+            }
+        }
+    });
+
+
+    function copyToClipboard(elementId1, elementId2) {
+        var isiOSDevice = navigator.userAgent.match(/ipad|iphone/i);
+
+        if (isiOSDevice) {
+            var input = document.getElementById(elementId2);
+
+            var editable = input.contentEditable;
+            var readOnly = input.readOnly;
+
+            input.contentEditable = true;
+            input.readOnly = false;
+
+            var range = document.createRange();
+            range.selectNodeContents(input);
+
+            var selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+
+            input.setSelectionRange(0, 999999);
+            input.contentEditable = editable;
+            input.readOnly = readOnly;
+            document.execCommand('copy');
+        } else {
+            var input = document.getElementById(elementId1);
+            var aux = document.createElement("input");
+            aux.setAttribute("value", document.getElementById(elementId1).innerHTML);
+            document.body.appendChild(aux);
+            aux.select();
+            document.execCommand("copy");
+            document.body.removeChild(aux);
+        }
+
+        var msg = $('#link_copied_js').html();
+        var flag = "success";
+        var title = $('#success_js').html();
+
+        show_notification(flag, title, msg);
+    }
+
+</script>
+<style>
+    div#crop_dp img, #crop_cvr img {
+        max-width: 100%;
+    }
+</style>

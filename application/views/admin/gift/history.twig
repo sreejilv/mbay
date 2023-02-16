@@ -1,0 +1,175 @@
+{% include('admin/layout/header.twig')%}
+<link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="assets/css/shCore.css">
+<script type="text/javascript" language="javascript" src="assets/js/jquery.dataTables.js">
+</script>
+<script type="text/javascript" language="javascript" src="assets/js/shCore.js">
+</script> 
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
+<script type="text/javascript" language="javascript" src="assets/js/lead_datatable.js">
+</script>
+<script type="text/javascript" language="javascript" class="init">
+
+    $(document).ready(function () {
+        var oTable = $('#gift_history').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/gift/gift_history",
+            "dataType": "json",
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+</script>
+<div id="js_messages" style="display: none;"> 
+    <span id="username_req_js">{{lang('username_req_js')}}</span>
+    <span id="inv_username_js">{{lang('inv_username_js')}}</span>   
+    <span id="to_date_req_js">{{lang('to_date_req_js')}}</span>
+    <span id="to_date_gt_from_date_js">{{lang('to_date_gt_from_date_js')}}</span>  
+    <span id="from_date_req_js">{{lang('from_date_req_js')}}</span>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('search_gift_history')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>                            
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                {{ form_open_multipart('', ' id="gift_search" name="gift_search"')|raw }}
+                <div class="form-horizontal">                                            
+                    <div class="errorHandler alert alert-danger no-display">
+                        <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                    </div>                    
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('username')}} : <span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-4">
+                            <input class="typeahead form-control" type="text" name="username" id="username" placeholder="{{lang('username')}}" autocomplete="off" tabindex='1'>
+                            {% if gift_error.username is defined %}<code> {{ gift_error.username}} </code> {% endif %} 
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('from_date')}}: <span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-3">
+                            <div class="input-group">
+                                <input name="from_date" id="from_date" type="text" data-date-format="yyyy-mm-dd" data-date-viewmode="years" class="form-control date-picker" placeholder="{{lang('from_date')}}" tabindex='2'>
+                                <span class="input-group-addon"> <i class="fa fa-calendar"></i> </span>
+                            </div>
+                            {% if gift_error.from_date is defined %}<code> {{ gift_error.from_date}} </code> {% endif %} 
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('to_date')}}: <span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-3">
+                            <div class="input-group">
+                                <input name="to_date" id="to_date" type="text" data-date-format="yyyy-mm-dd" data-date-viewmode="years" class="form-control date-picker" placeholder="{{lang('to_date')}}" tabindex='3'>
+                                <span class="input-group-addon"> <i class="fa fa-calendar"></i> </span>
+                            </div> 
+                            {% if gift_error.to_date is defined %}<code> {{ gift_error.to_date}} </code> {% endif %} 
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+
+                        </label>
+                        <div class="col-sm-4">
+                            <button type="submit"class="btn btn-primary" value="gift_search" name="gift_search">
+                                {{lang('search')}} <i class="fa fa-arrow-circle-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {{ form_close()|raw }} 
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('gift_history')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>                            
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped" id="gift_history">
+                        <thead>
+                            <tr>                                    
+                                <th>{{lang('slno')}}</th>
+                                <th>{{lang('req_user')}}</th>
+                                <th>{{lang('req_amount')}}</th>
+                                <th>{{lang('req_date')}}</th>
+                                <th>{{lang('paid_user')}}</th>
+                                <th>{{lang('paid_date')}}</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% include('admin/layout/footer.twig')%}
+<link rel="stylesheet" href="assets/plugins/datepicker/css/datepicker.css">
+<script src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<script src="assets/js/lead_date_picker.js"></script>
+<script src="assets/js/typeahead.js"></script>
+<script src="assets/js/gift_history.js"></script>
+<script>
+    jQuery(document).ready(function () {
+        valGiftSearch();
+        DpElements.init();
+    });
+
+    $('input.typeahead').typeahead({
+        source: function (query, process) {
+            var url = "admin/member/get_usernames";
+            return $.get(url, {query: query}, function (data) {
+                data = $.parseJSON(data);
+                return process(data);
+            });
+        }
+    });
+
+</script>
+<style>
+    table.dataTable thead th{border-bottom:1px #111}
+    table.dataTable.no-footer{border-bottom:1px #dfe1e5 solid}
+</style>

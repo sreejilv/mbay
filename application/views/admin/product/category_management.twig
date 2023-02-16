@@ -1,0 +1,403 @@
+{% include('admin/layout/header.twig')%}
+<link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="assets/css/shCore.css">
+<script type="text/javascript" language="javascript" src="assets/js/jquery.dataTables.js">
+</script>
+<script type="text/javascript" language="javascript" src="assets/js/shCore.js">
+</script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
+<script type="text/javascript" language="javascript" src="assets/js/lead_datatable.js">
+</script>
+<script type="text/javascript" language="javascript" class="init">
+
+    $(document).ready(function () {
+        var oTable = $('#cat_list').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/product/category_list",
+            "dataType": "json",
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+</script>
+<div id="js_messages" style="display: none;"> 
+    <span id="cat_name_req_js">{{lang('cat_name_req_js')}}</span>   
+    <span id="cat_order_req_js">{{lang('cat_order_req_js')}}</span>   
+    <span id="cat_desc_req_js">{{lang('cat_desc_req_js')}}</span>   
+    <span id="are_you_sure">{{lang('are_you_sure')}}</span>   
+    <span id="edit_this_cat_js">{{lang('edit_this_cat_js')}}</span>   
+    <span id="yes_edit_it">{{lang('yes_edit_it')}}</span>   
+    <span id="no_cancel_pls">{{lang('no_cancel_pls')}}</span>   
+    <span id="canceled">{{lang('canceled')}}</span>   
+    <span id="oprn_canceled">{{lang('oprn_canceled')}}</span>   
+    <span id="activate_this_cat_js">{{lang('activate_this_cat_js')}}</span>   
+    <span id="inactivate_this_cat_js">{{lang('inactivate_this_cat_js')}}</span>   
+    <span id="delete_this_cat_js">{{lang('delete_this_cat_js')}}</span> 
+    <span id="user_photo_ext_js">{{lang('user_photo_ext_js')}}</span>  
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <span class="text-bold">
+                        {% if edit_flag %} 
+                            {{lang('update_category')}}
+                        {% else %}
+                            {{lang('add_category')}} 
+                        {% endif %}
+                    </span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                {{ form_open_multipart('', ' id="cat_form" name="cat_form"')|raw }}
+                <div class="form-horizontal">
+                    <div class="errorHandler alert alert-danger no-display">
+                        <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('cat_name')}}: <span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-4">
+                            <input class="form-control" type="text" name="cat_name" id="cat_name" placeholder="{{lang('cat_name')}}" value="{{ category.cat_name }}" tabindex='1'>
+                            {% if error.cat_name is defined %}<code> {{ error.cat_name}}</code> {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('cat_desc')}}:<span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-4">
+                            <input class="form-control" type="text" name="cat_desc" id="cat_desc" placeholder="{{lang('cat_desc')}}" value="{{ category.cat_desc }}" tabindex='2'>
+                            {% if error.cat_desc is defined %}<code> {{ error.cat_desc }}</code> {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('cat_order')}}:<span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-4">
+                            <input class="form-control" type="text" name="cat_order" id="cat_order" placeholder="{{lang('cat_order')}}" value="{{ category.cat_order }}" tabindex='3'>
+                            {% if error.cat_order is defined %}<code> {{ error.cat_order }}</code> {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{ lang('banner_image') }} <b>(850*250)</b> :
+                        </label>
+                        <div class="fileupload fileupload-new col-sm-5"
+                             data-provides="fileupload">
+                            <div class="fileupload-new thumbnail" style="height: 66px;"><img
+                                    src="assets/cart/images/banners/{{ category.image }}"
+                                    alt="">
+                            </div>
+                            <div class="fileupload-preview fileupload-exists thumbnail"></div>
+                            <div class="user-edit-image-buttons">
+                                <span class="btn btn-azure btn-file">
+                                    <span class="fileupload-new"><i
+                                            class="fa fa-picture"></i> {{ lang('select_image') }}</span>
+                                    <span class="fileupload-exists"><i
+                                            class="fa fa-picture"></i> {{ lang('change') }}</span>
+                                    <input type="file" id="cat_image" name="cat_image" accept="image/*"/>
+                                </span>
+                                <a href="#" class="btn fileupload-exists btn-red"
+                                   data-dismiss="fileupload">
+                                    <i class="fa fa-times"></i> {{ lang('remove') }}
+                                </a>
+                            </div>
+                            <div class="alert alert-warning">
+                                <span class="label label-warning">{{lang('note')}}!</span>
+                                <span> {{lang('supported_formats')}} : {{lang('JPEG')}} , {{lang('PNG')}} , {{lang('JPG')}} </span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+
+                        </label>
+                        <div class="col-sm-4">
+                            <input type="checkbox" class="grey agree" id="cat_nav" name="cat_nav" {% if category.cat_nav %} checked {% endif %} tabindex='4'> {{ lang('for_enabling_in_nav_menu') }}     
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+
+                        </label>
+                        <div class="col-sm-4">
+                            <input type="checkbox" class="grey agree" id="featured" name="featured" {% if category.featured %} checked {% endif %} tabindex='4'> {{ lang('for_enabling_in_featured') }}     
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+
+                        </label>
+                        <div class="col-sm-4">
+                            {% if cat_flag %}                               
+                                <button type="submit"class="btn btn-primary" value="{{ product_id }}" name="update_cat" id="update_cat">
+                                    {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                                </button>
+                            {% else %}
+                                <button type="submit"class="btn btn-primary" value="add_cat" name="add_cat">
+                                    {{lang('add')}} <i class="fa fa-arrow-circle-right"></i>
+                                </button>
+                            {% endif %}
+
+
+                        </div>
+                    </div>
+                </div>
+                {{ form_close()|raw }}
+            </div>
+        </div>                                    
+    </div>
+</div>
+{% if not edit_flag %} 
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-white">
+                <div class="panel-heading">
+                    <h4 class="panel-title"><span class="text-bold">{{lang('categories')}}</span></h4>
+                    <div class="panel-tools">
+                        <div class="dropdown">
+                            <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                            <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                                <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                                <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                                <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                            </ul>
+                        </div>
+                        <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <hr>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped" id="cat_list">
+                            <thead>
+                                <tr>
+                                    <th>{{ lang('slno') }}</th>
+                                    <th>{{lang('cat_name')}}</th>
+                                    <th>{{lang('cat_desc')}}</th>
+                                    <th>{{lang('cat_order')}}</th>
+                                    <th>{{lang('date')}}</th>
+                                    <th>{{lang('action')}}</th>
+                                </tr>
+                            </thead>                            
+                        </table>
+                    </div>
+                </div>
+            </div>                                    
+        </div>
+    </div>
+{% endif %}
+{% include('admin/layout/footer.twig')%}
+<script src="assets/js/file_extension.js"></script>
+<script>
+    $(document).ready(function () {
+        validate_cat_management();
+    });
+
+    var validate_cat_management = function () {
+        var form = $('#cat_form');
+        var errorHandler2 = $('.errorHandler', form);
+        var successHandler2 = $('.successHandler', form);
+        form.validate({
+            errorElement: "span", // contain the error msg in a small tag
+            errorClass: 'help-block',
+            errorPlacement: function (error, element) { // render error placement for each input type
+                if (element.attr("type") == "radio" || element.attr("type") == "checkbox") { // for chosen elements, need to insert the error after the chosen container
+                    error.insertAfter($(element).closest('.form-group').children('div').children().last());
+                } else if (element.hasClass("ckeditor")) {
+                    error.appendTo($(element).closest('.form-group'));
+                } else if (element.attr("type") == "file") {
+                    error.insertAfter($(element).closest('div'));
+                } else {
+                    error.insertAfter(element)// for other inputs, just perform default behavior
+                }
+            },
+            ignore: ':hidden',
+            rules: {
+                cat_name: {
+                    required: true,
+                    minlength: 3
+                },
+                cat_order: {
+                    required: true,
+                    digits: true,
+                    min: 1
+                },
+                cat_desc: {
+                    required: true
+                },
+                cat_image: {
+                    extension: "jpg|jpeg|png"
+                }
+            },
+            messages: {
+                cat_name: {
+                    required: $('#cat_name_req_js').html()
+                },
+                cat_order: {
+                    required: $('#cat_order_req_js').html()
+                },
+                cat_desc: {
+                    required: $('#cat_desc_req_js').html()
+                }, cat_image: {
+                    extension: $('#user_photo_ext_js').html()
+                }
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit
+                successHandler2.hide();
+                errorHandler2.show();
+            },
+            highlight: function (element) {
+                $(element).closest('.help-block').removeClass('valid');// display OK icon
+                $(element).closest('.form-group').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
+                // add the Bootstrap error class to the control group
+            },
+            unhighlight: function (element) { // revert the change done by hightlight
+                $(element).closest('.form-group').removeClass('has-error');
+                // set error class to the control group
+            },
+            success: function (label, element) {
+                label.addClass('help-block valid');
+                // mark the current input as valid and display OK icon
+                $(element).closest('.form-group').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
+            },
+            submitHandler: function (form) {
+                successHandler2.show();
+                errorHandler2.hide();
+
+                form.submit();
+
+            }
+        });
+    };
+
+    function edit_cat(id)
+    {
+        var title = $('#are_you_sure').html();
+        var msg = $('#edit_this_cat_js').html();
+        swal({
+            title: title,
+            text: msg,
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: $('#yes_edit_it').html(),
+            cancelButtonText: $('#no_cancel_pls').html(),
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+        function (isConfirm) {
+            if (isConfirm) {
+                document.location.href = 'admin/cat-manage/cat_edit/' + id;
+            } else {
+                swal($('#canceled').html(), $('#oprn_canceled').html(), "error");
+            }
+        });
+    }
+
+    function activate_cat(id)
+    {
+        var title = $('#are_you_sure').html();
+        var msg = $('#activate_this_cat_js').html();
+        swal({
+            title: title,
+            text: msg,
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: $('#yes_activate_it').html(),
+            cancelButtonText: $('#no_cancel_pls').html(),
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+        function (isConfirm) {
+            if (isConfirm) {
+                document.location.href = 'admin/cat-manage/cat_activate/' + id;
+            } else {
+                swal($('#canceled').html(), $('#oprn_canceled').html(), "error");
+            }
+        });
+    }
+
+    function inactivate_cat(id)
+    {
+        var title = $('#are_you_sure').html();
+        var msg = $('#inactivate_this_cat_js').html();
+        swal({
+            title: title,
+            text: msg,
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: $('#yes_inactivate_it').html(),
+            cancelButtonText: $('#no_cancel_pls').html(),
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+        function (isConfirm) {
+            if (isConfirm) {
+                document.location.href = 'admin/cat-manage/cat_inactivate/' + id;
+            } else {
+                swal($('#canceled').html(), $('#oprn_canceled').html(), "error");
+            }
+        });
+    }
+
+    function delete_cat(id)
+    {
+        var title = $('#are_you_sure').html();
+        var msg = $('#delete_this_cat_js').html();
+        swal({
+            title: title,
+            text: msg,
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: $('#yes_delete_it').html(),
+            cancelButtonText: $('#no_cancel_pls').html(),
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+        function (isConfirm) {
+            if (isConfirm) {
+                document.location.href = 'admin/cat-manage/cat_delete/' + id;
+            } else {
+                swal($('#canceled').html(), $('#oprn_canceled').html(), "error");
+            }
+        });
+    }
+</script>
+
+<link href="assets/plugins/sweetalert/lib/sweet-alert.css" rel="stylesheet" />
+<script src="assets/plugins/sweetalert/lib/sweet-alert.min.js"></script>
+
+<style>
+    table.dataTable thead th{border-bottom:1px #111}
+    table.dataTable.no-footer{border-bottom:1px #dfe1e5 solid}
+</style>

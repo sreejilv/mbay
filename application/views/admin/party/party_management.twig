@@ -1,0 +1,312 @@
+{% include('admin/layout/header.twig')%}
+<link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="assets/css/shCore.css">
+<script type="text/javascript" language="javascript" src="assets/js/jquery.dataTables.js">
+</script>
+<script type="text/javascript" language="javascript" src="assets/js/shCore.js">
+</script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
+<script type="text/javascript" language="javascript" src="assets/js/lead_datatable.js">
+</script>
+<script type="text/javascript" language="javascript" class="init">
+
+    $(document).ready(function () {
+        var oTable = $('#party_users_list').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/party/party_users_list",
+            "dataType": "json",
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50, 100, 500, 1000], [10, 50, 100, 500, 1000]],
+        });
+    });
+    $(document).ready(function () {
+        var oTable = $('#party_products_list').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/party/party_products_list",
+            "dataType": "json",
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50, 100, 500, 1000], [10, 50, 100, 500, 1000]],
+        });
+    });
+</script>
+<div id="js_messages" style="display: none;"> 
+    <span id="edit_it_js">{{lang('edit_it_js')}}</span>
+    <span id="cancel_it_js">{{lang('cancel_it_js')}}</span>
+    <span id="canceled_js">{{lang('canceled_js')}}</span>
+    <span id="activate_it_js">{{lang('activate_it_js')}}</span>
+    <span id="inactivate_it_js">{{lang('inactivate_it_js')}}</span>
+    <span id="delete_it_js">{{lang('delete_it_js')}}</span>
+    <span id='are_you_sure_js'>{{lang('are_you_sure_js')}}</span>
+    <span id='username_req_js'>{{lang('username_req_js')}}</span>
+    <span id='inv_username_js'>{{lang('inv_username_js')}}</span>
+    <span id='product_code_req_js'>{{lang('product_code_req_js')}}</span>
+    <span id='inv_product_code_js'>{{lang('inv_product_code_js')}}</span>
+    <span id='request_amount_req_js'>{{lang('request_amount_req')}}</span>
+    <span id='invalid_number'>{{lang('invalid_number')}}</span>
+    <span id='party_product_safe_js'>{{lang('party_product_safe_js')}}</span>
+    <span id='edit_this_party_pro_js'>{{lang('edit_this_party_pro_js')}}</span>
+    <span id='activate_this_party_pro_js'>{{lang('activate_this_party_pro_js')}}</span>
+    <span id='inactivate_this_party_pro_js'>{{lang('inactivate_this_party_pro_js')}}</span>
+    <span id='delete_this_party_pro_js'>{{lang('delete_this_party_pro_js')}}</span>
+    <span id='party_user_safe_js'>{{lang('party_user_safe_js')}}</span>
+    <span id='activate_this_party_user_js'>{{lang('activate_this_party_user_js')}}</span>
+    <span id='delete_this_party_user_js'>{{lang('delete_this_party_user_js')}}</span>
+    <span id='inactivate_this_party_user_js'>{{lang('inactivate_this_party_user_js')}}</span>
+    <span id='party_code_req_js'>{{lang('party_code_req_js')}}</span>
+    <span id='inv_party_code_js'>{{lang('inv_party_code_js')}}</span>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('slect_party')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                {{ form_open('', ' id="select_party" name="select_party"')|raw }}
+
+                <div class="form-horizontal">                                            
+                    <div class="errorHandler alert alert-danger no-display">
+                        <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                    </div>                    
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">
+                            {{ lang('party_code') }} : <span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-4">                                
+                            <div class="text-center">
+                                <input class="typeahead3 form-control"  type="text" name="party_code"  id="party_code" placeholder="{{lang('party_code')}}" autocomplete="off">
+                                {% if error.party_code is defined %}<code> {{ error.party_code}}</code> {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+
+                        </label>
+                        <div class="col-sm-4">
+                            <button type="submit"class="btn btn-primary" name="manage_party" id="manage_party" value="manage_party">
+                                {{lang('select')}} <i class="fa fa-arrow-circle-right"></i>
+                            </button> 
+                        </div>
+                    </div>
+                </div>  
+                {{ form_close()|raw }}
+
+
+            </div>
+        </div>
+    </div>                                    
+</div>
+
+{% if management_id %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-white">
+                <div class="panel-heading">
+                    <h4 class="panel-title"><span class="text-bold">{{lang('party_management')}}</span> ({{ lang('party_code') }} : <span class="text-bold">{{party_code}}</span>)</h4>
+                    <div class="panel-tools">
+                        <div class="dropdown">
+                            <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                            <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                                <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                                <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                                <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                            </ul>
+                        </div>
+                        <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                    </div>
+                </div>
+                <div class="panel-body">                
+                    <div class="form-horizontal">
+                        <div class="tabbable">
+                            <ul id="myTab2" class="nav nav-tabs">
+                                <li class="{{tab1}}">
+                                    <a href="javascript:#manage_part_tab_1" data-toggle="tab">
+                                        <i class="pink fa fa-dashboard"></i> {{lang('party_products')}}
+                                    </a>
+                                </li>
+                                <li class="{{tab2}}">
+                                    <a href="javascript:#manage_part_tab_2" data-toggle="tab">
+                                        <i class="blue fa fa-user"></i> {{lang('party_users')}}
+                                    </a>
+                                </li>                           
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane fade in {{tab1}}" id="manage_part_tab_1">
+                                    {{ form_open_multipart('', ' id="add_prod_form" name="add_prod_form"')|raw }}
+                                    <div class="form-horizontal">
+                                        <div class="errorHandler alert alert-danger no-display">
+                                            <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                                        </div> 
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">
+                                                {{lang('product_code')}} : <span class="symbol required"></span>
+                                            </label>
+                                            <div class="col-sm-4">
+                                                <input class="form-control typeahead2" type="text" name="product_code" id="product_code" placeholder='{{lang('product_code')}}' autocomplete="off">
+                                                {% if error.product_code %}<code>{{error.product_code}} </code>{% endif %}
+                                            </div>
+                                        </div> 
+
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">
+                                                {{lang('pro_amount')}} <b>({{MLM_CURRENCY_LEFT~MLM_CURRENCY_RIGHT}})</b> :
+                                            </label>
+                                            <div class="col-sm-4">
+                                                <input class="form-control typeahead2" type="text" name="pro_amount" id="pro_amount" placeholder='{{lang('pro_amount')}}' readonly="" autocomplete="off">
+                                            </div>
+                                        </div> 
+
+
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">
+                                                {{lang('request_amount')}} <b>({{MLM_CURRENCY_LEFT~MLM_CURRENCY_RIGHT}})</b> : <span class="symbol required"></span>
+                                            </label>
+                                            <div class="col-sm-4">
+                                                <input class="form-control" type="text" name="request_amount" id="request_amount" placeholder='{{lang('request_amount')}}'>
+                                                {% if error.request_amount %}<code>{{error.request_amount}} </code>{% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">
+                                            </label>
+                                            <div class="col-sm-4">
+                                                <button type="submit"class="btn btn-primary" value="add_prod" name="add_prod" id="add_prod">
+                                                    <i class="fa fa-plus"></i> {{lang('add_prod')}} 
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{ form_close()|raw }} 
+                                    <hr>
+                                    <div class="table-responsive">
+                                        <table class="table table-hover table-striped" id="party_products_list">
+                                            <thead>
+                                                <tr>         
+                                                    <th>{{lang('slno')}}</th>
+                                                    <th>{{lang('party_code')}}</th>
+                                                    <th>{{lang('product_code')}}</th>
+                                                    <th>{{lang('original_amount')}}</th>
+                                                    <th>{{lang('suggested_amount')}}</th>
+                                                    <th>{{lang('status')}}</th>
+                                                    <th>{{lang('action')}}</th>
+                                                </tr>
+                                            </thead>                                            
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade in {{tab2}}" id="manage_part_tab_2">
+                                    {{ form_open_multipart('', ' id="add_user_form" name="add_user_form"')|raw }}
+                                    <div class="form-horizontal">
+                                        <div class="errorHandler alert alert-danger no-display">
+                                            <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">
+                                                {{lang('username')}} :: <span class="symbol required"></span>
+                                            </label>
+                                            <div class="col-sm-4">
+                                                <input class="form-control typeahead" type="text" name="username" id="username" placeholder='{{lang('username')}}'>
+                                                {% if error.username %}<code>{{error.username}} </code>{% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">
+                                            </label>
+                                            <div class="col-sm-4">
+                                                <button type="submit"class="btn btn-primary" value="add_user" name="add_user" id="add_user">
+                                                    <i class="fa fa-plus"></i> {{lang('add_user')}} 
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{ form_close()|raw }} 
+                                    <hr>
+                                    <div class="table-responsive">
+                                        <table class="table table-hover table-striped" id="party_users_list">
+                                            <thead>
+                                                <tr>         
+                                                    <th>{{lang('slno')}}</th>
+                                                    <th>{{lang('party_code')}}</th>
+                                                    <th>{{lang('username')}}</th>
+                                                    <th>{{lang('added_date')}}</th>
+                                                    <th>{{lang('status')}}</th>
+                                                    <th>{{lang('action')}}</th>
+                                                </tr>
+                                            </thead>                                            
+                                        </table>
+                                    </div> 
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>                
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% include('admin/layout/footer.twig')%}
+<link href="assets/plugins/sweetalert/lib/sweet-alert.css" rel="stylesheet" />
+<script src="assets/plugins/sweetalert/lib/sweet-alert.min.js"></script>
+<script src="assets/js/typeahead.js"></script>
+<script src="assets/js/party_management.js"></script>
+
+<script>
+    jQuery(document).ready(function () {
+        valPartyCode();
+        valAddProduct();
+        valAddUser();
+    });
+
+    $('input.typeahead').typeahead({
+        source: function (query, process) {
+            var url = "admin/member/get_usernames";
+            return $.get(url, {query: query}, function (data) {
+                data = $.parseJSON(data);
+                return process(data);
+            });
+        }
+    });
+
+    $('input.typeahead2').typeahead({
+        source: function (query, process) {
+            var url = "admin/party/get_product_codes";
+            return $.get(url, {query: query}, function (data) {
+                data = $.parseJSON(data);
+                return process(data);
+            });
+        }
+    });
+
+    $('input.typeahead3').typeahead({
+        source: function (query, process) {
+            var url = "admin/party/get_party_codes";
+            return $.get(url, {query: query}, function (data) {
+                data = $.parseJSON(data);
+                return process(data);
+            });
+        }
+    });
+
+</script>
+<style>
+    table.dataTable thead th{border-bottom:1px #111}
+    table.dataTable.no-footer{border-bottom:1px #dfe1e5 solid}
+</style>
+

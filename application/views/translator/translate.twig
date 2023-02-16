@@ -1,0 +1,189 @@
+{%if user_type=='admin' or user_type=='employee' %}
+    {% include('admin/layout/header.twig')%}
+{% elseif(user_type=='user') %}
+    {% include('user/layout/header.twig')%}
+{%else%}
+    {% include('layout/header.twig')%}
+    <body class="login">        
+        <div class="row">
+            <div class="main-login col-xs-10 col-xs-offset-1 col-sm-offset-2 col-md-6 col-md-offset-3">
+                <div class="logo">
+                    <img src="assets/images/logos/{{COMPANY_LOGO}}" width="30%;" height="10%;">
+                </div>
+            {%endif%}
+
+            <div id="js_messages" style="display: none;"> 
+                <span id="pls_wt_js">{{lang('pls_wt_js')}}</span>  
+                <span id="from_lang_req_js">{{lang('from_lang_req_js')}}</span>  
+                <span id="to_lang_req_js">{{lang('to_lang_req_js')}}</span>  
+                <span id="content_req_js">{{lang('content_req_js')}}</span>  
+                <span id="pls_wait_js">{{lang('pls_wait_js')}}</span>  
+                <span id="same_source_target">{{lang('same_source_target')}}</span>  
+            </div>
+
+            {%if not user_type %}
+                {%include('admin/layout/notification.twig')%}
+            {% endif %}
+
+            <div class="row">            
+                <div class="col-md-12">
+                    <div class="panel panel-white">
+                        <div class="panel-heading">
+
+                            <div class="row">
+                                <div  class="col-xs-6 col-sm-6 col-lg-6">
+                                    <h4 class="panel-title"><span class="text-bold">{{ title }}</span></h4>
+                                </div>  
+
+                                {%if not user_type %}
+
+                                    <style type="text/css">
+                                        /*//for language change   */
+                                        .dropdown-subview:after {
+                                            right: auto !important;
+                                            left: 105px !important;
+                                        }
+                                        .dropdown-subview:before {
+                                            right: auto !important;
+                                            left: 104px !important;
+                                        }
+                                        .nav>li>a:focus, .nav>li>a:hover {
+                                            background-color:transparent;
+                                        }
+                                        .nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
+                                            background-color:transparent;
+                                        }
+                                    </style>
+
+                                    <div class="col-xs-6 col-sm-6 col-lg-6" style="hover:none;">
+                                        <p>
+                                        <div class="topbar-tools pull-right"  style="color:black !important;hover:none!important;">
+                                            <ul class="nav navbar-right">
+
+                                                {% if MULTI_LANG_STATUS %}
+                                                    <li class="dropdown current-user">
+                                                        <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="javascript:;"  title="Change Language"
+                                                           style="color: gray;" 
+                                                           >
+                                                            <img src="assets/images/flags/lang/{{MLM_LANG_FLAG}}" class="img-circle" alt="">
+                                                            <span class="username hidden-xs"><small>{{MLM_LANG_NAME|capitalize}}</small></span> <i class="fa fa-caret-down hidden-xs "></i>
+                                                        </a>
+
+                                                        <ul class="dropdown-menu dropdown-light dropdown-subview" >
+                                                            {% for LANGUAGE  in  MLM_LANG_LIST  %}
+                                                                <li onclick="switchLanguage('{{LANGUAGE.lang_code}}');">
+                                                                    <a href="javascript:;" >
+                                                                        {{LANGUAGE.lang_name}} 
+
+                                                                    </a>
+                                                                </li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    </li>
+                                                {% elseif GOOGLE_TRANSLATOR %}
+
+                                                    <li class="hidden-xs">
+                                                        <a  href="javascript:;"  title="Google Translate"  class="dropdown-toggle">
+                                                            <span id="google_translate_element"> </span>
+                                                        </a>
+                                                    </li> 
+                                                {% endif %} 
+                                            </ul>
+                                        </div>
+                                        </p>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="panel-body">
+
+                            {{ form_open('', 'id="translator_form" name="translator_form"')|raw }}
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">
+                                        {{lang('from_lang')}}:<span class="symbol required"></span>
+                                    </label>
+                                    <div class="col-sm-4">
+                                        <select name="from_lang" id="from_lang" class="form-control search-select" tabindex='1'>
+                                            <option value="">{{lang('select_from_lang')}}</option>
+                                            {% for la in langs %}
+                                                <option value="{{la.lang_code}}">{{la.lang_name}}</option> 
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">
+                                        {{lang('to_lang')}}:<span class="symbol required"></span>
+                                    </label>
+                                    <div class="col-sm-4">
+                                        <select name="to_lang" id="to_lang" class="form-control search-select" tabindex='2'>
+                                            <option value="">{{lang('select_to_lang')}}</option>
+                                            {% for la in langs %}
+                                                <option value="{{la.lang_code}}">{{la.lang_name}}</option> 
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">
+                                        {{lang('content')}}:<span class="symbol required"></span>
+                                    </label>
+                                    <div class="col-sm-3">
+                                        <textarea rows="4" cols="30" id="content" name="content" tabindex='3' placeholder="{{lang('content')}}"></textarea>
+                                    </div>
+                                </div>
+                                {% if result %}
+                                    <div class="form-group">
+                                        <label class="col-sm-7 control-label">
+                                            {{lang('result')}} : <b> {{ result }} </b>
+                                        </label>                        
+                                    </div>
+                                {% endif %}
+
+                                <div class="form-group">
+                                    <label class="col-sm-7 control-label">
+                                        <b id="translated_content">  </b>
+                                    </label>                        
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">
+                                    </label>
+                                    <div class="col-sm-4">
+                                        <button type="submit" class="btn btn-primary" value="translate" name="translate">
+                                            {{lang('translate')}} <i class="fa fa-arrow-circle-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                {{form_close()|raw}} 
+
+
+
+
+                            </div>
+                        </div>
+                    </div>                                    
+                </div>
+                {%if user_type=='admin' or user_type=='employee' %}
+                    {% include('admin/layout/footer.twig')%}
+                {% elseif(user_type=='user') %}
+                    {% include('user/layout/footer.twig')%}
+                {%else%}
+                </div>
+                {% include('layout/footer.twig')%}            
+            {%endif%}
+            <link rel="stylesheet" href="assets/plugins/select2/select2.css">		
+            <link rel="stylesheet" href="assets/css/plugins.css">
+            <script src="assets/plugins/select2/select2.min.js"></script>
+            <script src="assets/js/form-elements.js"></script>
+
+            <script src="assets/plugins/blockUI/jquery.blockUI.js"></script>
+            <script src="assets/js/lead_translator.js">
+            </script>
+            <script>
+                jQuery(document).ready(function () {
+                    langTranslator();
+                    FormElements.init2();
+                });
+            </script>

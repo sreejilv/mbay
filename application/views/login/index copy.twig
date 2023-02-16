@@ -1,0 +1,297 @@
+{% include('layout/header.twig')%}
+<style type="text/css">
+    /*//for language change   */
+    .dropdown-subview:after {
+        right: auto !important;
+        left: 105px !important;
+    }
+    .dropdown-subview:before {
+        right: auto !important;
+        left: 104px !important;
+    }
+    .nav>li>a:focus, .nav>li>a:hover {
+        background-color:transparent;
+    }
+    .nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
+        background-color:transparent;
+    }
+</style>
+<body class="login">
+    <input type="hidden" name="path" id="path" value="{{BASE_URL}}"/>
+    <div id="js_messages" style="display: none;"> 
+        <span id="username_req_js">{{lang('username_req_js')}}</span>
+        <span id="username_inv_js">{{lang('username_inv_js')}}</span>
+        <span id="password_req_js">{{lang('password_req_js')}}</span>
+    </div>
+    <div class="row">
+        <div class="main-login col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
+            <div class="logo">
+                <img src="assets/images/logos/{{COMPANY_LOGO}}">
+            </div>
+            <div class="box-login">
+
+
+                <div class="row">
+                    <div  class="col-xs-6 col-sm-6 col-lg-6">
+                        <h3>{{lang('login_heading')}}</h3>                        
+                    </div>        
+                    <div class="col-xs-6 col-sm-6 col-lg-6" style="hover:none;">
+                        <p>
+                        <div class="topbar-tools pull-right"  style="color:black !important;hover:none!important;">
+                            <ul class="nav navbar-right">
+
+                                {% if MULTI_LANG_STATUS %}
+                                    <li class="dropdown current-user">
+                                        <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="javascript:;"  title="Change Language"
+                                           style="color: gray;" 
+                                           >
+                                            <img src="assets/images/flags/lang/{{MLM_LANG_FLAG}}" class="img-circle" alt="">
+                                            <span class="username hidden-xs"><small>{{MLM_LANG_NAME|capitalize}}</small></span> <i class="fa fa-caret-down hidden-xs "></i>
+                                        </a>
+
+                                        <ul class="dropdown-menu dropdown-light dropdown-subview" >
+                                            {% for LANGUAGE  in  MLM_LANG_LIST  %}
+                                                <li onclick="switchLanguage('{{LANGUAGE.lang_code}}');">
+                                                    <a href="javascript:;" >
+                                                        {{LANGUAGE.lang_name}}                                                         
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+
+                                {% elseif GOOGLE_TRANSLATOR %}
+
+                                    <li class="hidden-xs">
+                                        <a  href="javascript:;"  title="Google Translate"  class="dropdown-toggle">
+                                            <span id="google_translate_element"> </span>
+                                        </a>
+                                    </li> 
+
+                                {% endif %} 
+
+                            </ul>
+                        </div>
+                        </p>
+                    </div>
+                </div>
+                <p>
+
+                    {% if PRESET_DEMO_STATUS %}
+                        {{ lang('for_login_credentials') }} <a href="#" data-toggle="modal" data-target="#binary_bonus_modal" >{{ lang('click_here') }}</a>
+
+                    {% else %}
+                        {{lang('login_description')}}
+
+                    {% endif %}
+                </p>
+                {%include('admin/layout/notification.twig')%}
+
+
+                <div class="errorHandler alert alert-danger no-display">
+                    <i class="fa fa-remove-sign"></i> {{lang('you_have_some_form_errors')}}
+                </div>
+
+                <fieldset>
+                    {{ form_open('', 'class="login_form" id="login_form" name="login_form"')|raw }}
+                    <div class="form-group">
+                        <span class="input-icon">
+                            <input type="text" class="form-control" name="username" id="username" placeholder="{{lang('user_name')}}" tabindex='1' autocomplete='off'>
+                            <i class="fa fa-user"></i> 
+                        </span>
+                        {% if login_error.username is defined %}<code> {{ login_error.username}} </code> {% endif %}
+                    </div>
+                    <div class="form-group form-actions">
+                        <span class="input-icon">
+                            <input type="password" class="form-control password" id="password" name="password" placeholder="{{lang('password')}}" tabindex='2'>
+                            <i class="fa fa-lock"></i>
+                            <a class="forgot" href="login-forgot">
+                                {{lang('login_forgot_password')}}
+                            </a> 
+                        </span>
+                        {% if login_error.password is defined %}<code> {{ login_error.password}} </code> {% endif %}
+                    </div>
+                    {% if (CAPTCHA_STATUS>0) %}
+                        <div class="form-group form-actions pull-center">
+                            <div class="pull-centre" style="text-align:center;">
+                                <div class="g-recaptcha pull-center" data-sitekey="{{key}}"></div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="form-actions row">
+                        <div  class="col-sm-6 col-xs-6" >
+                            <label for="remember" class="checkbox-inline">
+                                <input type="checkbox" class="grey remember" id="remember" name="remember">
+                                <small>{{lang('keep_me_signed')}}</small>
+                            </label>
+
+                        </div>
+                        <div  class="col-sm-6 col-xs-6 text-right">
+                            <button type="submit" class="btn btn-green" id="login" name="login" value="Login">
+                                {{lang('login')}} <i class="fa fa-arrow-circle-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    {{form_close()|raw}}
+                    <div class="new-account">
+                        {{lang('account_yet')}}
+                        <a href="{{REG_MODE}}" class="register">
+                            {{lang('create_account')}}
+                        </a>
+                    </div>
+                    <br/>
+                    <div class="row">
+                        {% if EMPLOYEE_STATUS  %}
+                            <div  class="col-sm-6  col-md-6">
+                                <a class="btn btn-default btn-link1  btn-sm  pull-left" href="{{BASE_URL}}employee-login">
+                                    {{lang('login_employee')}} <i class="fa fa-angle-double-right"></i>
+                                </a>
+                            </div>
+                        {%endif%}
+                        {% if AFFILIATES_STATUS %}
+                            <div  class="col-sm-6  col-md-6 ">
+                                <a class="btn btn-default btn-link1 btn-sm  pull-right" href="{{BASE_URL}}affiliate-login">
+                                    {{lang('login_affiliate')}} <i class="fa fa-angle-double-right"></i>
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </fieldset>
+
+                <div class="copyright">
+                    {{ "now"|date("Y") }} &copy; by {{COMPANY_NAME}}.
+                </div>
+            </div>				
+        </div>
+    </div>
+    <style>
+
+        .g-recaptcha{
+            -webkit-transform: scale(0.75);
+            -moz-transform: scale(0.75);
+            -ms-transform: scale(0.75);
+            -o-transform: scale(0.75);
+            transform: scale(0.75);
+            -webkit-transform-origin: 0 0;
+            -moz-transform-origin: 0 0;
+            -ms-transform-origin: 0 0;
+            -o-transform-origin: 0 0;
+            transform-origin: 0 0;
+        }
+
+        .center {
+            position: absolute;
+            left: 50%!important;
+            top: 50%!important; 
+        }
+
+    </style>
+    {% include('layout/footer.twig')%}
+
+
+    {% if PRESET_DEMO_STATUS %}
+
+
+        <div id="binary_bonus_modal" class="modal extended-modal fade no-display" tabindex="-1" data-width="760">
+            <div class="modal-dialog modal-notify modal-info" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="border-radius: 6px;">
+                        <p class="heading lead">{{lang('preset_demo_login_credentials')}} </p>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-5 col-sm-offset-1 col-xs-5 col-xs-offset-1">
+                                <h4>{{lang('admin')}}</h4>
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <strong>{{lang('username')}}: </strong> admin
+                                    </li>
+                                    <li>
+                                        <strong>{{lang('password')}}: </strong> 010101
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <div class="col-sm-6 pull-right">
+                                <h4>{{lang('user')}}</h4>
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <strong>{{lang('username')}}: </strong> leaduser
+                                    </li>
+                                    <li>
+                                        <strong>{{lang('password')}}: </strong> 010101
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-5 col-sm-offset-1 col-xs-5 col-xs-offset-1">
+                                <h4>{{lang('employee')}}</h4>
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <strong>{{lang('username')}}: </strong> employee1
+                                    </li>
+                                    <li>
+                                        <strong>{{lang('password')}}: </strong> 010101
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <div class="col-sm-6 pull-right">
+                                <h4>{{lang('affiliate')}}</h4>
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <strong>{{lang('username')}}: </strong> affiliate1
+                                    </li>
+                                    <li>
+                                        <strong>{{lang('password')}}: </strong> 010101
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer justify-content-center">
+                        <button type="button" data-dismiss="modal" class="btn btn-default">
+                            {{lang('close')}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <style type="text/css">
+
+            .modal-info .modal-header {
+                /* background-color: #33b5e5;
+                 ba*/ckground-image: url('assets/images/bg.png');
+            }
+
+        </style>
+
+        <script src="assets/plugins/bootstrap-modal/js/bootstrap-modal.js"></script>
+        <script src="assets/plugins/bootstrap-modal/js/bootstrap-modalmanager.js"></script>
+
+        <link href="assets/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css"/>
+        <link href="assets/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
+
+
+    {% endif %}
+
+
+    {% if CAPTCHA_STATUS %}
+        <script src='https://www.google.com/recaptcha/api.js'>
+
+        </script>
+    {% endif %}
+
+    <script src="assets/js/login_site.js">
+    </script>
+
+    <script>
+        jQuery(document).ready(function () {
+            runLoginValidator();
+        });
+    </script>

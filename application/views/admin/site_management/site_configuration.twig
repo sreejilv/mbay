@@ -1,0 +1,217 @@
+{% include('admin/layout/header.twig')%}
+<div style="display:none">
+    <span id="js_error_message">{{lang('js_error_message')}}</span>
+    <span id="user_logo_ext_js">{{lang('user_logo_ext_js')}}</span>  
+    <span id="user_fav_ext_js">{{lang('user_fav_ext_js')}}</span>  
+    <span id="company_name_req_js">{{lang('company_name_req_js')}}</span>  
+    <span id="company_address_req_js">{{lang('company_address_req_js')}}</span>  
+    <span id="min_length_address_js">{{lang('min_length_address_js')}}</span>  
+    <span id="company_email_req_js">{{lang('company_email_req_js')}}</span>  
+    <span id="min_length_js">{{lang('min_length_js')}}</span>    
+    <span id="company_phone_req_js">{{lang('company_phone_req_js')}}</span>    
+    <span id="min_phone_req_js">{{lang('min_phone_req_js')}}</span>     
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{ page_title}} </span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+
+                </div>
+            </div>
+            
+            <div class="panel-body">
+                <hr>
+                {{ form_open_multipart('', ' method="post" id="update_siteinfo_form" name="update_siteinfo_form"')|raw }}
+                <div class="col-sm-12">
+                    <div class="tabbable">
+                        <ul id="myTab" class="nav nav-tabs">
+                            <li class="active">
+                                <a href="javascript:#myTab_example1" data-toggle="tab">
+                                    <i class="green fa fa-list"></i>  {{lang('general')}}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:#myTab_example2" data-toggle="tab">
+                                    <i class="green fa fa-image"></i>  {{lang('image')}}
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" id="myTab_example1">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">
+
+                                            {{lang('company_name')}}: <span class="symbol required"></span>
+                                        </label>
+                                        <div class="input-group col-sm-4 ">
+                                            <span class="input-group-addon"> <i class="fa fa-user"></i> </span>
+                                            <input class="form-control" type="text" name="company_name" id="company_name" placeholder='{{lang('company_name')}}' value="{{site_info['company_name']}}">
+                                        </div>
+                                        {% if(error.company_name)%}<code>{{error.company_name}} </code>{% endif%}
+                                    </div>
+                                    {#<div class="form-group">
+                                        <label class="col-sm-3 control-label">
+
+                                            {{lang('admin_email')}}: <span class="symbol required"></span>
+                                        </label>
+                                        <div class="input-group col-sm-4 ">
+                                            <span class="input-group-addon"> <i class="fa fa-envelope"></i> </span>
+                                            <input class="form-control" type="text" name="admin_email" id="admin_email" placeholder='{{lang('admin_email')}}' value="{{site_info['admin_email']}}">
+                                        </div>
+                                        {% if(error.admin_email)%}<code>{{error.admin_email}} </code>{% endif%}
+                                    </div>#}
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">
+
+                                            {{lang('address')}}: <span class="symbol required"></span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <textarea class="form-control ckeditor" type="text" rows="4" cols="60" name="company_address" id="company_address" placeholder='{{lang('address')}}'>{{site_info['company_address']}}</textarea>
+
+                                        </div>
+                                        {% if(error.company_address)%}<code>{{error.company_address}} </code>{% endif%}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">
+
+                                            {{lang('company_email')}}: <span class="symbol required"></span>
+                                        </label>
+                                        <div class="input-group col-sm-4 ">
+                                            <span class="input-group-addon"> <i class="fa fa-envelope"></i> </span>
+                                            <input class="form-control" type="email" name="company_email" id="company_email" placeholder='{{lang('company_email')}}'value="{{site_info['company_email']}}">
+                                        </div>
+                                        {% if(error.company_email)%}<code>{{error.company_email}} </code>{% endif%}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">
+
+                                            {{lang('company_phone')}}: <span class="symbol required"></span>
+                                        </label>
+                                        <div class="input-group col-sm-4 ">
+                                            <span class="input-group-addon"> <i class="fa fa-phone"></i> </span>
+                                            <input class="form-control" type="text" name="company_phone" id="company_phone" placeholder='{{lang('company_phone')}}' value="{{site_info['company_phone']}}">
+                                        </div>
+                                        {% if(error.company_phone)%}<code>{{error.company_phone}} </code>{% endif%}
+                                    </div>
+                                    
+                                     <div class="form-group">
+                                         
+                                        <label class="col-sm-3 control-label">
+                                          {{lang('google_analytics')}}: 
+                                        </label>
+                                        
+                                        <div class="input-group col-sm-4 ">
+                                            <span class="input-group-addon"> <i class="fa fa-text-width"></i> </span>
+                                            <input class="form-control" type="text" name="google_analytics" id="google_analytics" placeholder='{{lang('google_analytics')}}' value="{{site_info['google_analytics']}}">
+                                         </div>
+                                         {% if(error.google_analytics)%}<code>{{error.google_analytics}} </code>{% endif%}
+                                         
+                                    </div>
+                                    <div class="form-group">
+                                         <div class="col-sm-3">
+                                         </div>
+                                         <div class="col-sm-6 col-sm-offest-3">
+                                                <span class="label label-info"> {{ lang('note') }}</span>
+                                              <span> {{ lang('google_analytics_note') }} </span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="myTab_example2">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">
+                                            {{lang('logo')}}
+                                        </label>
+                                        <div class="fileupload fileupload-new col-sm-5" data-provides="fileupload">
+                                            <div class="fileupload-new thumbnail"><img src="{{BASE_URL}}assets/images/logos/{{site_info['company_logo']}}" alt="" value="{{site_info['company_logo']}}">
+                                            </div>
+                                            <div class="fileupload-preview fileupload-exists thumbnail"></div>
+                                            <div class="user-edit-image-buttons">
+                                                <span class="btn btn-azure btn-file"><span class="fileupload-new"><i class="fa fa-picture"></i>{{lang('select_image')}}</span><span class="fileupload-exists"><i class="fa fa-picture"></i> {{lang('change')}}</span>
+                                                    <input type="file" name="company_logo" id="company_logo" value="{{site_info['company_logo']}}" accept="image/*">
+                                                </span>
+                                                <a href="#" class="btn fileupload-exists btn-red" data-dismiss="fileupload">
+                                                    <i class="fa fa-times"></i> {{lang('remove')}}
+                                                </a>
+                                            </div>
+                                            <div class="alert alert-warning">
+                                                <span class="label label-warning">{{lang('note')}}!</span>
+                                                <span> {{lang('supported_formats')}} : {{lang('JPEG')}} , {{lang('PNG')}} , {{lang('JPG')}} </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">
+                                            {{lang('fav_icon')}}
+                                        </label>
+                                        <div class="fileupload fileupload-new col-sm-5" data-provides="fileupload">
+                                            <div class="fileupload-new thumbnail"><img src="{{BASE_URL}}assets/images/logos/{{site_info['company_fav_icon']}}" alt="" value="{{site_info['company_fav_icon']}}">
+                                            </div>
+                                            <div class="fileupload-preview fileupload-exists thumbnail"></div>
+                                            <div class="user-edit-image-buttons">
+                                                <span class="btn btn-azure btn-file"><span class="fileupload-new"><i class="fa fa-picture"></i> {{lang('select_image')}}</span><span class="fileupload-exists"><i class="fa fa-picture"></i> {{lang('change')}}</span>
+                                                    <input type="file" name="company_fav_icon" id="company_fav_icon" value="{{site_info['company_fav_icon']}}" accept="image/*">
+                                                </span>
+                                                <a href="#" class="btn fileupload-exists btn-red" data-dismiss="fileupload">
+                                                    <i class="fa fa-times"></i> {{lang('remove')}}
+                                                </a>
+                                            </div>
+
+                                            <div class="alert alert-warning">
+                                                <span class="label label-warning">{{lang('note')}}!</span>
+                                                <span> {{lang('supported_formats')}} : {{lang('JPEG')}} , {{lang('PNG')}} , {{lang('JPG')}} </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">
+
+                    </label>
+                    <div class="col-sm-4">
+
+                        {% if PRESET_DEMO_STATUS %}
+                            <button type="button" class="btn btn-primary" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                                {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                            </button>
+                        {% else %}                        
+                            <button type="submit"class="btn btn-primary" value="update" name="update_site_info" id="update_site_info">
+                                {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                            </button>                         
+                        {% endif %}
+                    </div>
+                </div>
+                {{ form_close()|raw }}
+            </div>
+        </div>                                    
+    </div>
+</div>
+{% include('admin/layout/footer.twig') %}
+<script src="assets/plugins/ckeditor/ckeditor.js"></script>
+<script src="assets/js/file_extension.js"></script>
+<script src="assets/js/site_management.js">
+</script>
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        validateSiteSettings();
+    });
+</script>

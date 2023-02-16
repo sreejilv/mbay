@@ -1,0 +1,195 @@
+{% include ('user/layout/header.twig') %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('add_kyc_details')}} </span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                {{form_open_multipart('','methd="post" name="add_kyc_details" id="add_kyc_details"')|raw}}
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="errorHandler alert alert-danger no-display">
+                            <i class="fa fa-times-sign"></i> {{lang('form_error_messages')}}
+                        </div>
+                        <div class="successHandler alert alert-success no-display">
+                            <i class="fa fa-ok"></i> {{lang('form_success_messages')}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="panel-heading">
+                                {{lang('bank_details')}}
+                            </div>
+                            <hr/>
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">
+                                        {{lang('bank_name')}}: <span class="symbol required"></span>
+                                    </label>
+                                    <div class="col-md-6 input-group">
+                                        <span class="input-icon">
+                                            <input type="text" name="bank_name" id="bank_name" class="form-control">
+                                            <i class="fa fa-user"></i>
+                                        </span>{% if(error.bank_name) %} <code>{{error.bank_name}} </code>{% endif %}
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">
+                                        {{lang('bank_branch')}}: <span class="symbol required"></span>
+                                    </label>
+                                    <div class="col-md-6 input-group">
+                                        <span class="input-icon">
+                                            <input type="text" name="bank_branch" id="bank_branch" class="form-control">
+                                            <i class="fa fa-list"></i>
+                                        </span>{% if(error.bank_branch) %} <code>{{error.bank_branch}}</code> {% endif %}
+                                    </div>
+
+                                </div>
+                                <div class="form-group">`
+                                    <label class="col-md-4 control-label">
+                                        {{lang('bank_account_no')}}: <span class="symbol required"></span>
+                                    </label>
+                                    <div class="col-md-6 input-group">
+                                        <span class="input-icon">
+                                            <input type="text" name="bank_account_no" id="bank_account_no" class="form-control">
+                                            <i class="fa fa-wrench"></i>
+                                        </span>{% if(error.bank_account_no) %} <code>{{error.bank_account_no}}</code> {% endif %}
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">
+                                        {{lang('bank_ifc_code')}}: <span class="symbol required"></span>
+                                    </label>
+                                    <div class="col-md-6 input-group">
+                                        <span class="input-icon">
+                                            <input type="text" name="bank_ifc_code" id="bank_ifc_code" class="form-control">
+                                            <i class="fa fa-code"></i>
+                                        </span>{% if(error.bank_ifc_code) %} <code>{{error.bank_ifc_code}}</code> {% endif %}
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">
+                                        {{lang('upload_proof')}}: <span class="symbol required"></span>
+                                    </label>
+                                    <div class="col-md-6 input-group">
+                                        <div class="fileupload fileupload-new" data-provides="fileupload">
+                                            <div class="input-group">
+                                                <div class="form-control uneditable-input">
+                                                    <i class="fa fa-file fileupload-exists"></i>
+                                                    <span class="fileupload-preview"></span>
+                                                </div>
+                                                <div class="input-group-btn">
+                                                    <div class="btn btn-light-grey btn-file">
+                                                        <span class="fileupload-new"><i class="fa fa-folder-open-o"></i> {{lang('select_file')}}</span>
+                                                        <span class="fileupload-exists"><i class="fa fa-folder-open-o"></i> {{lang('change')}}</span>
+                                                        <input type="file" class="file-input" name="bank_file" accept="image/*">
+                                                    </div>
+                                                    <a href="#" class="btn btn-light-grey fileupload-exists" data-dismiss="fileupload">
+                                                        <i class="fa fa-times"></i>{{lang('remove')}}
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="panel-heading">
+                                {{lang('id_proof')}}
+                            </div>
+                            <hr/>
+
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">
+                                        {{lang('name_as_per_proof')}}: <span class="symbol required"></span>
+                                    </label>
+                                    <div class="col-md-6 input-group">
+                                        <span class="input-icon">
+                                            <input type="text" name="id_name" id="id_name" class="form-control">
+                                            <i class="fa fa-user"></i>
+                                        </span>{% if(error.id_name) %} <code>{{error.id_name}}</code> {% endif %}
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">
+                                        {{lang('id_number')}}: <span class="symbol required"></span>
+                                    </label>
+                                    <div class="col-md-6 input-group">
+                                        <span class="input-icon">
+                                            <input type="text" name="id_number" id="id_number" class="form-control">
+                                            <i class="fa fa-list"></i>
+                                        </span>{% if(error.id_number) %} <code>{{error.id_number}}</code> {% endif %}
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">
+                                        {{lang('upload_proof')}}: <span class="symbol required"></span>
+                                    </label>
+                                    <div class="col-md-6 input-group">
+                                        <div class="fileupload fileupload-new" data-provides="fileupload">
+                                            <div class="input-group">
+                                                <div class="form-control uneditable-input">
+                                                    <i class="fa fa-file fileupload-exists"></i>
+                                                    <span class="fileupload-preview"></span>
+                                                </div>
+                                                <div class="input-group-btn">
+                                                    <div class="btn btn-light-grey btn-file">
+                                                        <span class="fileupload-new"><i class="fa fa-folder-open-o"></i>{{lang('select_file')}}</span>
+                                                        <span class="fileupload-exists"><i class="fa fa-folder-open-o"></i> {{lang('change')}}</span>
+                                                        <input type="file" class="file-input" name="id_proof" accept="image/*">
+                                                    </div>
+                                                    <a href="#" class="btn btn-light-grey fileupload-exists" data-dismiss="fileupload">
+                                                        <i class="fa fa-times"></i> {{lang('remove')}}
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-action">
+                        <div class="col-sm-offset-5 ">
+                            <button class="btn btn-primary" type="submit" name="submit">{{lang('submit')}}</button>
+                        </div>
+                    </div>
+
+                </div>
+                {{form_close()|raw}}
+            </div>
+        </div>
+    </div>
+</div>
+{% include ('user/layout/footer.twig') %}
+<script src="assets/js/add_kyc_details.js"></script>
+<script type="text/javascript">
+    Jquery(document).ready(function () {
+        ValidateKyc.init();
+    });
+</script>

@@ -1,0 +1,22 @@
+<link rel="stylesheet" href="{$PUBLIC_URL}css/tree/styles-tree.css"/>
+<link rel="stylesheet" href="{$PUBLIC_URL}css/tree/custom-tree.css"/>
+<link href="{$PUBLIC_URL}css/tree/prettify-tree.css" type="text/css" rel="stylesheet" />
+<script src="{$PUBLIC_URL}javascript/tree/jquery.tree.js"></script>
+
+<script>
+    jQuery(document).ready(function () {
+        $("#tree_view").jOrgChart({
+            chartElement: '#tree',
+            dragAndDrop: false
+        });
+    });
+</script>
+
+<link href="{$PUBLIC_URL}css/tree/style_tooltip.css" rel="stylesheet" type="text/css" />
+<script type = "text/javascript" src = "{$PUBLIC_URL}javascript/tree/easyTooltip.js"></script>
+<script src="{$PUBLIC_URL}javascript/tree/jquery.scroll.tree.js"></script>
+
+
+{$display_tree}
+
+<div id="tree" class="orgChart"></div>

@@ -1,0 +1,47 @@
+{% if FLASH_MESSAGE_DETAILS %}	
+ <div class="row"  id="message_box">
+    <div class="col-md-12"> 
+	{% if FLASH_MESSAGE_TYPE == 'danger'  %}
+		<div class="alert alert-block alert-danger fade in"  id='message_box'>
+			<button data-dismiss="alert" class="close" type="button">
+				&times;
+			</button><i class="fa fa-times"></i>
+			<!-- <h4 class="alert-heading"><i class="fa fa-times"></i> Error!</h4> -->
+			{% elseif  FLASH_MESSAGE_TYPE == 'info'  %}
+			
+		<div class="alert alert-block alert-info fade in"  id='message_box'>
+			<button data-dismiss="alert" class="close" type="button">
+				&times;
+			</button><i class="fa fa-info"></i>
+			<!-- <h4 class="alert-heading"><i class="fa fa-info"></i> Info!</h4> -->
+			{% elseif  FLASH_MESSAGE_TYPE == 'warning'  %}
+
+		<div class="alert alert-block alert-warning fade in"  id='message_box'>
+			<button data-dismiss="alert" class="close" type="button">
+				&times;
+			</button><i class="fa fa-exclamation"></i>
+			<!-- <h4 class="alert-heading"><i class="fa fa-exclamation"></i> Warning!</h4> -->
+			{% else %}
+			
+		<div class="alert alert-block alert-success fade in" id='message_box' >
+			<button data-dismiss="alert" class="close" type="button">
+				&times;
+			</button><i class="fa fa-check"></i>
+		    <!-- <h4 class="alert-heading"><i class="fa fa-check"></i> Success!</h4> -->	
+			{% endif %}
+
+				{{ FLASH_MESSAGE_DETAILS }}
+			  
+		</div>
+     </div>
+</div>
+ 
+{% endif %}
+
+<script>
+    jQuery(document).ready(function ()
+    {
+        $('#message_box').fadeIn('fast').delay(2000).fadeOut('slow');
+       
+    });
+</script>

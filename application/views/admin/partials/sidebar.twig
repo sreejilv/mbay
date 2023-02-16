@@ -1,0 +1,39 @@
+<!-- ========== Left Sidebar Start ========== -->
+
+
+<div class="vertical-menu">
+    <div data-simplebar class="h-100">
+        <div id="sidebar-menu">
+            <ul class="metismenu list-unstyled" id="side-menu">
+            {% for MENU  in USER_MENU %}
+                <li {% if MENU.selected == 'selected' and MENU.id != 1 %} class="mm-active" {% endif %}>
+                    <a href="{{ MENU.link }}"  target="{{ MENU.target }}" {% if MENU.selected == 'selected' and MENU.id != '1' %} class="active" {% endif %}  {% if  MENU.sub_menu %} class="has-arrow" {% endif %}>
+                        <!-- <i data-feather="home"></i> -->
+                        <i class="bx {{ MENU.icon }}"></i>
+                        <span >{{ lang('menu_name_' ~ MENU.id) }}</span>
+                    </a>
+
+                    {% if  MENU.sub_menu  is not null %}
+                    <ul class="sub-menu" aria-expanded="false">
+
+                        {% for SUB_MENU  in  MENU.sub_menu  %}
+                        <li>
+                            <a href="{{ SUB_MENU.link }}" target="{{ SUB_MENU.target }}">
+                                <span>{{ lang('menu_name_' ~  SUB_MENU.id) }} </span>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
+
+

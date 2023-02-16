@@ -1,0 +1,50 @@
+<script type="text/javascript" src="assets/plugins/jQuery/jquery-1.11.1.min.js"></script>
+
+<link rel='stylesheet' href="assets/css/rail-view.css" type='text/css'>
+<link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="assets/plugins/iCheck/skins/all.css">
+<link rel="stylesheet" href="assets/plugins/perfect-scrollbar/src/perfect-scrollbar.css">
+<link rel="stylesheet" href="assets/plugins/animate.css/animate.min.css">
+<!-- end: MAIN CSS -->
+<!-- start: CSS REQUIRED FOR SUBVIEW CONTENTS -->
+<link rel="stylesheet" href="assets/owl.theme.min.css_styles.min.css">
+<link rel="stylesheet" href="assets/fullcalendar.min.css_styles.min.css">
+<link rel="stylesheet" href="assets/plugins/toastr/toastr.min.css">
+<link rel="stylesheet" href="assets/plugins/bootstrap-select/bootstrap-select.min.css">
+<link rel="stylesheet" href="assets/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css">
+<link rel="stylesheet" href="assets/plugins/bootstrap-fileupload/bootstrap-fileupload.min.css">
+
+<link rel="stylesheet" href="assets/css/styles-responsive.css">
+<link rel="stylesheet" href="assets/minify/css/print.min.css_styles.min.css">
+
+<!--<link rel="stylesheet" href="assets/css/themes/theme-style2.css" type="text/css" id="skin_color">-->
+
+<link rel="stylesheet" href="assets/plugins/bootstrap-social-buttons/bootstrap-social.css">
+
+{% if DARK_MODE %}
+    <link rel="stylesheet" href="assets/css/dark_styles.css">
+    <link rel="stylesheet" href="assets/css/themes/dark_theme.css" type="text/css" id="skin_color">
+{% else %}
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="{{THEME.color_scheama}}" type="text/css" id="skin_color">
+{% endif %}
+<!-- end: CSS REQUIRED FOR THIS SUBVIEW CONTENTS-->
+<!-- start: CSS REQUIRED FOR THIS PAGE ONLY -->
+<!-- end: CSS REQUIRED FOR THIS PAGE ONLY -->
+<!-- start: CORE CSS -->
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $.ajaxSetup({
+            data: {
+
+                '{{CSRF_TOKEN_NAME}}': '{{CSRF_TOKEN_VALUE}}'
+            }
+        });
+    });
+
+</script>
+
+
+<!-- end: CORE CSS -->

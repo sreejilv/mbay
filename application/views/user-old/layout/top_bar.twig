@@ -1,0 +1,317 @@
+<!-- start: TOPBAR -->
+<header class="topbar navbar navbar-inverse navbar-fixed-top inner">
+    <!-- start: TOPBAR CONTAINER -->
+    <div class="container">
+        <div class="navbar-header">
+            <a class="sb-toggle-left hidden-md hidden-lg" href="#main-navbar">
+                <i class="fa fa-bars"></i>
+            </a>
+
+        </div>
+        <div class="topbar-tools">
+            <!-- start: TOP NAVIGATION MENU -->
+            <ul class="nav navbar-right">
+
+                {% if MULTI_LANG_STATUS %}
+                    <!-- start: LANGUAGE -->
+                    <li class="dropdown current-user">
+                        <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="javascript:;"  title="Change System Language">
+                            <img src="assets/images/flags/lang/{{MLM_LANG_FLAG}}" class="img-circle" alt="">
+                            <span class="username hidden-xs">{{MLM_LANG_NAME}}</span> <i class="fa fa-caret-down hidden-xs "></i>
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-light animate" >
+                            {% for LANGUAGE  in  MLM_LANG_LIST  %}
+                                <li onclick="switchLanguage('{{LANGUAGE.lang_code}}');">
+                                    <a href="javascript:;">
+                                        {{LANGUAGE.lang_name}} 
+                                        <!-- <img src="assets/images/flags-iso/flat/16/IN.png" class="pull-right"> -->
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <!-- end: LANGUAGE  -->
+
+                {% elseif GOOGLE_TRANSLATOR %}
+
+                    <li class="hidden-xs">
+                        <a  href="javascript:;"  title="Google Translate"  class="dropdown-toggle">
+                            <span id="google_translate_element"> </span>
+                        </a>
+                    </li> 
+
+                {% endif %} 
+
+
+                {% if MULTI_CURRENCY_STATUS %}
+                    <!-- start: CURRENCY -->
+                    <li class="dropdown current-user">
+                        <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="javascript:;" title="Change System Currency">
+
+                            <i class="fa {{' '~MLM_CURRENCY_ICON}}"></i>
+                            <span class="username hidden-xs">{{MLM_CURRENCY_CODE}}</span> <i class="fa fa-caret-down hidden-xs "></i>
+                        </a>
+
+
+                        <ul class="dropdown-menu dropdown-light animate">
+
+                            {% for CURRENCY  in  MLM_CURRENCY_LIST  %}
+                                <li onclick="switchCurrency('{{CURRENCY.currency_code}}');">
+                                    <a href="javascript:;">
+                                        <i class="fa {{' '~CURRENCY.icon}}"></i> - {{CURRENCY.currency_name}}
+                                    </a>
+                                </li>
+                            {% endfor %}
+
+                        </ul>
+
+                    </li>
+                    <!-- end: CURRENCY  -->
+                {% endif %}
+
+
+
+                <!-- start: USER DROPDOWN -->
+                <li class="dropdown current-user ">
+                    <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="javascript:;">
+                        <img src="assets/images/users/{{LOG_USER_DP}}" width="30px;" height="30px;" class="img-circle" alt="{{LOG_USER_NAME}}"> <span class="username hidden-xs">{{LOG_USER_NAME}} </span> <i class="fa fa-caret-down  hidden-xs"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user animated flipInY">
+                        <li>
+                            <div class="d-flex no-block align-items-center p-3 mb-2 border-bottom">
+                                <div class="user_dp">
+                                    <img src="assets/images/users/{{LOG_USER_DP}}" alt="user">
+                                </div>
+                                <div class="user_details">
+                                    <h4 class="mb-0">{{LOG_USER_FULLNAME}}</h4>
+                                    <p class="text-muted mb-0">{{LOG_USER_EMAIL}}</p>
+                                    <a href="{{LOG_USER_TYPE }}/profile-view" class="btn-rounded btn-sm mt-2 btn btn-danger">{{lang('profile_view')}}</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li><div class="pull-left"><a href="login/automatic_systemlock" class="btn"><i class="fa fa-lock"></i>  {{lang('lock_screen')}}</a>
+                            </div>
+                        </li>
+
+                        <li><div class="pull-right"><a href="logout-site" class="btn"><i class="fa fa-power-off"></i> {{lang('log_out')}}</a>
+                            </div>  
+                        </li>
+
+
+                    </ul>
+                </li>
+                <!-- end: USER DROPDOWN -->
+                {% if LOG_USER_TYPE != 'affiliate' %}
+                    <li class="right-menu-toggle  hidden-xs">
+                        <a href="javascript:;" class="sb-toggle-right">
+                            <i class="fa fa-globe toggle-icon"></i> <i class="fa fa-caret-right"></i> 
+                            {% if PRESET_DEMO_STATUS %}<span class="notifications-count badge badge-default animated bounceIn"> 3</span> {% endif %}
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+            <!-- end: TOP NAVIGATION MENU -->
+        </div>
+    </div>
+    <!-- end: TOPBAR CONTAINER -->
+</header>
+<!-- end: TOPBAR -->
+<style>
+    .dropdown-user {
+        right: 0;
+        left: auto;
+        width: 315px;
+    }
+    .dropdown-user .dw-user-box {
+        padding: 15px;
+    }
+    .dropdown-user .dw-user-box .u-text {
+        display: inline-block;
+        padding-left: 10px;
+    }
+    .dropdown-user .dw-user-box .u-img {
+        width: 80px;
+        display: inline-block;
+        border-radius: 5px;
+        vertical-align: top;
+    }
+    .u-img img {
+        width: 100%;
+        border-radius: 5px;
+    }
+
+    .navbar-top-links .dropdown-user .dw-user-box .u-img img {
+        width: 100%;
+        border-radius: 5px;
+    }
+
+    .dropdown-menu {
+        border: 1px solid rgba(120,130,140,.13);
+        border-radius: 0;
+        box-shadow: 0 3px 12px rgba(0,0,0,.05)!important;
+    }
+    .btn-rounded {
+        border-radius: 60px;
+    }
+    .btn-danger{
+        background: #ff7676;
+        border: 1px solid #ff7676;
+    }
+    .animate{
+        -webkit-animation-name: fadeInDown;
+        animation-name: fadeInDown;
+        -webkit-animation-duration: 0.4s;
+        animation-duration: 0.4s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+    }
+    .px-3 {
+        padding-right: 1rem !important; }
+
+
+    img {
+        vertical-align: middle;
+        border-style: none; }
+    .m-3 {
+        margin: 1rem !important; }
+
+
+
+    .align-items-start {
+        -ms-flex-align: start !important;
+        align-items: flex-start !important; }
+
+    .align-items-end {
+        -ms-flex-align: end !important;
+        align-items: flex-end !important; }
+
+    .align-items-center {
+        -ms-flex-align: center !important;
+        align-items: center !important; }
+
+    .align-items-baseline {
+        -ms-flex-align: baseline !important;
+        align-items: baseline !important; }
+
+    .align-items-stretch {
+        -ms-flex-align: stretch !important;
+        align-items: stretch !important; }
+
+    .align-content-start {
+        -ms-flex-line-pack: start !important;
+        align-content: flex-start !important; }
+
+    .align-content-end {
+        -ms-flex-line-pack: end !important;
+        align-content: flex-end !important; }
+
+    .align-content-center {
+        -ms-flex-line-pack: center !important;
+        align-content: center !important; }
+
+    .align-content-between {
+        -ms-flex-line-pack: justify !important;
+        align-content: space-between !important; }
+
+    .align-content-around {
+        -ms-flex-line-pack: distribute !important;
+        align-content: space-around !important; }
+
+    .align-content-stretch {
+        -ms-flex-line-pack: stretch !important;
+        align-content: stretch !important; }
+
+    .align-self-auto {
+        -ms-flex-item-align: auto !important;
+        align-self: auto !important; }
+
+    .align-self-start {
+        -ms-flex-item-align: start !important;
+        align-self: flex-start !important; }
+
+    .align-self-end {
+        -ms-flex-item-align: end !important;
+        align-self: flex-end !important; }
+
+    .align-self-center {
+        -ms-flex-item-align: center !important;
+        align-self: center !important; }
+
+    .align-self-baseline {
+        -ms-flex-item-align: baseline !important;
+        align-self: baseline !important; }
+
+    .align-self-stretch {
+        -ms-flex-item-align: stretch !important;
+        align-self: stretch !important; }
+
+
+
+
+    .border-bottom {
+        border-bottom: 1px solid #dee2e6 !important; }
+    .ml-3,
+    .mx-3 {
+        margin-left: 1rem !important; }
+    .mb-0,
+    .my-0 {
+        margin-bottom: 0 !important; }
+
+    .mb-0,
+    .my-0 {
+        margin-bottom: 0 !important; }
+    .text-muted {
+        color: #8898aa !important; }
+
+    .d-flex {
+        display: -ms-flexbox !important;
+        display: flex !important; }
+
+    .d-inline-flex {
+        display: -ms-inline-flexbox !important;
+        display: inline-flex !important; }
+
+    .rounded {
+        border-radius: 2px !important; }
+
+    .m-2 {
+        margin: 0.5rem !important; }
+
+    .mt-2,
+    .my-2 {
+        margin-top: 0.5rem !important; }
+
+    .mr-2,
+    .mx-2 {
+        margin-right: 0.5rem !important; }
+
+    .mb-2,
+    .my-2 {
+        margin-bottom: 0.5rem !important; }
+    .topbar .dropdown-menu {
+        padding-top: 0px;
+        border: 0px;
+        font-size: 1rem;
+        -webkit-box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.1);
+        box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.1); }
+
+    .p-3 {
+        padding: 1rem!important;
+    }
+
+    .mb-2, .my-2 {
+        /* margin-bottom: .5rem!important; */
+    }
+    .align-items-center {
+        -ms-flex-align: center!important;
+        align-items: center!important;
+    }
+    .d-flex {
+        display: -ms-flexbox!important;
+        display: flex!important;
+    }
+    .border-bottom {
+        border-bottom: 1px solid #dee2e6!important;
+    }
+</style>

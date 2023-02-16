@@ -1,0 +1,183 @@
+{% include'admin/layout/header.twig' %}
+<link rel="stylesheet" href="assets/dist/css/AdminLTE.min.css">
+<link rel="stylesheet" href="assets/css/rating.css">
+<div class="row">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <i class="fa fa-external-link-square"></i>
+            {{lang('attached_files')}}
+            <div class="panel-tools">										
+                <div class="dropdown">
+                    <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                    <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                        <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                        <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                        <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body" >
+
+
+
+            <div class="container" >
+                <div class="row" >
+                    <div class="row" >
+                        {% for attached_file in attached_files  %}
+                            <div class="col-lg-3 col-md-4 col-xs-6 thumb" >
+                                    {% if attached_file.file_name|split('.')|last =='pdf'  %}
+                                        <a  href="{{BASE_URL}}assets/images/attachements/{{attached_file.file_name}}"
+                                           target="_blank" style="font-weight:bolder" >{{lang('pdf')}}
+                                        </a>
+                                    {%else%}
+                                        <a class="thumbnail" href="#" data-image-id="" data-toggle="modal" data-title=""
+                                           data-image="{{BASE_URL}}assets/images/attachements/{{attached_file.file_name}}"
+                                           data-target="#image-gallery" style="width:200px;height:200px; max-width:255px;">
+                                            <img src='{{BASE_URL}}assets/images/attachements/{{attached_file.file_name}}'  id="myImg{{loop.index}}" style="width:200px;height:200px; max-width:255px;"/>
+                                        </a>
+                                    {%endif%}
+                            </div>
+                        {% endfor%}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="image-gallery" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="image-gallery-title"></h4>
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <img id="image-gallery-image" class="img-responsive" src="" style="width:400px;height:400px; max-width:500px;display: block;margin-left: auto;margin-right:auto;width:50%">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary float-left" id="show-previous-image"><i class="fa fa-arrow-left"></i>
+                    </button>
+
+                    <button type="button" id="show-next-image" class="btn btn-secondary float-right"><i class="fa fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include'admin/layout/footer.twig' %}
+<script>
+
+    let modalId = $('#image-gallery');
+
+    $(document)
+            .ready(function () {
+
+                loadGallery(true, 'a.thumbnail');
+
+                //This function disables buttons when needed
+                function disableButtons(counter_max, counter_current) {
+                    $('#show-previous-image, #show-next-image')
+                            .show();
+                    if (counter_max === counter_current) {
+                        $('#show-next-image')
+                                .hide();
+                    } else if (counter_current === 1) {
+                        $('#show-previous-image')
+                                .hide();
+                    }
+                }
+
+                /**
+                 *
+                 * @param setIDs        Sets IDs when DOM is loaded. If using a PHP counter, set to false.
+                 * @param setClickAttr  Sets the attribute for the click handler.
+                 */
+
+                function loadGallery(setIDs, setClickAttr) {
+                    let current_image,
+                            selector,
+                            counter = 0;
+
+                    $('#show-next-image, #show-previous-image')
+                            .click(function () {
+                                if ($(this)
+                                        .attr('id') === 'show-previous-image') {
+                                    current_image--;
+                                } else {
+                                    current_image++;
+                                }
+
+                                selector = $('[data-image-id="' + current_image + '"]');
+                                updateGallery(selector);
+                            });
+
+                    function updateGallery(selector) {
+                        let $sel = selector;
+                        current_image = $sel.data('image-id');
+                        $('#image-gallery-title')
+                                .text($sel.data('title'));
+                        $('#image-gallery-image')
+                                .attr('src', $sel.data('image'));
+                        disableButtons(counter, $sel.data('image-id'));
+                    }
+
+                    if (setIDs == true) {
+                        $('[data-image-id]')
+                                .each(function () {
+                                    counter++;
+                                    $(this)
+                                            .attr('data-image-id', counter);
+                                });
+                    }
+                    $(setClickAttr)
+                            .on('click', function () {
+                                updateGallery($(this));
+                            });
+                }
+            });
+
+// build key actions
+    $(document)
+            .keydown(function (e) {
+                switch (e.which) {
+                    case 37: // left
+                        if ((modalId.data('bs.modal') || {})._isShown && $('#show-previous-image').is(":visible")) {
+                            $('#show-previous-image')
+                                    .click();
+                        }
+                        break;
+
+                    case 39: // right
+                        if ((modalId.data('bs.modal') || {})._isShown && $('#show-next-image').is(":visible")) {
+                            $('#show-next-image')
+                                    .click();
+                        }
+                        break;
+
+                    default:
+                        return; // exit this handler for other keys
+                }
+                e.preventDefault(); // prevent the default action (scroll / move caret)
+            });
+
+</script>
+<style>
+    .btn:focus, .btn:active, button:focus, button:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+#image-gallery .modal-footer{
+  display: block;
+}
+
+.thumb{
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+</style>
+

@@ -1,0 +1,132 @@
+{% include'user/layout/header.twig' %}
+<link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="assets/css/shCore.css">
+<script type="text/javascript" language="javascript" src="assets/js/jquery.dataTables.js">
+</script>
+<script type="text/javascript" language="javascript" src="assets/js/shCore.js">
+</script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
+<script type="text/javascript" language="javascript" src="assets/js/lead_datatable.js">
+</script>
+<script type="text/javascript" language="javascript" class="init">
+
+    $(document).ready(function () {
+        var oTable = $('#testmonial_list').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "user/testimonial/testmonial_list",
+            "dataType": "json",
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+</script>
+
+<span  style="display:none;">
+    <span id="title_msg">{{lang('title_msg')}}</span>
+    <span id="content_msg">{{lang('content_msg')}}</span>
+    <span id="content_msg_length">{{lang('content_msg_length')}}</span>
+    <input type="hidden" name="userid" id="userid" value="{{userid}}"/>
+</span>
+<div class="row">
+    <div class="col-md-12">
+        <!-- start: FORM VALIDATION 1 PANEL -->
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('create_testinomial')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                <div class="form-horizontal">
+                    {{form_open('','role="form" method="post" name="form_name" id="form_name" ')|raw}}
+
+                    <div class="errorHandler alert alert-danger no-display">
+                        <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">{{lang('title')}}: <span class="symbol required"></span></label>
+                        <div class="col-sm-4">
+                            <input type="text" name="title" id="title" class="form-control" placeholder="{{lang('title')}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">{{lang('content')}}: <span class="symbol required"></span></label>
+                        <div class="col-sm-6">
+                            <textarea type="text" name="content" id="content" class="form-control ckeditor"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-action">
+                        <div class="col-sm-offset-4">
+                            <button type="submit" name="btn_submit" id="btn_submit" class="btn btn-primary" onclick="validateTestimonial.init()" >{{lang('submit')}}</button>
+                        </div>
+                    </div>
+                    {{form_close()|raw}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <!-- start: FORM VALIDATION 1 PANEL -->
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('menu_name_96')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="panel-body">
+                    <hr>
+                    {{form_open('','method="post" name="form_view_testimonial" id="form_testimonial" role="form" ')|raw}}
+                    <div class="form-horizontal">
+                        <div class="table-responsive">
+                        <table class="table table-hover table-striped" id="testmonial_list">
+                            <thead>
+                                <tr>
+                                    <th>{{lang('sl_no')}}</th>
+                                    <th>{{lang('title')}}</th>
+                                    <th>{{lang('content')}}</th>
+                                    <th>{{lang('status')}}</th>
+                                </tr>
+                            </thead>
+                        </table> 
+                                </div>
+                        {{form_close()|raw}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% include'user/layout/footer.twig' %}
+<script src="assets/plugins/ckeditor/ckeditor.js"></script>
+<script src="assets/js/testimonial.js"></script>
+<style>
+    table.dataTable thead th{border-bottom:1px #111}
+    table.dataTable.no-footer{border-bottom:1px #dfe1e5 solid}
+</style>

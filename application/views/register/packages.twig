@@ -1,0 +1,233 @@
+{%if user_type=='admin' or user_type=='employee' %}
+    {% include('admin/layout/header.twig')%}
+{% elseif(user_type=='user') %}
+    {% include('user/layout/header.twig')%}
+{%else%}
+    {% include('layout/header.twig')%}
+    <body class="login">
+        <div class="row">
+            <div class="main-login col-sm-offset-1 col-md-10">
+                <div class="logo">
+                    <img src="assets/images/logos/{{COMPANY_LOGO}}">
+                </div>
+            {%endif%}
+
+            <div id="js_messages" style="display: none;">
+                <span id="failed_product_added_js">{{lang('failed_product_added_js')}}</span>
+                <span id="product_added_js">{{lang('reg_pack_selected')}}</span>
+                <span id="failed_js">{{lang('failed_js')}}</span>
+                <span id="success_js">{{lang('success_js')}}</span>
+                <span id="please_select_a_reg_pack">{{lang('please_select_a_reg_pack')}}</span>
+                <span id="warning_js">{{lang('warning_js')}}</span>
+            </div>
+
+            {%if not user_type %}
+                {%include('admin/layout/notification.twig')%}
+            {% endif %}
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-white">
+                        <div class="panel-heading">
+
+                            <div class="row">
+                                <div  class="col-xs-6 col-sm-6 col-lg-6">
+                                    <h4 class="panel-title"><span class="text-bold">{{lang('select_a_register_package')}}</span></h4>
+                                </div>
+
+                                {%if not user_type %}
+
+                                    <style type="text/css">
+                                        /*//for language change   */
+                                        .dropdown-subview:after {
+                                            right: auto !important;
+                                            left: 105px !important;
+                                        }
+                                        .dropdown-subview:before {
+                                            right: auto !important;
+                                            left: 104px !important;
+                                        }
+                                        .nav>li>a:focus, .nav>li>a:hover {
+                                            background-color:transparent;
+                                        }
+                                        .nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
+                                            background-color:transparent;
+                                        }
+                                    </style>
+
+                                    <div class="col-xs-6 col-sm-6 col-lg-6" style="hover:none;">
+                                        <p>
+                                        <div class="topbar-tools pull-right"  style="color:black !important;hover:none!important;">
+                                            <ul class="nav navbar-right">
+
+                                                {% if MULTI_LANG_STATUS %}
+                                                    <li class="dropdown current-user">
+                                                        <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="javascript:;"  title="Change Language"
+                                                           style="color: gray;"
+                                                           >
+                                                            <img src="assets/images/flags/lang/{{MLM_LANG_FLAG}}" class="img-circle" alt="">
+                                                            <span class="username hidden-xs"><small>{{MLM_LANG_NAME|capitalize}}</small></span> <i class="fa fa-caret-down hidden-xs "></i>
+                                                        </a>
+
+                                                        <ul class="dropdown-menu dropdown-light dropdown-subview" >
+                                                            {% for LANGUAGE  in  MLM_LANG_LIST  %}
+                                                                <li onclick="switchLanguage('{{LANGUAGE.lang_code}}');">
+                                                                    <a href="javascript:;" >
+                                                                        {{LANGUAGE.lang_name}}
+
+                                                                    </a>
+                                                                </li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    </li>
+                                                {% elseif GOOGLE_TRANSLATOR %}
+
+                                                    <li class="hidden-xs">
+                                                        <a  href="javascript:;"  title="Google Translate"  class="dropdown-toggle">
+                                                            <span id="google_translate_element"> </span>
+                                                        </a>
+                                                    </li>
+                                                {% endif %}
+                                            </ul>
+                                        </div>
+                                        </p>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="panel-body">
+
+                            {% for pro in products %}
+                                <div class="col-sm-4 col-md-3 featured" >
+
+                                    <div class="thumbnail package_single">
+                                        {% if pro.images|length %}
+                                            {% set flag = 'true' %}
+                                            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                                                <div class="carousel-inner" role="listbox">
+                                                    {% for img in pro.images %}
+
+                                                        <div class="item {% if flag == 'true' %} active {% endif %}" >
+                                                            {% set flag = 'false' %}
+                                                            <img src="assets/images/products/{{img.file_name}}" alt="product images">
+                                                        </div>
+
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        {% else %}
+                                            <img src="assets/images/products/our-products.png">
+                                        {% endif %}
+
+
+                                        <div class="caption" style="text-align: center;">
+                                            <h3>{{pro.short_name}}</h3>
+
+                                            {#<p>
+                                                {{MLM_CURRENCY_LEFT}}
+                                                <strong>
+                                                    {{(pro.product_amount*MLM_CURRENCY_VALUE)|round(CURRENCY_ROUND, 'floor')}}
+                                                </strong>
+                                                {{MLM_CURRENCY_RIGHT}}
+
+                                                {% if pro.original_product_amount %}
+
+                                                    <del>
+                                                        (<font color="red"> {{MLM_CURRENCY_LEFT}} {{(pro.original_product_amount*MLM_CURRENCY_VALUE)|round(CURRENCY_ROUND, 'floor')}} {{MLM_CURRENCY_RIGHT}}</font>)
+                                                    </del>
+
+                                                {% endif %}
+                                                {% if pro.recurring_type %}
+                                                    / {{lang(pro.recurring_type)}}
+
+                                                {% endif %}
+                                            </p>#}
+                                            {#<p>
+                                                {{lang('pv')}} : {{pro.product_pv}}
+                                            </p>#}
+                                            <p>
+                                            <div class='add_btn' id='add_btn_{{pro.id}}' {% if product_id == pro.id %} style='display:none;' {% endif %}>
+                                                <button type="submit" onclick='addToCart({{pro.id}})' class="btn   btn-blue btn-squared btn-block">
+                                                    {{MLM_CURRENCY_LEFT}}
+                                                    <strong>
+                                                        {{(pro.product_amount*MLM_CURRENCY_VALUE)|round(CURRENCY_ROUND, 'floor')}}
+                                                    </strong>
+                                                    {{MLM_CURRENCY_RIGHT}}-{{lang('add_cart')|upper}}
+
+                                                </button>
+                                            </div>
+                                            <div class='added_btn' id='added_btn_{{pro.id}}' {% if product_id != pro.id %} style='display:none;' {% endif %}>
+                                                <button type="submit" class="btn  btn-success btn-squared btn-block">
+                                                    {{MLM_CURRENCY_LEFT}}
+                                                    <strong>
+                                                        {{(pro.product_amount*MLM_CURRENCY_VALUE)|round(CURRENCY_ROUND, 'floor')}}
+                                                    </strong>
+                                                    {{MLM_CURRENCY_RIGHT}}-{{lang('selected')|upper}} <i class="fa fa-check"></i>
+                                                </button>
+                                            </div>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            {% endfor %}
+
+                            <div class="form">
+                                <input type="hidden" id="encode_id" value="{{encode_id}}"/>
+                                <input type="hidden" id="encode_leg" value="{{encode_leg}}"/>
+                                <input type="hidden" id="tree_reg" value="{{tree_reg}}"/>
+                                <div class="form-group">
+                                    <div class="col-sm-12" style="min-height: 46px;">
+                                        <button type="button" class="btn btn-info  pull-right"  onclick='proceedToReg("enroll")'>
+                                            {% if basic_flag %}
+                                                {{lang('continue_to_reg')|upper}} 
+                                            {% else %}
+                                                {{lang('continue_to_single_reg')|upper}}  
+                                            {% endif %}
+                                            <i class="fa fa-arrow-circle-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {% if not basic_flag %}
+                                    <div class="form-group">
+                                        <div class="col-sm-12" style="min-height: 46px;">
+                                            <button type="button" class="btn btn-info pull-right"  onclick='proceedToReg("enroll-multi")'>
+                                                {{lang('continue_to_multiple_reg')|upper}}  <i class="fa fa-arrow-circle-right"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <div class="col-sm-12" style="min-height: 46px;">
+                                            <button type="button" class="btn btn-info pull-right"  onclick='proceedToReg("enroll-advanced")'>
+                                                {{lang('continue_to_advanced_reg')|upper}}  <i class="fa fa-arrow-circle-right"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {%if user_type=='admin' or user_type=='employee' %}
+                {% include('admin/layout/footer.twig')%}
+            {% elseif(user_type=='user') %}
+                {% include('user/layout/footer.twig')%}
+            {%else%}
+            </div>
+        </div>
+        {% include('layout/footer.twig')%}
+        <link rel="stylesheet" href="assets/plugins/toastr/toastr.min.css">
+        <script src="assets/plugins/toastr/toastr.js"></script>
+    {%endif%}
+    <script src="assets/js/register_cart.js">
+    </script>
+    <script>
+        jQuery(document).ready(function () {
+            $("html,body").animate({scrollTop: 100}, "slow");
+        });
+    </script>

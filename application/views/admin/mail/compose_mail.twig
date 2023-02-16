@@ -1,0 +1,96 @@
+<div id="js_msg" style="display: none;"> 
+    <span id="mail_type_req_js">{{lang('mail_type_req_js')}}</span>
+    <span id="to_user_req_js">{{lang('to_user_req_js')}}</span>
+    <span id="subject_req_js">{{lang('subject_req_js')}}</span>
+    <span id="content_req_js">{{lang('content_req_js')}}</span>
+    <span id="inv_user_js">{{lang('inv_user_js')}}</span>
+    <span id="success_js">{{lang('success_js')}}</span>
+    <span id="marked_as_spam_msg">{{lang('marked_as_spam_msg')}}</span>   
+    <span id="unmarked_from_spam_msg">{{lang('unmarked_from_spam_msg')}}</span>   
+    <span id="marked_as_starred_msg">{{lang('marked_as_starred_msg')}}</span>   
+    <span id="unmarked_from_starred_msg">{{lang('unmarked_from_starred_msg')}}</span>
+    <span id="user_photo_ext_js">{{lang('user_photo_ext_js')}}</span>
+</div>
+<a href="#" class="btn btn-primary btn-block margin-bottom" data-toggle="modal" data-target="#compose_mail_modal">
+    {{lang('compose')}}
+</a>
+<div id="compose_mail_modal" style="width: 750px;" class="modal extended-modal fade no-display" tabindex="-1" data-focus-on="input:first">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            &times;
+        </button>
+        <h4 class="modal-title">{{lang('compose')}}</h4>
+    </div>
+
+    <div class="modal-body">
+        {{ form_open_multipart('admin/mail/compose_mail', ' id="compose_mail_form" name="compose_mail_form"')|raw }}        
+
+        <div class="errorHandler alert alert-danger no-display">
+            <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+        </div>                    
+        <div class="form-group">
+            <select class="form-control search-select" id="mail_type" name="mail_type" tabindex='1'>
+                <option value="">{{ lang('select_a_mail_type')}}</option>
+                <option value="single_user">{{lang('single_user')}}</option>
+                <option value="all_downlines">{{lang('all_downlines')}}</option>
+                <option value="active_downlines">{{lang('active_downlines')}}</option>
+                <option value="inactive_downlines">{{lang('inactive_downlines')}}</option>
+            </select>                                        
+        </div>
+
+        <div class="form-group" id="single_user_div1">
+            <input class="typeahead form-control" type="text" name="to_user" id="to_user" class="form-control" placeholder="{{lang('to')}}:" autocomplete="off">
+        </div>
+
+        <div class="form-group">
+            <input type="text" id="subject" name="subject" class="form-control" placeholder="{{lang('subject')}}:">  
+        </div>
+
+        <div class="form-group">
+            <textarea name="content" id="content"  class="form-control" style="height: 200px"></textarea>
+        </div>
+
+        <div class="form-group">
+            <div class="fileupload fileupload-new col-sm-12" data-provides="fileupload">
+                <div class="fileupload-preview fileupload-exists thumbnail"></div>
+                <div class="user-edit-image-buttons">
+                    <div class="btn btn-default btn-file">
+                        <i class="fa fa-paperclip"></i> {{lang('attachment')}}
+                        <input type="file" id="images" name="images"/>
+                    </div>                    
+                    <a href="#" class="btn fileupload-exists btn-red" data-dismiss="fileupload">
+                        <i class="fa fa-times"></i> {{lang('remove')}}
+                    </a>
+                </div>
+                <p>
+                <div class="alert alert-warning">
+                    <span class="label label-warning">{{lang('note')}}!</span>
+                    <span> {{lang('supported_formats')}} : {{lang('JPEG')}} , {{lang('PNG')}} , {{lang('JPG')}} , {{lang('gif')}} , {{lang('pdf')}} , {{lang('docx')}} , {{lang('xls')}} , {{lang('xlsx')}} , {{lang('sql')}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" data-dismiss="modal" class="btn btn-default">
+                {{lang('Discard')}}
+            </button>
+
+            <button type="submit" name="draft" id="single_user_div2" value="1" type="submit" class="btn btn-default">
+                <i class="fa fa-save"></i> {{lang('Draft')}}</button>
+            <button type="submit" name="send" value="1" type="submit" class="btn btn-primary">
+                <i class="fa fa-envelope-o"></i> {{lang('Send')}}
+            </button>
+        </div>
+        {{ form_close()|raw }}
+    </div>
+</div>
+<link rel="stylesheet" href="assets/plugins/select2/select2.css">		
+<link rel="stylesheet" href="assets/css/plugins.css">
+<script src="assets/plugins/select2/select2.min.js"></script>
+<script src="assets/js/form-elements.js"></script>
+
+<script>
+    jQuery(document).ready(function () {
+        FormElements.init2();
+    });
+</script>

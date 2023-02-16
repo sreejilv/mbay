@@ -1,0 +1,656 @@
+{% include('admin/layout/header.twig')%}
+<script src="assets/js/home.js"></script>
+<link rel="stylesheet" type="text/css" href="">
+<script src="assets/js/owl.carousel.js"></script>
+<link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+<link rel="stylesheet" href="assets/css/owl.theme.default.min.css">
+<div class="row">
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default panel-white core-box">
+                <div class="panel-tools">
+                    <ul class="panel-heading-tabs border-light no-style">
+                        <li class="panel-tools">
+                            <div class="dropdown">
+                                <a data-toggle="dropdown" class="btn btn-xs fa-small" >
+                                    <i class="fa fa-cog"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                                    <li>
+                                        <a  onclick="javascript:changeBoxData('joining', 't');" >
+                                            <span>{{lang('today')}}</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a onclick="javascript:changeBoxData('joining', 'm');">
+                                            <span>{{lang('this_month')}}</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a onclick="javascript:changeBoxData('joining', 'y');">
+                                            <span>{{lang('this_year')}}</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a  onclick="javascript:changeBoxData('joining', 'o');">
+                                            <span>{{lang('overall')}}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="panel-body no-padding">
+                    <div class="partition-blue padding-20 text-center core-icon">
+                        <i class="fa fa-users fa-2x icon-big"></i>
+                    </div>
+                    <div class="padding-20 core-content">
+                        <h3 class="title block no-margin font-22">{{ lang('member') }}</h3>
+                        <span class="sub-style joining"> </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default panel-white core-box">
+                <div class="panel-tools">
+                    <ul class="panel-heading-tabs border-light no-style">
+                        <li class="panel-tools">
+                            <div class="dropdown">
+                                <a data-toggle="dropdown" class="btn btn-xs fa-small" >
+                                    <i class="fa fa-cog"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                                    <li>
+                                        <a onclick="javascript:changeBoxData('commission', 't');" >
+                                            <span>{{lang('today')}}</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a onclick="javascript:changeBoxData('commission', 'm');">
+                                            <span>{{lang('this_month')}}</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a onclick="javascript:changeBoxData('commission', 'y');">
+                                            <span>{{lang('this_year')}}</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a onclick="javascript:changeBoxData('commission', 'o');">
+                                            <span>{{lang('overall')}}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="panel-body no-padding">
+                    <div class="partition-azure padding-20 text-center core-icon">
+                        <i class="fa fa-money fa-3x icon-big"></i>
+                    </div>
+                    <div class="padding-20 core-content">
+                        <h3 class="title block no-margin font-22">{{ lang('bonus') }}</h3>
+                        <span class="sub-style commission">  </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default panel-white core-box">
+                <div class="panel-tools">
+                    <ul class="panel-heading-tabs border-light no-style">
+                        <li class="panel-tools">
+                            <div class="dropdown">
+                                <a data-toggle="dropdown" class="btn btn-xs fa-small" >
+                                    <i class="fa fa-cog"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                                    <li>
+                                        <a onclick="javascript:changeBoxData('credit', 't');" >
+                                            <span>{{lang('today')}}</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a onclick="javascript:changeBoxData('credit', 'm');">
+                                            <span>{{lang('this_month')}}</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a onclick="javascript:changeBoxData('credit', 'y');">
+                                            <span>{{lang('this_year')}}</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a onclick="javascript:changeBoxData('credit', 'o');">
+                                            <span>{{lang('overall')}}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="panel-body no-padding">
+                    <div class="partition-green padding-20 text-center core-icon">
+                        <i class="fa fa-sort-amount-asc fa-2x icon-big fa-flip-vertical"></i>
+                    </div>
+                    <div class="padding-20 core-content">
+                        <h3 class="title block no-margin font-22">{{ lang('credit') }}</h3>
+                        <span class="sub-style credit"> </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default panel-white core-box">
+                <div class="panel-tools">
+                    <ul class="panel-heading-tabs border-light no-style">
+                        <li class="panel-tools">
+                            <div class="dropdown">
+                                <a data-toggle="dropdown" class="btn btn-xs fa-small" >
+                                    <i class="fa fa-cog"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                                    <li>
+                                        <a  onclick="javascript:changeBoxData('debit', 't');" >
+                                            <span>{{lang('today')}}</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a onclick="javascript:changeBoxData('debit', 'm');">
+                                            <span>{{lang('this_month')}}</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a onclick="javascript:changeBoxData('debit', 'y');">
+                                            <span>{{lang('this_year')}}</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a onclick="javascript:changeBoxData('debit', 'o');">
+                                            <span>{{lang('overall')}}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="panel-body no-padding">
+                    <div class="partition-red padding-20 text-center core-icon">
+                        <i class="fa fa-sort-amount-desc fa-2x icon-big "></i>
+                    </div>
+                    <div class="padding-20 core-content">
+                        <h3 class="title block no-margin font-22">{{ lang('debit') }}</h3>
+                        <span class="sub-style debit"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-2">
+
+        <div class="panel panel-blue">
+            <div class="panel-body padding-20 text-center" style="height: 259px;">
+                <div class="space10">
+                    <h2> {{year}}</h2>
+                    <span class="text-bold">{{ total_users }}</span> - {{lang('total_users')}}
+                </div>
+                <div class="sparkline-4 space10">
+                    <span ></span>
+                </div>
+
+                <h5 class="text-white semi-bold no-margin p-b-5">{{lang('yearly_user_joins')}}</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+
+        {% if replica_status and lcp_status %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <h4 class="panel-title"><span class="text-bold">{{lang('replication')}} </span>{{lang('link')}} </h4>
+                        </div>
+                        <div class="panel-body" style="padding-top: 0px; padding-right: 10px;">
+                            <div class="col-lg-12 col-md-12  col-sm-12"  style="padding-left: 0 px; padding-right: 0px; text-align: center;">
+                                <span class="social-icons"  >
+                                    <ul >
+                                        <li class="tooltips social-copy" data-original-title=" {{lang('view')}}" data-placement="top">
+                                            <a target="_blank" href="{{replica_link}}" >
+                                                {{lang('view')}}
+                                            </a>
+                                        </li>
+                                        <li class="social-facebook tooltips" data-original-title=" {{lang('fb_share')}}" data-placement="top">
+                                            <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{replica_link}}" >
+                                                {{lang('fb_share')}}
+                                            </a>
+                                        </li>
+                                        <li class="social-google tooltips" data-original-title="{{lang('g+_share')}}" data-placement="top">
+                                            <a target="_blank" href="https://plus.google.com/share?url={{replica_link}}">
+                                                {{lang('g+_share')}}
+                                            </a>
+                                        </li>
+                                        <li class="social-linkedin tooltips" data-original-title=" {{lang('linkedin_share')}}" data-placement="top">
+                                            <a target="_blank"  href="https://www.linkedin.com/shareArticle?mini=true&url={{replica_link}}&summary={{lang('replica_link')}}">
+                                                {{lang('linkedin_share')}}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="panel"  >
+                        <div class="panel-heading">
+                            <h4 class="panel-title"><span class="text-bold">{{lang('lead_capture')}} </span> {{lang('link')}}</h4>
+                        </div>
+                        <div class="panel-body" style="padding-top: 0px; padding-right: 10px;">
+
+                            <div class="col-lg-12 col-md-12  col-sm-12"  style="padding-left: 0px; padding-right: 0px; text-align: center;">
+                                <span class="social-icons"  >
+                                    <ul >
+                                        <li class="tooltips social-copy" data-original-title=" {{lang('view')}}" data-placement="top">
+                                            <a target="_blank" href="{{lcp_link}}" >
+                                                {{lang('view')}}
+                                            </a>
+                                        </li>
+                                        <li class="social-facebook tooltips" data-original-title=" {{lang('fb_share')}}" data-placement="top">
+                                            <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{lcp_link}}" >
+                                                {{lang('fb_share')}}
+                                            </a>
+                                        </li>
+                                        <li class="social-google tooltips" data-original-title="{{lang('g+_share')}}" data-placement="top">
+                                            <a target="_blank" href="https://plus.google.com/share?url={{lcp_link}}">
+                                                {{lang('g+_share')}}
+                                            </a>
+                                        </li>
+                                        <li class="social-linkedin tooltips" data-original-title=" {{lang('linkedin_share')}}" data-placement="top">
+                                            <a target="_blank"  href="https://www.linkedin.com/shareArticle?mini=true&url={{lcp_link}}&summary={{lang('lcp_summary')}}">
+                                                {{lang('linkedin_share')}}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        {% else %}
+
+            <div class="panel panel-green">
+                <div class="panel-heading border-light">
+                    <span class="text-extra-small text-dark">{{ lang('system_payout')}}: </span><span class="text-large text-white">{{ lang('status')}}</span>
+
+<div class="panel-tools">
+                        <div class="dropdown">
+                            <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-white">
+                                <i class="fa fa-cog"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                        </div>
+                        <a class="btn btn-xs btn-link panel-close" href="#">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+
+
+
+                </div>
+                <div class="panel-body no-padding"  style="height: 206px;">
+                    <div class="row no-margin">
+                        <div class="padding-10 col-md-12">
+                            <h4>{{ lang('user_balance')}} : <b>{{ pay_details.bal_amount }}</b></h4>
+                            <h4>{{ lang('payout_requested')}} : <b>{{ pay_details.pay_req }}</b></h4>
+                            <h4>{{ lang('payout_completed')}} : <b>{{ pay_details.pay_com }}</b></h4>
+                        </div>
+                        <div class="padding-10 col-md-12">
+                            <div class="progress progress-xs transparent-black no-radius space5">
+                                <div aria-valuetransitiongoal="{{ pay_details.ratio }}" class="progress-bar progress-bar-success partition-white animate-progress-bar" ></div>
+                            </div>
+                            <span class="text-extra-small">{{ pay_details.ratio }}% {{ lang('completed') }}</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        {% endif %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8 col-md-7">
+        <div class="panel panel-white">
+            <div class="panel-heading border-light">
+                <h4 class="panel-title">{{lang('joins_vs_sales')}}</h4>
+            </div>
+            <div class="panel-body partition-green">
+                <div class="col-md-12">
+                    <div class="height-350">
+                        <div id="chart4" class='with-3d-shadow with-transitions'>
+                            <svg></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+        <div class="panel panel-white" style="height:429px;">
+
+            <div class="panel-body no-padding">
+                <div class="padding-10">
+                    <img width="50" height="50" alt="" class="img-circle pull-left" src="assets/images/users/{{LOG_USER_DP}}">
+                    <h4 class="no-margin inline-block padding-5">{{LOG_USER_NAME}} <span class="block text-small text-left">{{lang('downlines')}}</span></h4>
+                </div>
+
+                <div class="tabbable no-margin no-padding partition-dark">
+                    <ul class="nav nav-tabs" id="myTab">
+                        <li class="active" style="width:50%">
+                            <a data-toggle="tab" href="javascript:#users_tab_example1">
+                                {{lang('new_joinings')}}
+                            </a>
+                        </li>
+                        <li class="" style="width:50%">
+                            <a data-toggle="tab" href="javascript:#users_tab_example2">
+                                {{lang('top_earners')}}
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content partition-white">
+                        <div id="users_tab_example1" class="tab-pane padding-bottom-5 active">
+                            <div id='new_joinings' class="panel-scroll" style="height: 270px;">
+
+                            </div>
+                        </div>
+                        <div id="users_tab_example2" class="tab-pane padding-bottom-5">
+                            <div id='top_earners' class="panel-scroll" style="height: 270px;">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<style type="text/css">
+    .social-icons ul li a:before {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        font-family: FontAwesome;
+        text-indent: 0;
+        line-height: 40px;
+        top: 0;
+        left: 0;
+        text-align: center;
+        color: black;
+    }
+
+</style>
+
+
+
+<div class="row">
+
+    <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+        <div class="panel">
+            <div class="partition-dark padding-15 text-center">
+                <h4 class="no-margin">{{lang('income')}}</h4>
+            </div>
+            <div class="panel-body no-padding" style="height: 310px;">
+                <div id="chartdiv" class="height-330" style="height:310px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+        <div class="panel panel-dark">
+
+            <div class="panel-body no-padding">
+                <div class="partition-green padding-15 text-center">
+                    <h4 class="no-margin">{{lang('performance_statistics')}}</h4>
+                    <span class="text-light">{{lang('based_on_time_periods')}}</span>
+                </div>
+                <div id="accordion" class="panel-group accordion accordion-white no-margin">
+                    <div class="panel no-radius ">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a href="#collapseOne" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle padding-15">
+                                    <i class="icon-arrow"></i> {{lang('overall')}}
+                                </a>
+                            </h4>
+                        </div>
+                        <div class="panel-collapse collapse in" id="collapseOne">
+                            <div class="panel-body no-padding partition-light-grey height-155" id="collapse_overall">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel no-radius">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle padding-15 collapsed">
+                                    <i class="icon-arrow"></i>
+                                    {{lang('this_month')}}
+                                </a></h4>
+                        </div>
+                        <div class="panel-collapse collapse" id="collapseTwo">
+                            <div class="panel-body no-padding partition-light-grey" id="collapse_this_month">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel no-radius">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a href="#collapseThree" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle padding-15 collapsed">
+                                    <i class="icon-arrow"></i>
+                                    {{lang('last_month')}}
+                                </a></h4>
+                        </div>
+                        <div class="panel-collapse collapse" id="collapseThree">
+                            <div class="panel-body no-padding partition-light-grey"  id="collapse_last_month">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+        <div class="panel uploads" style="height: 375px;">
+            <div class="panel-body panel-portfolio no-padding">
+                <div class="portfolio-grid portfolio-hover">
+                    <div class="overlayer bottom-left fullwidth">
+                        <div class="overlayer-wrapper">
+                            <div class="padding-20">
+                                <h4 class="text-white no-margin">{{lang('uploaded_images')}}</h4>
+                                <h5 class="text-white">{{lang('latest_images')}}</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="e-slider owl-carousel owl-theme portfolio-grid portfolio-hover" >
+                        {% for docs in lat_docs %}
+                            <div class="item">
+                                <img src="assets/images/documents/{{docs.document}}" alt="">
+                                <div class="">
+                                    <h2 class="caption-title">{{docs.title}}</h2>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="partition partition-white padding-15">
+
+                    {% if lat_docs|length > 1 %}
+                        <div class="navigator">
+                            <a href="#" class="circle-50 partition-white owl-prev"><i class="fa fa-chevron-left text-extra-large"></i></a>
+                            <a href="#" class="circle-50 partition-white owl-next"><i class="fa fa-chevron-right text-extra-large"></i></a>
+                        </div>
+                    {% endif %}
+
+                    <div class="clearfix space5">
+                        <br>
+                        <div class="col-xs-12 text-center no-padding space10">
+                            {{lang('click_the_tag_for_add_and_view')}}
+                        </div>
+                        <div class="col-xs-12 text-center no-padding" style="color: black;">
+                            <a class="btn btn-default" href="admin/document-upload">
+                                {{lang('upload')}}
+                            </a>
+                            <a class="btn btn-default" href="admin/document-view">
+                                {{lang('view_all')}}
+                            </a>
+                        </div>
+                        <br>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+{% include('admin/layout/footer.twig')%}
+
+<link rel="stylesheet" href="assets/plugins/owl-carousel/owl-carousel/owl.theme.css">
+
+<link rel="stylesheet" href="assets/plugins/weather-icons/css/weather-icons.min.css">
+<link rel="stylesheet" href="assets/plugins/nvd3/nv.d3.min.css">
+
+<script src="assets/plugins/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+<script src="assets/plugins/nvd3/lib/d3.v3.js"></script>
+<script src="assets/plugins/nvd3/nv.d3.min.js"></script>
+<script src="assets/plugins/nvd3/src/models/historicalBar.js"></script>
+<script src="assets/plugins/nvd3/src/models/historicalBarChart.js"></script>
+<script src="assets/plugins/nvd3/src/models/stackedArea.js"></script>
+<script src="assets/plugins/nvd3/src/models/stackedAreaChart.js"></script>
+<script src="assets/plugins/jquery.sparkline/jquery.sparkline.js"></script>
+<script src="assets/plugins/easy-pie-chart/dist/jquery.easypiechart.min.js"></script>
+<script src="assets/js/dashboard1.js"></script>
+
+<script src="assets/plugins/nvd3/lib/d3.v3.js"></script>
+<script src="assets/plugins/nvd3/nv.d3.min.js"></script>
+<script src="assets/js/charts.js"></script>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js">
+</script>
+
+<style>
+    .centered {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color:white;
+        font-weight: bold;
+    }
+</style>
+<script>
+
+    jQuery(document).ready(function () {
+        changeBoxData('joining', 'o');
+        changeBoxData('commission', 'o');
+        changeBoxData('debit', 'o');
+        changeBoxData('credit', 'o');
+        Index.init();
+
+        getCompliments();
+        getOverallStatistics();
+        getMonthlyStatistics();
+        getLastMonthStatistics();
+
+        var owl = $('.e-slider.owl-carousel');
+        owl.owlCarousel({
+            items: 1,
+            loop: true,
+            margin: 10,
+            autoplay: true,
+            autoplayTimeout: 10000,
+            autoplayHoverPause: true
+        });
+
+    });
+
+    google.charts.load("current", {packages: ["corechart"]});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+
+        var isBig = $(window).width() > 700;
+
+        var Big = {
+            // title: "Payout Request & Delete",
+            pieHole: 0.3,
+            width: 310,
+            height: 310,
+            legend: {position: 'bottom'},
+            colors: ['#1fbca7', '#e97d7d']
+        };
+
+        var Small = {
+            // title: "Payout Request & Delete",
+            width: 360,
+            height: 310,
+            pieHole: 0.3,
+            legend: {position: 'right'},
+            colors: ['#1fbca7', '#e97d7d']
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: 'api/general/getIncome',
+            data: {},
+            beforeSend: function () {
+
+            },
+            success: function (amount) {
+
+                var data = google.visualization.arrayToDataTable([
+                    [amount.Income_lang, amount.Amount_lang],
+                    [amount.Balance_lang, parseInt(amount.income) - parseInt(amount.released)],
+                    [amount.Payout_lang, parseInt(amount.released)],
+                ]);
+
+                var options = ($(window).width() > 700) ? Big : Small;
+
+                var chart = new google.visualization.PieChart(document.getElementById('chartdiv'));
+                chart.draw(data, options);
+
+            },
+            error: function (xhr) {
+
+            },
+            complete: function () {
+
+            },
+            dataType: 'json'
+        });
+    }
+</script>

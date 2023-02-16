@@ -1,0 +1,357 @@
+{% include('admin/layout/header.twig')%}
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"> <span class="text-bold">{{ title }}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                <div class="form-horizontal"> 
+                    <div class="tabbable">
+                        <ul id="myTab2" class="nav nav-tabs">
+                            <li class="active">
+                                <a href="javascript:#user_dp_tab" data-toggle="tab">
+                                    {{lang('user_dp')}} <span class="badge badge-danger">8</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:#user_cover_tab" data-toggle="tab">
+                                    {{lang('user_cover')}} <span class="badge badge-danger">6</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" id="user_dp_tab">
+                                {{ form_open_multipart('', ' id="user_dp_form" name="user_dp_form"')|raw }}
+                                <div class="form-horizontal">
+                                    <div class="errorHandler alert alert-danger no-display">
+                                        <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                                    </div>                                   
+
+                                    <div class="form-group">
+                                        <div class="fileupload fileupload-new col-sm-3" data-provides="fileupload">
+                                            <div class="fileupload-new thumbnail" ><img src="assets/images/users/{{ def_dp.0 }}">
+                                            </div>
+                                            <div class="fileupload-preview fileupload-exists thumbnail"></div>
+                                            <div class="user-edit-image-buttons">
+                                                <span class="btn btn-azure btn-file">
+                                                    <span class="fileupload-new"><i
+                                                            class="fa fa-picture"></i> {{ lang('change_image') }}</span>
+                                                    <span class="fileupload-exists"><i class="fa fa-picture"></i> {{ lang('change') }}</span>
+                                                    <input type="file" id="def_dp_0" name="def_dp_0" accept="image/*"/>
+                                                </span>
+                                                <a href="#" class="btn fileupload-exists btn-red"
+                                                   data-dismiss="fileupload">
+                                                    <i class="fa fa-times"></i> {{ lang('remove') }}
+                                                </a>
+                                            </div>                                            
+                                        </div>
+
+                                        <div class="fileupload fileupload-new col-sm-3" data-provides="fileupload">
+                                            <div class="fileupload-new thumbnail" ><img src="assets/images/users/{{ def_dp.1 }}">
+                                            </div>
+                                            <div class="fileupload-preview fileupload-exists thumbnail"></div>
+                                            <div class="user-edit-image-buttons">
+                                                <span class="btn btn-azure btn-file">
+                                                    <span class="fileupload-new"><i
+                                                            class="fa fa-picture"></i> {{ lang('change_image') }}</span>
+                                                    <span class="fileupload-exists"><i class="fa fa-picture"></i> {{ lang('change') }}</span>
+                                                    <input type="file" id="def_dp_1" name="def_dp_1" accept="image/*"/>
+                                                </span>
+                                                <a href="#" class="btn fileupload-exists btn-red"
+                                                   data-dismiss="fileupload">
+                                                    <i class="fa fa-times"></i> {{ lang('remove') }}
+                                                </a>
+                                            </div>                                            
+                                        </div>
+
+                                        <div class="fileupload fileupload-new col-sm-3" data-provides="fileupload">
+                                            <div class="fileupload-new thumbnail" ><img src="assets/images/users/{{ def_dp.2 }}">
+                                            </div>
+                                            <div class="fileupload-preview fileupload-exists thumbnail"></div>
+                                            <div class="user-edit-image-buttons">
+                                                <span class="btn btn-azure btn-file">
+                                                    <span class="fileupload-new"><i
+                                                            class="fa fa-picture"></i> {{ lang('change_image') }}</span>
+                                                    <span class="fileupload-exists"><i class="fa fa-picture"></i> {{ lang('change') }}</span>
+                                                    <input type="file" id="def_dp_2" name="def_dp_2" accept="image/*"/>
+                                                </span>
+                                                <a href="#" class="btn fileupload-exists btn-red"
+                                                   data-dismiss="fileupload">
+                                                    <i class="fa fa-times"></i> {{ lang('remove') }}
+                                                </a>
+                                            </div>                                            
+                                        </div>
+
+                                        <div class="fileupload fileupload-new col-sm-3" data-provides="fileupload">
+                                            <div class="fileupload-new thumbnail" ><img src="assets/images/users/{{ def_dp.3 }}">
+                                            </div>
+                                            <div class="fileupload-preview fileupload-exists thumbnail"></div>
+                                            <div class="user-edit-image-buttons">
+                                                <span class="btn btn-azure btn-file">
+                                                    <span class="fileupload-new"><i
+                                                            class="fa fa-picture"></i> {{ lang('change_image') }}</span>
+                                                    <span class="fileupload-exists"><i class="fa fa-picture"></i> {{ lang('change') }}</span>
+                                                    <input type="file" id="def_dp_3" name="def_dp_3" accept="image/*"/>
+                                                </span>
+                                                <a href="#" class="btn fileupload-exists btn-red"
+                                                   data-dismiss="fileupload">
+                                                    <i class="fa fa-times"></i> {{ lang('remove') }}
+                                                </a>
+                                            </div>                                            
+                                        </div>
+
+                                        <div class="fileupload fileupload-new col-sm-3" data-provides="fileupload">
+                                            <div class="fileupload-new thumbnail" ><img src="assets/images/users/{{ def_dp.4 }}">
+                                            </div>
+                                            <div class="fileupload-preview fileupload-exists thumbnail"></div>
+                                            <div class="user-edit-image-buttons">
+                                                <span class="btn btn-azure btn-file">
+                                                    <span class="fileupload-new"><i
+                                                            class="fa fa-picture"></i> {{ lang('change_image') }}</span>
+                                                    <span class="fileupload-exists"><i class="fa fa-picture"></i> {{ lang('change') }}</span>
+                                                    <input type="file" id="def_dp_4" name="def_dp_4" accept="image/*"/>
+                                                </span>
+                                                <a href="#" class="btn fileupload-exists btn-red"
+                                                   data-dismiss="fileupload">
+                                                    <i class="fa fa-times"></i> {{ lang('remove') }}
+                                                </a>
+                                            </div>                                            
+                                        </div>
+
+                                        <div class="fileupload fileupload-new col-sm-3" data-provides="fileupload">
+                                            <div class="fileupload-new thumbnail" ><img src="assets/images/users/{{ def_dp.5 }}">
+                                            </div>
+                                            <div class="fileupload-preview fileupload-exists thumbnail"></div>
+                                            <div class="user-edit-image-buttons">
+                                                <span class="btn btn-azure btn-file">
+                                                    <span class="fileupload-new"><i
+                                                            class="fa fa-picture"></i> {{ lang('change_image') }}</span>
+                                                    <span class="fileupload-exists"><i class="fa fa-picture"></i> {{ lang('change') }}</span>
+                                                    <input type="file" id="def_dp_5" name="def_dp_5" accept="image/*"/>
+                                                </span>
+                                                <a href="#" class="btn fileupload-exists btn-red"
+                                                   data-dismiss="fileupload">
+                                                    <i class="fa fa-times"></i> {{ lang('remove') }}
+                                                </a>
+                                            </div>                                            
+                                        </div>
+
+                                        <div class="fileupload fileupload-new col-sm-3" data-provides="fileupload">
+                                            <div class="fileupload-new thumbnail" ><img src="assets/images/users/{{ def_dp.6 }}">
+                                            </div>
+                                            <div class="fileupload-preview fileupload-exists thumbnail"></div>
+                                            <div class="user-edit-image-buttons">
+                                                <span class="btn btn-azure btn-file">
+                                                    <span class="fileupload-new"><i
+                                                            class="fa fa-picture"></i> {{ lang('change_image') }}</span>
+                                                    <span class="fileupload-exists"><i class="fa fa-picture"></i> {{ lang('change') }}</span>
+                                                    <input type="file" id="def_dp_6" name="def_dp_6" accept="image/*"/>
+                                                </span>
+                                                <a href="#" class="btn fileupload-exists btn-red"
+                                                   data-dismiss="fileupload">
+                                                    <i class="fa fa-times"></i> {{ lang('remove') }}
+                                                </a>
+                                            </div>                                            
+                                        </div>
+
+                                        <div class="fileupload fileupload-new col-sm-3" data-provides="fileupload">
+                                            <div class="fileupload-new thumbnail" ><img src="assets/images/users/{{ def_dp.7 }}">
+                                            </div>
+                                            <div class="fileupload-preview fileupload-exists thumbnail"></div>
+                                            <div class="user-edit-image-buttons">
+                                                <span class="btn btn-azure btn-file">
+                                                    <span class="fileupload-new"><i
+                                                            class="fa fa-picture"></i> {{ lang('change_image') }}</span>
+                                                    <span class="fileupload-exists"><i class="fa fa-picture"></i> {{ lang('change') }}</span>
+                                                    <input type="file" id="def_dp_7" name="def_dp_7" accept="image/*"/>
+                                                </span>
+                                                <a href="#" class="btn fileupload-exists btn-red"
+                                                   data-dismiss="fileupload">
+                                                    <i class="fa fa-times"></i> {{ lang('remove') }}
+                                                </a>
+                                            </div>                                            
+                                        </div>
+
+
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">
+
+                                        </label>
+                                        <div class="col-sm-4">
+                                            {% if PRESET_DEMO_STATUS %}
+                                                <button type="button" class="btn btn-primary" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                                                    {{lang('update_dp')}} <i class="fa fa-arrow-circle-right"></i>
+                                                </button>                                                
+                                            {% else %} 
+                                                <button type="submit" class="btn btn-primary" value="update_dp" name="update_dp">
+                                                    {{lang('update_dp')}} <i class="fa fa-arrow-circle-right"></i>
+                                                </button>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {{ form_close()|raw }}
+                            </div>
+                            <div class="tab-pane fade" id="user_cover_tab">
+                                {{ form_open_multipart('', ' id="user_cover_form" name="user_cover_form"')|raw }}
+                                <div class="form-horizontal">
+                                    <div class="errorHandler alert alert-danger no-display">
+                                        <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                                    </div>                                   
+
+                                    <div class="form-group">
+                                        <div class="fileupload fileupload-new col-sm-4" data-provides="fileupload">
+                                            <div class="fileupload-new thumbnail" style="height: 80px;"><img src="assets/images/users/{{ def_cov.0 }}">
+                                            </div>
+                                            <div class="fileupload-preview fileupload-exists thumbnail"></div>
+                                            <div class="user-edit-image-buttons">
+                                                <span class="btn btn-azure btn-file">
+                                                    <span class="fileupload-new"><i
+                                                            class="fa fa-picture"></i> {{ lang('change_cover') }}</span>
+                                                    <span class="fileupload-exists"><i class="fa fa-picture"></i> {{ lang('change') }}</span>
+                                                    <input type="file" id="def_cover_0" name="def_cover_0" accept="image/*"/>
+                                                </span>
+                                                <a href="#" class="btn fileupload-exists btn-red"
+                                                   data-dismiss="fileupload">
+                                                    <i class="fa fa-times"></i> {{ lang('remove') }}
+                                                </a>
+                                            </div>                                            
+                                        </div>
+
+                                        <div class="fileupload fileupload-new col-sm-4" data-provides="fileupload">
+                                            <div class="fileupload-new thumbnail" style="height: 80px;"><img src="assets/images/users/{{ def_cov.1 }}">
+                                            </div>
+                                            <div class="fileupload-preview fileupload-exists thumbnail"></div>
+                                            <div class="user-edit-image-buttons">
+                                                <span class="btn btn-azure btn-file">
+                                                    <span class="fileupload-new"><i
+                                                            class="fa fa-picture"></i> {{ lang('change_cover') }}</span>
+                                                    <span class="fileupload-exists"><i class="fa fa-picture"></i> {{ lang('change') }}</span>
+                                                    <input type="file" id="def_cover_1" name="def_cover_1" accept="image/*"/>
+                                                </span>
+                                                <a href="#" class="btn fileupload-exists btn-red"
+                                                   data-dismiss="fileupload">
+                                                    <i class="fa fa-times"></i> {{ lang('remove') }}
+                                                </a>
+                                            </div>                                            
+                                        </div>
+
+                                        <div class="fileupload fileupload-new col-sm-4" data-provides="fileupload">
+                                            <div class="fileupload-new thumbnail" style="height: 80px;"><img src="assets/images/users/{{ def_cov.2 }}">
+                                            </div>
+                                            <div class="fileupload-preview fileupload-exists thumbnail"></div>
+                                            <div class="user-edit-image-buttons">
+                                                <span class="btn btn-azure btn-file">
+                                                    <span class="fileupload-new"><i
+                                                            class="fa fa-picture"></i> {{ lang('change_cover') }}</span>
+                                                    <span class="fileupload-exists"><i class="fa fa-picture"></i> {{ lang('change') }}</span>
+                                                    <input type="file" id="def_cover_2" name="def_cover_2" accept="image/*"/>
+                                                </span>
+                                                <a href="#" class="btn fileupload-exists btn-red"
+                                                   data-dismiss="fileupload">
+                                                    <i class="fa fa-times"></i> {{ lang('remove') }}
+                                                </a>
+                                            </div>                                            
+                                        </div>
+
+                                        <div class="fileupload fileupload-new col-sm-4" data-provides="fileupload">
+                                            <div class="fileupload-new thumbnail" style="height: 80px;"><img src="assets/images/users/{{ def_cov.3 }}">
+                                            </div>
+                                            <div class="fileupload-preview fileupload-exists thumbnail"></div>
+                                            <div class="user-edit-image-buttons">
+                                                <span class="btn btn-azure btn-file">
+                                                    <span class="fileupload-new"><i
+                                                            class="fa fa-picture"></i> {{ lang('change_cover') }}</span>
+                                                    <span class="fileupload-exists"><i class="fa fa-picture"></i> {{ lang('change') }}</span>
+                                                    <input type="file" id="def_cover_3" name="def_cover_3" accept="image/*"/>
+                                                </span>
+                                                <a href="#" class="btn fileupload-exists btn-red"
+                                                   data-dismiss="fileupload">
+                                                    <i class="fa fa-times"></i> {{ lang('remove') }}
+                                                </a>
+                                            </div>                                            
+                                        </div>
+
+                                        <div class="fileupload fileupload-new col-sm-4" data-provides="fileupload">
+                                            <div class="fileupload-new thumbnail" style="height: 80px;"><img src="assets/images/users/{{ def_cov.4 }}">
+                                            </div>
+                                            <div class="fileupload-preview fileupload-exists thumbnail"></div>
+                                            <div class="user-edit-image-buttons">
+                                                <span class="btn btn-azure btn-file">
+                                                    <span class="fileupload-new"><i
+                                                            class="fa fa-picture"></i> {{ lang('change_cover') }}</span>
+                                                    <span class="fileupload-exists"><i class="fa fa-picture"></i> {{ lang('change') }}</span>
+                                                    <input type="file" id="def_cover_4" name="def_cover_4" accept="image/*"/>
+                                                </span>
+                                                <a href="#" class="btn fileupload-exists btn-red"
+                                                   data-dismiss="fileupload">
+                                                    <i class="fa fa-times"></i> {{ lang('remove') }}
+                                                </a>
+                                            </div>                                            
+                                        </div>
+
+                                        <div class="fileupload fileupload-new col-sm-4" data-provides="fileupload">
+                                            <div class="fileupload-new thumbnail" style="height: 80px;"><img src="assets/images/users/{{ def_cov.5 }}">
+                                            </div>
+                                            <div class="fileupload-preview fileupload-exists thumbnail"></div>
+                                            <div class="user-edit-image-buttons">
+                                                <span class="btn btn-azure btn-file">
+                                                    <span class="fileupload-new"><i
+                                                            class="fa fa-picture"></i> {{ lang('change_cover') }}</span>
+                                                    <span class="fileupload-exists"><i class="fa fa-picture"></i> {{ lang('change') }}</span>
+                                                    <input type="file" id="def_cover_5" name="def_cover_5" accept="image/*"/>
+                                                </span>
+                                                <a href="#" class="btn fileupload-exists btn-red"
+                                                   data-dismiss="fileupload">
+                                                    <i class="fa fa-times"></i> {{ lang('remove') }}
+                                                </a>
+                                            </div>                                            
+                                        </div>
+
+                                        
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">
+
+                                        </label>
+                                        <div class="col-sm-4">
+                                            {% if PRESET_DEMO_STATUS %}
+                                                <button type="button" class="btn btn-primary" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                                                    {{lang('update_cover')}} <i class="fa fa-arrow-circle-right"></i>
+                                                </button>                                                
+                                            {% else %} 
+                                                <button type="submit" class="btn btn-primary" value="update_cover" name="update_cover">
+                                                    {{lang('update_cover')}} <i class="fa fa-arrow-circle-right"></i>
+                                                </button>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {{ form_close()|raw }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>                                    
+    </div>
+</div>
+{% include('admin/layout/footer.twig')%}

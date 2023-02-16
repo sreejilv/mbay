@@ -1,0 +1,572 @@
+{% include('admin/layout/header.twig') %}
+<link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="assets/css/shCore.css">
+<script type="text/javascript" language="javascript" src="assets/js/jquery.dataTables.js">
+</script>
+<script type="text/javascript" language="javascript" src="assets/js/shCore.js">
+</script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
+<script type="text/javascript" language="javascript" src="assets/js/lead_datatable.js">
+</script>
+<script type="text/javascript" language="javascript" class="init">
+
+    $(document).ready(function () {
+        var oTable = $('#kyc_list_address').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/kyc/kyc_list_address",
+            "dataType": "json",
+            "order": [[ 5, "desc" ]],
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+    $(document).ready(function () {
+        var oTable = $('#kyc_list_identity').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/kyc/kyc_list_identity",
+            "dataType": "json",
+            "order": [[ 5, "desc" ]],
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+</script>
+<div id="js_messages" style="display: none;"> 
+    <span id="pls_wt_js">{{lang('pls_wt_js')}}</span>
+    <span id="invalid_username_js">{{lang('invalid_username_js')}}</span>
+    <span id="identity_kyc_req_js">{{lang('identity_kyc_req_js')}}</span>
+    <span id="identity_kyc_ext_js">{{lang('identity_kyc_ext_js')}}</span>
+    <span id="address_kyc_req_js">{{lang('address_kyc_req_js')}}</span>
+    <span id="address_kyc_ext_js">{{lang('address_kyc_ext_js')}}</span>
+    <span id="are_you_sure">{{lang('are_you_sure')}}</span>
+    <span id="accept_this_kyc">{{lang('accept_this_kyc')}}</span>
+    <span id="yes_accept_it">{{lang('yes_accept_it')}}</span>
+    <span id="no_cancel_pls">{{lang('no_cancel_pls')}}</span>
+    <span id="canceled">{{lang('canceled')}}</span>
+    <span id="oprn_canceled">{{lang('oprn_canceled')}}</span>
+    <span id="reject_this_kyc">{{lang('reject_this_kyc')}}</span>
+    <span id="yes_reject_it">{{lang('yes_reject_it')}}</span>
+    <span id="reason_updated_js">{{lang('reason_updated_js')}}</span>
+    <span id="success_js">{{lang('success_js')}}</span>
+    <span id="failed_reason_updated_js">{{lang('failed_reason_updated_js')}}</span>
+    <span id="failed_js">{{lang('failed_js')}}</span>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <span class="text-bold">{{lang('menu_name_97')}} </span>
+                </h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+
+                <div class="alert alert-info">
+                    <button data-dismiss="alert" class="close">
+                        ×
+                    </button>
+                    <strong>{{ lang('notice') }}</strong> :-
+                    <a href="#" class="alert-link" data-toggle="modal" data-target="#search_member_modal">
+                        {{ lang('click_here') }}</a>
+                    {{ lang('for_searching_a_member') }} {% if kyc_user %}{{ lang('or') }} <a class="alert-link" href="admin/user-kyc/all">
+                        {{ lang('click_here') }}</a> {{ lang('to_view_all') }}{% endif %}.
+                </div>
+
+                <div id="search_member_modal" style="width: 750px;" class="modal extended-modal fade no-display" tabindex="-1" data-focus-on="input:first">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title">{{lang('search_member')}}</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        {{ form_open('', ' id="search_member_form" name="search_member_form"')|raw }}
+                        <div class="form-horizontal">                                            
+                            <div class="errorHandler alert alert-danger no-display">
+                                <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                            </div>                    
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">
+                                    {{lang('username')}}:<span class="symbol required"></span>
+                                </label>
+                                <div class="col-sm-6">
+                                    <input class="typeahead form-control" placeholder="{{lang('username')}}" type="text" name="username" id="username" autocomplete="off">
+                                    <div  id="full_name">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" data-dismiss="modal" class="btn btn-default">
+                                {{lang('cancel')}}
+                            </button>
+
+                            <button type="submit" class="btn btn-primary" value="search_member" name="search_member">
+                                {{lang('search')}} <i class="fa fa-arrow-circle-right"></i>
+                            </button> 
+                        </div>
+                        {{ form_close()|raw }}
+                    </div>
+                </div>
+
+                {% if username %}<h4 align="center">{{ lang('username') }} : <b>{{ username }}</b></h4>{% endif %}
+                <div class="tabbable">
+                    <ul id="myTab2" class="nav nav-tabs">
+                        <li {% if kyc_tab ==2 %}class="" {% else %} class="active" {% endif %}>
+                            <a href="javascript:#kyc-tabs1" data-toggle="tab">
+                                {{lang('bank_details')}}
+                            </a>
+                        </li>
+                        <li {% if kyc_tab !=2 %} {% else %} class="active" {% endif %}>
+                            <a href="javascript:#kyc-tabs2" data-toggle="tab">
+                                {{lang('id_proof')}}
+                            </a>
+                        </li>                        
+                    </ul>
+                    <div class="tab-content">
+                        <div {% if kyc_tab ==2 %} class="tab-pane fade" {% else %} class="tab-pane fade in active" {% endif %} id="kyc-tabs1">
+                            {% if kyc_user and not address_flag %}
+                                {{ form_open_multipart('', ' id="address_form" name="address_form"')|raw }}
+                                <div class="form-horizontal">
+                                    <div class="errorHandler alert alert-danger no-display">
+                                        <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">
+                                            {{ lang('select_image') }}
+                                        </label>
+                                        <div class="fileupload fileupload-new col-sm-6"
+                                             data-provides="fileupload">
+                                            <div class="fileupload-new thumbnail"><img src="assets/images/kyc/kyc.jpeg" alt="">
+                                            </div>
+                                            <div class="fileupload-preview fileupload-exists thumbnail"></div>
+                                            <div class="user-edit-image-buttons">
+                                                <span class="btn btn-azure btn-file">
+                                                    <span class="fileupload-new"><i
+                                                            class="fa fa-picture"></i> {{ lang('select_image') }}</span>
+                                                    <span class="fileupload-exists"><i
+                                                            class="fa fa-picture"></i> {{ lang('change') }}</span>
+                                                    <input type="file" id="address_kyc" name="address_kyc" accept="image/*"/>
+                                                </span>
+                                                <a href="#" class="btn fileupload-exists btn-red"
+                                                   data-dismiss="fileupload">
+                                                    <i class="fa fa-times"></i> {{ lang('remove') }}
+                                                </a>
+                                            </div>
+                                            <div class="alert alert-info">
+                                                <span class="label label-info">{{lang('note')}}!</span>
+                                                <span> {{lang('supported_formats')}} : {{lang('JPEG')}} , {{lang('PNG')}} , {{lang('JPG')}} </span>
+                                            </div>
+                                            <div class="alert alert-warning">
+                                                <span class="label label-warning">{{lang('address_proof')}}</span>
+                                                <span> </span>
+                                                <ul>
+                                                    <li>{{lang('bank_statement')}}</li>
+                                                    <li>{{lang('electricty_bill')}}</li>
+                                                    <li>{{lang('telephone_bill')}}</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">
+
+                                        </label>
+                                        <div class="col-sm-4">
+                                            <button type="submit" class="btn btn-primary" value="address_submit" name="address_submit">
+                                                {{ lang('submit') }} <i
+                                                    class="fa fa-arrow-circle-right"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{ form_close()|raw }}
+                            {% endif %}
+
+                            <div class="table-responsive">
+                                <table class="table table-hover table-striped" id="kyc_list_address">
+                                    <thead>
+                                        <tr>
+                                            <th class="center">{{lang('sl_no')}}</th>
+                                            <th>{{lang('user_name')}}</th>
+                                            <th>{{lang('full_name')}}</th>
+                                            <th>{{lang('email')}}</th>
+                                            <th>{{lang('add_proof')}}</th>
+                                            <th>{{lang('date')}}</th>
+                                            <th>{{lang('status')}}</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+
+
+                        </div>
+                        <div {% if kyc_tab !=2 %} class="tab-pane fade" {% else %} class="tab-pane fade in active" {% endif %} id="kyc-tabs2">
+                            {% if kyc_user and not identity_flag %}
+                                {{ form_open_multipart('', ' id="identity_form" name="identity_form"')|raw }}
+                                <div class="form-horizontal">
+                                    <div class="errorHandler alert alert-danger no-display">
+                                        <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">
+                                            {{ lang('select_image') }}
+                                        </label>
+                                        <div class="fileupload fileupload-new col-sm-6"
+                                             data-provides="fileupload">
+                                            <div class="fileupload-new thumbnail"><img src="assets/images/kyc/kyc.jpeg" alt="">
+                                            </div>
+                                            <div class="fileupload-preview fileupload-exists thumbnail"></div>
+                                            <div class="user-edit-image-buttons">
+                                                <span class="btn btn-azure btn-file">
+                                                    <span class="fileupload-new"><i
+                                                            class="fa fa-picture"></i> {{ lang('select_image') }}</span>
+                                                    <span class="fileupload-exists"><i
+                                                            class="fa fa-picture"></i> {{ lang('change') }}</span>
+                                                    <input type="file" id="identity_kyc" name="identity_kyc" accept="image/*"/>
+                                                </span>
+                                                <a href="#" class="btn fileupload-exists btn-red"
+                                                   data-dismiss="fileupload">
+                                                    <i class="fa fa-times"></i> {{ lang('remove') }}
+                                                </a>
+                                            </div>
+                                            <div class="alert alert-info">
+                                                <span class="label label-info">{{lang('note')}}!</span>
+                                                <span> {{lang('supported_formats')}} : {{lang('JPEG')}} , {{lang('PNG')}} , {{lang('JPG')}} </span>
+                                            </div>
+                                            <div class="alert alert-warning">
+                                                <span class="label label-warning">{{lang('id_proof_any')}}</span>
+                                                <span> </span>
+                                                <ul>
+                                                    <li>{{lang('voters_id')}}</li>
+                                                    <li>{{lang('pancard')}}</li>
+                                                    <li>{{lang('driving_licence')}}</li>
+                                                    <li>{{lang('passport')}}</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">
+
+                                        </label>
+                                        <div class="col-sm-4">
+                                            <button type="submit" class="btn btn-primary" value="identity_submit" name="identity_submit">
+                                                {{ lang('submit') }} <i
+                                                    class="fa fa-arrow-circle-right"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{ form_close()|raw }}
+                            {% endif %}
+
+                            <div class="table-responsive">
+                                <table class="table table-hover table-striped" id="kyc_list_identity">
+                                    <thead>
+                                        <tr>
+                                            <th class="center">{{lang('sl_no')}}</th>
+                                            <th>{{lang('user_name')}}</th>
+                                            <th>{{lang('full_name')}}</th>
+                                            <th>{{lang('email')}}</th>
+                                            <th>{{lang('identity_proof')}}</th>
+                                            <th>{{lang('date')}}</th>
+                                            <th>{{lang('status')}}</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>                        
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+{% include ('admin/layout/footer.twig') %}
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css"/>
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
+<script src="assets/js/typeahead.js"></script>
+<link href="assets/plugins/sweetalert/lib/sweet-alert.css" rel="stylesheet" />
+<script src="assets/plugins/sweetalert/lib/sweet-alert.min.js"></script>
+<script>
+    $(window).load(function () {
+        searchMember();
+        valAddressProof();
+        valIdentityProof();
+    });
+
+    var searchMember = function () {
+        $.validator.addMethod("validUser", function () {
+            var isSuccess = false;
+            $.ajax({url: "register/validate_sponsor",
+                data: {username: $("#username").val()},
+                async: false,
+                success:
+                        function (msg) {
+                            isSuccess = msg === "yes" ? true : false
+                            if (isSuccess) {
+                            $.ajax({url: "register/get_full_name",
+                                data: {username: $("#username").val()},
+                                async: false,
+                                success:
+                                        function (msg) {
+                                            $("#full_name").html(msg);
+                                        }
+                            });
+                          }
+                        }
+            });
+            return isSuccess;
+        }, $('#invalid_username_js').html());
+
+        var form22 = $('#search_member_form');
+        var errorHandler2 = $('.errorHandler', form22);
+        var successHandler2 = $('.successHandler', form22);
+        form22.validate({
+            errorElement: "span", // contain the error msg in a small tag
+            errorClass: 'help-block',
+            errorPlacement: function (error, element) { // render error placement for each input type
+                error.insertAfter(element);
+            },
+            ignore: "hidden",
+            rules: {
+                username: {
+                    required: true,
+                    validUser: true,
+                }
+            },
+            messages: {
+                username: {
+                    required: $('#invalid_username_js').html()
+                }
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit
+                successHandler2.hide();
+                errorHandler2.show();
+            },
+            highlight: function (element) {
+                $(element).closest('.help-block').removeClass('valid');// display OK icon
+                $(element).closest('.form-group').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
+                // add the Bootstrap error class to the control group
+            },
+            unhighlight: function (element) { // revert the change done by hightlight
+                $(element).closest('.form-group').removeClass('has-error');
+                // set error class to the control group
+            },
+            success: function (label, element) {
+                label.addClass('help-block valid');
+                // mark the current input as valid and display OK icon
+                $(element).closest('.form-group').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
+            },
+            submitHandler: function (form) {
+                successHandler2.show();
+                errorHandler2.hide();
+                form.submit();
+            }
+        });
+    }
+
+    var valAddressProof = function () {
+        var form = $('#address_form');
+        var errorHandler2 = $('.errorHandler', form);
+        var successHandler2 = $('.successHandler', form);
+        form.validate({
+            errorElement: "span",
+            errorClass: 'help-block',
+            errorPlacement: function (error, element) {
+                error.insertAfter($(element).closest('div'));
+            },
+            ignore: "hidden",
+            rules: {
+                address_kyc: {
+                    required: true,
+                    extension: "jpg|jpeg|png"
+                }
+            },
+            messages: {
+                address_kyc: {
+                    required: $('#address_kyc_req_js').html(),
+                    extension: $('#address_kyc_ext_js').html()
+                }
+            },
+            invalidHandler: function (event, validator) {
+                successHandler2.hide();
+                errorHandler2.show();
+            },
+            highlight: function (element) {
+                $(element).closest('.help-block').removeClass('valid');
+                $(element).closest('.form-group').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-group').removeClass('has-error');
+            },
+            success: function (label, element) {
+                label.addClass('help-block valid');
+                $(element).closest('.form-group').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
+            },
+            submitHandler: function (form) {
+                successHandler2.show();
+                errorHandler2.hide();
+                form.submit();
+            }
+        });
+    };
+
+    var valIdentityProof = function () {
+        var form = $('#identity_form');
+        var errorHandler2 = $('.errorHandler', form);
+        var successHandler2 = $('.successHandler', form);
+        form.validate({
+            errorElement: "span",
+            errorClass: 'help-block',
+            errorPlacement: function (error, element) {
+                error.insertAfter($(element).closest('div'));
+            },
+            ignore: "hidden",
+            rules: {
+                identity_kyc: {
+                    required: true,
+                    extension: "jpg|jpeg|png"
+                }
+            },
+            messages: {
+                identity_kyc: {
+                    required: $('#identity_kyc_req_js').html(),
+                    extension: $('#identity_kyc_ext_js').html()
+                }
+            },
+            invalidHandler: function (event, validator) {
+                successHandler2.hide();
+                errorHandler2.show();
+            },
+            highlight: function (element) {
+                $(element).closest('.help-block').removeClass('valid');
+                $(element).closest('.form-group').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-group').removeClass('has-error');
+            },
+            success: function (label, element) {
+                label.addClass('help-block valid');
+                $(element).closest('.form-group').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
+            },
+            submitHandler: function (form) {
+                successHandler2.show();
+                errorHandler2.hide();
+                form.submit();
+            }
+        });
+    };
+
+    $('input.typeahead').typeahead({
+        source: function (query, process) {
+            var url = "admin/member/get_usernames";
+            return $.get(url, {query: query}, function (data) {
+                data = $.parseJSON(data);
+                return process(data);
+            });
+        }
+    });
+
+    function kyc_accept(id)
+    {
+        var title = $('#are_you_sure').html();
+        var msg = $('#accept_this_kyc').html();
+        swal({
+            title: title,
+            text: msg,
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: $('#yes_accept_it').html(),
+            cancelButtonText: $('#no_cancel_pls').html(),
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+        function (isConfirm) {
+            if (isConfirm) {
+                document.location.href = 'admin/user-kyc/accept/' + id;
+            } else {
+                swal($('#canceled').html(), $('#oprn_canceled').html(), "error");
+            }
+        });
+    }
+
+    function kyc_reject(id)
+    {
+        var title = $('#are_you_sure').html();
+        var msg = $('#reject_this_kyc').html();
+        swal({
+            title: title,
+            text: msg,
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: $('#yes_reject_it').html(),
+            cancelButtonText: $('#no_cancel_pls').html(),
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+        function (isConfirm) {
+            if (isConfirm) {
+                document.location.href = 'admin/user-kyc/reject/' + id;
+            } else {
+                swal($('#canceled').html(), $('#oprn_canceled').html(), "error");
+            }
+        });
+    }
+
+    function change_reason(id) {
+        $.blockUI({
+            message: '<i class="fa fa-spinner fa-spin"></i> ' + $('#please_wait_js').html()
+        });
+        if ($('#reject_' + id).val()!='') {
+            $.ajax({
+                url: "admin/kyc/change_reject_reason",
+                data: {id: id, reason: $('#reject_' + id).val()},
+                success: function (result) {
+                    if (result == "yes") {
+                        var msg = $('#reason_updated_js').html();
+                        var flag = "success";
+                        var title = $('#success_js').html();
+                        show_notification(flag, title, msg);
+                        form2.trigger("reset");
+                    } else {
+                        var flag = "error";
+                        var msg = $('#failed_reason_updated_js').html();
+                        var title = $('#failed_js').html();
+                        show_notification(flag, title, msg);
+                    }
+                }
+            });
+        }
+
+        $.unblockUI();
+    }
+</script>
+<style>
+    table.dataTable thead th{border-bottom:1px #111}
+    table.dataTable.no-footer{border-bottom:1px #dfe1e5 solid}
+</style>

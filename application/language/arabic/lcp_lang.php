@@ -1,0 +1,22 @@
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+$lang['lead_capture_page'] ='صفحة التقاط الرصاص';
+$lang['enter_first_name'] ='أدخل اسمك الأول';
+$lang['enter_last_name'] ='أدخل اسمك الأخير';
+$lang['enter_email'] ='أدخل عنوان بريدك الالكتروني';
+$lang['enter_phone_number'] ='أدخل رقم هاتفك';
+$lang['enter_comment'] ='أدخل تعليقك';
+$lang['lead_added'] ='وأضاف الرصاص بنجاح';
+$lang['lead_failed'] ='فشل إضافة الرصاص';
+$lang['select_a_country'] ='اختر دولة';
+$lang['invalid_username'] ='اسم المستخدم غير صالح';
+$lang['country_required_msg_js'] ='يرجى اختيار الدولة';
+$lang['comment_required_msg_js'] ='يرجى إدخال تعليقاتك';
+$lang['mobile_number_required_msg_js'] ='الرجاء إدخال رقم هاتفك المحمول';
+$lang['mobile_number_length_msg_js'] ='رقم الجوال الحد الأدنى للطول 2';
+$lang['mobile_number_allow_number_only_msg_js'] ='رقم الهاتف السماح بالأرقام فقط ، أكبر من 0';
+$lang['email_required_msg_js'] ='الرجاء إدخال عنوان البريد الإلكتروني الخاص بك';
+$lang['valid_email_msg_js'] ='رجاء قم بإدخال بريد الكتروني صحيح';
+$lang['last_name_required_msg_js'] ='يرجى إدخال اسم العائلة الخاص بك';
+$lang['last_name_length_msg_js'] ='يحتوي الاسم الأخير على حرفين على الأقل';
+$lang['last_name_msg_js'] ='يرجى ادخال الاسم الاول';
+

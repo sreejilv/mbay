@@ -1,0 +1,416 @@
+<div class="form-horizontal">
+    <div class="row">
+        {% for pm in payment_method %}
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">
+                        {{ lang(pm.code) }} :
+                    </label>
+                    <div class="col-sm-3">
+                        <label class="switch">
+                            {% if PRESET_DEMO_STATUS %}
+                                <input type="checkbox" {% if pm.status == "active" %} checked {% endif %} id="togBtn" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                            {% else %}
+                                <input type="checkbox" {% if pm.status == "active" %} checked {% endif %} id="togBtn" onchange='changePaymentStatus("{{ pm.code }}", this)'>
+                            {% endif %}
+
+                            <div class="slider round">
+                                <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                            </div>
+                        </label>
+                    </div>
+                    {% if pm.settings %}
+                        <label id='{{ pm.code }}_set' class="col-sm-4" {% if  pm.status=='inactive' %} style='display:none;' {% endif %}>
+                            <a href="#" data-toggle="modal" data-target='#{{ pm.code }}_modal'>
+                                <i class="fa fa-gears"></i> {{lang('credentials')}}
+                            </a>
+                        </label>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div id="bank_transfer_modal" class="modal extended-modal fade no-display" tabindex="-1" data-focus-on="input:first">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                &times;
+            </button>
+            <h4 class="modal-title">{{lang('bank_details')}}</h4>
+        </div>
+
+        <div class="modal-body">
+            {{ form_open('', ' id="bank_payment_form" name="bank_payment_form"')|raw }}
+            <div class="form-horizontal">
+                <div class="errorHandler alert alert-danger no-display">
+                    <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">
+                        {{lang('bank_name')}}:<span class="symbol required"></span>
+                    </label>
+                    <div class="col-sm-6">
+                        <input class="form-control" type="text" name="bank_name" id="bank_name"  value="{{payment_config.bank_name}}" >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">
+                        {{lang('account_holder_name')}}:<span class="symbol required"></span>
+                    </label>
+                    <div class="col-sm-6">
+                        <input class="form-control" type="text" name="account_holder_name" id="account_holder_name"  value="{{payment_config.bank_holder_name}}" >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">
+                        {{lang('account_number')}}:<span class="symbol required"></span>
+                    </label>
+                    <div class="col-sm-6">
+                        <input class="form-control" type="text" name="account_number" id="account_number"  value="{{payment_config.bank_ac_number}}" >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">
+                        {{lang('branch_name')}}:<span class="symbol required"></span>
+                    </label>
+                    <div class="col-sm-6">
+                        <input class="form-control" type="text" name="branch_name" id="branch_name"  value="{{payment_config.bank_branch}}" >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">
+                        {{lang('ifsc_code')}}:<span class="symbol required"></span>
+                    </label>
+                    <div class="col-sm-6">
+                        <input class="form-control" type="text" name="ifsc_code" id="ifsc_code"  value="{{payment_config.bank_ifsc}}" >
+                    </div>
+                </div>
+
+
+
+                {#<div class="form-group">
+                    <label class="col-sm-4 control-label">
+                        {{ lang('send_payout') }}  :
+                    </label>
+                    <div class="col-sm-3">
+                        <label class="switch">
+                            {% if PRESET_DEMO_STATUS %}
+                                <input type="checkbox" {% if payment_config.bank_transfer == "active" %} checked {% endif %} id="togBtn" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                            {% else %}
+                                <input type="checkbox" {% if payment_config.bank_transfer == "active" %} checked {% endif %} id="togBtn" onchange='changePayoutPaymentStatus("bank_transfer", this)'>
+                            {% endif %}
+
+
+                            <div class="slider round">
+                                <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                            </div>
+                        </label>
+                    </div>
+                </div>#}
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-default">
+                    {{lang('cancel')}}
+                </button>
+
+                {% if PRESET_DEMO_STATUS %}
+                    <button type="button" class="btn btn-primary" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                        {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                    </button>
+
+                {% else %}
+                    <button type="submit"class="btn btn-primary" value="bank_payment_config" name="bank_payment_config">
+                        {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                    </button>
+                {% endif %}
+
+
+            </div>
+            {{ form_close()|raw }}
+        </div>
+    </div>
+    <div id="paypal_modal" class="modal extended-modal fade no-display" tabindex="-1" data-focus-on="input:first">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                &times;
+            </button>
+            <h4 class="modal-title">{{lang('paypal')}}</h4>
+        </div>
+
+        <div class="modal-body">
+            {{ form_open('', ' id="paypal_payment_form" name="paypal_payment_form"')|raw }}
+            <div class="form-horizontal">
+                <div class="errorHandler alert alert-danger no-display">
+                    <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">
+                        {{lang('paypal_api_username')}}:<span class="symbol required"></span>
+                    </label>
+                    <div class="col-sm-6">
+                        <input class="form-control" type="text" name="paypal_api_username" id="paypal_api_username"  value="{{payment_config.paypal_api_username}}" >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">
+                        {{lang('paypal_api_password')}}:<span class="symbol required"></span>
+                    </label>
+                    <div class="col-sm-6">
+                        <input class="form-control" type="password" name="paypal_api_password" id="paypal_api_password"  value="{{payment_config.paypal_api_password}}" >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">
+                        {{lang('paypal_signater')}}:<span class="symbol required"></span>
+                    </label>
+                    <div class="col-sm-6">
+                        <input class="form-control" type="text" name="paypal_signater" id="paypal_signater"  value="{{payment_config.paypal_signater}}" >
+                    </div>
+                </div>
+                {#<div class="form-group">
+                    <label class="col-sm-4 control-label">
+                        {{ lang('send_payout') }}
+                    </label>
+                    <div class="col-sm-3">
+                        <label class="switch">
+                            {% if PRESET_DEMO_STATUS %}
+                                <input type="checkbox" {% if payment_config.paypal_payout_status == "active" %} checked {% endif %} id="togBtn" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                            {% else %}
+                                <input type="checkbox" {% if payment_config.paypal_payout_status == "active" %} checked {% endif %} id="togBtn" onchange='changePayoutPaymentStatus("paypal", this)'>
+                            {% endif %}
+
+
+                            <div class="slider round">
+                                <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                            </div>
+                        </label>
+                    </div>
+                </div>#}
+
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">
+                        {{ lang('production_mode') }}
+                    </label>
+                    <div class="col-sm-3">
+                        <label class="switch">
+                            {% if PRESET_DEMO_STATUS %}
+                                <input type="checkbox" {% if payment_config.paypal_production %} checked {% endif %} id="togBtn" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                            {% else %}
+                                <input type="checkbox" {% if payment_config.paypal_production %} checked {% endif %} id="togBtn" onchange='changePaymentProductionStatus("paypal_production", this)'>
+                            {% endif %}
+
+
+                            <div class="slider round">
+                                <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-default">
+                    {{lang('cancel')}}
+                </button>
+
+                {% if PRESET_DEMO_STATUS %}
+                    <button type="button" class="btn btn-primary" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                        {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                    </button>
+
+                {% else %}
+                    <button type="submit"class="btn btn-primary" value="paypal_config" name="paypal_config">
+                        {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                    </button>
+                {% endif %}
+
+
+
+            </div>
+            {{ form_close()|raw }}
+        </div>
+    </div>
+
+
+    <div id="blocktrail_modal" class="modal extended-modal fade no-display" tabindex="-1" data-focus-on="input:first">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                &times;
+            </button>
+            <h4 class="modal-title">{{lang('blocktrail')}}</h4>
+        </div>
+
+        <div class="modal-body">
+            {{ form_open('', ' id="blocktrail_payment_form" name="blocktrail_payment_form"')|raw }}
+            <div class="form-horizontal">
+                <div class="errorHandler alert alert-danger no-display">
+                    <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">
+                        {{lang('blocktrail_api_key')}}:<span class="symbol required"></span>
+                    </label>
+                    <div class="col-sm-6">
+                        <input class="form-control" type="text" name="blocktrail_api_key" id="blocktrail_api_key"  value="{{payment_config.blocktrail_api_key}}" >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">
+                        {{lang('blocktrail_api_secret')}}:<span class="symbol required"></span>
+                    </label>
+                    <div class="col-sm-6">
+                        <input class="form-control" type="text" name="blocktrail_api_secret" id="blocktrail_api_secret"  value="{{payment_config.blocktrail_api_secret}}" >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">
+                        {{lang('blocktrail_wallet_identifier')}}:<span class="symbol required"></span>
+                    </label>
+                    <div class="col-sm-6">
+                        <input class="form-control" type="text" name="blocktrail_wallet_identifier" id="blocktrail_wallet_identifier"  value="{{payment_config.blocktrail_wallet_identifier}}" >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">
+                        {{lang('blocktrail_wallet_pass')}}:<span class="symbol required"></span>
+                    </label>
+                    <div class="col-sm-6">
+                        <input class="form-control" type="text" name="blocktrail_wallet_pass" id="blocktrail_wallet_pass"  value="{{payment_config.blocktrail_wallet_pass}}" >
+                    </div>
+                </div>
+
+                {#<div class="form-group">
+                    <label class="col-sm-4 control-label">
+                        {{ lang('send_payout') }}
+                    </label>
+                    <div class="col-sm-3">
+                        <label class="switch">
+                            {% if PRESET_DEMO_STATUS %}
+                                <input type="checkbox" {% if payment_config.blocktrail_payout_status == "active" %} checked {% endif %} id="togBtn" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                            {% else %}
+                                <input type="checkbox" {% if payment_config.blocktrail_payout_status == "active" %} checked {% endif %} id="togBtn" onchange='changePayoutPaymentStatus("blocktrail", this)'>
+                            {% endif %}
+
+
+                            <div class="slider round">
+                                <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                            </div>
+                        </label>
+                    </div>
+                </div>#}
+
+
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">
+                        {{ lang('production_mode') }}
+                    </label>
+                    <div class="col-sm-3">
+                        <label class="switch">
+                            {% if PRESET_DEMO_STATUS %}
+                                <input type="checkbox" {% if payment_config.blocktrail_production %} checked {% endif %} id="togBtn" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                            {% else %}
+                                <input type="checkbox" {% if payment_config.blocktrail_production %} checked {% endif %} id="togBtn" onchange='changePaymentProductionStatus("blocktrail_production", this)'>
+                            {% endif %}
+
+
+                            <div class="slider round">
+                                <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-default">
+                    {{lang('cancel')}}
+                </button>
+
+                {% if PRESET_DEMO_STATUS %}
+                    <button type="button" class="btn btn-primary" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                        {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                    </button>
+
+                {% else %}
+                    <button type="submit"class="btn btn-primary" value="blocktrail_config" name="blocktrail_config">
+                        {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                    </button>
+                {% endif %}
+
+
+
+            </div>
+            {{ form_close()|raw }}
+        </div>
+    </div>
+
+
+        <div id="coinpayments_modal" class="modal extended-modal fade no-display" tabindex="-1" data-focus-on="input:first">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                &times;
+            </button>
+            <h4 class="modal-title">{{lang('coinpayments')}}</h4>
+        </div>
+
+        <div class="modal-body">
+            {{ form_open('', ' id="coinpayments_payment_form" name="coinpayments_payment_form"')|raw }}
+            <div class="form-horizontal">
+                <div class="errorHandler alert alert-danger no-display">
+                    <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">
+                        {{lang('coin_payment_author')}}:<span class="symbol required"></span>
+                    </label>
+                    <div class="col-sm-6">
+                        <input class="form-control" type="text" name="coin_payment_author" id="coin_payment_author"  value="{{ coin_payment_author }}" >
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label class="col-sm-4 control-label">
+                        {{lang('coin_payment_merchant')}}:<span class="symbol required"></span>
+                    </label>
+                    <div class="col-sm-6">
+                        <input class="form-control" type="password" name="coin_payment_merchant" id="coin_payment_merchant"  value="{{ coin_payment_merchant }}" >
+                    </div>
+                </div>
+                    
+                    
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-default">
+                    {{lang('cancel')}}
+                </button>
+
+                {% if PRESET_DEMO_STATUS %}
+                    <button type="button" class="btn btn-primary" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                        {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                    </button>
+
+                {% else %}
+                    <button type="submit"class="btn btn-primary" value="blocktrail_config" name="blocktrail_config">
+                        {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                    </button>
+                {% endif %}
+
+
+
+            </div>
+            {{ form_close()|raw }}
+        </div>
+    </div>
+ </div>

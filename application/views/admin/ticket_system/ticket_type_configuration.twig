@@ -1,0 +1,223 @@
+{% include('admin/layout/header.twig')%}
+<link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="assets/css/shCore.css">
+<script type="text/javascript" language="javascript" src="assets/js/jquery.dataTables.js">
+</script>
+<script type="text/javascript" language="javascript" src="assets/js/shCore.js">
+</script> 
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
+<script type="text/javascript" language="javascript" src="assets/js/lead_datatable.js">
+</script>
+<script type="text/javascript" language="javascript" class="init">
+
+    $(document).ready(function () {
+        var oTable = $('#ticket_types_list').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/ticket_system/get_ticket_types",
+            "dataType": "json",
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50, 100, 500, 1000], [10, 50, 100, 500, 1000]],
+        });
+    });
+</script>
+<div style="display:none">
+    <span id="type_required_msg">{{lang('type_required_msg')}}</span>
+    <span id='type_allow_characters'>{{lang('type_allow_characters')}}</span>
+    <span id='type_minimum_length'>{{lang('type_minimum_length')}}</span>
+    <span id='type_max_length'>{{lang('type_max_length')}}</span>
+
+    <span id='are_you_sure'>{{lang('are_you_sure')}}</span>
+    <span id='change_the_details'>{{lang('change_the_details')}}</span>
+    <span id='cancelled'>{{lang('cancelled')}}</span>
+    <span id='operation_cancelled'>{{lang('operation_cancelled')}}</span>
+    <span id='yes_delete_it'>{{lang('yes_delete_it')}}</span>
+    <span id='yes_edit_it'>{{lang('yes_edit_it')}}</span>
+    <span id='no_cancel_pls'>{{lang('no_delete_pls')}}</span>
+
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('menu_name_170')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                {{form_open('','class="form-horizontal" method="POST" name="type_configuration" id="type_configuration"')|raw}}
+                <input type='hidden' name='type_id' id='type_id' value='{{id}}'/>
+
+                <div class="form-horizontal">                                            
+                    <div class="errorHandler alert alert-danger no-display">
+                        <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                    </div>
+                    <input type='hidden' name='department_id' id='department_id' value='{{id}}'/>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('type_name')}}:<span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="type_name" name="type_name" {% if(action=='edit')%} value='{{type_name}}' {% endif %} placeholder="{{lang('type_name')}}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+
+                        </label>
+                        <div class="col-sm-4">
+
+                            {% if(action=='edit')%}
+                                <button type="submit" name='update_type' value='update_type' class="btn btn-primary">{{lang('update')}} <i class="fa fa-arrow-circle-right"></i></button>
+                                {%else%}
+
+                                <button type="submit" name='insert_type' value='insert_type' class="btn btn-primary">{{lang('submit')}} <i class="fa fa-arrow-circle-right"></i></button>   
+                                {%endif%}                 
+                        </div>
+                    </div>
+                </div>     
+                {{form_close()|raw}}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('menu_name_170')}}</span></h4>
+                <div><br></div>
+                <div class="alert alert-info">
+                    <button data-dismiss="alert" class="close">
+                        ×
+                    </button>
+                    <strong>{{ lang('set_type_name') }}</strong> :-
+                    <a href="#" class="alert-link" data-toggle="modal" data-target="#search_member_modal">
+                        {{ lang('click_here') }}</a>
+                    
+                </div>
+
+
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>                
+            </div>
+
+            <div class="panel-body">              
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped" id="ticket_types_list">
+                        <thead>
+                            <tr>
+                                <th>{{ lang('slno') }}</th>
+                                <th>{{lang('type_name')}}</th>
+                                <th>{{lang('date')}}</th>
+                                <th>{{lang('status')}}</th>
+                                <th>{{lang('action')}}</th>                            
+                            </tr>
+                        </thead>                            
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="search_member_modal" style="width: 750px;" class="modal extended-modal fade no-display"
+     tabindex="-1" data-focus-on="input:first">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            &times;
+        </button>
+        <h4 class="modal-title">{{ lang('select_type_name') }}</h4>
+    </div>
+
+    <div class="modal-body">
+        {{ form_open('', ' id="search_member" name="search_member"')|raw }}
+        <div class="form-horizontal">
+            <div class="errorHandler alert alert-danger no-display">
+                <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-4 control-label">
+                    {{ lang('type_name') }} : <span class="symbol required"></span>
+                </label>
+                <div class="col-sm-6 input-group">
+                    <span class="input-group-addon"> <i class="fa fa-rocket"></i> </span>
+
+                    <select name="type_name" id="type_name" class="form-control search-select" tabindex='7'>
+                        <option value="">{{ lang('select_type_name') }}</option>
+                        {% for tynam in ticket_type %}
+                            <option value="{{ tynam.id }}" {% if def_type==tynam.id %} selected {% endif %}> {{ tynam.type_name|raw }}</option>
+                        {% endfor %}
+
+
+                    </select>
+                </div>
+
+            </div>
+        </div>      
+
+        <div class="modal-footer">
+            <button type="button" data-dismiss="modal" class="btn btn-default">
+                {{lang('cancel')}}
+            </button>
+
+            <button type="submit" class="btn btn-primary" value="type_names" name="type_names">
+                {{lang('update')}}  <i class="fa fa-arrow-circle-right"></i>
+            </button> 
+        </div>
+
+
+    </div>
+
+    {{ form_close()|raw }}
+</div>
+
+
+{% include('admin/layout/footer.twig')%} 
+<link href="assets/plugins/sweetalert/lib/sweet-alert.css" rel="stylesheet" />
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css"/>
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
+<script src="assets/plugins/sweetalert/lib/sweet-alert.min.js"></script>
+<script src='assets/js/ticket_type_config.js'></script>
+
+<link rel="stylesheet" href="assets/plugins/select2/select2.css">
+<link rel="stylesheet" href="assets/css/plugins.css">
+<script src="assets/plugins/select2/select2.min.js"></script>
+<script src="assets/js/form-elements.js"></script>
+
+
+<script type='text/javascript'>
+    $(document).ready(function () {
+        validateType();
+        FormElements.init2();
+    });
+</script>
+<style>
+    table.dataTable thead th{border-bottom:1px #111}
+    table.dataTable.no-footer{border-bottom:1px #dfe1e5 solid}
+</style>

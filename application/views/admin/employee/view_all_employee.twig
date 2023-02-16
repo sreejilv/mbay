@@ -1,0 +1,419 @@
+{% include 'admin/layout/header.twig' %}
+<link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="assets/css/shCore.css">
+<script type="text/javascript" language="javascript" src="assets/js/jquery.dataTables.js">
+</script>
+<script type="text/javascript" language="javascript" src="assets/js/shCore.js">
+</script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
+<script type="text/javascript" language="javascript" src="assets/js/lead_datatable.js"></script>
+<script type="text/javascript" language="javascript" class="init">
+    $(document).ready(function () {
+        var oTable = $('#employee_list').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/employee/employee_list",
+            "dataType": "json",
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+</script>
+<style>
+    .help-block {
+        display: block;
+        margin-top: 5px;
+        margin-bottom: 10px;
+        color: rgb(186, 103, 101);
+    }
+</style>
+<div id='error_messages_js' style='display:none;'>
+    <span id='emp_username'> {{lang('username_required_js_msg')}}</span>
+    <span id="emp_username_valid">{{lang('username_valid')}}</span>
+    <span id='emp_pswd'>{{lang('password_required_js_msg')}}</span>
+    <span id="emp_cpswd">{{lang('confirm_password_required_js_msg')}}</span>
+    <span id="emp_first">{{lang('first_name_required_js_msg')}}</span>
+    <span id="emp_last">{{lang('last_name_required_js_msg')}}</span>
+    <span id="emp_address">{{lang('address_required_js_msg')}}</span>
+    <span id="emp_email">{{lang('email_required_js_msg')}}</span>
+    <span id="emp_dob">{{lang('dob_required_js_msg')}}</span>
+    <span id="emp_gender">{{lang('gender_required_js_msg')}}</span>
+    <span id="emp_country">{{lang('country_required_js_msg')}}</span>
+    <span id="emp_state">{{lang('state_required_js_msg')}}</span>
+    <span id="emp_pin">{{lang('zipcode_required_js_msg')}}</span>
+    <span id="emp_phone">{{lang('phone_required_js_msg')}}</span>
+    <span id="emp_year">{{lang('year_required_js_msg')}}</span>
+    <span id="emp_month">{{lang('month_required_js_msg')}}</span>
+    <span id="emp_day">{{lang('day_required_js_msg')}}</span>
+    <span id="emp_password_match">{{lang('password_match')}}</span>
+    <span id="emp_password_length">{{lang('password_length')}}</span>
+    <span id="emp_number">{{lang('allow_number')}}</span>
+    <span id="emp_min_length">{{lang('emp_min_length')}}</span>
+    <span id="emp_username_length">{{lang('username_length')}}</span>
+    <span id="emp_username_doest_exits">{{lang('user_name_doest_exits')}}</span>
+    <span id="are_u_sure_js">{{lang('are_u_sure_js')}}</span>
+    <span id="activate_this_employee_js">{{lang('activate_this_employee_js')}}</span>
+    <span id="inactivate_this_employee_js">{{lang('inactivate_this_employee_js')}}</span>
+    <span id="edit_this_employee_js">{{lang('edit_this_employee_js')}}</span>
+    <span id="delete_this_employee_js">{{lang('delete_this_employee_js')}}</span>
+    <span id="canc_js">{{lang('canc_js')}}</span>
+    <span id="oprn_cancl_js">{{lang('oprn_cancl_js')}}</span>
+    <span id="act_it_js">{{lang('act_it_js')}}</span>
+    <span id="inact_it_js">{{lang('inact_it_js')}}</span>
+    <span id="edit_it_js">{{lang('edit_it_js')}}</span>
+    <span id="delete_it_js">{{lang('delete_it_js')}}</span>
+    <span id="canc_pls_js">{{lang('canc_pls_js')}}</span>
+    <span id="edit_data_save_js">{{lang('edit_data_save_js')}}</span>
+    <span id="delete_data_save_js">{{lang('delete_data_save_js')}}</span>
+    <span id="canceled">{{lang('canceled')}}</span>
+    <span id="user_photo_ext_js">{{lang('user_photo_ext_js')}}</span>
+</div>
+{% if action=='edit' %}
+
+    <span id='error_messages_js' style='display:none;'>
+        <span id='emp_username'> {{lang('username')}}</span>
+        <span id="emp_username_valid">{{lang('username_valid')}}</span>
+        <span id='emp_pswd'>{{lang('password')}}</span>
+        <span id="emp_cpswd">{{lang('confirm_password')}}</span>
+        <span id="emp_first">{{lang('first_name')}}</span>
+        <span id="emp_last">{{lang('last_name')}}</span>
+        <span id="emp_address">{{lang('address')}}</span>
+        <span id="emp_email">{{lang('email')}}</span>
+        <span id="emp_dob">{{lang('dob')}}</span>
+        <span id="emp_gender">{{lang('gender')}}</span>
+        <span id="emp_country">{{lang('country')}}</span>
+        <span id="emp_state">{{lang('state')}}</span>
+        <span id="emp_pin">{{lang('zipcode')}}</span>
+        <span id="emp_phone">{{lang('phone')}}</span>
+        <span id="emp_year">{{lang('year')}}</span>
+        <span id="emp_month">{{lang('month')}}</span>
+        <span id="emp_day">{{lang('day')}}</span>
+        <span id="emp_password_match">{{lang('password_match')}}</span>
+        <span id="emp_password_length">{{lang('password_length')}}</span>
+        <span id="emp_number">{{lang('allow_number')}}</span>
+        <span id="emp_min_length">{{lang('emp_min_length')}}</span>
+        <span id="emp_password_length">{{lang('password_length')}}</span>
+    </span>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-white">
+                <div class="panel-heading">
+                    <h4 class="panel-title"><span class="text-bold">{{ lang('enroll_employee') }}</span></h4>
+                    <div class="panel-tools">
+                        <div class="dropdown">
+                            <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                            <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                                <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                                <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                                <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                            </ul>
+                        </div>
+                        <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                    </div>
+                </div>                        
+
+                <div class="panel-body">
+                    <hr>
+                    {{form_open_multipart('','methd="post" name="update_employee_enroll" id="update_employee_enroll"')|raw}}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="errorHandler alert alert-danger no-display">
+                                <i class="fa fa-times-sign"></i> {{lang('form_error_msg')}}
+                            </div>
+                            <div class="successHandler alert alert-success no-display">
+                                <i class="fa fa-ok"></i> Your form validation is successful!
+                            </div>
+                        </div>
+                        <div class="employee_enroll">
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label>
+                                        {{lang('image_upload')}}
+                                    </label>
+                                    <div class="fileupload fileupload-new" data-provides="fileupload"><input type="hidden" value="" name="">
+                                        <div class="fileupload-new thumbnail"><img src="{{BASE_URL}}assets/images/employees/{{edit_details.user_photo}}" alt="">
+                                        </div>
+                                        <div class="fileupload-preview fileupload-exists thumbnail" style="line-height: 10px;"></div>
+                                        <div>
+                                            <span class="btn btn-light-grey btn-file"><span class="fileupload-new"><i class="fa fa-picture-o"></i> {{lang('select_image')}}</span><span class="fileupload-exists"><i class="fa fa-picture-o"></i> {{lang('change')}}</span>
+                                                <input type="file" name="user_photo" id='user_photo' value="{{edit_details.user_photo}}" accept="image/*"/>
+                                            </span>
+                                            <a href="#" class="btn fileupload-exists btn-light-grey" data-dismiss="fileupload">
+                                                <i class="fa fa-times"></i>  {{lang('remove')}}
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                    <div class="alert alert-warning">
+                                        <span class="label label-warning">{{lang('note')}}!</span>
+                                        <span> {{lang('supported_formats')}} : {{lang('JPEG')}} , {{lang('PNG')}} , {{lang('JPG')}} </span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        {{lang('first_name')}} : <span class="symbol required"></span>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"> <i class="fa fa-navicon"></i> </span>
+                                        <input type="text" placeholder="{{lang('first_name')}}" class="form-control" id="firstname" name="firstname" value="{{edit_details.first_name}}">
+
+                                    </div>
+                                    {% if error.firstname is defined %}<code> {{ error.firstname}}</code> {% endif %}
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        {{lang('last_name')}}  :
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"> <i class="fa fa-navicon"></i> </span>
+                                        <input type="text" placeholder="{{lang('last_name')}}" class="form-control" id="lastname" name="lastname" value="{{edit_details.last_name}}">
+
+                                    </div>
+                                    {% if error.lastname is defined %}<code> {{ error.lastname}}</code> {% endif %}
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        {{lang('address')}}: <span class="symbol required"></span>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"> <i class="fa fa-anchor"></i> </span>
+                                        <textarea type="text" placeholder="{{lang('address')}}" class="form-control" id="address" name="address">{{edit_details.address}}</textarea>
+
+                                    </div>
+                                    {% if error.address is defined %}<code> {{ error.address}}</code> {% endif %}
+                                </div>
+
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        {{lang('email')}} : <span class="symbol required"></span>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"> <i class="fa fa-envelope"></i> </span>
+                                        <input type="text" placeholder="{{lang('email')}}" class="form-control" id="email" name="email" value="{{edit_details.email}}">
+
+                                    </div>
+                                    {% if error.email is defined %}<code> {{ error.email}}</code> {% endif %}
+                                </div>
+                                <div class="form-group">
+                                    <label for="form-field-mask-2">
+                                        {{lang('phone')}} : <span class="symbol required"></span>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"> <i class="fa fa-phone"></i> </span>
+                                        <input type="text" id="form-field-mask-2" class="form-control input-mask-phone" id="phone" name="phone" value="{{edit_details.phone}}" placeholder="{{lang('phone')}}">
+
+                                    </div>
+                                    {% if error.phone is defined %}<code> {{ error.phone}}</code> {% endif %}
+                                </div>
+                                <div class="form-group connected-group">
+                                    <label class="control-label">
+                                        {{lang('date_of_birth')}} : <span class="symbol required"></span>
+                                    </label>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <select name="day" id="day" class="form-control search-select" >
+                                                <option value="">{{ lang('DD') }}</option>
+                                                <option value="01">1</option>
+                                                {% for dd in range(1, 31) %}
+                                                    <option {%if(edit_details.day==dd)%} selected {% endif %}value="{{dd}}">{{dd}}</option>
+                                                {% endfor %}
+                                            </select>
+                                            {% if error.day is defined %}<code> {{ error.day}}</code> {% endif %}
+                                        </div>
+                                        <div class="col-md-3">
+                                            <select name="month" id="month" class="form-control search-select" >
+
+                                                <option value="">{{ lang('MM') }}</option>
+                                                {% for j in range(1, 12) %}
+                                                    <option {%if(edit_details.month==j)%} selected {% endif %} value="{{j}}">{{j}}</option>
+                                                {% endfor %}
+                                            </select>
+                                            {% if error.month is defined %}<code> {{ error.month}}</code> {% endif %}
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <select type="text" placeholder="YYYY" id="year" name="year" class="form-control search-select">
+                                                {% set minYear = "now"|date("Y")-90 %}
+                                                {% set maxYear = "now +80 years"|date("Y") %}
+                                                <option value="">{{ lang('YYYY') }}</option>
+                                                {% for year in minYear..maxYear %}
+                                                    <option {%if(edit_details.year==year)%} selected {% endif %} value="{{ year }}">{{ year }}</option>
+                                                    {% set year = year + 1 %}
+                                                {% endfor %}
+                                            </select>
+                                            {% if error.year is defined %}<code> {{ error.year}}</code> {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group input-group">
+                                    <label class="control-label">
+                                        {{lang('gender')}}  :
+                                    </label>
+                                    <div>
+                                        <label class="radio-inline">
+                                            <input type="radio" class="gray" {%if(edit_details.gender=='F')%} checked {% endif %} value="F" name="gender" id="gender_female">
+                                            <i class="fa fa-female"></i> {{lang('female')}}
+
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" class="gray" {%if(edit_details.gender=='M')%} checked {% endif %} value="M" name="gender"  id="gender_male">
+
+                                            <i class="fa fa-male"></i> {{lang('male')}}
+                                        </label>
+
+                                    </div>
+                                    {% if error.gender is defined %}<code> {{ error.gender}}</code> {% endif %}
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        {{lang('country')}} <span class="symbol required"></label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"> <i class="fa fa-refresh"></i> </span>
+                                        <select type="text" name="country" id="country" class="form-control search-select">
+                                            <option value="">{{ lang('select_a_country')}}</option>
+                                            {% for cntrs in countries %}
+                                                <option value="{{cntrs.id}}" {% if edit_details.country==cntrs.id %} selected {% endif %}>{{cntrs.name}}</option>
+                                            {% endfor %}
+                                        </select>
+
+                                    </div>
+                                    {% if error.country is defined %}<code> {{ error.country}}</code> {% endif %}
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        {{lang('state')}}  :
+                                        <div class="input-group">
+                                            <span class="input-group-addon"> <i class="fa fa-wrench"></i> </span>
+                                            <div id="state_div">
+                                                <select  name="state" id="state" class="form-control search-select">
+                                                    <option value="">{{ lang('select_a_state')}}</option>
+                                                    {% for sts in states %}
+                                                        <option value="{{sts.id}}" {% if edit_details.state==sts.id %} selected {% endif %}>{{sts.name}}</option>
+                                                    {% endfor %}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label">
+                                                {{lang('city')}}  :
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon"> <i class="fa fa-empire"></i> </span>
+                                                <input class="form-control tooltips" value="{{edit_details.city}}" type="text" data-original-title="{{lang('city')}}" data-rel="tooltip"  title="" data-placement="top" name="city" id="city" placeholder="{{lang('city')}}">
+
+                                            </div>
+                                            {% if error.city is defined %}<code> {{ error.city}}</code> {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label">
+                                                {{lang('zipcode')}}: <span class="symbol required"></span>
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon"> <i class="fa fa-eraser"></i> </span>
+                                                <input class="form-control" type="text" name="zipcode" id="zipcode" value="{{edit_details.zipcode}}" placeholder="{{lang('zipcode')}}">
+
+                                            </div>
+                                            {% if error.zipcode is defined %}<code> {{ error.zipcode}}</code> {% endif %}
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-8">
+
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-primary btn-primary" type="update">
+                                {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    {{form_close()|raw}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endif %}
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('view_all_employee_list')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>                       
+
+            <div class="panel-body">
+                <hr>
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped" id="employee_list">
+                        <thead>
+                            <tr>
+                                <th class="center">{{lang('sl_no')}}</th>
+                                <th>{{lang('user_name')}}</th>
+                                <th>{{lang('user_photo')}}</th>
+                                <th>{{lang('full_name')}}</th>
+                                <th>{{lang('email')}}</th>
+                                <th>{{lang('phone')}}</th>
+                                <th>{{lang('address')}}</th>
+                                <th>{{lang('action')}}</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
+
+{% include 'admin/layout/footer.twig' %}         
+<link rel="stylesheet" href="assets/plugins/select2/select2.css">		
+<link rel="stylesheet" href="assets/css/plugins.css">
+<script src="assets/plugins/select2/select2.min.js"></script>
+<script src="assets/js/form-elements.js"></script>
+
+<link href="assets/plugins/sweetalert/lib/sweet-alert.css" rel="stylesheet" />
+<script src="assets/plugins/sweetalert/lib/sweet-alert.min.js"></script>
+<script src="assets/js/employee_details.js"></script>
+
+<script src="assets/js/file_extension.js"></script>
+<script src="assets/js/update_employee.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        runUpdateEmplVali();
+        FormElements.init2();
+    });
+</script>
+<style>
+    table.dataTable thead th{border-bottom:1px #111}
+    table.dataTable.no-footer{ border-bottom:1px #dfe1e5 solid }
+</style>

@@ -1,0 +1,162 @@
+{% include('admin/layout/header.twig')%}
+<div id="js_messages" style="display: none;"> 
+    <span id="are_you_sure_js"> {{lang('are_you_sure_js')}}</span>
+    <span id="all_data_will_be_lost_js"> {{lang('all_data_will_be_lost_js')}}</span>
+    <span id="clean_it_js"> {{lang('clean_it_js')}}</span>
+    <span id="no_cancel_js">{{lang('no_cancel_js')}}</span>
+    <span id="success_js"> {{lang('success_js')}}</span>
+    <span id="success_msg_js">{{lang('success_msg_js')}}</span>
+    <span id="failed_js">{{lang('failed')}}</span>
+    <span id="failed_msg_js">{{lang('failed_msg_js')}}</span>
+    <span id="canceled_js"> {{lang('canceled_js')}}</span>
+    <span id="cancel_msg_js"> {{lang('cancel_msg_js')}}</span>
+    <span id="please_wait_js">{{lang('please_wait_js')}}</span>
+    <span id="cache_cleared_failed_js">{{lang('cache_cleared_failed_js')}}</span>
+    <span id="cache_cleared_js">{{lang('cache_cleared_js')}}</span>    
+    <span id="pls_wait_js">{{lang('pls_wait_js')}}</span>
+    <span id="def_set_js">{{lang('def_set_js')}}</span>
+    <span id="def_set_failed_js">{{lang('def_set_failed_js')}}</span>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('reset_ur_system')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+
+                <div class="alert alert-block alert-info fade in">
+                    <button data-dismiss="alert" class="close" type="button">
+                        ×
+                    </button>
+                    <h4 class="alert-heading">{{lang('cleanup')}} <i class="fa fa-exclamation"></i></h4>
+                    <p>
+                        {{lang('cleanup_msg')}}
+                    </p>
+                    {% if flag %}
+                        <p>
+                            <a href="#" data-toggle="modal" data-target="#def_modal"><b><font color="#4E4C54">{{lang('click_here')}}</font></b></a> {{lang('to_change_default_currency_and_language')}}
+                        </p>
+                    {% endif %}
+                    <p>
+                        {% if PRESET_DEMO_STATUS %}                            
+                            <button type="" class="btn btn-light-grey" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                                {{lang('cleanup')}} <i class="fa fa-arrow-circle-right"></i>
+                            </button> 
+                        {% else %}                        
+                            <button type="" class="btn btn-blue" name="wipe_data" id="wipe_data">
+                                {{lang('cleanup')}} <i class="fa fa-arrow-circle-right"></i>
+                            </button>   
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="alert alert-block alert-warning fade in">
+                    <button data-dismiss="alert" class="close" type="button">
+                        ×
+                    </button>
+                    <h4 class="alert-heading">{{lang('wipe')}} <i class="fa fa-exclamation"></i> </h4>
+                    <p>
+                        {{lang('cache_msg')}} <span id="cache_file_count">{% if cache_files %}(<b>{{ cache_files }} {{ lang('cache_files_exists') }}</b>){% endif %}</span>
+                    </p>
+                    <p>
+                        <button type="" class="btn btn-yellow" name="wipe_ache" id="wipe_ache">
+                            {{lang('wipe')}} <i class="fa fa-arrow-circle-right"></i>
+                        </button>                        
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>                                    
+</div>
+
+<div id="def_modal" class="modal extended-modal fade no-display" tabindex="-1" data-focus-on="input:first">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            &times;
+        </button>
+        <h4 class="modal-title">{{lang('def_values')}}</h4>
+    </div>
+
+    <div class="modal-body">
+        {{ form_open('', ' id="cur_lang_form" name="cur_lang_form"')|raw }}
+        <div class="form-horizontal">                                            
+            <div class="errorHandler alert alert-danger no-display">
+                <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+            </div>
+            <div class="alert alert-info">
+                <button data-dismiss="alert" class="close">×</button>
+                <strong>{{lang('warning')}}!</strong>
+                {{lang('this_change_applied_only_after_next_cleanup')}}
+            </div>            
+            <div class="form-group">
+                <label class="col-sm-4 control-label">
+                    {{lang('def_lang')}}: <span class="symbol required"></span>
+                </label>
+                <div class="col-sm-6">
+                    <select name="def_lang" id="def_lang" class="form-control search-select" >
+                        <option value="">{{lang('select_def_lang')}}</option>
+                        {% for lg in langs %}
+                            <option value="{{lg.id}}" {% if lang_id==lg.id %} selected {% endif %}>{{lg.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>   
+
+            <div class="form-group">
+                <label class="col-sm-4 control-label">
+                    {{lang('def_crns')}}: <span class="symbol required"></span>
+                </label>
+                <div class="col-sm-6">
+                    <select name="def_crns" id="def_crns" class="form-control search-select" >
+                        <option value="">{{lang('select_def_crns')}}</option>
+                        {% for cr in crns %}
+                            <option value="{{cr.id}}" {% if crns_id==cr.id %} selected {% endif %}>{{cr.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" data-dismiss="modal" class="btn btn-default">
+                {{lang('cancel')}}
+            </button>
+            <button type="submit"class="btn btn-primary" value="def_settings" name="def_settings">
+                {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+            </button>                                                    
+        </div>
+        {{ form_close()|raw }}
+    </div>
+</div>
+
+
+{% include('admin/layout/footer.twig')%}
+<link rel="stylesheet" href="assets/plugins/select2/select2.css">		
+<link rel="stylesheet" href="assets/css/plugins.css">
+<script src="assets/plugins/select2/select2.min.js"></script>
+<script src="assets/js/form-elements.js"></script>
+
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css"/>
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
+<link href="assets/plugins/sweetalert/lib/sweet-alert.css" rel="stylesheet" />
+<script src="assets/plugins/sweetalert/lib/sweet-alert.min.js"></script>
+<script src="assets/js/clean.js">
+</script>
+<script>
+    $(document).ready(function () {
+        defSettings();
+        FormElements.init2();
+    });
+</script>

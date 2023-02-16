@@ -1,0 +1,172 @@
+{% include('admin/layout/header.twig')%}
+<div id="js_messages" style="display: none;"> 
+    <span id="pls_wait_js">{{lang('pls_wait_js')}}</span>
+    <span id="lang_activated_js">{{lang('lang_activated_js')}}</span>
+    <span id="lang_inactivated_js">{{lang('lang_inactivated_js')}}</span>
+    <span id="failed_to_change">{{lang('failed_to_change')}}</span>
+    <span id="success_js">{{lang('success_js')}}</span>    
+    <span id="cur_activated_js">{{lang('cur_activated_js')}}</span>
+    <span id="cur_inactivated_js">{{lang('cur_inactivated_js')}}</span>    
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('lang_currency')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                <div class="row">    
+                    {% if multi_lang %}
+                        <div class="col-md-6">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-sm-7 control-label">
+                                        <h6 align="left">{{lang('available_langs')}}</h6><br>
+                                        <code>{{lang('default_lang')}} : {{def_lang}}</code>
+                                    </label>
+                                </div>
+
+                                {% for l in langs %}
+                                    {% if l.code != default_language %} 
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">
+                                                {{ lang(l.lang_eng_name) }} :
+                                            </label>
+                                            <div class="col-sm-4">
+                                                <label class="switch">
+                                                    {% if PRESET_DEMO_STATUS %}
+                                                        <input type="checkbox" {% if l.status == "1" %} checked {% endif %} id="togBtn" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())" >                                                        
+                                                    {% else %}                        
+                                                        <input type="checkbox" {% if l.status == "1" %} checked {% endif %} id="togBtn" onchange='changeLanguageStatus("{{ l.id }}", this)' >                       
+                                                    {% endif %}
+
+                                                    <div class="slider round">
+                                                        <span class="on" > <i class="fa fa-check"></i></span>
+                                                        <span class="off" > <i class="fa fa-times"></i></span>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if multi_cur %}
+                        <div class="col-md-6">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-sm-7 control-label">
+                                        <b><h6 align="left">{{lang('available_currs')}}</h6></b><br> 
+                                        <code>{{lang('default_curr')}} : {{def_curr}}</code>
+                                    </label>                                
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-8 control-label">
+                                        <a href="#" data-toggle="modal" data-target="#cur_ration_modal"><i class="fa fa-gears"></i> {{lang('click_here_to_update_curr_val')}}</a> 
+                                    </label>                                    
+                                </div>
+
+
+                                {% for c in curns %}
+                                    {% if c.code != default_currency %} 
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label">
+                                                {{ c.name }} - (1 <i class="fa {{ default_currency_symbol }}"></i> = {{ c.currency_ratio + 0 }} <i class="fa {{ c.icon }}"></i> ) :
+
+
+                                            </label>
+                                            <div class="col-sm-3">
+                                                <label class="switch">
+                                                    {% if PRESET_DEMO_STATUS %}
+                                                        <input type="checkbox" {% if c.status == "1" %} checked {% endif %} id="togBtn" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">                                                       
+
+                                                    {% else %}                        
+                                                        <input type="checkbox" {% if c.status == "1" %} checked {% endif %} id="togBtn" onchange='changeCurrencyStatus("{{ c.id }}", this)'>                       
+                                                    {% endif %}
+
+
+                                                    <div class="slider round">
+                                                        <span class="on" > <i class="fa fa-check"></i></span>
+                                                        <span class="off" > <i class="fa fa-times"></i></span>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+
+
+                        <div id="cur_ration_modal" class="modal extended-modal fade no-display" tabindex="-1" data-focus-on="input:first">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                    &times;
+                                </button>
+                                <h4 class="modal-title">{{lang('cur_ration')}}</h4>
+                            </div>
+
+                            <div class="modal-body">
+                                {{ form_open('', ' id="cur_ration_form" name="cur_ration_form"')|raw }}
+                                <div class="form-horizontal">                                            
+                                    <div class="errorHandler alert alert-danger no-display">
+                                        <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                                    </div>
+
+                                    {% for c in curns %}
+                                        {% if c.code != default_currency %} 
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">
+                                                    {{ c.name }} (<i class="fa {{ c.icon }}"></i>)<span class="symbol required"></span>
+                                                </label>
+                                                <div class="col-sm-6">
+                                                    <input class="form-control" type="text" name="crncy_{{ c.id }}" id="crncy_{{ c.id }}"  value="{{ c.currency_ratio }}">
+                                                </div>
+                                            </div>
+                                        {% endif %} 
+                                    {% endfor %}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" data-dismiss="modal" class="btn btn-default">
+                                        {{lang('cancel')}}
+                                    </button>
+                                    <button type="submit"class="btn btn-primary" value="crncy_settings" name="crncy_settings">
+                                        {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                                    </button>                                                    
+                                </div>
+                                {{ form_close()|raw }}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>                                    
+    </div>
+</div>
+{% include('admin/layout/footer.twig')%}
+
+<link rel="stylesheet" href="assets/css/checkbox_switcher.css">
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css"/>
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
+<script src="assets/js/multiple_options.js">
+</script>
+<script>
+    $(document).ready(function () {
+        crncySettings();
+    });
+</script>

@@ -1,0 +1,126 @@
+{% include('admin/layout/header.twig') %}
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css"/>
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
+<input type="hidden" name="path" id="path" value="{{BASE_URL}}admin/">
+
+
+<div class='row'>
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('view_kyc_details')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                {{form_open('','method="post" name="search_name" id="search_name" ')|raw}}
+                <div class="row col-sm-offset-2">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">{{lang('search_username_wise')}}</label>
+                            <div class="input-group">
+                                <input type="text" name="user_name" id="user_name" class="form-control typeahead" autocomplete="off">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">{{lang('search_email_wise')}}</label>
+                            <div class="input-group">
+                                <input type="text" name="email" id="email" class="form-control">
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="form-action">
+                        <div class="col-sm-offset-4">
+                            <button class="btn btn-primary" type="submit" name="submit" id="submit">{{lang('search')}}</button>
+                        </div>
+                    </div>
+                </div>
+                {{form_close()|raw}}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class='row'>
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('view_kyc_details')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover" id="sample-table-1">
+                        <thead>
+                            <tr>
+                                <th class="center">{{lang('sl_no')}}</th>
+                                <th>{{lang('user_name')}}</th>
+                                <th>{{lang('user_email')}}</th>
+                                <th>{{lang('date_join')}}</th>
+                                <th>{{lang('action')}}</th>
+                            </tr>
+                        </thead>                        
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<div id="responsive" class="modal extended-modal fade no-display" tabindex="-1" data-width="760">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title">{{lang('view_kyc_details')}}</h4>
+            </div>
+            <div class="modal-body" id="responsive_div">
+
+            </div>
+        </div>
+    </div>
+</div>
+{% include('admin/layout/footer.twig') %}
+
+<script src="assets/plugins/bootstrap-modal/js/bootstrap-modal.js"></script>
+<script src="assets/plugins/bootstrap-modal/js/bootstrap-modalmanager.js"></script>
+<script src="assets/js/ui-modals.js"></script>
+<script src="assets/js/add_kyc_details.js"></script>
+
+<script>
+    jQuery(document).ready(function () {
+        SVExamples.init();
+        UIModals.init();
+    });
+</script>

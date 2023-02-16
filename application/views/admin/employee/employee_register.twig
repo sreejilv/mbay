@@ -1,0 +1,383 @@
+{% include 'admin/layout/header.twig' %}
+<span id='error_messages_js' style='display:none;'>
+    <span id='emp_username'> {{lang('username_required_js_msg')}}</span>
+    <span id="emp_username_valid">{{lang('username_valid')}}</span>
+    <span id='emp_pswd'>{{lang('password_required_js_msg')}}</span>
+    <span id="emp_cpswd">{{lang('confirm_password_required_js_msg')}}</span>
+    <span id="emp_first">{{lang('first_name_required_js_msg')}}</span>
+    <span id="emp_last">{{lang('last_name_required_js_msg')}}</span>
+    <span id="emp_address">{{lang('address_required_js_msg')}}</span>
+    <span id="emp_email">{{lang('email_required_js_msg')}}</span>
+    <span id="emp_dob">{{lang('dob_required_js_msg')}}</span>
+    <span id="emp_gender">{{lang('gender_required_js_msg')}}</span>
+    <span id="emp_country">{{lang('country_required_js_msg')}}</span>
+    <span id="emp_state">{{lang('state_required_js_msg')}}</span>
+    <span id="emp_pin">{{lang('zipcode_required_js_msg')}}</span>
+    <span id="emp_phone">{{lang('phone_required_js_msg')}}</span>
+    <span id="emp_year">{{lang('year_required_js_msg')}}</span>
+    <span id="emp_month">{{lang('month_required_js_msg')}}</span>
+    <span id="emp_day">{{lang('day_required_js_msg')}}</span>
+    <span id="emp_password_match">{{lang('password_match')}}</span>
+    <span id="emp_password_length">{{lang('password_length')}}</span>
+    <span id="emp_number">{{lang('allow_number')}}</span>
+    <span id="emp_min_length">{{lang('emp_min_length')}}</span>
+    <span id="emp_username_length">{{lang('username_length')}}</span>
+    <span id="emp_username_doest_exits">{{lang('user_name_doest_exits')}}</span>
+    <span id="are_u_sure_js">{{lang('are_u_sure_js')}}</span>
+    <span id="activate_this_employee_js">{{lang('activate_this_employee_js')}}</span>
+    <span id="canc_js">{{lang('canc_js')}}</span>
+    <span id="oprn_cancl_js">{{lang('oprn_cancl_js')}}</span>
+    <span id="act_it_js">{{lang('act_it_js')}}</span>
+    <span id="canc_pls_js">{{lang('canc_pls_js')}}</span>
+    <span id="exits">{{lang('exits')}}</span>
+    <span id="user_photo_ext_js">{{lang('user_photo_ext_js')}}</span>    
+    <span id="alphanumeric_js">{{lang('alphanumeric_js')}}</span>
+
+</span>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{page_header}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>                            
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                {{form_open_multipart('','methd="post" name="employee_enroll" id="employee_enroll"')|raw}}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="errorHandler alert alert-danger no-display">
+                            <i class="fa fa-times-sign"></i> {{lang('form_error_msg')}}
+                        </div>
+                        <div class="successHandler alert alert-success no-display">
+                            <i class="fa fa-ok"></i> Your form validation is successful!
+                        </div>
+                    </div>
+                    <input type="hidden" id="path" value="{{BASE_PATH}}"/>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">
+                                {{lang('user_name')}} : <span class="symbol required"></span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-addon"> <i class="fa fa-user"></i> </span>
+                                <input type="text" class="form-control" name="user_name" id="user_name" placeholder="{{lang('user_name')}}" value="{{employee_name}}"style="width:96%" tabindex='1'>
+
+                            </div><a href="#MyModel" data-toggle="modal"><i class="fa fa-cog" style="float: right;margin-top: -5%;"></i></a>
+                            {% if error.user_name is defined %}<code> {{ error.user_name}}</code> {% endif %}
+
+
+                        </div>
+                        <div id="MyModel" class="modal extended-modal fade no-display" tabindex="-1" >
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                            &times;
+                                        </button>
+                                        <h4 class="modal-title">{{lang('employee_name')}}</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <address class="font-small">
+                                            {{lang('employee_name_description')}}
+                                        </address>
+                                        <div class="row">
+                                            <div class="col-md-7">
+                                                <div class="radio">
+                                                    <label class="radio-inline"><input type="radio" class="" name="name_generation" id="automatic" onclick="changeNameStatus('automatic')" {% if(employee_status==1) %}checked="checked"{%endif%}>{{lang('generate_employee_name')}} </label>
+                                                </div>
+                                            </div>
+                                            <div style="padding: 0px 9px;" class="col-md-3">
+                                                <small>{{lang('next_number')}}</small><span id="employee_span"> <input type="text" id="employee_name" class="form-control ember-text-field ember-view" value="{{employee_name}}"></span>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="radio">
+                                                    <label class="radio-inline"><input type="radio" class="" name="name_generation" id="manually" onclick="changeNameStatus('manually');" {% if(employee_status==0) %}checked="checked"{%endif%}>{{lang('manually_generate_name')}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" data-dismiss="modal" class="btn btn-light-grey">
+                                            {{lang('close')}}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">
+                                {{lang('password')}} : <span class="symbol required"></span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-addon"> <i class="fa fa-lock"></i> </span>
+                                <input type="password" class="form-control" name="password" id="password" placeholder="{{lang('password')}}" tabindex='2'>
+
+                            </div>
+                            {% if error.password is defined %}<code> {{ error.password}}</code> {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">
+                                {{lang('confirm_password')}} : <span class="symbol required"></span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-addon"> <i class="fa fa-lock"></i> </span>
+                                <input type="password" class="form-control" id="password_again" name="password_again" placeholder="{{lang('confirm_password')}}" tabindex='3'>
+
+                            </div>
+                            {% if error.password_again is defined %}<code> {{ error.password_again}}</code> {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label>
+                                {{lang('image_upload')}} :
+                            </label>
+                            <div class="fileupload fileupload-new" data-provides="fileupload"><input type="hidden" value="" name="">
+                                <div class="fileupload-new thumbnail"><img src="assets/images/no-image.png" alt="">
+                                </div>
+                                <div class="fileupload-preview fileupload-exists thumbnail" style="line-height: 10px;"></div>
+                                <div>
+                                    <span class="btn btn-light-grey btn-file"><span class="fileupload-new"><i class="fa fa-picture-o"></i> {{lang('select_image')}}</span><span class="fileupload-exists"><i class="fa fa-picture-o"></i> Change</span>
+                                        <input type="file" name="user_photo" id='user_photo' tabindex='4'accept="image/*"/>
+                                    </span>
+                                    <a href="#" class="btn fileupload-exists btn-light-grey" data-dismiss="fileupload">
+                                        <i class="fa fa-times"></i> {{lang('remove')}}
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="alert alert-warning">
+                                <span class="label label-warning">{{lang('note')}}!</span>
+                                <span> {{lang('supported_formats')}} : {{lang('JPEG')}} , {{lang('PNG')}} , {{lang('JPG')}} </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">
+                                {{lang('first_name')}} : <span class="symbol required"></span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-addon"> <i class="fa fa-navicon"></i> </span>
+                                <input type="text" style="text-transform: capitalize;" class="form-control" id="firstname" name="firstname" placeholder="{{lang('first_name')}}" tabindex='5'>
+
+                            </div>
+                            {% if error.firstname is defined %}<code> {{ error.firstname}}</code> {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">
+                                {{lang('last_name')}}  :
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-addon"> <i class="fa fa-navicon"></i> </span>
+                                <input type="text" style="text-transform: capitalize;" class="form-control" id="lastname" name="lastname" placeholder="{{lang('last_name')}}" tabindex='6'>
+
+                            </div>
+                            {% if error.lastname is defined %}<code> {{ error.lastname}}</code> {% endif %}
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-6">
+
+                        <div class="form-group">
+                            <label class="control-label">
+                                {{lang('address')}} : <span class="symbol required"></span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-addon"> <i class="fa fa-anchor"></i> </span>
+                                <textarea type="text" placeholder="{{lang('address')}}" class="form-control" id="address" name="address" tabindex='7'></textarea>
+
+                            </div>
+                            {% if error.address is defined %}<code> {{ error.address}}</code> {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">
+                                {{lang('email')}} : <span class="symbol required"></span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-addon"> <i class="fa fa-envelope"></i> </span>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="{{lang('email')}}" tabindex='7'>
+
+                            </div>
+                            {% if error.email is defined %}<code> {{ error.email}}</code> {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">
+                                {{lang('phone')}}  :
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-addon"> <i class="fa fa-phone"></i> </span>
+                                <input type="text" class="form-control input-mask-phone" id="phone" name="phone" placeholder="{{lang('phone')}}" tabindex='8'>
+
+                            </div>
+                            {% if error.phone is defined %}<code> {{ error.phone}}</code> {% endif %}
+                        </div>
+
+
+                        <div class="form-group connected-group">
+                            <label class="control-label">
+                                {{lang('date_of_birth')}} : <span class="symbol required"></span>
+                            </label>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <select name="day" id="day" class="form-control search-select" tabindex='9'>
+                                        <option value="">{{lang('DD')}}</option>
+                                        <option value="01">1</option>
+                                        {% for dd in range(1, 31) %}
+                                            <option value="{{dd}}">{{dd}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    {% if error.day is defined %}<code> {{ error.day}}</code> {% endif %}
+                                </div>
+                                <div class="col-md-3">
+                                    <select name="month" id="month" class="form-control search-select" tabindex='10'>
+
+                                        <option value="">{{lang('MM')}}</option>
+                                        {% for j in range(1, 12) %}
+                                            <option value="{{j}}">{{j}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    {% if error.month is defined %}<code> {{ error.month}}</code> {% endif %}
+                                </div>
+
+                                <div class="col-md-3">
+                                    <select type="text" placeholder="YYYY" id="year" name="year" class="form-control search-select" tabindex='11'>
+                                        {% set minYear = "now"|date("Y")-90 %}
+                                        {% set maxYear = "now +80 years"|date("Y") %}
+                                        <option value="">{{lang('YYYY')}}</option>
+                                        {% for year in minYear..maxYear %}
+                                            <option value="{{ year }}">{{ year }}</option>
+                                            {% set year = year + 1 %}
+                                        {% endfor %}
+                                    </select>
+                                    {% if error.year is defined %}<code> {{ error.year}}</code> {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group input-group">
+                            <label class="control-label">
+                                {{lang('gender')}}  :
+                            </label>
+                            <div>
+                                <label class="radio-inline">
+                                    <input type="radio" class="gray" value="F" name="gender" id="gender_female" tabindex='12' checked>
+                                    <i class="fa fa-female"></i> {{lang('female')}}
+
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" class="gray" value="M" name="gender"  id="gender_male">
+                                    <i class="fa fa-male"></i> {{lang('male')}}
+                                </label>
+
+                            </div>
+                            {% if error.gender is defined %}<code> {{ error.gender}}</code> {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">
+                                {{lang('country')}} :<span class="symbol required"></span>
+                            </label>
+                            <div class="input-group" >
+                                <span class="input-group-addon"> <i class="fa fa-refresh"></i> </span>
+                                <select type="text" name="country" id="country" class="form-control search-select" tabindex='13'>
+                                    <option value="">{{ lang('select_a_country')}}</option>
+                                    {% for cntrs in countries %}
+                                        <option value="{{cntrs.id}}" {% if register_data.country==cntrs.id %} selected {% endif %}>{{cntrs.name|raw}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            {% if error.country is defined %}<code> {{ error.country}}</code> {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">
+                                {{lang('state')}}  :
+                            </label>
+                            <div class="input-group" >
+                                <span class="input-group-addon"> <i class="fa fa-wrench"></i> </span>
+                                <div id="state_div">
+                                    <select  name="state" id="state" class="form-control search-select" tabindex='14'>
+                                        <option value="">{{ lang('select_a_state')}}</option>
+                                        {% for sts in states %}
+                                            <option value="{{sts.id}}" {% if register_data.state==sts.id %} selected {% endif %}>{{sts.name|raw}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                            </div>
+                            {% if error.country is defined %}<code> {{ error.country}}</code> {% endif %}
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        {{lang('city')}}  :
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"> <i class="fa fa-empire"></i> </span>
+                                        <input class="form-control tooltips" style="text-transform: capitalize;" type="text" data-original-title="We'll display it when you write reviews" data-rel="tooltip"  title="" data-placement="top" name="city" id="city" placeholder="{{lang('city')}}" tabindex='15'>
+
+                                    </div>
+                                    {% if error.city is defined %}<code> {{ error.city}}</code> {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        {{lang('zipcode')}}: <span class="symbol required"></span>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"> <i class="fa fa-eraser"></i> </span>
+                                        <input class="form-control" style="text-transform: capitalize;" type="text" name="zipcode" id="zipcode" placeholder="{{lang('zipcode')}}" tabindex='16'>
+
+                                    </div>
+                                    {% if error.zipcode is defined %}<code> {{ error.zipcode}}</code> {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 pull-right">
+
+                        <button class="btn btn-primary btn-block" type="submit">
+                            {{lang('register')}} <i class="fa fa-arrow-circle-right"></i>
+                        </button>
+                    </div>
+                </div>
+                {{form_close()|raw}}
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+{% include 'admin/layout/footer.twig' %}
+<link rel="stylesheet" href="assets/plugins/select2/select2.css">		
+<link rel="stylesheet" href="assets/css/plugins.css">
+<script src="assets/plugins/select2/select2.min.js"></script>
+<script src="assets/js/form-elements.js"></script>
+
+<script src="assets/js/file_extension.js"></script>
+<script src="assets/js/employee_enroll.js">
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        EnrollEmployee.init();
+        FormElements.init2();
+    });
+</script>

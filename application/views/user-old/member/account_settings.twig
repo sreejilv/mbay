@@ -1,0 +1,479 @@
+{% include('user/layout/header.twig')%}
+<div id="js_messages" style="display: none;"> 
+    <span id="please_enter_new_email_js">{{lang('please_enter_new_email')}}</span>
+    <span id="please_re_enter_email_js">{{lang('please_re_enter_email')}}</span>
+    <span id="sucessfully_changed_user_email_js">{{lang('sucessfully_changed_user_email')}}</span>
+    <span id="success_js"> {{lang('success_js')}}</span>
+    <span id="success_msg_js">{{lang('success_msg_js')}}</span>
+    <span id="failed_js">{{lang('failed')}}</span>
+    <span id="failed_msg_js">{{lang('failed_msg_js')}}</span>
+    <span id="please_wait_js">{{lang('please_wait_js')}}</span>
+    <span id="pls_enter_your_current_password_js">{{lang('pls_enter_your_current_password')}}</span>
+    <span id="please_enter_new_password_js">{{lang('please_enter_new_password')}}</span>
+    <span id="please_re_enter_password_js">{{lang('please_re_enter_password')}}</span>
+    <span id="please_enter_your_current_user_name_js">{{lang('please_enter_your_current_user_name')}}</span>
+    <span id="please_enter_new_username_js">{{lang('please_enter_new_username')}}</span>
+    <span id="please_re_enter_username_js">{{lang('please_re_enter_username')}}</span>
+    <span id="please_enter_new_transation_password_js">{{lang('please_enter_new_transation_password')}}</span>
+    <span id="please_enter_your_current_transation_password_js">{{lang('please_enter_your_current_transation_password')}}</span>
+    <span id="please_re_enter_transation_password_js">{{lang('please_re_enter_transation_password')}}</span>
+    <span id="sucessfully_changed_password_js">{{lang('sucessfully_changed_password')}}</span>
+    <span id="sucessfully_changed_user_name_js">{{lang('sucessfully_changed_user_name')}}</span>
+    <span id="sucessfully_changed_user_status_js">{{lang('sucessfully_changed_user_status')}}</span>
+    <span id="sucessfully_changed_transation_password_js">{{lang('sucessfully_changed_transation_password')}}</span>
+    <span id="paypal_payment_config_sucessfully_js">{{lang('paypal_payment_config_sucessfully')}}</span>
+    <span id="bank_payment_config_sucessfully_js">{{lang('bank_payment_config_sucessfully')}}</span>
+    <span id="updation_failed_js">{{lang('updation_failed')}}</span>
+    <span id="please_select_a_leg_js">{{lang('please_select_a_leg')}}</span>
+    <span id="settings_changed_js">{{lang('settings_changed')}}</span>
+    <span id="updation_failed_js">{{lang('updation_failed')}}</span>
+    <span id="please_select_a_leg_js">{{lang('please_select_a_leg')}}</span>
+    <span id="settings_changed_js">{{lang('settings_changed')}}</span>
+    <span id="password_mismatch_js">{{lang('password_empty_or_missmatching_pls_try_again')}}</span>
+    <span id="user_name_mismatch_js">{{lang('user_name_mismatch_js')}}</span>
+    <span id="email_mis_match_js">{{lang('email_mismatch_js')}}</span>
+    <span id="transation_mismatch_js">{{lang('transation_mismatch_js')}}</span>
+    <span id="inv_current_password_js">{{lang('inv_current_password_js')}}</span>
+    <span id="inv_user_name_js">{{lang('inv_user_name_js')}}</span>
+    <span id="failed_js">{{lang('failed_js')}}</span>
+    <span id="success_js">{{lang('success_js')}}</span>
+    <span id="inv_transation_password_js">{{lang('inv_transation_password_js')}}</span>
+    <span id="alphanumeric_js">{{lang('alphanumeric_js')}}</span>
+    <span id="passwaord_validation_js">{{lang('passwaord_validation_js')}}</span>
+
+    
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('account_settings')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- start: FAQ -->
+                        <div class="tabbable tabs-left faq">
+                            <ul id="myTab3" class="nav nav-tabs">
+
+                                <li class="{{tab1}}">
+                                    <a href="javascript:#account_set_tab1" data-toggle="tab">
+                                        <i class="fa fa-lock"></i> {{ lang('change_password') }} 
+                                    </a>
+                                </li>
+                                {% if username_edit %}
+                                <li class="{{tab2}}">
+                                    <a href="javascript:#account_set_tab2" data-toggle="tab">
+                                        <i class="fa fa-user"></i> {{ lang('change_user_name') }}
+                                    </a>
+                                </li>                                
+                                {% endif %}
+                                {% if email_edit %}
+                                <li class="{{tab6}}">
+                                    <a href="#account_set_tab6" data-toggle="tab">
+                                        <i class="fa fa-envelope"></i> {{ lang('change_email') }}
+                                    </a>
+                                </li>
+                                {% endif %}
+                                <li class="{{tab3}}">
+                                    <a href="#account_set_tab3" data-toggle="tab">
+                                        <i class="fa fa-key"></i> {{ lang('change_transation_password') }} 
+                                    </a>
+                                </li>
+                                <li class="{{tab4}}">
+                                    <a href="#account_set_tab4" data-toggle="tab">
+                                        <i class="fa fa-forward"></i> {{ lang('forgot_transation_password') }} 
+                                    </a>
+                                </li>
+
+                                {#{% if mlm_plan == "BINARY" %} 
+                                    <li class="{{tab5}}">
+                                        <a href="#account_set_tab5" data-toggle="tab">
+                                            <i class="fa fa-bullseye"> </i> {{lang('user_position')}}                            </a>
+                                    </li>
+                                {% endif %}#}
+
+
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane {{tab1}}" id="account_set_tab1">
+                                    <div id="accordion" class="panel-group accordion accordion-custom accordion-teal">
+
+                                        <h3 class="margin-bottom-15">{{ lang('change_your_password') }}</h3>
+
+                                        <br>
+                                        {{ form_open('', ' id="change_password_form" name="change_password_form"')|raw }}
+                                        <div class="form-horizontal">
+                                            <div class="errorHandler alert alert-danger no-display">
+                                                <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">
+                                                    {{ lang('current_password') }}:<span class="symbol required"></span>
+                                                </label>
+                                                <div class="col-sm-6">
+                                                    <span class="input-icon input-icon-right">
+                                                        <input name="pass_current_password" type="password" placeholder="{{ lang('current_password') }}" id="pass_current_password" class="form-control password_reset">
+                                                        <i class="fa fa-lock" onclick="toggle_password5('pass_current_password');" id="showhide5">Show</i> 
+                                                    </span>
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">
+                                                    {{ lang('new_password') }}:<span class="symbol required"></span>
+                                                </label>
+                                                <div class="col-sm-6">
+                                                    <span class="input-icon input-icon-right">
+                                                        <input name="pass_password" type="password" placeholder="{{ lang('new_password') }}" id="pass_password" class="form-control password_reset">
+                                                        <i class="fa fa-lock" onclick="toggle_password0('pass_password');" id="showhide0">Show</i> 
+                                                        <div class="pwstrength_viewport_progress"></div>
+                                                    </span>
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">
+                                                    {{ lang('re_enter_password') }} :<span class="symbol required"></span>
+                                                </label>
+                                                <div class="col-sm-6">
+                                                    <span class="input-icon input-icon-right">
+                                                        <input name="pass_re_enter_password" type="password" placeholder="{{ lang('re_enter_password') }}" id="pass_re_enter_password" class="form-control">
+
+                                                        <i class="fa fa-lock" onclick="toggle_password1('pass_re_enter_password');" id="showhide1">Show</i> 
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">
+
+                                                </label>
+                                                <div class="col-sm-6">
+                                                    {% if PRESET_DEMO_STATUS %}
+                                                        <button  type="button" class="btn btn-primary" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                                                            {{ lang('change_password') }} <i class="fa fa-arrow-circle-right"></i> 
+                                                        </button>
+
+                                                    {% else %}
+                                                        <button  type="submit"class="btn btn-primary" value="1" name="submit_password">
+                                                            {{ lang('change_password') }} <i class="fa fa-arrow-circle-right"></i> 
+                                                        </button>
+                                                    {% endif %}
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{ form_close()|raw }}
+                                    </div>
+                                </div>
+                                <div class="tab-pane {{tab2}}" id="account_set_tab2">
+                                    <div id="accordion2" class="panel-group accordion accordion-custom accordion-teal">
+                                        <h3 class="margin-bottom-15"> {{ lang('change_your_username') }} </h3>
+                                        <br>
+                                        {{ form_open('', ' id="change_username_form" name="change_username_form"')|raw }}
+                                        <div class="form-horizontal">
+
+                                            <div class="errorHandler alert alert-danger no-display">
+                                                <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">
+                                                    {{ lang('current_user_name') }} :<span class="symbol required"></span>
+                                                </label>
+                                                <div class="col-sm-6">
+                                                    <span class="input-icon input-icon-right">
+
+                                                        <input name="uname_current_username" type="text" placeholder="{{ lang('current_username') }}" id="uname_current_username" class="form-control">
+                                                        <i class="fa fa-user"></i> </span>
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">
+                                                    {{ lang('new_user_name') }}:<span class="symbol required"></span>
+                                                </label>
+                                                <div class="col-sm-6">
+                                                    <span class="input-icon input-icon-right">
+
+                                                        <input name="uname_new_username" type="text" placeholder="{{ lang('new_username') }}" id="uname_new_username" class="form-control">
+                                                        <i class="fa fa-user"></i> </span>
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">
+                                                    {{ lang('re_enter_user_name') }}:<span class="symbol required"></span>
+                                                </label>
+                                                <div class="col-sm-6">
+                                                    <span class="input-icon input-icon-right">
+                                                        <input name="uname_re_entry_username" type="text" placeholder="{{ lang('re_enter_username') }}" id="uname_re_entry_username" class="form-control">
+
+                                                        <i class="fa fa-user"></i> </span>
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">
+
+                                                </label>
+                                                <div class="col-sm-6">
+                                                    {% if PRESET_DEMO_STATUS %}
+                                                        <button type="button" class="btn btn-primary" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                                                            {{ lang('change_user_name') }} 
+                                                        </button>
+
+                                                    {% else %}
+                                                        <button type="submit"class="btn btn-primary" value="1" name="submit_password">
+                                                            {{ lang('change_user_name') }} 
+                                                        </button>
+                                                    {% endif %}
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        {{ form_close()|raw }}
+                                    </div>
+                                </div>
+                                <div class="tab-pane {{tab3}}" id="account_set_tab3">
+                                    <div id="accordion3" class="panel-group accordion accordion-custom accordion-teal">
+                                        <h3 class="margin-bottom-15">  {{ lang('change_transation_password') }} </h3>
+                                        {{ form_open('', ' id="change_trans_password_form" name="change_trans_password_form"')|raw }}
+                                        <div class="form-horizontal">
+                                            <div class="errorHandler alert alert-danger no-display">
+                                                <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">
+                                                    {{ lang('current_password') }}:<span class="symbol required"></span>
+                                                </label>
+                                                <div class="col-sm-6">
+                                                    <span class="input-icon input-icon-right">
+                                                        <input name="tran_current_password" type="password" placeholder="{{ lang('current_tran_password') }}" id="tran_current_password" class="form-control">
+
+                                                        <i class="fa fa-lock" onclick="toggle_password4('tran_current_password');" id="showhide4">Show</i>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">
+                                                    {{ lang('new_password') }} :<span class="symbol required"></span>
+                                                </label>
+                                                <div class="col-sm-6">
+                                                    <span class="input-icon input-icon-right">
+                                                        <input name="tran_pass_password" type="password" placeholder="{{ lang('new_tran_password') }}" id="tran_pass_password" class="form-control">
+
+                                                        <i class="fa fa-lock" onclick="toggle_password2('tran_pass_password');" id="showhide2">Show</i>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">
+                                                    {{ lang('re_enter_password') }}:<span class="symbol required"></span>  
+                                                </label>
+                                                <div class="col-sm-6">
+                                                    <span class="input-icon input-icon-right">
+                                                        <input name="tran_pass_re_enter_password" type="password" placeholder="{{ lang('re_enter_password') }}" id="tran_pass_re_enter_password" class="form-control">
+
+                                                        <i class="fa fa-lock" onclick="toggle_password3('tran_pass_re_enter_password');" id="showhide3">Show</i>
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">
+
+                                                </label>
+                                                <div class="col-sm-6">
+                                                    {% if PRESET_DEMO_STATUS %}
+                                                        <button  type="button" class="btn btn-primary" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                                                            {{ lang('change_transation_password') }} <i class="fa fa-arrow-circle-right"></i>
+                                                        </button>
+
+                                                    {% else %}
+                                                        <button  type="submit"class="btn btn-primary" value="1" name="submit_password">
+                                                        {{ lang('change_transation_password') }} <i class="fa fa-arrow-circle-right"></i> 
+                                                    </button>
+                                                    {% endif %}
+                                                    
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{ form_close()|raw }}     
+                                    </div>
+                                </div>
+                                <div class="tab-pane {{tab4}}" id="account_set_tab4">
+                                    <div id="accordion4" class="panel-group accordion accordion-custom accordion-teal">
+                                        <h3 class="margin-bottom-15">{{ lang('forgot_transation_password') }}</h3>
+
+                                        <div class="form-horizontal"> 
+                                            <br>
+                                            <br> 
+
+
+                                            <div class="alert alert-block alert-warning fade in">
+                                                <button data-dismiss="alert" class="close" type="button">
+                                                    ×
+                                                </button>
+                                                <h4 class="alert-heading"><i class="fa fa-exclamation"></i> Notice!</h4>
+                                                <p>
+                                                    {{lang('forget_transation_password_msg')}}
+                                                </p>
+                                                <p>
+                                                    <button type="" class="btn btn-yellow" name="send_forget_password_user" id="send_forget_password_user">
+                                                        {{lang('forgot_button')}} <i class="fa fa-arrow-circle-right"></i>
+                                                    </button>                        
+                                                </p>
+                                            </div>
+
+
+                                            <br>
+                                            <br>
+                                            <br>
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                {% if mlm_plan == "BINARY" %} 
+                                    <div class="tab-pane {{tab5}}" id="account_set_tab5" style="padding: 65px;">
+                                        <div id="accordion6" class="panel-group accordion accordion-custom accordion-teal">
+                                            <h3 class="margin-bottom-15">{{lang('user_position')}}</h3>
+                                            <br>
+
+                                            {{ form_open('', ' id="user_position_form" name="user_position_form"')|raw }}
+                                            <div class="form-horizontal"> 
+                                                <div class="errorHandler alert alert-danger no-display">
+                                                    <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">
+                                                        {{lang('leg')}} : <span class="symbol required"></span>
+                                                    </label>
+                                                    <div class="col-sm-4">
+                                                        <select name="register_leg" id="register_leg" class="form-control search-select" >
+                                                            <option value="">{{lang('select_leg')}}</option>
+                                                            <option value="static" {% if register_leg=="static" %} selected {% endif %}>{{lang('static')}}</option>
+                                                            <option value="balanced" {% if register_leg=="balanced" %} selected {% endif %}>{{lang('balanced')}}</option>
+                                                            <option value="left" {% if register_leg=="left" %} selected {% endif %}>{{lang('left')}}</option>
+                                                            <option value="right" {% if register_leg=="right" %} selected {% endif %}>{{lang('right')}}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">
+
+                                                    </label>
+                                                    <div class="col-sm-4">
+                                                        <button type="submit"class="btn btn-primary" value="leg_settings" name="leg_settings">
+                                                            {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {{ form_close()|raw }}
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                <div class="tab-pane {{tab6}}" id="account_set_tab6">
+                                    <div id="accordion2" class="panel-group accordion accordion-custom accordion-teal">
+                                        <h3 class="margin-bottom-15">{{ lang('change_email') }}  </h3>
+                                        <br>
+                                        {{ form_open('', ' id="email_sett_form" name="email_sett_form"')|raw }}
+                                        <div class="form-horizontal">
+
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">
+                                                    {{ lang('new_email_id') }}
+                                                </label>
+                                                <div class="col-sm-6">
+                                                    <span class="input-icon input-icon-right">
+
+                                                        <input name="user_name" type="hidden"  id="user_name" value="{{username}}">
+                                                        <input name="email_id" type="text" placeholder="{{ lang('new_email_id') }}" id="email_id" class="form-control" tabindex='4'>
+                                                        <i class="fa fa-envelope"></i> </span>
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">
+                                                    {{ lang('re_enter_email_id') }}
+                                                </label>
+                                                <div class="col-sm-6">
+                                                    <span class="input-icon input-icon-right">
+                                                        <input name="re_enter_email_id" type="text" placeholder="{{ lang('re_enter_email_id') }}" id="re_enter_email_id" class="form-control" tabindex='5'>
+
+                                                        <i class="fa fa-envelope"></i> </span>
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">
+
+                                                </label>
+                                                <div class="col-sm-6">
+
+                                                    <button  type="submit"class="btn btn-primary" value="1" name="submit_email_id">
+                                                        {{ lang('change_email') }} <i class="fa fa-arrow-circle-right"></i>
+                                                    </button>
+
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <br>
+                                            <br>
+                                            <br>
+
+                                        </div>
+                                        {{ form_close()|raw }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end: FAQ -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include('user/layout/footer.twig')%}
+<link rel="stylesheet" href="assets/plugins/select2/select2.css">		
+<link rel="stylesheet" href="assets/css/plugins.css">
+<script src="assets/plugins/select2/select2.min.js"></script>
+<script src="assets/js/form-elements.js"></script>
+<link href="assets/plugins/sweetalert/lib/sweet-alert.css" rel="stylesheet" />
+<script src="assets/plugins/sweetalert/lib/sweet-alert.min.js"></script>
+<script src="assets/js/acc_set_user.js">
+</script>
+
+<script>
+    jQuery(document).ready(function () {
+        valUserLegSettings();
+        valUserChangePassword();
+        valUserChangeUsername();
+        valUserChangeTransPassword();
+        valUserChangeEmail();
+        FormElements.init2();
+    });
+
+</script>

@@ -1,0 +1,214 @@
+{% include('admin/layout/header.twig')%}
+<div id="js_messages" style="display: none;"> 
+    <span id="please_wait_js">{{lang('please_wait_js')}}</span>
+    <span id="success_js">{{lang('success_js')}}</span>
+    <span id="failed_js">{{lang('failed_js')}}</span>
+    <span id="something_wrong_js">{{lang('something_wrong_js')}}</span>
+    <span id="permission_granded_js">{{lang('permission_granded_js')}}</span>
+    <span id="permission_canceled_js">{{lang('permission_canceled_js')}}</span>
+    <span id="account_username_req__js">{{lang('account_username_req__js')}}</span>
+    <span id="account_password_req_js">{{lang('account_password_req_js')}}</span>
+    <span id="checkout_sms_content_req__js">{{lang('checkout_sms_content_req__js')}}</span>
+    <span id="register_sms_content_req_js">{{lang('register_sms_content_req_js')}}</span>         
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <span class="text-bold">                        
+                        {{lang('menu_name_156')}}                        
+                    </span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>              
+
+                <div class="form-horizontal"> 
+                    <div class="tabbable">
+                        <ul id="myTab2" class="nav nav-tabs">
+                            <li class="active">
+                                <a href="javascript:#myTab2_example1" data-toggle="tab">
+                                    {{lang('bulksms_credentials')}}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:#myTab2_example2" data-toggle="tab">
+                                    {{lang('sms_permissions')}}
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#myTab2_example3" data-toggle="tab">
+                                    {{lang('sms_content')}}
+                                </a>
+                            </li> 
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" id="myTab2_example1">
+                                {{ form_open('', ' id="bulk_sms_form" name="bulk_sms_form"')|raw }}
+                                <div class="form-horizontal">                                            
+                                    <div class="errorHandler alert alert-danger no-display">
+                                        <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">
+                                            {{lang('account_username')}} :<span class="symbol required"></span>
+                                        </label>
+                                        <div class="col-sm-3">
+                                            <input class="form-control" type="text" name="account_username" id="account_username" value="{{ account_username }}" placeholder="{{lang('account_username')}}">                             
+                                            {% if validation_error.account_username is defined %}<code> {{ validation_error.account_username}} </code> {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">
+                                            {{lang('account_password')}}  :<span class="symbol required"></span> 
+                                        </label>
+                                        <div class="col-sm-3">
+                                            <input class="form-control" type="password" name="account_password" id="account_password" value="{{ account_password }}" placeholder="{{lang('account_password')}}">                             
+                                            {% if validation_error.account_password is defined %}<code> {{ validation_error.account_password}} </code> {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">
+
+                                        </label>
+                                        <div class="col-sm-4"> 
+                                            {% if PRESET_DEMO_STATUS %}
+                                                <button type="button" class="btn btn-primary" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                                                    {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                                                </button> 
+                                            {% else %}                        
+                                                <button type="sumit" class="btn btn-primary" value="1" name="submit">
+                                                    {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                                                </button>                       
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                {{ form_close()|raw }}
+                            </div>
+                            <div class="tab-pane fade" id="myTab2_example2">
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">
+                                        {{ lang('register_sms_permission') }}  :
+                                    </label>
+                                    <div class="col-sm-4">
+                                        <label class="switch">
+                                            {% if PRESET_DEMO_STATUS %}
+                                                <input type="checkbox" {% if register_sms_permission == "1" %} checked {% endif %} id="togBtn" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())" >                                                        
+                                            {% else %}                        
+                                                <input type="checkbox" {% if register_sms_permission == "1" %} checked {% endif %} id="togBtn" onchange='changeConfigValue("REG_SMS_PERMISSION", this)' >                       
+                                            {% endif %}
+
+                                            <div class="slider round">
+                                                <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                                <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">
+                                        {{ lang('checkout_sms_permission') }} :
+                                    </label>
+                                    <div class="col-sm-4">
+                                        <label class="switch">
+                                            {% if PRESET_DEMO_STATUS %}
+                                                <input type="checkbox" {% if checkout_sms_permission == "1" %} checked {% endif %} id="togBtn" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())" >                                                        
+                                            {% else %}                        
+                                                <input type="checkbox" {% if checkout_sms_permission == "1" %} checked {% endif %} id="togBtn" onchange='changeConfigValue("CHECKOUT_SMS_PERMISSION", this)' >                       
+                                            {% endif %}
+
+                                            <div class="slider round">
+                                                <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                                <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="tab-pane fade" id="myTab2_example3">
+                                {{ form_open('', ' id="sms_content_form" name="sms_content_form"')|raw }}
+                                <div class="form-horizontal">                                            
+                                    <div class="errorHandler alert alert-danger no-display">
+                                        <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">
+                                            {{lang('register_sms_content')}} :<span class="symbol required"></span>
+                                        </label>
+                                        <div class="col-sm-6">
+                                            <textarea rows="4" cols="50" name="register_sms_content" id="register_sms_content" placeholder="{{lang('register_sms_content')}}">{{ register_sms_content }}</textarea>
+                                            {% if validation_error.register_sms_content is defined %}<code> {{ validation_error.register_sms_content}} </code> {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">
+                                            {{lang('checkout_sms_content')}}  :<span class="symbol required"></span> 
+                                        </label>
+                                        <div class="col-sm-6">
+                                            <textarea rows="4" cols="50" name="checkout_sms_content" id="checkout_sms_content" placeholder="{{lang('checkout_sms_content')}}">{{ checkout_sms_content }}</textarea>
+                                            {% if validation_error.checkout_sms_content is defined %}<code> {{ validation_error.checkout_sms_content}} </code> {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">
+
+                                        </label>
+                                        <div class="col-sm-4"> 
+                                            {% if PRESET_DEMO_STATUS %}
+                                                <button type="button" class="btn btn-primary" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                                                    {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                                                </button> 
+                                            {% else %}                        
+                                                <button type="sumit" class="btn btn-primary" value="1" name="update_content">
+                                                    {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                                                </button>                       
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                {{ form_close()|raw }}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>                                    
+</div>
+{% include('admin/layout/footer.twig')%}
+<link rel="stylesheet" href="assets/css/checkbox_switcher.css">
+<script src="assets/js/sms_settings.js">
+</script>
+<script>
+    $(window).load(function () {
+        validateBulkSms();
+        validateSmsContent();
+    });
+</script>

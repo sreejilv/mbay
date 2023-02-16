@@ -1,0 +1,196 @@
+{% include('admin/layout/header.twig')%}
+<div id="js_messages" style="display: none;"> 
+    <span id="please_wait_js">{{lang('please_wait_js')}}</span>
+    <span id="module_enabled_js">{{lang('module_enabled_js')}}</span>
+    <span id="module_disabled_js">{{lang('module_disabled_js')}}</span>
+    <span id="success_js">{{lang('success_js')}}</span>
+    <span id="failed_js">{{lang('failed_js')}}</span>
+    <span id="something_wrong_js">{{lang('something_wrong_js')}}</span>     
+</div>
+<style type="text/css">
+    input:checked + .slider:before {
+        -webkit-transform: translateX(12px) !important;
+        -ms-transform: translateX(12px) !important;
+        transform: translateX(12px) !important;
+    }
+    .switch {
+        width: 34px !important;
+        height: 22px !important;
+    }
+    input:checked + .slider {
+        background-color: #27c24c !important;
+    }
+    .slider.round {
+        border-radius: 51px !important;
+    }
+
+    .slider:before {
+        height: 17px !important;
+        width: 18px !important;
+        left: 2px !important;
+        bottom: 3px !important;
+        background-color: white;
+    }
+</style>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('module_management')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <!-- <hr> -->
+
+                <div class="row">
+                    <div class="col-md-3  pull-right">
+                        <button onclick="listViewAllModules()" class="btn btn-default" type="button"> <i class="fa fa-bars"></i> {{lang('list')}} </button> 
+                        <button onclick="gridViewAllModules()" class="btn btn-default" type="button"> <i class="fa fa-th-large"></i> {{lang('grid')}} </button> 
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-12">
+                        {% for mod in modules %}
+                            <div class="system_module_column" {% if loop.index%2 %}style="background-color:#f3f3ee;min-height:110px;"{% else %}style="background-color:#fff;min-height:110px;" {% endif %}>
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <h6><b>{{ loop.index }}. &nbsp;{{ lang(mod.name) }}</b></h6>
+                                        <p> &nbsp; &nbsp;{{ lang(mod.name~'_desc') }}</p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="switch">
+                                            {% if PRESET_DEMO_STATUS %}
+                                                <input switch="switch" type="checkbox" {% if mod.module_status %} checked {% endif %} id="togBtn" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">       
+                                            {% else %}                        
+                                                <input switch="switch" type="checkbox" {% if mod.module_status %} checked {% endif %} id="togBtn" onchange='change_module_status("{{ mod.name }}", this)'>    
+                                            {% endif %}
+
+                                            <div class="slider round" {% if mod.module_status %}title="{{ lang('disable') }}" {% else %} title="{{ lang('enable') }}"{% endif %}>
+                                                <!--  <span class="on"></span>
+                                                 <span class="off"></span> -->
+                                            </div>
+                                        </label> 
+                                    </div>
+
+                                </div>
+                                <div class="col-md-12">  
+                                    <div {% if not mod.module_status %} style="display:none;" {% endif %} id="{{mod.name}}_active_link">
+                                        {% if mod.link %}
+                                            <a target="_BLANK" href="admin/modules/settings/{{mod.id}}">
+                                                <i class="fa fa-gears"></i> {{ lang('click_here_to_redirect_to_module') }}
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+
+                            </div>                           
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <style>
+                    /* Create two equal columns that floats next to each other */
+                    .system_module_column {
+                        float: left;
+                        width: 33%;
+                        height: 120px;
+                        padding: 10px;
+                    }
+                </style>
+
+
+                <script>
+                    // Get the elements with class="column"
+                    var elements = document.getElementsByClassName("system_module_column");
+
+// Declare a loop variable
+                    var i;
+
+// List View
+                    function listViewAllModules() {
+                        for (i = 0; i < elements.length; i++) {
+                            elements[i].style.width = "100%";
+                        }
+                    }
+
+// Grid View
+                    function gridViewAllModules() {
+                        for (i = 0; i < elements.length; i++) {
+                            elements[i].style.width = "33%";
+                        }
+                    }
+                </script>
+
+                {#<div class="table-responsive">
+                    <table class="table sticky-enabled tableheader-processed sticky-table">
+                        <thead>
+                            <tr>                          
+                                <th>{{lang('module_name')}}</th>
+                                <th>{{lang('status')}}</th>
+                                <th>{{lang('module_description')}}</th>                            
+                                <th>{{lang('module_config')}}</th>                    
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for mod in modules %}
+                                <tr>
+                                    <td>
+                                        <i class="modules-icons fa {{ mod.icon }}" aria-hidden="true"></i>
+                                        {{ lang(mod.name) }}
+                                    </td>
+
+                                    <td>
+                                        <label class="switch">
+                                            {% if PRESET_DEMO_STATUS %}
+                                                <input type="checkbox" {% if mod.module_status %} checked {% endif %} id="togBtn" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">       
+                                            {% else %}                        
+                                                <input type="checkbox" {% if mod.module_status %} checked {% endif %} id="togBtn" onchange='change_module_status("{{ mod.name }}", this)'>    
+                                            {% endif %}
+
+
+                                            <div class="slider round">
+                                                <span class="on">{{lang('on')}}</span>
+                                                <span class="off">{{lang('off')}}</span>
+                                            </div>
+                                        </label>
+                                    </td>
+
+                                    <td>{{ lang(mod.name~'_desc') }}</td>
+
+                                    <td>
+
+                                        <div {% if not mod.module_status %} style="display:none;" {% endif %} id="{{mod.name}}_active_link">
+                                            {% if mod.link %}
+                                                <a target="_BLANK" href="admin/modules/settings/{{mod.id}}">
+                                                    <i class="fa fa-gears"></i>
+                                                </a>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>   
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>#}
+
+
+            </div>
+        </div>
+    </div>
+</div>
+{% include('admin/layout/footer.twig')%}
+<link rel="stylesheet" href="assets/css/checkbox_switcher.css">
+<script src="assets/js/module_options.js"></script>
+

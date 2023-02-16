@@ -1,0 +1,162 @@
+{% include('admin/layout/header.twig')%}
+<link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="assets/css/shCore.css">
+<script type="text/javascript" language="javascript" src="assets/js/jquery.dataTables.js">
+</script>
+<script type="text/javascript" language="javascript" src="assets/js/shCore.js">
+</script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
+<script type="text/javascript" language="javascript" src="assets/js/lead_datatable.js">
+</script>
+<script type="text/javascript" language="javascript" class="init">
+
+    $(document).ready(function () {
+        var oTable = $('#ip_whitelist_list').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/settings/ip_whitelist_list",
+            "dataType": "json",
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50, 100, 500, 1000], [10, 50, 100, 500, 1000]],
+        });
+    });
+</script>
+<div id="js_messages" style="display: none;"> 
+    <span id="pls_wt_js">{{lang('pls_wt_js')}}</span>
+    <span id="settings_updated_js">{{lang('settings_updated_js')}}</span>
+    <span id="succ_js">{{lang('succ_js')}}</span>
+    <span id="failed_js">{{lang('failed_js')}}</span>
+    <span id="failed_to_update_js">{{lang('failed_to_update_js')}}</span>
+    <span id="invalid_ip_js">{{lang('invalid_ip_js')}}</span>
+    <span id="are_you_sure">{{lang('are_you_sure')}}</span>
+    <span id="edit_this_ip">{{lang('edit_this_ip')}}</span>
+    <span id="no_cancel_pls">{{lang('no_cancel_pls')}}</span>
+    <span id="oprn_canceled">{{lang('oprn_canceled')}}</span>
+    <span id="canceled">{{lang('canceled')}}</span>
+    <span id="yes_edit_it">{{lang('yes_edit_it')}}</span>
+    <span id="inactivate_this_ip">{{lang('inactivate_this_ip')}}</span>
+    <span id="activate_this_ip">{{lang('activate_this_ip')}}</span>
+    <span id="edit_this_ip">{{lang('edit_this_ip')}}</span>
+    <span id="yes_activate_it">{{lang('yes_activate_it')}}</span>
+    <span id="yes_inactivate_it">{{lang('yes_inactivate_it')}}</span>
+    <span id="yes_delete_it">{{lang('yes_delete_it')}}</span>
+    <span id="ip_address_req_js">{{lang('ip_address_req_js')}}</span>
+    <span id="invalid_ip_js">{{lang('invalid_ip_js')}}</span>
+    <span id="remove_this_ip">{{lang('remove_this_ip')}}</span>
+    <span id="yes_remove_it">{{lang('yes_remove_it')}}</span>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <span class="text-bold">                        
+                        {{lang('menu_name_132')}}                        
+                    </span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                <div class="alert alert-info">
+                    <button data-dismiss="alert" class="close">
+                        ×
+                    </button>
+                    <strong>{{ lang('notice') }}</strong> :-
+                    <a href="#" class="alert-link" data-toggle="modal" data-target="#search_member_modal">
+                        {{ lang('click_here') }}</a>
+                        {{ lang('for_add_ip_whitelist') }}
+                </div>
+
+                <div id="search_member_modal" style="width: 750px;" class="modal extended-modal fade no-display" tabindex="-1" data-focus-on="input:first">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title"><b>{{lang('ip_Whitelist')}}</b>-{{lang('your_ip')}} : {{ ip_address }}</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        {{ form_open('', ' id="add_ip_whitelist" name="add_ip_whitelist"')|raw }}
+                        <div class="form-horizontal">                                            
+                            <div class="errorHandler alert alert-danger no-display">
+                                <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">
+                                    {{lang('whitelisted_ip')}}: <span class="symbol required"></span>
+                                </label>
+                                <div class="col-sm-6">
+                                    <input class="form-control ip_whitelist" type="text" name="whitelist_ip_name" id="whitelist_ip_name" placeholder="{{lang('whitelisted_ip')}}" value="{{ whitelisted_ip }}">
+
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                {% if edit_flag %}                               
+                                    <button type="submit"class="btn btn-primary" value="{{ id }}" name="update_ip" id="update_ip">
+                                        {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                                    </button>
+                                {% else %}
+                                    <button type="submit"class="btn btn-primary" value="add_ip" name="add_ip">
+                                        {{lang('add')}} <i class="fa fa-arrow-circle-right"></i>
+                                    </button>
+                                {% endif %}
+                                <button type="button" data-dismiss="modal" class="btn btn-default">
+                                    {{lang('cancel')}}
+                                </button>
+                            </div>
+                        </div>
+
+                        {{ form_close()|raw }}
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped" id="ip_whitelist_list">
+                        <thead>
+                            <tr>
+                                <th>{{ lang('slno') }}</th>
+                                <th>{{ lang('Ip_for_whitelisting')}}</th>
+                                <th>{{ lang('date')}}</th>
+                                <th>{{ lang('operation')}}</th>
+                            </tr>
+                        </thead>                            
+                    </table>
+                </div>
+            </div>
+        </div>                                    
+    </div>
+</div>
+{% include('admin/layout/footer.twig')%}
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css"/>
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
+<link href="assets/plugins/sweetalert/lib/sweet-alert.css" rel="stylesheet" />
+<script src="assets/plugins/sweetalert/lib/sweet-alert.min.js"></script>
+<script src="assets/js/ip_whitelist.js">
+</script>
+<script>
+    $(window).load(function () {
+        ipWhitelist();
+    });
+
+    $(document).ready(function () {
+        if (window.location.href.indexOf("edit") > -1) {
+            $('#search_member_modal').modal('toggle');
+        }
+    });
+</script>
+<style>
+    table.dataTable thead th{border-bottom:1px #111}
+    table.dataTable.no-footer{border-bottom:1px #dfe1e5 solid}
+</style>

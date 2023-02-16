@@ -1,0 +1,145 @@
+{% include('admin/layout/header.twig')%}
+<link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="assets/css/shCore.css">
+<script type="text/javascript" language="javascript" src="assets/js/jquery.dataTables.js">
+</script>
+<script type="text/javascript" language="javascript" src="assets/js/shCore.js">
+</script> 
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
+<script type="text/javascript" language="javascript" src="assets/js/lead_datatable.js">
+</script>
+<script type="text/javascript" language="javascript" class="init">
+
+    $(document).ready(function () {
+        var oTable = $('#ticket_department_list').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/ticket_system/get_ticket_departments",
+            "dataType": "json",
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+</script>
+<div style="display:none">
+    <span id="department_required_msg">{{lang('department_required_msg')}}</span>
+    <span id='department_allow_characters'>{{lang('department_allow_characters')}}</span>
+    <span id='department_minimum_length'>{{lang('department_minimum_length')}}</span>
+    <span id='type_max_length'>{{lang('department_max_length')}}</span>
+    <span id='are_you_sure'>{{lang('are_you_sure')}}</span>
+    <span id='change_the_details'>{{lang('change_the_details')}}</span>
+    <span id='cancelled'>{{lang('cancelled')}}</span>
+    <span id='operation_cancelled'>{{lang('operation_cancelled')}}</span>
+    <span id='yes_delete_it'>{{lang('yes_delete_it')}}</span>
+    <span id='yes_activate_it'>{{lang('yes_activate_it')}}</span>
+    <span id='yes_edit_it'>{{lang('yes_edit_it')}}</span>
+    <span id='no_cancel_pls'>{{lang('no_delete_pls')}}</span>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('menu_name_171')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                {{form_open('','class="form-horizontal" method="POST" name="department_configuration" id="department_configuration"')|raw}}
+                <div class="form-horizontal">                                            
+                    <div class="errorHandler alert alert-danger no-display">
+                        <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                    </div>
+                    <input type='hidden' name='department_id' id='department_id' value='{{id}}'/>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('department_name')}}:<span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="department_name" name="department_name" {% if(action=='edit')%} value='{{department_name}}' {% endif %} placeholder="{{lang('department_name')}}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+
+                        </label>
+                        <div class="col-sm-4">
+
+                            {% if(action=='edit')%}
+                                <button type="submit" name='update_department' value='update_department' class="btn btn-primary">{{lang('update')}} <i class="fa fa-arrow-circle-right"></i></button>
+                                {%else%}
+
+                                <button type="submit" name='insert_department' value='insert_department' class="btn btn-primary">{{lang('submit')}} <i class="fa fa-arrow-circle-right"></i></button>   
+                                {%endif%}                               
+
+                        </div>
+                    </div>
+                </div>
+                {{form_close()|raw}}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('menu_name_171')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped" id="ticket_department_list">
+                        <thead>
+                            <tr>
+                                <th>{{ lang('slno') }}</th>
+                                <th>{{lang('department_name')}}</th>
+                                <th>{{lang('date')}}</th>
+                                <th>{{lang('status')}}</th>
+                                <th>{{lang('action')}}</th>                            
+                            </tr>
+                        </thead>                            
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% include('admin/layout/footer.twig')%}    
+
+
+<link href="assets/plugins/sweetalert/lib/sweet-alert.css" rel="stylesheet" />
+<script src="assets/plugins/sweetalert/lib/sweet-alert.min.js"></script>
+<script src='assets/js/ticket_dep_config.js'></script>
+<script type='text/javascript'>
+    $(document).ready(function () {
+        validateDepartment();
+    });
+</script>
+<style>
+    table.dataTable thead th{border-bottom:1px #111}
+    table.dataTable.no-footer{border-bottom:1px #dfe1e5 solid}
+</style>

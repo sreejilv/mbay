@@ -1,0 +1,16 @@
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+$lang['create_testinomial'] = 'Create Testinomial';
+$lang['success'] = 'Testinomal Created Successfully';
+$lang['content'] = 'Content';
+$lang['activate_success'] = 'Testimonial Activated Successfully';
+$lang['inactive_success'] = 'Testimonial Inactivated Successfully';
+$lang['delete_success'] = 'Testimonial Deleted Successfully';
+$lang['are_you_sure']= 'Are you sure?';
+$lang['change_data']= 'Do you want to change the data';
+$lang['yes_data_change']= 'Yes, Inactivate it!';
+$lang['no_data_change']= 'No, Cancel pls!';
+$lang['yes_activate']= 'Yes, activate it!';
+$lang['delete_data']= 'Do you want to delete the data';
+$lang['yes_delete']= 'Yes, delete it!';
+$lang['yes_deleted']= 'Your Data/Testimonials Deleted';
+$lang['oprn_canceled'] = 'Operation Canceled';

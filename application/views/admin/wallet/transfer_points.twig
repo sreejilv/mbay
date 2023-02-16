@@ -1,0 +1,418 @@
+{% include('admin/layout/header.twig')%}
+<link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="assets/css/shCore.css">
+<script type="text/javascript" language="javascript" src="assets/js/jquery.dataTables.js">
+</script>
+<script type="text/javascript" language="javascript" src="assets/js/shCore.js">
+</script> 
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
+<script type="text/javascript" language="javascript" src="assets/js/lead_datatable.js">
+</script>
+<script type="text/javascript" language="javascript" class="init">
+
+    $(document).ready(function () {
+        var oTable = $('#B_add_fund_list').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/wallet/B_add_fund_list",
+            "dataType": "json",
+            "order": [[ 5, "desc" ]],
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+    $(document).ready(function () {
+        var oTable = $('#B_deduct_fund_list').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/wallet/B_deduct_fund_list",
+            "dataType": "json",
+            "order": [[ 5, "desc" ]],
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+    $(document).ready(function () {
+        var oTable = $('#B_transfer_fund_list').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/wallet/B_transfer_fund_list",
+            "dataType": "json",
+            "order": [[ 5, "desc" ]],
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+</script>
+<div id="js_messages" style="display: none;"> 
+    <span id="inv_user_js">{{lang('inv_user_js')}}</span>
+    <span id="please_select_a_user_js">{{lang('please_select_a_user_js')}}</span>
+    <span id="amount_req_js">{{lang('amount_req_js')}}</span>
+    <span id="invalid_amount_js">{{lang('invalid_amount_js')}}</span>
+    <span id="transaction_password_req_js">{{lang('transaction_password_req_js')}}</span>
+    <span id="inv_transaction_password_js">{{lang('inv_transaction_password_js')}}</span>    
+    <span id="fullname_js">{{lang('fullname_js')}}</span> 
+    <span id="email_js">{{lang('email_js')}}</span> 
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('menu_name_188')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+
+                <div class="tabbable">
+                    <ul class="nav nav-tabs">
+                        <li class="{{tab1}}">
+                            <a data-toggle="tab" href="javascript:#fund_trans1">
+                                {{lang('add_fund')}} <span class="badge badge-danger">{{ count1 }}</span>
+                            </a>
+                        </li>
+                        <li  class="{{tab2}}">
+                            <a data-toggle="tab" href="javascript:#fund_trans2">
+                                {{lang('deduct_fund')}} <span class="badge badge-danger">{{ count2 }}</span>
+                            </a>
+                        </li>
+                        <li  class="{{tab3}}">
+                            <a data-toggle="tab" href="javascript:#fund_trans3">
+                                {{lang('transfer_fund')}} <span class="badge badge-danger">{{ count3 }}</span>
+                            </a>
+                        </li>                                
+                    </ul>
+                    <div class="tab-content">
+                        <div id="fund_trans1" class="tab-pane fade in {{tab1}}">
+
+                            {{ form_open('', ' id="add_fund_form" name="add_fund_form"')|raw }}
+                            <div class="form-horizontal">
+                                <div class="errorHandler alert alert-danger no-display">
+                                    <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">
+                                        {{lang('username')}} : <span class="symbol required"></span>
+                                    </label>
+                                    <div class="col-sm-3">
+                                        <input class="typeahead form-control" type="text" name="username_add" id="username_add" placeholder="{{lang('username')}}" autocomplete="off">
+                                        {% if error.username_add is defined %}<code> {{ error.username_add}} </code> {% endif %} 
+                                    </div>
+                                </div>
+                                    
+                                <div class="form-group">
+                                <label class="col-sm-3 control-label">
+                                </label>
+                                <div class="col-sm-7" id="full_name">
+                                </div>
+                                </div>
+
+                                <div class="form-group" id="user_balance_add_div" style="display:none;">
+                                    <label class="col-sm-3 control-label">
+                                        {{lang('user_balance')}} <b>({{MLM_CURRENCY_LEFT~MLM_CURRENCY_RIGHT}})</b>:
+                                    </label>
+                                    <div class="col-sm-3">
+                                        <input readonly class="form-control" type="text" id="user_balance_add">                                                
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">
+                                        {{lang('amount')}} <b>({{MLM_CURRENCY_LEFT~MLM_CURRENCY_RIGHT}})</b>: <span class="symbol required"></span>
+                                    </label>
+                                    <div class="col-sm-3">
+                                        <input class="form-control" type="text" name="amount_add" id="amount_add" placeholder="{{lang('amount')}}">
+                                        {% if error.amount_add is defined %}<code> {{ error.amount_add}} </code> {% endif %} 
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">
+                                        {{lang('reason')}} :
+                                    </label>
+                                    <div class="col-sm-3">
+                                        <textarea rows="4" cols="30" id="credit_reason" name="credit_reason" placeholder="{{lang('reason')}}"></textarea>
+                                        {% if error.credit_reason is defined %}<code> {{ error.credit_reason}} </code> {% endif %} 
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">
+
+                                    </label>
+                                    <div class="col-sm-4">
+                                        <button type="submit"class="btn btn-primary" value="add_button" name="add_button">
+                                            {{lang('add')}} <i class="fa fa-arrow-circle-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            {{ form_close()|raw }}
+                            <div class="panel-body">
+                                <hr>
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-striped" id="B_add_fund_list">
+                                        <thead>
+                                            <tr>                                    
+                                                <th>{{lang('slno')}}</th>
+                                                <th>{{lang('user_name')}}</th>
+                                                <th>{{lang('full_name')}}</th>
+                                                <th>{{lang('amount')}}</th>
+                                                <th>{{lang('reason')}}</th>
+                                                <th>{{lang('date')}}</th>
+                                            </tr>
+                                        </thead>                            
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div id="fund_trans2" class="tab-pane fade in {{tab2}}">
+                            {{ form_open('', ' id="ded_fund_form" name="ded_fund_form"')|raw }}
+                            <div class="form-horizontal"> 
+                                <div class="errorHandler alert alert-danger no-display">
+                                    <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">
+                                        {{lang('username')}} : <span class="symbol required"></span>
+                                    </label>
+                                    <div class="col-sm-3">
+                                        <input class="typeahead form-control" type="text" name="username_ded" id="username_ded" placeholder="{{lang('username')}}">
+                                        {% if error.username_ded is defined %}<code> {{ error.username_ded}} </code> {% endif %} 
+                                    </div>
+                                </div>
+                                    
+                                <div class="form-group">
+                                <label class="col-sm-3 control-label">
+                                </label>
+                                <div class="col-sm-7" id="user_details">
+                                </div>
+                                </div>
+
+                                <div class="form-group" id="user_balance_ded_div" style="display:none;">
+                                    <label class="col-sm-3 control-label">
+                                        {{lang('user_balance')}}<b>({{MLM_CURRENCY_LEFT~MLM_CURRENCY_RIGHT}})</b>:
+                                    </label>
+                                    <div class="col-sm-3">
+                                        <input readonly class="form-control" type="text" id="user_balance_ded">                                                
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">
+                                        {{lang('amount')}} <b>({{MLM_CURRENCY_LEFT~MLM_CURRENCY_RIGHT}})</b>: <span class="symbol required"></span>
+                                    </label>
+                                    <div class="col-sm-3">
+                                        <input class="form-control" type="text" name="amount_ded" id="amount_ded" placeholder="{{lang('amount')}}">
+                                        {% if error.amount_ded is defined %}<code> {{ error.amount_ded}} </code> {% endif %} 
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">
+                                        {{lang('reason')}} :
+                                    </label>
+                                    <div class="col-sm-3">
+                                        <textarea rows="4" cols="30" id="debit_reason" name="debit_reason" placeholder="{{lang('reason')}}"></textarea>
+                                        {% if error.debit_reason is defined %}<code> {{ error.debit_reason}} </code> {% endif %} 
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">
+
+                                    </label>
+                                    <div class="col-sm-4">
+                                        <button type="submit"class="btn btn-primary" value="ded_button" name="ded_button">
+                                            {{lang('deduct')}} <i class="fa fa-arrow-circle-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            {{ form_close()|raw }}
+                            <div class="panel-body">
+                                <hr>
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-striped" id="B_deduct_fund_list">
+                                        <thead>
+                                            <tr>                                    
+                                                <th>{{lang('slno')}}</th>
+                                                <th>{{lang('user_name')}}</th>
+                                                <th>{{lang('full_name')}}</th>
+                                                <th>{{lang('amount')}}</th>
+                                                <th>{{lang('reason')}}</th>
+                                                <th>{{lang('date')}}</th>
+                                            </tr>
+                                        </thead>                            
+                                    </table>
+                                </div>
+                            </div> 
+                        </div>
+                        <div id="fund_trans3" class="tab-pane fade in {{tab3}}">
+
+                            {{ form_open('', ' id="transfer_fund_form" name="transfer_fund_form"')|raw }}
+                            <div class="form-horizontal">  
+                                <div class="errorHandler alert alert-danger no-display">
+                                    <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">
+                                        {{lang('from_username')}} : <span class="symbol required"></span>
+                                    </label>
+                                    <div class="col-sm-3">
+                                        <input class="typeahead form-control" type="text" name="from_username" id="from_username" placeholder="{{lang('from_username')}}">
+                                        {% if error.from_username is defined %}<code> {{ error.from_username}} </code> {% endif %} 
+                                    </div>
+                                </div>
+                                    
+                                <div class="form-group">
+                                <label class="col-sm-3 control-label">
+                                </label>
+                                <div class="col-sm-7" id="user_det">
+                                </div>
+                                </div>
+
+                                <div class="form-group" id="from_user_balance_div" style="display:none;">
+                                    <label class="col-sm-3 control-label">
+                                        {{lang('user_balance')}} <b>({{MLM_CURRENCY_LEFT~MLM_CURRENCY_RIGHT}})</b>:
+                                    </label>
+                                    <div class="col-sm-3">
+                                        <input readonly class="form-control" type="text" id="from_user_balance" placeholder="{{lang('user_balance')}}">                                                
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">
+                                        {{lang('to_username')}} : <span class="symbol required"></span>
+                                    </label>
+                                    <div class="col-sm-3">
+                                        <input class="typeahead form-control" type="text" name="to_username" id="to_username" placeholder="{{lang('to_username')}}">
+                                        {% if error.to_username is defined %}<code> {{ error.to_username}} </code> {% endif %} 
+                                    </div>
+                                </div>
+                                    
+                                <div class="form-group">
+                                <label class="col-sm-3 control-label">
+                                </label>
+                                <div class="col-sm-7" id="touser_det">
+                                </div>
+                                </div>
+
+                                <div class="form-group" id="to_user_balance_div" style="display:none;">
+                                    <label class="col-sm-3 control-label">
+                                        {{lang('user_balance')}}
+                                    </label>
+                                    <div class="col-sm-3">
+                                        <input readonly class="form-control" type="text" id="to_user_balance">                                                
+                                    </div>
+                                </div>
+
+
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">
+                                        {{lang('amount')}} <b>({{MLM_CURRENCY_LEFT~MLM_CURRENCY_RIGHT}})</b>: <span class="symbol required"></span>
+                                    </label>
+                                    <div class="col-sm-3">
+                                        <input class="form-control" type="text" name="amount_trans" id="amount_trans" placeholder="{{lang('amount')}}">
+                                        {% if error.amount_trans is defined %}<code> {{ error.amount_trans}} </code> {% endif %} 
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">
+                                        {{lang('reason')}} :
+                                    </label>
+                                    <div class="col-sm-3">
+                                        <textarea rows="4" cols="30" id="transfer_reason" name="transfer_reason" placeholder="{{lang('reason')}}"></textarea>
+                                        {% if error.transfer_reason is defined %}<code> {{ error.transfer_reason}} </code> {% endif %} 
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">
+
+                                    </label>
+                                    <div class="col-sm-4">
+                                        <button type="submit"class="btn btn-primary" value="trans_button" name="trans_button">
+                                            {{lang('transfer')}} <i class="fa fa-arrow-circle-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            {{ form_close()|raw }}
+                            <div class="panel-body">
+                                <hr>
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-striped" id="B_transfer_fund_list">
+                                        <thead>
+                                            <tr>                                    
+                                                <th>{{lang('slno')}}</th>
+                                                <th>{{lang('from_user')}}</th>
+                                                <th>{{lang('to_user')}}</th>
+                                                <th>{{lang('amount')}}</th>
+                                                <th>{{lang('reason')}}</th>
+                                                <th>{{lang('date')}}</th>
+                                            </tr>
+                                        </thead>                            
+                                    </table>
+                                </div>
+                            </div>
+
+
+                        </div>                                
+                    </div>
+                </div>
+
+
+            </div>
+        </div>                                    
+    </div>
+</div>
+{% include('admin/layout/footer.twig')%}
+<link href="assets/plugins/sweetalert/lib/sweet-alert.css" rel="stylesheet" />
+<script src="assets/plugins/sweetalert/lib/sweet-alert.min.js"></script>
+<script src="assets/js/point_transfer.js"></script>
+<script src="assets/js/typeahead.js"></script>
+<script>
+    jQuery(document).ready(function () {
+        validate_add_fund();
+        validate_ded_fund();
+        validate_trans_fund();
+    });
+
+    $('input.typeahead').typeahead({
+        source: function (query, process) {
+            var url = "{{BASE_URL}}admin/member/get_usernames";
+            return $.get(url, {query: query}, function (data) {
+                data = $.parseJSON(data);
+                return process(data);
+            });
+        }
+    });
+</script>
+
+<style>
+    table.dataTable thead th{border-bottom:1px #111}
+    table.dataTable.no-footer{border-bottom:1px #dfe1e5 solid}
+</style>

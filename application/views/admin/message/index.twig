@@ -1,0 +1,124 @@
+{% include('admin/layout/header.twig')%}
+<div id="js_messages" style="display: none;"> 
+    <span id="downline_user_req_js">{{lang('downline_user_req_js')}}</span>
+    <span id="downline_user_invalid_js">{{lang('downline_user_invalid_js')}}</span>
+    <span id="please_enter_a_message">{{lang('please_enter_a_message')}}</span>
+    <span id="failed_js">{{lang('failed_js')}}</span>
+    <span id="please_select_a_username">{{lang('please_select_a_username')}}</span>
+</div> 
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('message_system')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+
+
+                <div class="alert alert-info">
+                    <button data-dismiss="alert" class="close">
+                        ×
+                    </button>
+                    <strong>{{ lang('notice') }}</strong> :-
+                    <a href="#" class="alert-link" data-toggle="modal" data-target="#search_member_modal">
+                        {{ lang('click_here') }}</a>
+                    {{ lang('for_searching_a_member') }}.
+                </div>
+
+                <div id="search_member_modal" style="width: 750px;" class="modal extended-modal fade no-display" tabindex="-1" data-focus-on="input:first">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title">{{lang('start_a_chat')}}</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        {{ form_open('', ' id="start_chat" name="start_chat"')|raw }}
+
+                        <div class="form-horizontal">
+                            <div class="errorHandler alert alert-danger no-display">
+                                <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">
+                                    {{ lang('select_user') }} : <span class="symbol required"></span>
+                                </label>
+                                <div class="col-sm-6">
+                                    <input class="typeahead form-control"  type="text" name="downline_user"  id="downline_user" autocomplete="off" placeholder="{{ lang('select_user') }}">
+                                    <div  id="full_name">
+
+                                    </div>
+                                </div>
+                            </div>                            
+                        </div>  
+                        <div class="modal-footer">
+                            <button type="button" data-dismiss="modal" class="btn btn-default">
+                                {{lang('cancel')}}
+                            </button>
+
+                            <button type="submit"class="btn btn-primary" name="start" id="start">
+                                {{lang('start')}} <i class="fa fa-arrow-circle-right"></i>
+                            </button>
+                        </div>
+
+                        {{ form_close()|raw }}
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-md-3 users-list">
+                        {% include('admin/message/message_list.twig')%}
+
+
+                    </div>
+                    <div class="col-md-9" id="msg_box_div">
+                        {% include('admin/message/message_box.twig')%}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>                                    
+</div>
+{% include('admin/layout/footer.twig')%}
+<script src="assets/js/typeahead.js"></script>
+<script src="assets/js/message_system.js"></script>
+
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css"/>
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
+
+
+<script>
+    jQuery(document).ready(function () {
+        $("form").submit(function (e) {
+            e.preventDefault(e);
+        });
+        validate_start_chat();
+    });
+
+    $('input.typeahead').typeahead({
+        source: function (query, process) {
+            var url = "admin/message/get_downline_usernames";
+            return $.get(url, {query: query}, function (data) {
+                data = $.parseJSON(data);
+                return process(data);
+            });
+        }
+    });
+</script>

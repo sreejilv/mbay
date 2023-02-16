@@ -1,0 +1,108 @@
+    {% include('shop/layout/header.twig')%}
+
+        <!-- MOBILE VIEW SEARCH AREA -->
+        <div class="mobile-view-search p-3 pt-0 d-block d-md-block d-lg-block d-xl-none">
+            <div class="input-group input-group-sm">
+                <input type="text" class="form-control shadow-none" placeholder="What are you looking for?"
+                    aria-label="Recipient's username" aria-describedby="button-addon2">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i
+                        class="icon-magnifier"></i></button>
+            </div>
+        </div>
+        <!-- END MOBILE VIEW SEARCH AREA -->
+
+        <!-- Breadcrumb-area -->
+        <div class="breadcrumb-area bg-gray">
+            <div class="container">
+                <div class="breadcrumb-content text-center">
+                    <ul>
+                        <li><a href="{{BASE_URL}}index">Home</a></li>
+                        <li class="active">About us</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Breadcrumb-area -->
+
+
+        <!-- ABOUT -->
+        <section class="about-us-area pt-120 pb-120">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-3">
+                        <div class="about-us-logo">
+                            <img src="assets/shop/images/logo/mbay.svg" alt="logo">
+                        </div>
+                    </div>
+                    <div class="col-lg-9 col-md-9">
+                        <div class="about-us-content">
+                            <h3>Introduce</h3>
+                            <p>
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- END ABOUT -->
+
+        <!-- SERVICE -->
+        <div class="service-area pb-120">
+            <div class="container">
+                <div class="service-wrap-border service-wrap-padding-3">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-12 service-border-1">
+                            <div class="single-service-wrap-2 mb-30">
+                                <div class="service-icon-2 icon-red">
+                                    <i class="icon-cursor"></i>
+                                </div>
+                                <div class="service-content-2">
+                                    <h3>Free Shipping</h3>
+                                    <p>Oders over $99</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-12 service-border-1 service-border-1-none-md">
+                            <div class="single-service-wrap-2 mb-30">
+                                <div class="service-icon-2 icon-red">
+                                    <i class="icon-refresh "></i>
+                                </div>
+                                <div class="service-content-2">
+                                    <h3>90 Days Return</h3>
+                                    <p>For any problems</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-12 service-border-1">
+                            <div class="single-service-wrap-2 mb-30">
+                                <div class="service-icon-2 icon-red">
+                                    <i class="icon-credit-card "></i>
+                                </div>
+                                <div class="service-content-2">
+                                    <h3>Secure Payment</h3>
+                                    <p>100% Guarantee</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                            <div class="single-service-wrap-2 mb-30">
+                                <div class="service-icon-2 icon-red">
+                                    <i class="icon-earphones "></i>
+                                </div>
+                                <div class="service-content-2">
+                                    <h3>24h Support</h3>
+                                    <p>Dedicated support</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END SERVICE -->
+
+    {% include('shop/layout/footer.twig')%}

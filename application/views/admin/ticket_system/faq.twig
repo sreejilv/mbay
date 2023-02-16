@@ -1,0 +1,176 @@
+{% include('admin/layout/header.twig')%}
+<link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="assets/css/shCore.css">
+<script type="text/javascript" language="javascript" src="assets/js/jquery.dataTables.js">
+</script>
+<script type="text/javascript" language="javascript" src="assets/js/shCore.js">
+</script> 
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
+<script type="text/javascript" language="javascript" src="assets/js/lead_datatable.js">
+</script>
+<script type="text/javascript" language="javascript" class="init">
+
+    $(document).ready(function () {
+        var oTable = $('#ticket_faq').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/ticket_system/get_faq",
+            "dataType": "json",
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+</script>
+<div style='display: none;'>
+    <span id='department_msg'>{{lang('department_msg')}}</span>
+    <span id='question_msg'>{{lang('question_msg')}}</span>
+    <span id='answer_msg'>{{lang('answer_msg')}}</span>
+    <span id='minlength_msg'>{{lang('minlength_msg')}}</span>
+    <span id='are_you_sure'>{{lang('are_you_sure')}}</span>
+    <span id='change_the_details'>{{lang('change_the_details')}}</span>
+    <span id='cancelled'>{{lang('cancelled')}}</span>
+    <span id='operation_cancelled'>{{lang('operation_cancelled')}}</span>
+    <span id='yes_delete_it'>{{lang('yes_delete_it')}}</span>
+    <span id='yes_activate_it'>{{lang('yes_activate_it')}}</span>
+    <span id='yes_edit_it'>{{lang('yes_edit_it')}}</span>
+    <span id='no_cancel_pls'>{{lang('no_delete_pls')}}</span>
+    <span id='inactivate_this_faq'>{{lang('inactivate_this_faq')}}</span>
+    <span id='yes_inactivate_it'>{{lang('yes_inactivate_it')}}</span>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('menu_name_173')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                {{form_open('','role="form" class="form-horizontal" name="form_faq" id="form_faq"')|raw}}
+                <div class="form-horizontal">                                            
+                    <div class="errorHandler alert alert-danger no-display">
+                        <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                    </div>
+                    <input type='hidden' name='department_id' id='department_id' value='{{id}}'/>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('select_department')}}:<span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-4">
+                            <select class="form-control search-select" name='department' id='department'>
+                                <option value="">{{lang('choose_option')}}</option>
+                                {% for data in details %}
+                                    <option {% if data.department_id==department_id%} selected {% endif %} value='{{data.department_id}}'>{{data.department_name}}</option>
+                                {% endfor%}
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('question')}}:<span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-4">
+                            <textarea class='form-control' id='question' name='question' placeholder="{{lang('question')}}" >{{question}}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('answer')}}:<span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-4">
+                            <textarea class='form-control' id='answer' name='answer' placeholder="{{lang('answer')}}" >{{answer}}</textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+
+                        </label>
+                        <div class="col-sm-4">
+                            {% if action =='edit'%}
+                                <button class="btn btn-primary" type='submit' name='faq_update' id='faq_update' value='update'>{{lang('update')}} <i class="fa fa-arrow-circle-right"></i></button>
+                                {%else%}
+                                <button class="btn btn-primary" type='submit' name='faq_submit' id='faq_submit' value='submit'>{{lang('submit')}} <i class="fa fa-arrow-circle-right"></i></button>
+                                {%endif%}
+                        </div>
+                    </div>
+                </div> 
+
+                {{form_close()|raw}}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('menu_name_173')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped" id="ticket_faq">
+                        <thead>
+                            <tr>
+                                <th>{{ lang('slno') }}</th>
+                                <th>{{lang('department')}}</th>
+                                <th>{{lang('question')}}</th>
+                                <th>{{lang('answer')}}</th>
+                                <th>{{lang('date')}}</th>
+                                <th>{{lang('action')}}</th>                             
+                            </tr>
+                        </thead>                            
+                    </table>
+                </div>                 
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% include('admin/layout/footer.twig')%}  
+<link rel="stylesheet" href="assets/plugins/select2/select2.css">		
+<link rel="stylesheet" href="assets/css/plugins.css">
+<script src="assets/plugins/select2/select2.min.js"></script>
+<script src="assets/js/form-elements.js"></script>
+<link href="assets/plugins/sweetalert/lib/sweet-alert.css" rel="stylesheet" />
+<script src="assets/plugins/sweetalert/lib/sweet-alert.min.js"></script>
+<script src='assets/js/faq.js'></script>
+<style>
+    table.dataTable thead th{border-bottom:1px #111}
+    table.dataTable.no-footer{border-bottom:1px #dfe1e5 solid}
+</style>
+<script>
+    $(document).ready(function () {
+        FormElements.init2();
+    });
+</script>
+

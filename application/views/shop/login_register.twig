@@ -1,0 +1,118 @@
+
+    {% include('shop/layout/header.twig')%}
+
+        <!-- Breadcrumb-area -->
+        <div class="breadcrumb-area bg-gray">
+            <div class="container">
+                <div class="breadcrumb-content text-center">
+                    <ul>
+                        <li>
+                            <a href="{{BASE_URL}}index">Home</a>
+                        </li>
+                        <li class="active">Login - Register</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Breadcrumb-area -->
+
+
+        <!-- LOGIN AND REGISTER -->
+        <section class="login-register-area pt-115 pb-120">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-12 ms-auto me-auto">
+                        <div class="login-register-wrapper">
+                            <div class="login-register-tab-list nav">
+                                <a class="active" data-bs-toggle="tab" href="#lg1">
+                                    <h4> login </h4>
+                                </a>
+                                <a data-bs-toggle="tab" href="#lg2">
+                                    <h4> register </h4>
+                                </a>
+                            </div>
+                            <div class="tab-content">
+                                <!--login-->
+                                <div id="lg1" class="tab-pane active">
+                                    <div class="login-form-container">
+                                        <button type="button"
+                                            class="btn btn-outline-secondary d-flex w-100 mb-2 align-items-center justify-content-center facebook text-white">
+                                            <i class="icon-social-facebook me-1"></i>Sign in with Facebook</button>
+                                        <p class="orvia"><span>Or via email</span></p>
+                                        <div class="login-register-form">
+                                            <form action="#" method="post">
+                                                <div class="mb-3">
+                                                    <input class="form-control shadow-none" type="text" name="user-name"
+                                                        placeholder="Your Email/Phone Number">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <input class="form-control shadow-none" type="password"
+                                                        name="user-password" placeholder="Password">
+                                                </div>
+                                                <div class="button-box">
+                                                    <div class="login-toggle-btn">
+                                                        <input type="checkbox">
+                                                        <label>Keep me logged in</label>
+                                                        <a href="#">Forgot your password?</a>
+                                                    </div>
+                                                    <button class="d-block btn" type="submit">Sign In</button>
+                                                    <p class="mt-3 mb-0">
+                                                        Don't have an account?  Sign up for one
+                                                    </p>
+                                                    <p class="mt-1">
+                                                        Or just <a class="text-decoration-underline" href="#">checkout as a guest</a>
+                                                    </p>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end login-->
+
+                                <!--register-->
+                                <div id="lg2" class="tab-pane">
+                                    <div class="login-form-container">
+                                        <!-- fb or-->
+                                        <button type="button"
+                                            class="btn btn-outline-secondary d-flex w-100 mb-2 align-items-center justify-content-center facebook text-white">
+                                            <i class="icon-social-facebook me-1"></i>Sign up with Facebook</button>
+                                        <p class="orvia"><span>Or via email</span></p>
+                                        <!-- end fb or-->
+                                        <div class="login-register-form">
+                                            <form action="#" method="post">
+                                                <div class="mb-3">
+                                                    <input class="form-control shadow-none" type="text" name="user-name" placeholder="Full Name">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <input class="form-control shadow-none" type="text" name="user-name" placeholder="Your Email">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <input class="form-control shadow-none" type="password" name="user-password" placeholder="Password">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <input class="form-control shadow-none" type="number" name="user-password" placeholder="Mobile Number (we’ll send you a verification code)">
+                                                </div>
+
+                                                <div class="button-box">
+                                                    <button type="submit">Sign up</button>
+                                                </div>
+                                                <p class="mt-3 mb-0">Already have an account?  Sign in now</p>
+                                                <p class="mt-1">
+                                                    Or just <a class="text-decoration-underline" href="#">checkout as a guest</a>
+                                                </p>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end register-->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- END LOGIN AND REGISTER -->
+
+        {% include('shop/layout/footer.twig')%}
+

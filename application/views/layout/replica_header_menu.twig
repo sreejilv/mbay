@@ -1,0 +1,23 @@
+<div class="container">
+    <div class="row">
+        <div class="grid_12 ">
+            <div class="navigation ">
+                <nav>
+                    <ul class="sf-menu">
+                        <li class="current"><a href="{{type}}/home"><b>{{lang('home')}}</b></a></li>
+                        <li><a href="packages/{{encode_id}}"><b>{{lang('register')}}</b></a></li>
+                            {% if(status!='yes')%}
+                            <li><a href="login-site"><b>{{lang('login')}}</b></a></li>
+                            {% else %}
+                            <li><a href="logout-site"><b>{{lang('logout')}}</b></a></li>
+                            {% endif %}
+
+
+                    </ul>
+                </nav>
+                <div class="clear"></div>
+            </div>       
+            <div class="clear"></div>  
+        </div>
+    </div> 
+</div> 

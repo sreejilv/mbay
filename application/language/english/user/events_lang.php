@@ -1,0 +1,10 @@
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+$lang['event_name'] = 'Event Name';
+$lang['event_desc'] = 'Event Description';
+$lang['single_day'] = 'Single Day';
+$lang['multiple_day'] = 'Multiple Day';
+$lang['calendar'] = 'Calendar';
+$lang['select_from_date'] = 'Select from date';
+$lang['select_to_date'] = 'Select to date';
+$lang['event_type'] = 'Event Type';
+$lang['event_date'] = 'Event Date';

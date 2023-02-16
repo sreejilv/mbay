@@ -1,0 +1,81 @@
+{% include('admin/layout/header.twig')%}
+<div class="row">    
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h4 class="panel-title"><span class="text-bold">{{lang('tax_and_payment')}}</span></h4>
+            <div class="panel-tools">
+                <div class="dropdown">
+                    <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                    <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                        <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                        <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                        <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                    </ul>
+                </div>
+                <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+            </div>
+        </div>
+        <div class="panel-body">
+            <hr>
+            {{ form_open('', ' id="tax_form" name="tax_form"')|raw }}
+            <div class="form-horizontal">                                            
+                <div class="errorHandler alert alert-danger no-display">
+                    <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                </div>                                            
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">
+                        {{lang('tax')}}: <span class="symbol required"></span>
+                    </label>
+                    <div class="col-sm-4">
+                        <input class="form-control" type="text" name="tax" id="tax"  value="{{tax.tax}}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">
+                        {{lang('percentage_or_static')}}: <span class="symbol required"></span>
+                    </label>
+                    <div class="col-sm-4">
+                        <label class="radio-inline">
+
+                            <input type="radio" value="percentage" id="per_or_static" name="per_or_static" class="grey" {% if tax.tax_type == "percentage" %} checked {% endif %}>
+                            {{lang('Percentage')}}
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" value="static" id="per_or_static" name="per_or_static" class="grey" {% if tax.tax_type == "static" %} checked {% endif %}>
+                            {{lang('Static')}}({{ DEFAULT_CURRENCY_SYMBOL }})
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">
+
+                    </label>
+                    <div class="col-sm-4">
+                        {% if PRESET_DEMO_STATUS %}
+                            <button type="button" class="btn btn-primary"  onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                                {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                            </button>
+
+                        {% else %}                        
+                            <button type="submit"class="btn btn-primary"  value="tax_settings" name="tax_settings">
+                                {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                            </button>                       
+                        {% endif %}
+
+
+                    </div>
+                </div>
+            </div>
+            {{ form_close()|raw }}
+        </div>
+    </div>
+</div>
+
+{% include('admin/layout/footer.twig')%}
+<script src="assets/js/settings.js">
+</script>
+<script>
+    $(document).ready(function () {
+        valTaxPayment();
+    });
+</script>

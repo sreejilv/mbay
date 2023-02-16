@@ -1,0 +1,340 @@
+{% include('admin/layout/header.twig')%}
+<link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="assets/css/shCore.css">
+<script type="text/javascript" language="javascript" src="assets/js/jquery.dataTables.js">
+</script>
+<script type="text/javascript" language="javascript" src="assets/js/shCore.js">
+</script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
+<script type="text/javascript" language="javascript" src="assets/js/lead_datatable.js">
+</script>
+<script type="text/javascript" language="javascript" class="init">
+
+    $(document).ready(function () {
+        var oTable = $('#party_create_list').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/party/party_create_list",
+            "dataType": "json",
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+</script>
+<div id="js_messages" style="display: none;"> 
+    <span id="name_req_js">{{lang('name_req_js')}}</span>
+    <span id="host_username_req_js">{{lang('host_username_req_js')}}</span>
+    <span id="inv_username_js">{{lang('inv_username_js')}}</span>
+    <span id="start_date_req_js">{{lang('start_date_req_js')}}</span>
+    <span id="start_date_gt_today_js">{{lang('start_date_gt_today_js')}}</span>
+    <span id="end_date_req_js">{{lang('end_date_req_js')}}</span>
+    <span id="end_date_gt_start_date_js">{{lang('end_date_gt_start_date_js')}}</span>
+    <span id="address_type_req_js">{{lang('address_type_req_js')}}</span>
+    <span id="address_req_js">{{lang('address_req_js')}}</span>
+    <span id="country_req_js">{{lang('country_req_js')}}</span>
+    <span id="phone_req_js">{{lang('phone_req_js')}}</span>
+    <span id="email_req_js">{{lang('email_req_js')}}</span>
+    <span id="invalid_email_js">{{lang('')}}</span>
+    <span id="are_you_sure_js">{{lang('are_you_sure_js')}}</span>
+    <span id="edit_this_party_js">{{lang('edit_this_party_js')}}</span>
+    <span id="edit_it_js">{{lang('edit_it_js')}}</span>
+    <span id="cancel_it_js">{{lang('cancel_it_js')}}</span>
+    <span id="party_safe_js">{{lang('party_safe_js')}}</span>
+    <span id="canceled_js">{{lang('canceled_js')}}</span>
+    <span id="activate_this_party_js">{{lang('activate_this_party_js')}}</span>
+    <span id="activate_it_js">{{lang('activate_it_js')}}</span>
+    <span id="inactivate_this_party_js">{{lang('inactivate_this_party_js')}}</span>
+    <span id="inactivate_it_js">{{lang('inactivate_it_js')}}</span>
+    <span id="delete_this_party_js">{{lang('delete_this_party_js')}}</span>
+    <span id="delete_it_js">{{lang('delete_it_js')}}</span>
+    <span id="user_photo_ext_js">{{lang('user_photo_ext_js')}}</span>  
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('create_party')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+
+
+                {{ form_open_multipart('', ' id="party_form" name="party_form"')|raw }}
+                <div class="row">
+                    <div class="errorHandler alert alert-danger no-display">
+                        <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">
+                                {{lang('party_name')}}: <span class="symbol required"></span>
+                            </label>
+                            <input type="text" placeholder="{{lang('party_name')}}" class="form-control" id="name" name="name" value="{{ post_data.name }}" tabindex='1'>
+                            {% if error.name is defined %}<code> {{ error.name}}</code> {% endif %}
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <label class="control-label">
+                                {{lang('party_image')}}
+                            </label>
+                            <div class="fileupload fileupload-new" data-provides="fileupload">
+                                <div class="fileupload-new thumbnail">
+                                    {% if post_data.image %}
+                                        <img src="assets/images/party/{{ post_data.image }}">
+                                    {% else %}
+                                        <img src="assets/images/party/party.png">
+                                    {% endif %}
+                                </div>
+                                <div class="fileupload-preview fileupload-exists thumbnail"></div>
+                                <div class="user-edit-image-buttons">
+                                    <span class="btn btn-azure btn-file"><span class="fileupload-new"><i class="fa fa-picture"></i>{{lang('select_image')}}</span><span class="fileupload-exists"><i class="fa fa-picture"></i> {{lang('change')}}</span>
+                                        <input type="file" name="party_image" id="party_image" tabindex='2'  accept="image/*">
+                                    </span>
+                                    <a href="#" class="btn fileupload-exists btn-red" data-dismiss="fileupload">
+                                        <i class="fa fa-times"></i> {{lang('remove')}}
+                                    </a>
+                                </div>
+                                <div class="alert alert-warning">
+                                    <span class="label label-warning">{{lang('note')}}!</span>
+                                    <span> {{lang('supported_formats')}} : {{lang('JPEG')}} , {{lang('PNG')}} , {{lang('JPG')}} </span>
+                                </div>
+                            </div>
+                        </div> 
+
+
+                        <div class="form-group">
+                            <label class="control-label">
+                                {{lang('host_username')}}: <span class="symbol required"></span>
+                            </label>
+                            <input type="text" placeholder="{{lang('host_username')}}" class="form-control typeahead" id="host_username" name="host_username" value="{{ post_data.host_username }}" autocomplete="off" tabindex='3'>
+                            {% if error.host_username is defined %}<code> {{ error.host_username}}</code> {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">
+                                {{lang('start_date')}}: <span class="symbol required"></span>
+                            </label>
+                            <div class="input-group">
+                                <input name="start_date" id="start_date" type="text" data-date-format="yyyy-mm-dd" data-date-viewmode="years" class="form-control date-picker" value="{{ post_data.start_date }}" placeholder="{{lang('start_date')}}" tabindex='4'>
+                                <span class="input-group-addon"> <i class="fa fa-calendar"></i> </span>
+                            </div>
+                            {% if error.start_date is defined %}<code> {{ error.start_date}}</code> {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">
+                                {{lang('end_date')}}: <span class="symbol required"></span>
+                            </label>
+                            <div class="input-group">
+                                <input name="end_date" id="end_date" type="text" data-date-format="yyyy-mm-dd" data-date-viewmode="years" class="form-control date-picker" value="{{ post_data.end_date }}" placeholder="{{lang('end_date')}}" tabindex='5'>
+                                <span class="input-group-addon"> <i class="fa fa-calendar"></i> </span>
+                            </div>
+                            {% if error.end_date is defined %}<code> {{ error.end_date}}</code> {% endif %}
+                        </div>
+
+
+
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">
+                                {{lang('address')}} : <span class="symbol required"></span>
+                            </label>
+                            <div>
+                                <label>
+                                    <input type="radio" checked="checked" value="host" name="address_type" id="address_type1" onclick="$('#new_address_div').hide();" tabindex='6'>
+                                    {{lang('host_address')}}
+                                </label>
+                                <label>
+                                    <input type="radio" {% if post_data.address_type!='address_type' %} checked="checked" {% endif %} value="new" name="address_type"  id="address_type2" onclick="$('#new_address_div').show();" tabindex='7'>
+                                    {{lang('new_address')}}
+                                </label>
+                                {% if error.address_type is defined %}<code> {{ error.address_type}}</code> {% endif %}
+                            </div>
+                        </div>  
+                        <div id="new_address_div" {% if post_data.address_type =='address_type' %} style="display:none" {% endif %} >
+
+                            <div class="form-group">
+                                <label class="control-label">
+                                    {{lang('address')}}: <span class="symbol required"></span>
+                                </label>
+                                <input type="text" placeholder="{{lang('address')}}" class="form-control" id="address" name="address" value="{{ post_data.address }}" tabindex='8'>
+                                {% if error.address is defined %}<code> {{ error.address}}</code> {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">
+                                    {{lang('country_id')}}: <span class="symbol required"></span>
+                                </label>
+                                <select class="form-control search-select" id="country_id" name="country_id" tabindex='9'>
+                                    <option value="">{{ lang('select_a_country')}}</option>
+                                    {% for cntrs in countries %}
+                                        <option value="{{cntrs.id}}" {% if post_data.country_id==cntrs.id %} selected {% endif %}>{{cntrs.name}}</option>
+                                    {% endfor %}
+                                </select>
+                                {% if error.country_id is defined %}<code> {{ error.country_id}}</code> {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">
+                                    {{lang('state_id')}}
+                                </label>
+                                <span class="input-icon" id="state_span">
+                                    <select class="form-control search-select" id="state_id" name="state_id" tabindex='10'>
+                                        <option value="">{{ lang('select_a_state')}}</option>
+                                        {% for sts in states %}
+                                            <option value="{{sts.id}}" {% if post_data.state_id==sts.id %} selected {% endif %}>{{sts.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </span>
+                                {% if error.state_id is defined %}<code> {{ error.state_id}}</code> {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">
+                                    {{lang('city')}}
+                                </label>
+                                <input type="text" placeholder="{{lang('city')}}" class="form-control" id="city" name="city" value="{{ post_data.city }}" tabindex='11'>
+                                {% if error.city is defined %}<code> {{ error.city}}</code> {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">
+                                    {{lang('zip_code')}}
+                                </label>
+                                <input type="text" placeholder="{{lang('zip_code')}}" class="form-control" id="zip_code" name="zip_code" value="{{ post_data.zip_code }}" tabindex='12'>
+                                {% if error.zip_code is defined %}<code> {{ error.zip_code}}</code> {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">
+                                    {{lang('phone')}}: <span class="symbol required"></span>
+                                </label>
+                                <input type="text" placeholder="{{lang('phone')}}" class="form-control" id="phone" name="phone" value="{{ post_data.phone }}" tabindex='13'>
+                                {% if error.phone is defined %}<code> {{ error.phone}}</code> {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">
+                                    {{lang('email')}}: <span class="symbol required"></span>
+                                </label>
+                                <input type="text" placeholder="{{lang('email')}}" class="form-control" id="email" name="email" value="{{ post_data.email }}" tabindex='14'>
+                                {% if error.email is defined %}<code> {{ error.email}}</code> {% endif %}
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 pull-right">
+                        {% if edit_flag %}
+                            <button type="submit"class="btn btn-primary  btn-block" name="update_party" id="update_party" value="{{party_id}}">
+                                {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                            </button>
+                        {% else %}
+                            <button type="submit"class="btn btn-primary  btn-block" name="create" id="create" value="create">
+                                {{lang('create')}} <i class="fa fa-arrow-circle-right"></i>
+                            </button>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {{ form_close()|raw }}
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('available_parties')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped" id="party_create_list"> 
+                        <thead>
+                            <tr>         
+                                <th>{{lang('slno')}}</th>
+                                <th>{{lang('party_code')}}</th>
+                                <th>{{lang('party_image')}}</th>
+                                <th>{{lang('party_name')}}</th>
+                                <th>{{lang('username')}}</th>
+                                <th>{{lang('start_date')}}</th>
+                                <th>{{lang('end_date')}}</th>
+                                <th>{{lang('action')}}</th>
+                            </tr>
+                        </thead>                            
+                    </table>
+                </div>
+            </div>
+        </div>                                    
+    </div>
+</div>
+{% include('admin/layout/footer.twig')%}
+<link rel="stylesheet" href="assets/plugins/select2/select2.css">		
+<link rel="stylesheet" href="assets/css/plugins.css">
+<script src="assets/plugins/select2/select2.min.js"></script>
+<script src="assets/js/form-elements.js"></script>
+
+<script src="assets/js/typeahead.js"></script>
+<link href="assets/plugins/sweetalert/lib/sweet-alert.css" rel="stylesheet" />
+<script src="assets/plugins/sweetalert/lib/sweet-alert.min.js"></script>
+<script src="assets/js/create_party.js"></script>
+<script src="assets/js/file_extension.js"></script>
+<link rel="stylesheet" href="assets/plugins/datepicker/css/datepicker.css">
+<script src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<script src="assets/js/lead_date_picker.js">
+</script>
+<script>
+    jQuery(document).ready(function () {
+        valCreateParty();
+        DpElements.init();
+        FormElements.init2();
+    });
+
+    $('input.typeahead').typeahead({
+        source: function (query, process) {
+            var url = "admin/member/get_usernames";
+            return $.get(url, {query: query}, function (data) {
+                data = $.parseJSON(data);
+                return process(data);
+            });
+        }
+    });
+</script>
+<style>
+    table.dataTable thead th{border-bottom:1px #111}
+    table.dataTable.no-footer{border-bottom:1px #dfe1e5 solid}
+</style>

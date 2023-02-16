@@ -1,0 +1,479 @@
+{% include('admin/layout/header.twig')%}
+<link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="assets/css/shCore.css">
+<script type="text/javascript" language="javascript" src="assets/js/jquery.dataTables.js">
+</script>
+<script type="text/javascript" language="javascript" src="assets/js/shCore.js">
+</script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
+<script type="text/javascript" language="javascript" src="assets/js/lead_datatable.js">
+</script>
+<script type="text/javascript" language="javascript" class="init">
+
+    $(document).ready(function () {
+        var oTable = $('#document_docs').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/document/document_docs",
+            "dataType": "json",
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+    $(document).ready(function () {
+        var oTable = $('#document_vdo').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/document/document_vdo",
+            "dataType": "json",
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+    $(document).ready(function () {
+        var oTable = $('#document_aud').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/document/document_aud",
+            "dataType": "json",
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+    $(document).ready(function () {
+        var oTable = $('#document_img').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/document/document_img",
+            "dataType": "json",
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+</script>
+
+<div id="js_messages" style="display: none;"> 
+    <span id="are_u_sure">{{lang('are_u_sure')}}</span>
+    <span id="ur_file_safe">{{lang('ur_file_safe')}}</span>
+    <span id="cancelled">{{lang('cancelled')}}</span>  
+    <span id="cancel_pls">{{lang('cancel_pls')}}</span>  
+    <span id="activate_this">{{lang('activate_this')}}</span>  
+    <span id="activate_it">{{lang('activate_it')}}</span>  
+    <span id="inactivate_this">{{lang('inactivate_this')}}</span>  
+    <span id="inactivate_it">{{lang('inactivate_it')}}</span>  
+    <span id="delete_this">{{lang('delete_this')}}</span>  
+    <span id="delette_it">{{lang('delette_it')}}</span>
+    <span id="doc_title_req_js">{{lang('doc_title_req_js')}}</span>
+    <span id="document_req_js">{{lang('document_req_js')}}</span>
+    <span id="document_invalid_js">{{lang('document_invalid_js')}}</span>
+    <span id="doc_ext_js">{{lang('doc_ext_js')}}</span>    
+    <span id="img_ext_js">{{lang('img_ext_js')}}</span>    
+    <span id="ado_ext_js">{{lang('ado_ext_js')}}</span>    
+    <span id="vdo_ext_js">{{lang('vdo_ext_js')}}</span>    
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('menu_name_73')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                <div class="col-sm-12">
+                    <div class="tabbable tabs-left">
+                        <ul id="myTab3" class="nav nav-tabs">
+                            <li class="{{tab1}}">
+                                <a href="javascript:#document_tab1" data-toggle="tab">
+                                    <i class="pink fa fa-file-text"></i> {{lang('docs')}}
+                                </a>
+                            </li>
+                            <li class="{{tab2}}">
+                                <a href="javascript:#document_tab2" data-toggle="tab">
+                                    <i class="blue fa fa-film"></i> {{lang('vdo')}}
+                                </a>
+                            </li>
+                            <li class="{{tab3}}">
+                                <a href="javascript:#document_tab3" data-toggle="tab">
+                                    <i class="fa fa-camera-retro fa-lg"></i> {{lang('images')}}
+                                </a>
+                            </li>
+                            <li class="{{tab4}}">
+                                <a href="javascript:#document_tab4" data-toggle="tab">
+                                    <i class="fa fa-music"></i> {{lang('audio')}}
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade in {{tab1}}" id="document_tab1">
+                                {{ form_open_multipart('', ' id="doc_form" name="doc_form"')|raw }}
+                                <div class="form-horizontal">
+                                    <div class="alert alert-warning">
+                                        <button data-dismiss="alert" class="close">
+                                            ×
+                                        </button>
+                                        <strong>Warning!</strong>
+                                        {{lang('doc_allowed_types')}} & {{lang('doc_maximum_size')}}
+                                    </div>
+                                    <div class="errorHandler alert alert-danger no-display">
+                                        <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">
+                                            {{lang('doc_title')}} :<span class="symbol required"></span>
+                                        </label>
+                                        <div class="col-sm-4">
+                                            <input class="form-control" type="text" name="doc_title" id="doc_title" placeholder='{{lang('doc_title')}}' tabindex='1' style="text-transform: capitalize;">
+                                            {% if error1.doc_title %}<code>{{error1.doc_title}} </code>{% endif %}
+                                        </div>
+                                    </div>  
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">
+                                            {{lang('document')}} :<span class="symbol required"></span>
+                                        </label>
+                                        <div class="col-sm-4">
+                                            <div class="fileupload fileupload-new" data-provides="fileupload">
+                                                <div class="input-group">
+                                                    <div class="form-control uneditable-input">
+                                                        <i class="fa fa-file fileupload-exists"></i>
+                                                        <span class="fileupload-preview"></span>
+                                                    </div>
+                                                    <div class="input-group-btn">
+                                                        <div class="btn btn-light-grey btn-file">
+                                                            <span class="fileupload-new"><i class="fa fa-folder-open-o"></i> {{lang('select_file')}}</span>
+                                                            <span class="fileupload-exists"><i class="fa fa-folder-open-o"></i> {{lang('change')}}</span>
+                                                            <input type="file" class="file-input" name="document" id='document' tabindex='2'>
+                                                        </div>
+                                                        <a href="#" class="btn btn-light-grey fileupload-exists" data-dismiss="fileupload">
+                                                            <i class="fa fa-times"></i>{{lang('remove')}}
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% if error1.document %}<code>{{error1.document}} </code>{% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">
+
+                                        </label>
+                                        <div class="col-sm-4">
+
+                                            <button type="submit"class="btn btn-primary" value="add" name="add_docs" id="add_docs">
+                                                <i class="fa fa-upload"></i>{{lang('upload')}} 
+                                            </button>
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                {{ form_close()|raw }}
+                                <hr>
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-striped" id="document_docs">
+                                        <thead>
+                                            <tr>                                    
+                                                <th>{{lang('id')}}</th>
+                                                <th>{{lang('doc_title')}}</th>
+                                                <th>{{lang('document')}}</th>
+                                                <th>{{lang('size')}}</th>
+                                                <th>{{lang('upload_date')}}</th>
+                                                <th>{{lang('action')}}</th>                                                
+                                            </tr>
+                                        </thead>                                            
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade in {{tab2}}" id="document_tab2">
+                                {{ form_open_multipart('', ' id="vdo_form" name="vdo_form"')|raw }}
+                                <div class="form-horizontal">
+                                    <div class="alert alert-warning">
+                                        <button data-dismiss="alert" class="close">
+                                            ×
+                                        </button>
+                                        <strong>Warning!</strong>
+                                        {{lang('vdo_allowed_types')}} & {{lang('vdo_maximum_size')}}
+                                    </div>
+                                    <div class="errorHandler alert alert-danger no-display">
+                                        <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">
+                                            {{lang('doc_title')}} :<span class="symbol required"></span>
+                                        </label>
+                                        <div class="col-sm-4">
+                                            <input class="form-control" type="text" name="doc_title" id="doc_title" placeholder='{{lang('doc_title')}}' tabindex='1' style="text-transform: capitalize;">
+                                            {% if(error2.doc_title)%}<code>{{error2.doc_title}} </code>{% endif%}
+                                        </div>
+                                    </div>  
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">
+                                            {{lang('document')}} :<span class="symbol required"></span>
+                                        </label>
+                                        <div class="col-sm-4">
+                                            <div class="fileupload fileupload-new" data-provides="fileupload">
+                                                <div class="input-group">
+                                                    <div class="form-control uneditable-input">
+                                                        <i class="fa fa-file fileupload-exists"></i>
+                                                        <span class="fileupload-preview"></span>
+                                                    </div>
+                                                    <div class="input-group-btn">
+                                                        <div class="btn btn-light-grey btn-file">
+                                                            <span class="fileupload-new"><i class="fa fa-folder-open-o"></i> {{lang('select_file')}}</span>
+                                                            <span class="fileupload-exists"><i class="fa fa-folder-open-o"></i> {{lang('change')}}</span>
+                                                            <input type="file" class="file-input" name="document" id='document' tabindex='2'>
+                                                        </div>
+                                                        <a href="#" class="btn btn-light-grey fileupload-exists" data-dismiss="fileupload">
+                                                            <i class="fa fa-times"></i>{{lang('remove')}}
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% if(error2.document)%}<code>{{error2.document}} </code>{% endif%}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">
+
+                                        </label>
+                                        <div class="col-sm-4">
+
+                                            <button type="submit"class="btn btn-primary" value="add" name="add_vdos" id="add_vdos">
+                                                <i class="fa fa-upload"></i>{{lang('upload')}}
+                                            </button>
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                {{ form_close()|raw }}
+                                <hr>
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-striped" id="document_vdo">
+                                        <thead>
+                                            <tr>                                    
+                                                <th>{{lang('id')}}</th>
+                                                <th>{{lang('doc_title')}}</th>
+                                                <th>{{lang('document')}}</th>
+                                                <th>{{lang('size')}}</th>
+                                                <th>{{lang('upload_date')}}</th>
+                                                <th>{{lang('action')}}</th>                                                
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade in {{tab3}}" id="document_tab3">
+                                {{ form_open_multipart('', ' id="img_form" name="img_form"')|raw }}
+                                <div class="form-horizontal">
+                                    <div class="alert alert-warning">
+                                        <button data-dismiss="alert" class="close">
+                                            ×
+                                        </button>
+                                        <strong>Warning!</strong>
+                                        {{lang('img_allowed_types')}} & {{lang('img_maximum_size')}}
+                                    </div>
+                                    <div class="errorHandler alert alert-danger no-display">
+                                        <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">
+                                            {{lang('doc_title')}} :<span class="symbol required"></span>
+                                        </label>
+                                        <div class="col-sm-4">
+                                            <input class="form-control" type="text" name="doc_title" id="doc_title" placeholder='{{lang('doc_title')}}' tabindex='1' style="text-transform: capitalize;" accept="image/*">
+                                            {% if(error3.doc_title)%}<code>{{error3.doc_title}} </code>{% endif%}
+                                        </div>
+                                    </div>  
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">
+                                            {{lang('document')}} :<span class="symbol required"></span>
+                                        </label>
+                                        <div class="col-sm-4">
+                                            <div class="fileupload fileupload-new" data-provides="fileupload">
+                                                <div class="input-group">
+                                                    <div class="form-control uneditable-input">
+                                                        <i class="fa fa-file fileupload-exists"></i>
+                                                        <span class="fileupload-preview"></span>
+                                                    </div>
+                                                    <div class="input-group-btn">
+                                                        <div class="btn btn-light-grey btn-file">
+                                                            <span class="fileupload-new"><i class="fa fa-folder-open-o"></i> {{lang('select_file')}}</span>
+                                                            <span class="fileupload-exists"><i class="fa fa-folder-open-o"></i> {{lang('change')}}</span>
+                                                            <input type="file" class="file-input" name="document" id='document' tabindex='2'>
+                                                        </div>
+                                                        <a href="#" class="btn btn-light-grey fileupload-exists" data-dismiss="fileupload">
+                                                            <i class="fa fa-times"></i>{{lang('remove')}}
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% if(error3.document)%}<code>{{error3.document}} </code>{% endif%}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">
+
+                                        </label>
+                                        <div class="col-sm-4">
+
+                                            <button type="submit"class="btn btn-primary" value="add" name="add_img" id="add_img">
+                                                <i class="fa fa-upload"></i>{{lang('upload')}}
+                                            </button>
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                {{ form_close()|raw }}
+                                <hr>
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-striped" id="document_img">
+                                        <thead>
+                                            <tr>                                    
+                                                <th>{{lang('id')}}</th>
+                                                <th>{{lang('doc_title')}}</th>
+                                                <th>{{lang('document')}}</th>
+                                                <th>{{lang('size')}}</th>
+                                                <th>{{lang('upload_date')}}</th>
+                                                <th>{{lang('action')}}</th>                                                
+                                            </tr>
+                                        </thead>                                            
+                                    </table>
+                                </div>  
+                            </div>
+                            <div class="tab-pane fade in {{tab4}}" id="document_tab4">
+                                {{ form_open_multipart('', ' id="aud_form" name="aud_form"')|raw }}
+                                <div class="form-horizontal">
+                                    <div class="alert alert-warning">
+                                        <button data-dismiss="alert" class="close">
+                                            ×
+                                        </button>
+                                        <strong>Warning!</strong>
+                                        {{lang('aud_allowed_types')}} & {{lang('aud_maximum_size')}}
+                                    </div>
+                                    <div class="errorHandler alert alert-danger no-display">
+                                        <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">
+                                            {{lang('doc_title')}} :<span class="symbol required"></span>
+                                        </label>
+                                        <div class="col-sm-4">
+                                            <input class="form-control" type="text" name="doc_title" id="doc_title" placeholder='{{lang('doc_title')}}' tabindex='1' style="text-transform: capitalize;">
+                                            {% if(error4.doc_title)%}<code>{{error4.doc_title}} </code>{% endif%}
+                                        </div>
+                                    </div>  
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">
+                                            {{lang('document')}} :<span class="symbol required"></span>
+                                        </label>
+                                        <div class="col-sm-4">
+                                            <div class="fileupload fileupload-new" data-provides="fileupload">
+                                                <div class="input-group">
+                                                    <div class="form-control uneditable-input">
+                                                        <i class="fa fa-file fileupload-exists"></i>
+                                                        <span class="fileupload-preview"></span>
+                                                    </div>
+                                                    <div class="input-group-btn">
+                                                        <div class="btn btn-light-grey btn-file">
+                                                            <span class="fileupload-new"><i class="fa fa-folder-open-o"></i> {{lang('select_file')}}</span>
+                                                            <span class="fileupload-exists"><i class="fa fa-folder-open-o"></i> {{lang('change')}}</span>
+                                                            <input type="file" class="file-input" name="document" id='document' tabindex='2'>
+                                                        </div>
+                                                        <a href="#" class="btn btn-light-grey fileupload-exists" data-dismiss="fileupload">
+                                                            <i class="fa fa-times"></i>{{lang('remove')}}
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% if(error4.document)%}<code>{{error4.document}} </code>{% endif%}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">
+
+                                        </label>
+                                        <div class="col-sm-4">
+
+                                            <button type="submit"class="btn btn-primary" value="add" name="add_aud" id="add_aud">
+                                                <i class="fa fa-upload"></i>{{lang('upload')}}
+                                            </button>
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                {{ form_close()|raw }}
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-striped" id="document_aud">
+                                        <thead>
+                                            <tr>                                    
+                                                <th>{{lang('id')}}</th>
+                                                <th>{{lang('doc_title')}}</th>
+                                                <th>{{lang('document')}}</th>
+                                                <th>{{lang('size')}}</th>
+                                                <th>{{lang('upload_date')}}</th>
+                                                <th>{{lang('action')}}</th>
+                                            </tr>
+                                        </thead>                                            
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% include('admin/layout/footer.twig')%}
+<script src="assets/js/file_extension.js"></script>
+<script>
+    $(document).ready(function () {
+        validateDocs.init();
+    });
+</script>
+<link href="assets/plugins/sweetalert/lib/sweet-alert.css" rel="stylesheet" />
+<script src="assets/plugins/sweetalert/lib/sweet-alert.min.js"></script>
+<script src="assets/js/document_upload.js">
+</script>
+<style>
+    table.dataTable thead th{border-bottom:1px #111}
+    table.dataTable.no-footer{border-bottom:1px #dfe1e5 solid}
+</style>

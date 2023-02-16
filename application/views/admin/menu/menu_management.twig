@@ -1,0 +1,484 @@
+{% include('admin/layout/header.twig')%}
+<div id="js_messages" style="display: none;"> 
+    <span id="please_wait_js">{{lang('please_wait_js')}}</span>
+    <span id="module_enabled_js">{{lang('module_enabled_js')}}</span>
+    <span id="menu_enabled_js">{{lang('menu_enabled_js')}}</span>
+    <span id="menu_disabled_js">{{lang('menu_disabled_js')}}</span>
+    <span id="module_disabled_js">{{lang('module_disabled_js')}}</span>
+    <span id="success_js">{{lang('success_js')}}</span>
+    <span id="failed_js">{{lang('failed_js')}}</span>
+    <span id="something_wrong_js">{{lang('something_wrong_js')}}</span>   
+    <span id="menu_name_failed_js">{{lang('menu_name_failed_js')}}</span>   
+    <span id="menu_name_changed_js">{{lang('menu_name_changed_js')}}</span>   
+    <span id="menu_icon_failed_js">{{lang('menu_icon_failed_js')}}</span>   
+    <span id="menu_icon_changed_js">{{lang('menu_icon_changed_js')}}</span> 
+    <span id="menu_order_failed_js">{{lang('menu_order_failed_js')}}</span>   
+    <span id="menu_order_changed_js">{{lang('menu_order_changed_js')}}</span>
+
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('menu_management')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                {% if main_menus|length %}
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover" id="sample-table-1">
+                            <thead>
+                                <tr>         
+                                    <th>{{lang('slno')}}</th>
+                                    <th>{{lang('menu_name')}} {{lang('english')}}</th>
+                                    <th>{{lang('icon')}}</th>
+                                    <th>{{lang('order')}}</th>
+                                    <th>{{lang('sub_menus')}}</th>
+                                    <th>{{lang('admin_permission')}}</th>
+                                    <th>{{lang('user_permission')}}</th>
+                                        {% if employee_status %}
+                                        <th>{{lang('employee_permission')}}</th>
+                                        {% endif %}
+                                        {% if affiliate_status %}
+                                        <th>{{lang('affiliate_permission')}}</th>
+                                        {% endif %}
+                                    <th>{{lang('menu_permission')}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for mm in main_menus %}
+                                    <tr>                                        
+                                        <td>{{ loop.index }}</td>
+                                        <td>
+                                            <a href="#" id="menu_{{ mm.id }}" data-type="text" data-name="{{ mm.id }}" data-url="admin/menu/change_menu_name/post" data-original-title="{{lang('edit_menu_name')}}" class="editable_fields">
+                                                {{ mm.name }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <i class="fa {{ mm.icon }}" target=""></i> 
+                                            <a href="#" id="menu_icon_{{ mm.id }}" data-type="text" data-name="{{ mm.id }}" data-url="admin/menu/change_menu_icon/post" data-original-title="{{lang('edit_menu_icon')}}" class="editable_icons">
+                                                {{ mm.icon }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="#" id="menu_order_{{ mm.id }}" data-type="number" data-min="1" data-name="{{ mm.id }}" data-url="admin/menu/change_menu_order/post" data-original-title="{{lang('edit_menu_order')}}" class="editable_order">
+                                                {{ mm.order }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            {% if mm.sub_menus|length and mm.id!=1 %}
+                                                <a href="#" data-toggle="modal" data-target="#submenu_modal{{mm.id}}">
+                                                    <i class="fa fa-pencil-square-o"></i> {{ lang('edit')}}
+                                                </a>
+                                                <div id="submenu_modal{{mm.id}}" class="modal extended-modal fade no-display" tabindex="-1" data-width="760">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                <h4 class="modal-title">{{ mm.name }} - {{ lang('sub_menus')}}</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="table-responsive">
+                                                                    <table class="table table-bordered table-hover" id="sample-table-1">
+                                                                        <thead>
+                                                                            <tr>         
+                                                                                <th>{{lang('slno')}}</th>
+                                                                                <th>{{lang('menu_name')}} {{lang('english')}}</th>
+                                                                                <th>{{lang('order')}}</th>
+                                                                                <th>{{lang('inner_menu')}}</th>
+                                                                                <th>{{lang('admin_permission')}}</th>
+                                                                                <th>{{lang('user_permission')}}</th>
+                                                                                    {% if employee_status %}
+                                                                                    <th>{{lang('employee_permission')}}</th>
+                                                                                    {% endif %}
+                                                                                    {% if affiliate_status %}
+                                                                                    <th>{{lang('affiliate_permission')}}</th>
+                                                                                    {% endif %}
+                                                                                <th>{{lang('menu_permission')}}</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            {% for sm in mm.sub_menus %}
+                                                                                <tr>                                        
+                                                                                    <td>{{ loop.index }}</td>
+                                                                                    <td>
+                                                                                        <a href="#" id="menu_{{ sm.id }}" data-type="text" data-name="{{ sm.id }}" data-url="admin/menu/change_menu_name/post" data-original-title="{{lang('edit_menu_name')}}" class="editable_fields">
+                                                                                            {{ sm.name }}
+                                                                                        </a>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <a href="#" id="menu_order_{{ sm.id }}" data-type="number" data-min="1" data-name="{{ sm.id }}" data-url="admin/menu/change_menu_order/post" data-original-title="{{lang('edit_menu_order')}}" class="editable_order">
+                                                                                            {{ sm.order }}
+                                                                                        </a>
+                                                                                    </td>
+
+
+                                                                                    <td>
+                                                                                        {% if sm.sub_menus|length %}
+                                                                                            <a href="#" data-toggle="modal" data-target="#submenu_modal{{mm.id}}{{sm.id}}">
+                                                                                                <i class="fa fa-pencil-square-o"></i> {{ lang('edit')}}
+                                                                                            </a>
+                                                                                            <div id="submenu_modal{{mm.id}}{{sm.id}}" class="modal extended-modal fade no-display" tabindex="-1" data-width="760">
+                                                                                                <div class="modal-dialog">
+                                                                                                    <div class="modal-content">
+                                                                                                        <div class="modal-header">
+                                                                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                                                            <h4 class="modal-title">{{ sm.name }} - {{ lang('sub_menus')}}</h4>
+                                                                                                        </div>
+                                                                                                        <div class="modal-body">
+                                                                                                            <div class="table-responsive">
+                                                                                                                <table class="table table-bordered table-hover" id="sample-table-1">
+                                                                                                                    <thead>
+                                                                                                                        <tr>         
+                                                                                                                            <th>{{lang('slno')}}</th>
+                                                                                                                            <th>{{lang('menu_name')}} {{lang('english')}}</th>
+                                                                                                                            <th>{{lang('order')}}</th>
+                                                                                                                            <th>{{lang('admin_permission')}}</th>
+                                                                                                                            <th>{{lang('user_permission')}}</th>
+                                                                                                                                {% if employee_status %}
+                                                                                                                                <th>{{lang('employee_permission')}}</th>
+                                                                                                                                {% endif %}
+                                                                                                                                {% if affiliate_status %}
+                                                                                                                                <th>{{lang('affiliate_permission')}}</th>
+                                                                                                                                {% endif %}
+                                                                                                                            <th>{{lang('menu_permission')}}</th>
+                                                                                                                        </tr>
+                                                                                                                    </thead>
+                                                                                                                    <tbody>
+                                                                                                                        {% for im in sm.sub_menus %}
+                                                                                                                            <tr>                                        
+                                                                                                                                <td>{{ loop.index }}</td>
+                                                                                                                                <td>
+                                                                                                                                    <a href="#" id="menu_{{ im.id }}" data-type="text" data-name="{{ im.id }}" data-url="admin/menu/change_menu_name/post" data-original-title="{{lang('edit_menu_name')}}" class="editable_fields">
+                                                                                                                                        {{ im.name }}
+                                                                                                                                    </a>
+                                                                                                                                </td>
+                                                                                                                                <td>
+                                                                                                                                    <a href="#" id="menu_order_{{ im.id }}" data-type="number" data-min="1" data-name="{{ im.id }}" data-url="admin/menu/change_menu_order/post" data-original-title="{{lang('edit_menu_order')}}" class="editable_order">
+                                                                                                                                        {{ im.order }}
+                                                                                                                                    </a>
+                                                                                                                                </td>
+                                                                                                                                <td>
+                                                                                                                                    {% if im.permission=='both' or im.permission=='admin'  %}
+                                                                                                                                        <label class="switch">
+                                                                                                                                            {% if PRESET_DEMO_STATUS %}            
+                                                                                                                                                <input type="checkbox" {% if im.admin_permission %} checked {% endif %} id="togBtn" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+
+                                                                                                                                            {% else %}                                                                                               
+                                                                                                                                                <input type="checkbox" {% if im.admin_permission %} checked {% endif %} id="togBtn" onchange='change_menu_permission("admin", "{{ im.id }}", this)'>
+                                                                                                                                            {% endif %}
+
+                                                                                                                                            <div class="slider round slider1">
+                                                                                                                                                <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                                                                                                                                <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                                                                                                                                            </div>
+                                                                                                                                        </label>
+                                                                                                                                    {% endif %}
+                                                                                                                                </td>
+                                                                                                                                <td>
+                                                                                                                                    {% if im.permission=='both' or im.permission=='user'  %}
+                                                                                                                                        <label class="switch">
+
+                                                                                                                                            {% if PRESET_DEMO_STATUS %}                                                                         <input type="checkbox" {% if im.user_permission %} checked {% endif %} id="togBtn" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">                              
+                                                                                                                                            {% else %}                                                                                               <input type="checkbox" {% if im.user_permission %} checked {% endif %} id="togBtn" onchange='change_menu_permission("user", "{{ im.id }}", this)'>
+                                                                                                                                            {% endif %}
+
+                                                                                                                                            <div class="slider round slider2">
+                                                                                                                                                <span class="on" > <i class="fa fa-check"></i></span>
+                                                                                                                                                <span class="off" > <i class="fa fa-times"></i></span>
+                                                                                                                                            </div>
+                                                                                                                                        </label>
+                                                                                                                                    {% endif %}
+                                                                                                                                </td>
+                                                                                                                                {% if employee_status %}                                                                                                          <td>
+                                                                                                                                        {% if im.permission=='both' or im.permission=='admin'  %}
+                                                                                                                                            <label class="switch">                                                                                    {% if PRESET_DEMO_STATUS %}                                                                         <input type="checkbox" {% if im.employee_permission %} checked {% endif %} id="togBtn" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">                                                                                                       {% else %}                                                                                               <input type="checkbox" {% if im.employee_permission %} checked {% endif %} id="togBtn" onchange='change_menu_permission("employee", "{{ im.id }}", this)'>
+                                                                                                                                            {% endif %}
+
+                                                                                                                                            <div class="slider round slider3">
+                                                                                                                                                <span class="on" > <i class="fa fa-check"></i></span>
+                                                                                                                                                <span class="off" > <i class="fa fa-times"></i></span>
+                                                                                                                                            </div>
+                                                                                                                                        </label>
+                                                                                                                                    {% endif %}
+                                                                                                                                </td>
+                                                                                                                                {% endif %}
+                                                                                                                                    {% if affiliate_status %}                                                                                                       <td>
+                                                                                                                                            {% if mm.affiliate_status  %}
+                                                                                                                                                <label class="switch">
+                                                                                                                                                    {% if PRESET_DEMO_STATUS %}
+                                                                                                                                                        <input type="checkbox" {% if im.affiliate_permission %} checked {% endif %} id="togBtn" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">                                                                                                      {% else %}                        
+                                                                                                                                                        <input type="checkbox" {% if im.affiliate_permission %} checked {% endif %} id="togBtn" onchange='change_menu_permission("affiliate", "{{ im.id }}", this)'>
+                                                                                                                                                    {% endif %}
+
+                                                                                                                                                    <div class="slider round slider4">
+                                                                                                                                                        <span class="on" > <i class="fa fa-check"></i></span>
+                                                                                                                                                        <span class="off" > <i class="fa fa-times"></i></span>
+                                                                                                                                                    </div>
+                                                                                                                                                </label>
+                                                                                                                                            {% endif %}
+                                                                                                                                        </td>
+                                                                                                                                    {% endif %}
+                                                                                                                                    <td>
+                                                                                                                                        <label class="switch">
+                                                                                                                                            {% if PRESET_DEMO_STATUS %}
+                                                                                                                                                <input type="checkbox" {% if im.status %} checked {% endif %} id="togBtn" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">                                                                                                                     {% else %}                        
+                                                                                                                                                <input type="checkbox" {% if im.status %} checked {% endif %} id="togBtn" onchange='change_menu_status("{{ im.id }}", this)'>
+                                                                                                                                            {% endif %}
+
+                                                                                                                                            <div class="slider round slider5">
+                                                                                                                                                <span class="on" > <i class="fa fa-check"></i></span>
+                                                                                                                                                <span class="off" > <i class="fa fa-times"></i></span>
+                                                                                                                                            </div>
+                                                                                                                                        </label>
+                                                                                                                                    </td>    
+                                                                                                                                </tr>
+                                                                                                                                {% endfor %}
+                                                                                                                                </tbody>
+                                                                                                                            </table>
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                    <div class="modal-footer">
+                                                                                                                        <button type="button" data-dismiss="modal" class="btn btn-default">
+                                                                                                                            {{lang('close')}}
+                                                                                                                        </button>                                                                                          </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        {% endif %}
+                                                                                                        </td>
+
+
+
+
+                                                                                                        <td>
+                                                                                                            {% if sm.permission=='both' or sm.permission=='admin'  %}
+                                                                                                                <label class="switch">
+                                                                                                                    {% if PRESET_DEMO_STATUS %}
+                                                                                                                        <input type="checkbox" {% if sm.admin_permission %} checked {% endif %} id="togBtn" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                                                                                                                    {% else %}                        
+                                                                                                                        <input type="checkbox" {% if sm.admin_permission %} checked {% endif %} id="togBtn" onchange='change_menu_permission("admin", "{{ sm.id }}", this)'>
+                                                                                                                    {% endif %}                                                                                            
+                                                                                                                    <div class="slider round slider1">
+                                                                                                                        <span class="on" > <i class="fa fa-check"></i></span>
+                                                                                                                        <span class="off" > <i class="fa fa-times"></i></span>
+                                                                                                                    </div>
+                                                                                                                </label>
+                                                                                                            {% endif %}
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                            {% if sm.permission=='both' or sm.permission=='user'  %}
+                                                                                                                <label class="switch">
+                                                                                                                    {% if PRESET_DEMO_STATUS %}
+                                                                                                                        <input type="checkbox" {% if sm.user_permission %} checked {% endif %} id="togBtn" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                                                                                                                    {% else %}                        
+                                                                                                                        <input type="checkbox" {% if sm.user_permission %} checked {% endif %} id="togBtn" onchange='change_menu_permission("user", "{{ sm.id }}", this)'>
+                                                                                                                    {% endif %}
+
+                                                                                                                    <div class="slider round slider2">
+                                                                                                                        <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                                                                                                        <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                                                                                                                    </div>
+                                                                                                                </label>
+                                                                                                            {% endif %}
+                                                                                                        </td>
+
+                                                                                                        {% if employee_status %}
+                                                                                                            <td>
+                                                                                                                {% if sm.permission=='both' or sm.permission=='admin'  %}
+                                                                                                                    <label class="switch">
+                                                                                                                        {% if PRESET_DEMO_STATUS %}
+                                                                                                                            <input type="checkbox" {% if sm.employee_permission %} checked {% endif %} id="togBtn" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">        
+                                                                                                                        {% else %}                        
+                                                                                                                            <input type="checkbox" {% if sm.employee_permission %} checked {% endif %} id="togBtn" onchange='change_menu_permission("employee", "{{ sm.id }}", this)'>
+                                                                                                                        {% endif %}
+
+                                                                                                                        <div class="slider round slider3">
+                                                                                                                            <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                                                                                                            <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                                                                                                                        </div>
+                                                                                                                    </label>
+                                                                                                                {% endif %}
+                                                                                                            </td>
+                                                                                                        {% endif %}
+                                                                                                        {% if affiliate_status %}
+
+                                                                                                            <td>
+                                                                                                                {% if mm.affiliate_status  %}
+                                                                                                                    <label class="switch">
+                                                                                                                        {% if PRESET_DEMO_STATUS %}
+                                                                                                                            <input type="checkbox" {% if sm.affiliate_permission %} checked {% endif %} id="togBtn" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">        
+                                                                                                                        {% else %}                        
+                                                                                                                            <input type="checkbox" {% if sm.affiliate_permission %} checked {% endif %} id="togBtn" onchange='change_menu_permission("affiliate", "{{ sm.id }}", this)'>
+                                                                                                                        {% endif %}
+
+                                                                                                                        <div class="slider round slider4">
+                                                                                                                            <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                                                                                                            <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                                                                                                                        </div>
+                                                                                                                    </label>
+                                                                                                                {% endif %}
+                                                                                                            </td>
+                                                                                                        {% endif %}
+
+                                                                                                        <td>
+                                                                                                            <label class="switch">
+
+                                                                                                                {% if PRESET_DEMO_STATUS %}
+                                                                                                                    <input type="checkbox" {% if sm.status %} checked {% endif %} id="togBtn" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+
+                                                                                                                {% else %}                        
+                                                                                                                    <input type="checkbox" {% if sm.status %} checked {% endif %} id="togBtn" onchange='change_menu_status("{{ sm.id }}", this)'>
+                                                                                                                {% endif %}
+
+                                                                                                                <div class="slider round slider5">
+                                                                                                                    <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                                                                                                    <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                                                                                                                </div>
+                                                                                                            </label>
+                                                                                                        </td>    
+                                                                                                    </tr>
+                                                                                                    {% endfor %}
+                                                                                                    </tbody>
+                                                                                                </table>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="modal-footer">
+                                                                                            <button type="button" data-dismiss="modal" class="btn btn-default">
+                                                                                                {{lang('close')}}
+                                                                                            </button>
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            {% endif %}
+                                                                            </td>
+                                                                            <td>
+                                                                                {% if (mm.permission=='both' or mm.permission=='admin') and mm.id!=1  %}
+                                                                                    <label class="switch">
+                                                                                        {% if PRESET_DEMO_STATUS %}
+                                                                                            <input type="checkbox" {% if mm.admin_permission %} checked {% endif %} id="togBtn" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                                                                                        {% else %}                        
+                                                                                            <input type="checkbox" {% if mm.admin_permission %} checked {% endif %} id="togBtn" onchange='change_menu_permission("admin", "{{ mm.id }}", this)'>
+                                                                                        {% endif %}
+
+                                                                                        <div class="slider round slider1">
+                                                                                            <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                                                                            <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                                                                                        </div>
+                                                                                    </label>
+                                                                                {% endif %}
+                                                                            </td>
+                                                                            <td>
+                                                                                {% if (mm.permission=='both' or mm.permission=='user') and mm.id!=1  %}
+                                                                                    <label class="switch">
+                                                                                        {% if PRESET_DEMO_STATUS %}
+                                                                                            <input type="checkbox" {% if mm.user_permission %} checked {% endif %} id="togBtn" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                                                                                        {% else %}                        
+                                                                                            <input type="checkbox" {% if mm.user_permission %} checked {% endif %} id="togBtn" onchange='change_menu_permission("user", "{{ mm.id }}", this)'>
+                                                                                        {% endif %}
+
+
+                                                                                        <div class="slider round slider2">
+                                                                                            <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                                                                            <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                                                                                        </div>
+                                                                                    </label>
+                                                                                {% endif %}
+                                                                            </td>
+
+                                                                            {% if employee_status %}
+                                                                                <td>
+                                                                                    {% if (mm.permission=='both' or mm.permission=='admin') and mm.id!=1 %}
+                                                                                        <label class="switch">
+                                                                                            {% if PRESET_DEMO_STATUS %}
+                                                                                                <input type="checkbox" {% if mm.employee_permission %} checked {% endif %} id="togBtn" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                                                                                            {% else %}                        
+                                                                                                <input type="checkbox" {% if mm.employee_permission %} checked {% endif %} id="togBtn" onchange='change_menu_permission("employee", "{{ mm.id }}", this)'>  
+                                                                                            {% endif %}
+
+
+                                                                                            <div class="slider round slider3">
+                                                                                                <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                                                                                <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                                                                                            </div>
+                                                                                        </label>
+                                                                                    {% endif %}
+                                                                                </td>
+                                                                            {% endif %}
+                                                                            {% if affiliate_status and mm.id!=1 %}
+                                                                                <td>
+                                                                                    {% if mm.affiliate_status  %}
+                                                                                        <label class="switch">
+                                                                                            {% if PRESET_DEMO_STATUS %}
+                                                                                                <input type="checkbox" {% if mm.affiliate_permission %} checked {% endif %} id="togBtn" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                                                                                            {% else %}                        
+                                                                                                <input type="checkbox" {% if mm.affiliate_permission %} checked {% endif %} id="togBtn" onchange='change_menu_permission("affiliate", "{{ mm.id }}", this)'>    
+                                                                                            {% endif %}
+
+
+                                                                                            <div class="slider round slider4">
+                                                                                                <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                                                                                <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                                                                                            </div>
+                                                                                        </label>
+                                                                                    {% endif %}
+                                                                                </td>
+                                                                            {% endif %}
+
+                                                                            <td>
+                                                                                {% if mm.id!=1 %}
+                                                                                    <label class="switch">
+                                                                                        {% if PRESET_DEMO_STATUS %}
+                                                                                            <input type="checkbox" {% if mm.status %} checked {% endif %} id="togBtn" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+
+                                                                                        {% else %}                        
+                                                                                            <input type="checkbox" {% if mm.status %} checked {% endif %} id="togBtn" onchange='change_menu_status("{{ mm.id }}", this)'>
+                                                                                        {% endif %}
+
+                                                                                        <div class="slider round slider5">
+                                                                                            <span class="on" > <i class="fa fa-check"></i></span>
+                                                                                            <span class="off" > <i class="fa fa-times"></i></span>
+                                                                                        </div>
+                                                                                    </label>
+                                                                                {% endif %}
+                                                                            </td>    
+                                                                        </tr>
+                                                                        {% endfor %}
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>                                
+                                                                {% endif %}
+                                                                </div>
+                                                            </div>
+                                                        </div>                                    
+                                                    </div>
+                                                    {% include('admin/layout/footer.twig') %}
+                                                    <link rel="stylesheet" href="assets/css/checkbox_switcher.css">
+                                                    <link rel="stylesheet" href="assets/plugins/x-editable/css/bootstrap-editable.css">
+                                                    <link href="assets/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css"/>
+                                                    <link href="assets/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
+                                                    <script src="assets/plugins/x-editable/js/bootstrap-editable.min.js"></script>
+                                                    <script src="assets/js/menu_management.js"></script>
+                                                    {% if untranslated_fields %}
+                                                        <script>
+                                                                                                $.ajax({
+                                                                                                    url: "translator/translate_new_fields/en",
+                                                                                                    data: {},
+                                                                                                    success: function (result) {
+                                                                                                    }
+                                                                                                });
+                                                        </script>
+                                                    {% endif %}

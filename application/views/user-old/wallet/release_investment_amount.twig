@@ -1,0 +1,176 @@
+{% include('user/layout/header.twig')%}
+<link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="assets/css/shCore.css">
+<script type="text/javascript" language="javascript" src="assets/js/jquery.dataTables.js">
+</script>
+<script type="text/javascript" language="javascript" src="assets/js/shCore.js">
+</script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
+<script type="text/javascript" language="javascript" src="assets/js/lead_datatable.js">
+</script>
+<script type="text/javascript" language="javascript" class="init">
+
+    $(document).ready(function () {
+        var oTable = $('#investment_list').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "user/wallet/investment_list",
+            "dataType": "json",
+            "order": [[ 3, "desc" ]],
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+</script>
+
+<div id="js_messages" style="display: none;"> 
+    <span id="inv_category_req_js">{{lang('inv_category_req_js')}}</span>    
+    <span id="req_amount_req_js">{{lang('req_amount_req_js')}}</span>    
+    <span id="inv_number_js">{{lang('inv_number_js')}}</span>    
+    <span id="gt_zero_js">{{lang('gt_zero_js')}}</span>    
+    <span id="lt_cate_balance_js">{{lang('lt_cate_balance_js')}}</span>    
+    <span id="tran_pass_req_js">{{lang('tran_pass_req_js')}}</span>    
+    <span id="val_tran_pass_req_js">{{lang('val_tran_pass_req_js')}}</span> 
+</div>  
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('send_investment_release_req')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+
+                {{ form_open_multipart('', ' id="rel_inf_form" name="rel_inf_form"')|raw }}
+                <div class="form-horizontal">                                            
+                    <div class="errorHandler alert alert-danger no-display">
+                        <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                    </div>                    
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('inv_category')}} : <span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-4">
+                            <select class="form-control" id="inv_category" name="inv_category"  tabindex='1'>
+                                <option value="">{{ lang('select_a_investment_category')}}</option>
+                                {% for crncy in inv_crncy %}
+                                    <option value="{{crncy.category_id}}">{{crncy.category_name}}</option>
+                                {% endfor %}
+                            </select>
+
+                            {% if error.inv_category is defined %}<code> {{ error.inv_category}} </code> {% endif %} 
+
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('category_balance')}}: 
+                        </label>
+                        <div class="col-sm-4">
+                            <input class="form-control" readonly  type="text" name="cat_balance" id="cat_balance" value="0">
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('req_amount')}}  : <span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-4">
+                            <input class="form-control" type="text" name="req_amount" id="req_amount">
+                            {% if error.req_amount is defined %}<code> {{ error.req_amount}} </code> {% endif %} 
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('tran_pass')}} : <span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-4">
+                            <input class="form-control" type="password" name="tran_pass" id="tran_pass">
+                            {% if error.tran_pass is defined %}<code> {{ error.tran_pass}} </code> {% endif %} 
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+
+                        </label>
+                        <div class="col-sm-4">
+                            <button type="submit" class="btn btn-primary" value="request" name="request">
+                                {{lang('request')}} <i class="fa fa-arrow-circle-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {{ form_close()|raw }} 
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('release_investment')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped" id="investment_list">
+                        <thead>
+                            <tr>
+                                <th>{{ lang('slno') }}</th>
+                                <th>{{ lang('inv_category') }}</th>
+                                <th>{{ lang('req_amount') }}</th>
+                                <th>{{ lang('req_date') }}</th>
+                                <th>{{ lang('status') }}</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% include('user/layout/footer.twig')%}
+<script src="assets/js/investment_release_req.js"></script>
+<script>
+    jQuery(document).ready(function () {
+        valInvRelease();
+    });
+</script>
+<style>
+    table.dataTable thead th{border-bottom:1px #111}
+    table.dataTable.no-footer{border-bottom:1px #dfe1e5 solid}
+</style>

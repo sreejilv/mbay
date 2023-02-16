@@ -1,0 +1,77 @@
+<script src="assets/plugins/jQuery/jquery-2.1.1.min.js"></script>
+<script src="assets/plugins/jquery-ui/jquery-ui-1.10.2.custom.min.js"></script>
+<script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/plugins/iCheck/jquery.icheck.min.js"></script>
+<script src="assets/plugins/jquery.transit/jquery.transit.js"></script>
+<script src="assets/plugins/TouchSwipe/jquery.touchSwipe.min.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/plugins/rainyday/rainyday.js"></script>
+<script src="assets/js/utility-error404.js"></script>
+<script src="assets/plugins/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="assets/js/login.js"></script>
+<script src="assets/js/webpage_timeout.js"></script>
+<script src="assets/js/currency-lang-switch.js"></script>
+<script src="assets/js/toaster_notification.js"></script>
+<script src="assets/plugins/blockUI/jquery.blockUI.js"></script>
+<script>
+    jQuery(document).ready(function () {
+        Main.init();
+        Login.init();
+    });
+
+    $("form").submit(function (event) {
+        $.blockUI({
+            message: '<i class="fa fa-spinner fa-spin"></i>' + $('#please_wait_js').html()
+        });
+        setTimeout(function () {
+            $.unblockUI();
+        }, 1000);
+    });
+</script>
+{% if http_host != 'localhost' %}
+    <script>
+        $(document).keydown(function (e) {
+            if (e.which === 123) {
+                return false;
+            }
+        });
+        $(document).bind("contextmenu", function (e) {
+            e.preventDefault();
+        });
+
+    </script>
+{% endif %}
+{% if PRESET_DEMO_STATUS %}
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+        (function () {
+            var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/5a66c6d5d7591465c706ff79/default';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
+{% endif %}
+<div id="js_validation_messages" style="display: none;"> 
+    <span id="this_field_is_required_msg_js">{{lang('this_field_is_required_msg_js')}}</span>    
+    <span id="characters_msg_js">{{lang('characters_msg_js')}}</span>
+    <span id="enter_valid_email_msg_js">{{lang('enter_valid_email_msg_js')}}</span>
+    <span id="enter_digits_only_msg_js">{{lang('enter_digits_only_msg_js')}}</span>
+    <span id="invalid_number_msg_js">{{lang('invalid_number_msg_js')}}</span>
+    <span id="number_gt_msg_js">{{lang('number_gt_msg_js')}}</span>
+    <span id="number_lt_msg_js">{{lang('number_lt_msg_js')}}</span>
+    <span id="pls_enter_atleast_msg_js">{{lang('pls_enter_atleast_msg_js')}}</span>
+    <span id="pls_enter_atmost_msg_js">{{lang('pls_enter_atmost_msg_js')}}</span>
+    <span id="succ_js">{{lang('success_js')}}</span>
+    <span id="theme_changed_successfully">{{lang('theme_changed_successfully')}}</span>
+    <span id="please_wait_js">{{lang('please_wait_js')}}</span>
+    <span id="expand_js">{{lang('expand')}}</span>
+    <span id="collapse_js">{{lang('collapse')}}</span>
+    <span id="file_not_support">{{lang('file_not_support')}}</span>
+</div>
+</body>
+</html>

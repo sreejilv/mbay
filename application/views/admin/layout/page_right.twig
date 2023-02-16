@@ -1,0 +1,132 @@
+
+<!-- start: PAGESLIDE RIGHT -->
+<div id="pageslide-right" class="pageslide slide-fixed inner">
+    <div class="right-wrapper">
+        <ul class="nav nav-tabs nav-justified" id="sidebar-tab">
+            <li class="active">
+                <a href="#users" role="tab" data-toggle="tab"><i class="fa fa-bookmark"></i></a>
+            </li>
+            <li>
+                <a href="#notifications" role="tab" data-toggle="tab"><i class="fa fa-bars"></i></a>
+            </li>
+
+            {% if LOG_USER_TYPE != 'employee' %}
+                <li>
+                    <a href="#settings" role="tab" data-toggle="tab"><i class="fa fa-gear"></i></a>
+                </li>
+            {% endif %}
+
+        </ul>
+
+
+
+
+
+        <div class="tab-content">
+            <div class="tab-pane active" id="users">
+                <div class="users-list site-summery">
+                </div>
+
+            </div>
+            <div class="tab-pane" id="notifications">
+                <div class="notifications">
+                    <div class="pageslide-title">
+                        {{lang('latest_transactions')}}
+                    </div>
+                    <ul class="pageslide-list user-transactions">
+                    </ul>
+                </div>
+            </div>
+
+
+            {% if LOG_USER_TYPE != 'employee' %}
+
+                <div class="tab-pane" id="settings">
+
+                    <!-- ------{{THEME.layout}} -->
+
+                    <div id="style_select">
+                        <div id="style_selector_container">
+
+                            <div class="pageslide-title">
+                                {{lang('style_selector')}}
+                            </div>
+                            <div class="box-title">
+                                {{lang('choose_ur_layout_style')}}
+                            </div>
+                            <div class="input-box">
+                                <div class="input">
+                                    <select name="layout" id="layout_2" class="form-control">
+                                        <option value="default" {% if THEME.layout != 'layout-boxed' %} selected="selected" {% endif %} >{{lang('wide')}}</option>
+                                        <option value="boxed"  {% if THEME.layout == 'layout-boxed' %} selected="selected" {% endif %} >{{lang('boxed')}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="box-title">
+                                {{lang('choose_ur_header_style')}}
+                            </div>
+                            <div class="input-box">
+                                <div class="input">
+                                    <select name="header"  id="header_2" class="form-control">
+                                        <option value="fixed" {% if THEME.header == 'header-fixed' %} selected="selected" {% endif %}>{{lang('fixed')}}</option>
+                                        <option value="default" {% if THEME.header == 'header-default' %} selected="selected" {% endif %}>{{lang('default')}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="box-title">
+                                {{lang('choose_ur_footer_style')}}
+                            </div>
+                            <div class="input-box">
+                                <div class="input">
+                                    <select name="footer" id="footer_2" class="form-control">
+                                        <option value="default"  {% if THEME.footer == 'footer-default' %} selected="selected" {% endif %}>{{lang('default')}}</option>
+                                        <option value="fixed"  selected {% if THEME.footer == 'footer-fixed' %} selected="selected" {% endif %}>{{lang('fixed')}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="box-title">
+                                {{lang('available_theme_colors')}}
+                            </div>
+                            <div class="images icons-color">
+                                <a href="javascript:;" id="default"><img src="assets/images/color-1.png" alt="" ></a>
+                                <a href="javascript:;" id="style2"><img src="assets/images/color-2.png" alt=""></a>
+                                <a href="javascript:;" id="style3"><img src="assets/images/color-3.png" alt=""></a>
+                                <a href="javascript:;" id="style4"><img src="assets/images/color-4.png" alt=""></a>
+                                <a href="javascript:;" id="style5"><img src="assets/images/color-5.png" alt=""></a>
+                                <a href="javascript:;" id="style6"><img src="assets/images/color-6.png" alt=""></a>
+                                <a href="javascript:;" id="style7"><img src="assets/images/color-7.png" alt=""></a>
+                                <a href="javascript:;" id="style8"><img src="assets/images/color-8.png" alt=""></a>
+                                <a href="javascript:;" id="style9"><img src="assets/images/color-9.png" alt=""></a>
+                                <a href="javascript:;" id="style10"><img src="assets/images/color-10.png" alt=""></a>
+                            </div>
+                            <br>
+                            <div class="style-options">
+                                {% if PRESET_DEMO_STATUS %}
+                                    <a  class="badge label-default box-title" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                                        {{lang('save_style')}}
+                                    </a>
+
+                                {% else %}                        
+                                    <a  class="badge label-default save_style box-title">
+                                        {{lang('save_style')}}
+                                    </a>                     
+                                {% endif %}
+
+
+                            </div>
+                        </div>
+                        <div class="style-toggle open"></div>
+                    </div>
+                </div>
+
+
+            {% endif %}
+
+        </div>
+
+
+
+    </div>
+</div>
+<!-- end: PAGESLIDE RIGHT -->

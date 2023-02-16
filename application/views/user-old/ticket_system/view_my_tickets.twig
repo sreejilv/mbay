@@ -1,0 +1,66 @@
+{% include'user/layout/header.twig' %}
+<link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="assets/css/shCore.css">
+<script type="text/javascript" language="javascript" src="assets/js/jquery.dataTables.js">
+</script>
+<script type="text/javascript" language="javascript" src="assets/js/shCore.js">
+</script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
+<script type="text/javascript" language="javascript" src="assets/js/lead_datatable.js">
+</script>
+<script type="text/javascript" language="javascript" class="init">
+
+    $(document).ready(function () {
+        var oTable = $('#ticket_list').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "user/ticket_system/ticket_list",
+            "dataType": "json",
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+</script>
+<div class="row">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <i class="fa fa-external-link-square"></i>
+            {{lang('view_my_tickets')}}
+            <div class="panel-tools">										
+                <div class="dropdown">
+                    <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                    <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                        <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                        <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                        <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped" id="ticket_list">
+                    <thead>
+                        <tr>
+                            <th>{{lang('sl.no')}}</th>
+                            <th>{{lang('ticket_id')}}</th>
+                            <th>{{lang('title')}}</th>
+                            <th>{{lang('email')}}</th>
+                            <th>{{lang('subject')}}</th>
+                            <th>{{lang('priority')}}</th>
+                            <th>{{lang('from_user')}}</th>
+                            <th>{{lang('status')}}</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% include'user/layout/footer.twig' %}
+<style>
+    table.dataTable thead th{border-bottom:1px #111}
+    table.dataTable.no-footer{border-bottom:1px #dfe1e5 solid}
+</style>

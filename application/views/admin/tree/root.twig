@@ -1,0 +1,226 @@
+{% include('admin/layout/header.twig')%}
+<div id="js_messages" style="display: none;"> 
+    <span id="pls_wt_js">{{lang('pls_wt_js')}}</span>
+    <span id="invalid_username_js">{{lang('invalid_username_js')}}</span>
+</div>
+<style>
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 220px;
+  max-height: 375px;
+  margin: auto;
+  text-align: center;
+  font-family: arial;
+}
+
+</style>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('root_tree')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                {% if childs %}
+                    <div class="alert alert-info">
+                        <button data-dismiss="alert" class="close">
+                            ×
+                        </button>
+                        <strong>{{ lang('notice') }}</strong> :-
+                        <a href="#" class="alert-link" data-toggle="modal" data-target="#search_member_modal">
+                            {{ lang('click_here') }}</a>
+                        {{ lang('for_searching_a_member') }}.
+                    </div>
+
+                    <div id="search_member_modal" class="modal extended-modal fade no-display" tabindex="-1" data-focus-on="input:first">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title">{{lang('search_member')}}</h4>
+                        </div>
+
+                        <div class="modal-body">
+                            {{ form_open('', ' id="search_member_form" name="search_member_form"')|raw }}
+                            <div class="form-horizontal">                                            
+                                <div class="errorHandler alert alert-danger no-display">
+                                    <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                                </div>                    
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">
+                                        {{lang('username')}}:<span class="symbol required"></span>
+                                    </label>
+                                    <div class="col-sm-6">
+                                        <input class="typeahead form-control" placeholder="{{lang('username')}}" type="text" name="username" id="username" autocomplete="off">
+                                        <div  id="full_name">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" data-dismiss="modal" class="btn btn-default">
+                                    {{lang('cancel')}}
+                                </button>
+
+                                <button type="submit" class="btn btn-primary" value="search_member" name="search_member">
+                                    {{lang('search')}} <i class="fa fa-arrow-circle-right"></i>
+                                </button> 
+                            </div>
+                            {{ form_close()|raw }}
+                        </div>
+                    </div>
+
+
+                    <div id="root_tree_here" style="overflow:auto;"></div>
+                    {% include('admin/tree/d3_tree.twig')%}
+                    <script>
+                        jQuery(document).ready(function () {
+                            var container = $('html,body'), scrollTo = $('#root_tree_here');
+                            container.animate({scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop() / 2});
+                        });
+                    </script>
+                {% else %}
+                    <h4 align="center">{{lang('empty_tree')}}</h4>
+                {%endif%}
+            </div>
+
+        </div>
+    </div>
+</div>
+{% include('admin/layout/footer.twig')%}
+
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css"/>
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
+<script src="assets/js/typeahead.js"></script>
+<script>
+                        $(window).load(function () {
+                            searchMember();
+                        });
+
+                        var searchMember = function () {
+                            $.validator.addMethod("validUser", function () {
+                                var isSuccess = false;
+                                $.ajax({url: "register/validate_sponsor",
+                                    data: {username: $("#username").val()},
+                                    async: false,
+                                    success:
+                                            function (msg) {
+                                                isSuccess = msg === "yes" ? true : false
+                                                if (isSuccess) {
+                                                  $.ajax({url: "register/get_full_name",
+                                                    data: {username: $("#username").val()},
+                                                    async: false,
+                                                    success:
+                                                      function (msg) {
+                                                         $("#full_name").html(msg);
+                                                      } 
+                                                   });
+                                                  }
+                                            }
+                                });
+                                return isSuccess;
+                            }, $('#invalid_username_js').html());
+
+                            var form22 = $('#search_member_form');
+                            var errorHandler2 = $('.errorHandler', form22);
+                            var successHandler2 = $('.successHandler', form22);
+                            form22.validate({
+                                errorElement: "span", // contain the error msg in a small tag
+                                errorClass: 'help-block',
+                                errorPlacement: function (error, element) { // render error placement for each input type
+                                    error.insertAfter(element);
+                                },
+                                ignore: "hidden",
+                                rules: {
+                                    username: {
+                                        required: true,
+                                        validUser: true,
+                                    }
+                                },
+                                messages: {
+                                    username: {
+                                        required: $('#invalid_username_js').html()
+                                    }
+                                },
+                                invalidHandler: function (event, validator) { //display error alert on form submit
+                                    successHandler2.hide();
+                                    errorHandler2.show();
+                                },
+                                highlight: function (element) {
+                                    $(element).closest('.help-block').removeClass('valid');// display OK icon
+                                    $(element).closest('.form-group').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
+                                    // add the Bootstrap error class to the control group
+                                },
+                                unhighlight: function (element) { // revert the change done by hightlight
+                                    $(element).closest('.form-group').removeClass('has-error');
+                                    // set error class to the control group
+                                },
+                                success: function (label, element) {
+                                    label.addClass('help-block valid');
+                                    // mark the current input as valid and display OK icon
+                                    $(element).closest('.form-group').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
+                                },
+                                submitHandler: function (form) {
+                                    successHandler2.show();
+                                    errorHandler2.hide();
+                                    $('#search_member_modal').modal('toggle');
+                                    $.blockUI({
+                                        message: '<i class="fa fa-spinner fa-spin"></i>' + $('#pls_wt_js').html()
+                                    });
+                                    $.ajax({
+                                        url: "admin/tree/validate_username",
+                                        data: {username: $('#username').val()},
+                                        success: function (result) {
+                                            d3.json("admin/tree/root_tree_json/"+result, function (error, flare) {
+                                                if (error)
+                                                    throw error;
+
+                                                root = flare;
+                                                root.x0 = height / 2;
+                                                root.y0 = 0;
+
+                                                function collapse(d) {
+                                                    if (d.children) {
+                                                        d._children = d.children;
+                                                        d._children.forEach(collapse);
+                                                        d.children = null;
+                                                    }
+                                                }
+
+                                                root.children.forEach(collapse);
+                                                update(root);
+
+                                                $("html,body").animate({scrollTop: root.x0}, "slow");
+                                                $('#root_tree_here').animate({scrollLeft: 0});
+                                            });
+                                            $.unblockUI();
+                                        }
+                                    });
+                                    
+                                }
+                            });
+                        }
+
+                        $('input.typeahead').typeahead({
+                            source: function (query, process) {
+                                var url = "admin/member/get_usernames";
+                                return $.get(url, {query: query}, function (data) {
+                                    data = $.parseJSON(data);
+                                    return process(data);
+                                });
+                            }
+                        });
+</script>

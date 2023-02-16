@@ -1,0 +1,238 @@
+{% include('admin/layout/header.twig')%}
+<div id="js_messages" style="display: none;"> 
+    <span id="username_req_js">{{lang('username_req_js')}}</span>
+    <span id="inv_username_js">{{lang('inv_username_js')}}</span>
+    <span id="position_req_js">{{lang('position_req_js')}}</span>
+    <span id="new_position_req_js">{{lang('new_position_req_js')}}</span>    
+</div>                    
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"> <span class="text-bold">{{ lang('menu_name_147') }}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">  
+                <hr>
+                <div class="form-horizontal"> 
+                    <div class="tabbable">
+                        <ul id="myTab2" class="nav nav-tabs">
+                            <li class="active">
+                                <a href="javascript:#position_tab1" data-toggle="tab">
+                                    {{lang('change_position')}}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:#position_tab2" data-toggle="tab">
+                                    {{lang('delete_position')}}
+                                </a>
+                            </li>
+
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" id="position_tab1">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        {{ form_open('', ' id="change_position_form" name="change_position_form"')|raw }}
+
+                                        <div class="form-horizontal">
+                                            <div class="errorHandler alert alert-danger no-display">
+                                                <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                                            </div> 
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">
+                                                    {{ lang('username') }}
+                                                </label>
+                                                <div class="col-sm-6">
+                                                    <span class="input-icon input-icon-right">
+                                                        <input name="username" type="text" placeholder="{{ lang('username') }}" id="username" class="typeahead form-control password_reset" tabindex='1' autocomplete="off">
+                                                        <div  id="full_name">
+
+                                                        </div>
+                                                        <i class="fa fa-user"></i> 
+                                                    </span>
+                                                    {% if pos_error.username is defined %}<code> {{ pos_error.username }} </code> {% endif %}
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">
+                                                    {{ lang('new_position') }}
+                                                </label>
+                                                <div class="col-sm-6">
+                                                    <span class="input-icon input-icon-right">
+                                                        <input name="new_position" type="text" placeholder="{{ lang('new_position') }}" id="new_position" class="typeahead form-control" tabindex='2' autocomplete="off">
+                                                        <i class="fa fa-user"></i> 
+                                                        {% if pos_error.new_position is defined %}<code> {{ pos_error.new_position }} </code> {% endif %}
+                                                </div>
+                                            </div>
+
+                                            {% if MLM_PLAN == 'BINARY' %}
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">
+                                                        {{ lang('change_leg')}} :<span class="symbol required"></span>
+                                                    </label>
+                                                    <div class="col-sm-6">
+                                                        <div class="input-group tooltips" data-placement="top" data-original-title="{{lang('enter_a_leg_for_position_change')}}">
+                                                            <select class="form-control tooltips search-select" id="position_leg" name="position_leg" tabindex='3'>
+                                                                <option value="">{{ lang('select_a_position_leg')}}</option>
+                                                                <option value="L">{{lang('left')}}</option>
+                                                                <option value="R">{{lang('right')}}</option>
+
+                                                            </select>
+                                                            {% if pos_error.position_leg is defined %}<code> {{ pos_error.position_leg }} </code> {% endif %} 
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">
+
+                                                </label>
+                                                <div class="col-sm-5">   
+                                                    {% if PRESET_DEMO_STATUS %}
+                                                        <button  type="button" class="btn btn-primary" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                                                            {{ lang('change') }} <i class="fa fa-arrow-circle-right"></i>
+                                                        </button>
+                                                    {% else %}
+
+                                                        <button  type="submit" class="btn btn-primary" value="1" name="change_position">
+                                                            {{ lang('change') }} <i class="fa fa-arrow-circle-right"></i>
+                                                        </button>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{ form_close()|raw }} 
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p>
+                                            {{ lang('position_change_criterias') }}
+                                        </p>
+                                        <div class="well well-sm">
+                                            {{ lang('position_change_criteria_1') }}
+                                        </div>
+                                        <div class="well well-sm">
+                                            {{ lang('position_change_criteria_2') }}
+                                        </div>
+                                        <div class="well well-sm">
+                                            {{ lang('position_change_criteria_3') }}
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+
+                            </div>
+                            <div class="tab-pane fade in" id="position_tab2">
+
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        {{ form_open('', ' id="remove_position_form" name="remove_position_form"')|raw }}
+
+                                        <div class="form-horizontal">
+                                            <div class="errorHandler alert alert-danger no-display">
+                                                <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                                            </div> 
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">
+                                                    {{ lang('username') }}
+                                                </label>
+                                                <div class="col-sm-6">
+                                                    <span class="input-icon input-icon-right">
+                                                        <input name="del_username" type="text" placeholder="{{ lang('username') }}" id="del_username" class="typeahead form-control password_reset" tabindex='1' autocomplete="off">
+                                                        <div  id="full_name">
+
+                                                        </div>
+                                                        <i class="fa fa-user"></i> 
+                                                        
+                                                    </span>
+                                                           
+                                                    {% if pos_error.del_username is defined %}<code> {{ pos_error.del_username }} </code> {% endif %}
+                                                </div>
+                                            </div>                                    
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">
+
+                                                </label>
+                                                <div class="col-sm-6">   
+                                                    {% if PRESET_DEMO_STATUS %}
+                                                        <button  type="button" class="btn btn-primary" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                                                            {{ lang('change') }} <i class="fa fa-arrow-circle-right"></i>
+                                                        </button>
+                                                    {% else %}
+
+                                                        <button  type="submit" class="btn btn-primary" value="1" name="remove_position">
+                                                            {{ lang('remove') }} <i class="fa fa-arrow-circle-right"></i>
+                                                        </button>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{ form_close()|raw }} 
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p>
+                                            {{ lang('position_change_criterias') }}
+                                        </p>
+                                        <div class="well well-sm">
+                                            {{ lang('position_change_criteria_1') }}
+                                        </div>
+                                        <div class="well well-sm">
+                                            {{ lang('position_change_criteria_2') }}
+                                        </div>
+                                        <div class="well well-sm">
+                                            {{ lang('position_change_criteria_3') }}
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>                                    
+    </div>
+</div>
+{% include('admin/layout/footer.twig')%}
+<link rel="stylesheet" href="assets/plugins/select2/select2.css">		
+<link rel="stylesheet" href="assets/css/plugins.css">
+<script src="assets/plugins/select2/select2.min.js"></script>
+<script src="assets/js/form-elements.js"></script>
+
+<script src="assets/js/typeahead.js">
+</script>
+<script src="assets/js/position_sett.js">
+</script>
+<script>
+    jQuery(document).ready(function () {
+        valChangePosition();
+        valDeletePosition();
+        FormElements.init2();
+    });
+
+    $('input.typeahead').typeahead({
+        source: function (query, process) {
+            var url = "admin/message/get_downline_usernames";
+            return $.get(url, {query: query}, function (data) {
+                data = $.parseJSON(data);
+                return process(data);
+            });
+        }
+    });
+</script>

@@ -1,0 +1,254 @@
+{% include ('admin/layout/header.twig') %}
+<div class="error_msg" style="display: none;">
+    <span id='error_msg_usrname_js'>{{lang('error_username')}}</span>
+    <span id='error_msg_validate_usrname_js'>{{lang('error_validate_username')}}</span>
+    <span id='error_msg_bank_name_js'>{{lang('error_bank_name')}}</span>
+    <span id='error_msg_bank_branch_js'>{{lang('error_bank_branch')}}</span>
+    <span id='error_msg_bank_account_number_js'>{{lang('error_bank_account_number')}}</span>
+    <span id='error_msg_ifsc_js'>{{lang('error_ifsc')}}</span>
+    <span id='error_msg_bank_proof_js'>{{lang('error_bank_proof')}}</span>
+    <span id='error_msg_id_name_js'>{{lang('error_id_name')}}</span>
+    <span id='error_msg_id_number_js'>{{lang('error_id_number')}}</span>
+    <span id='error_msg_id_proof_js'>{{lang('error_id_proof')}}</span>
+    <span id='error_msg_number_js'>{{lang('error_number')}}</span>
+    <span id='error_msg_error_alpha_numeric_js'>{{lang('error_alpha_numeric')}}</span>
+    <span id='allow'>{{lang('allow')}}</span>
+    <span id="user_photo_ext_js">{{lang('user_photo_ext_js')}}</span>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    {% if(action=='edit')%}<span class="text-bold">{{lang('edit_kyc_details')}} </span>{%else %}<span class="text-bold">{{lang('add_kyc_details')}} </span>{%endif%}</h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                {{form_open_multipart('','methd="post" name="add_kyc_details" id="add_kyc_details"')|raw}}
+                <div class="col-md-12">
+                    <div class="errorHandler alert alert-danger no-display">
+                        <i class="fa fa-times-sign"></i> {{lang('form_error_messages')}}
+                    </div>
+                    <div class="successHandler alert alert-success no-display">
+                        <i class="fa fa-ok"></i> {{lang('form_success_messages')}}
+                    </div>
+                </div>
+                <div class="row">
+
+                    {% if (user_name!='') %}
+                        <div class="form-group ">
+                            <label class="col-sm-2 control-label">{{lang('username')}}:<span class="symbol required"></span></label>
+                            <div class="col-sm-4 input-group">
+                                <input autocomplete="off" type="text" placeholder="{{lang('username')}}" name="user_name" id="user_name" class="typeahead form-control" {%if(action=='edit')%} value="{{user_name}}"{%endif%}>
+                                <div>
+                                </div>
+                            </div>
+                        </div>
+                    {%else%}
+                        <div class="form-group ">
+                            <label class="col-sm-2 control-label">{{lang('username')}}:<span class="symbol required"></span></label>
+                            <div class="col-sm-4 form-group">
+                                <input type="text" name="user_name" id="user_name" placeholder="{{lang('username')}}" class="typeahead form-control" autocomplete="off">
+                                <div>
+                                </div>
+                            </div>
+                        </div>
+                    {%endif %}
+                </div>
+                <div class="row">
+
+                    {% if(action=='edit') %} 
+                        <input type="hidden" name="id_proof" id='id_proof' value="{{id_proof}}">
+                        <input type='hidden' name='edit_id' id='edit_id' value='{{edit_id}}'/>
+                        <input type="hidden" name="bank_proof" id='bank_proof' value="{{bank_proof}}">
+                    {%endif%}
+
+                    <div class="col-sm-6">
+                        <div class="panel-heading">
+                            {{lang('bank_details')}}
+                            <div class="alert alert-warning">
+                                <span class="label label-warning">{{lang('address_proof')}}</span>
+                                <span> </span>
+                                <ul>
+                                    <li>{{lang('bank_statement')}}</li>
+                                    <li>{{lang('electricty_bill')}}</li>
+                                    <li>{{lang('telephone_bill')}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="panel-body">
+
+                            {% if(action=='edit') %}
+
+                                <div class="form-group">
+                                    <label>
+                                        {{lang('bank_details')}} <span class="symbol required"></span>
+                                    </label>
+                                    <div class="fileupload fileupload-new" data-provides="fileupload"><input type="hidden" value="" name="">
+                                        <div class="fileupload-new thumbnail"><img src="{{BASE_URL}}assets/images/bank_details/{{bank_proof}}" alt="">
+                                        </div>
+                                        <div class="fileupload-preview fileupload-exists thumbnail" style="line-height: 10px;"></div>
+                                        <div>
+                                            <span class="btn btn-light-grey btn-file"><span class="fileupload-new"><i class="fa fa-picture-o"></i> {{lang('change_image')}}</span><span class="fileupload-exists"><i class="fa fa-picture-o"></i> {{lang('change')}}</span>
+                                                <input type="file" name="bank_proof" id='bank_proof' value="{{bank_proof}}" accept="image/*"/>
+                                            </span>
+                                            <a href="#" class="btn fileupload-exists btn-light-grey" data-dismiss="fileupload">
+                                                <i class="fa fa-times"></i>  {{lang('remove')}}
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                    <div class="alert alert-warning">
+                                        <span class="label label-warning">{{lang('note')}}!</span>
+                                        <span> {{lang('supported_formats')}} : {{lang('JPEG')}} , {{lang('PNG')}} , {{lang('JPG')}} </span>
+                                    </div>
+                                </div>
+
+
+                            {%else %}
+
+                                <div class="form-group">
+                                    <label>
+                                        {{lang('bank_details')}} <span class="symbol required"></span>
+                                    </label>
+                                    <div class="fileupload fileupload-new" data-provides="fileupload"><input type="hidden" value="" name="">
+                                        <div class="fileupload-new thumbnail"><img src="assets/images/no-image.png" alt="">
+                                        </div>
+                                        <div class="fileupload-preview fileupload-exists thumbnail" style="line-height: 10px;"></div>
+                                        <div>
+                                            <span class="btn btn-light-grey btn-file"><span class="fileupload-new"><i class="fa fa-picture-o"></i> {{lang('select_file')}}</span><span class="fileupload-exists"><i class="fa fa-picture-o"></i>{{lang('change')}}</span>
+                                                <input type="file" class="file-input" name="bank_file" id="bank_file" accept="image/*"/>
+                                            </span>
+                                            <a href="#" class="btn fileupload-exists btn-light-grey" data-dismiss="fileupload">
+                                                <i class="fa fa-times"></i>{{lang('remove')}}
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="alert alert-warning">
+                                        <span class="label label-warning">{{lang('note')}}!</span>
+                                        <span> {{lang('supported_formats')}} : {{lang('JPEG')}} , {{lang('PNG')}} , {{lang('JPG')}} </span>
+                                    </div>
+                                </div>
+                            {%endif %}
+
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="panel-heading">
+                            {{lang('id_proof')}}
+                            <div class="alert alert-warning">
+                                <span class="label label-warning">{{lang('id_proof_any')}}</span>
+                                <span> </span>
+                                <ul>
+                                    <li>{{lang('voters_id')}}</li>
+                                    <li>{{lang('pancard')}}</li>
+                                    <li>{{lang('driving_licence')}}</li>
+                                    <li>{{lang('passport')}}</li>
+                                </ul>
+                            </div>
+
+                        </div>
+                        <hr/>
+
+                        <div class="panel-body">
+
+                            {% if(action=='edit') %}
+
+                                <div class="form-group">
+                                    <label>
+                                        {{lang('id_proof')}} <span class="symbol required"></span>
+                                    </label>
+                                    <div class="fileupload fileupload-new" data-provides="fileupload"><input type="hidden" value="" name="">
+                                        <div class="fileupload-new thumbnail"><img src="{{BASE_URL}}assets/images/id_proof/{{id_proof}}" alt="">
+                                        </div>
+                                        <div class="fileupload-preview fileupload-exists thumbnail" style="line-height: 10px;"></div>
+                                        <div>
+                                            <span class="btn btn-light-grey btn-file"><span class="fileupload-new"><i class="fa fa-picture-o"></i> {{lang('change_image')}}</span><span class="fileupload-exists"><i class="fa fa-picture-o"></i> {{lang('change')}}</span>
+                                                <input type="file" name="id_proof" id='id_proof' value="{{id_proof}}" accept="image/*"/>
+                                            </span>
+                                            <a href="#" class="btn fileupload-exists btn-light-grey" data-dismiss="fileupload">
+                                                <i class="fa fa-times"></i>  {{lang('remove')}}
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                    <div class="alert alert-warning">
+                                        <span class="label label-warning">{{lang('note')}}!</span>
+                                        <span> {{lang('supported_formats')}} : {{lang('JPEG')}} , {{lang('PNG')}} , {{lang('JPG')}} </span>
+                                    </div>
+                                </div>
+
+                            {%else %}
+                                <div class="form-group">
+                                    <label>
+                                        {{lang('id_proof')}} <span class="symbol required"></span>
+                                    </label>
+                                    <div class="fileupload fileupload-new" data-provides="fileupload"><input type="hidden" value="" name="">
+                                        <div class="fileupload-new thumbnail"><img src="assets/images/no-image.png" alt="">
+                                        </div>
+                                        <div class="fileupload-preview fileupload-exists thumbnail" style="line-height: 10px;"></div>
+                                        <div>
+                                            <span class="btn btn-light-grey btn-file"><span class="fileupload-new"><i class="fa fa-picture-o"></i> {{lang('select_file')}}</span><span class="fileupload-exists"><i class="fa fa-picture-o"></i>{{lang('change')}}</span>
+                                                <input type="file" class="file-input" name="id_file" value="{{id_proof}}" id="id_file" accept="image/*">
+                                            </span>
+                                            <a href="#" class="btn fileupload-exists btn-light-grey" data-dismiss="fileupload">
+                                                <i class="fa fa-times"></i>{{lang('remove')}}
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="alert alert-warning">
+                                        <span class="label label-warning">{{lang('note')}}!</span>
+                                        <span> {{lang('supported_formats')}} : {{lang('JPEG')}} , {{lang('PNG')}} , {{lang('JPG')}} </span>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-action">
+                    <div class="col-sm-offset-5 ">
+                        {% if(action=='edit')%}
+                            <button class="btn btn-primary" type="submit" name="btn_update" id="btn_update" value='btn_update'>{{lang('update')}} <i class="fa fa-arrow-circle-right"></i></button>
+                            {%else%}
+                            <button class="btn btn-primary" type="submit" name="btn_submit" id="btn_submit" value='btn_submit'>{{lang('submit')}} <i class="fa fa-arrow-circle-right"></i></button>
+                            {%endif%}
+                    </div>
+                </div>
+                {{form_close()|raw}}
+            </div>
+        </div>
+    </div>
+</div>
+{% include ('admin/layout/footer.twig') %}
+<script src="assets/js/add_kyc_details.js"></script>
+<script src="assets/js/file_extension.js"></script>
+<script src="assets/js/typeahead.js"></script>
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        ValidateKyc.init();
+
+        $('input.typeahead').typeahead({
+            source: function (query, process) {
+                var url = "{{BASE_URL}}admin/member/get_usernames";
+                return $.get(url, {query: query}, function (data) {
+                    data = $.parseJSON(data);
+                    return process(data);
+                });
+            }
+        });
+    });
+</script>

@@ -1,0 +1,157 @@
+{% include('admin/layout/header.twig')%}
+<div id="js_messages" style="display: none;"> 
+    <span id="mail_subject_req_js">{{lang('mail_subject_req_js')}}</span>
+    <span id="mail_content_req_js">{{lang('mail_content_req_js')}}</span>
+    <span id="please_wait_js">{{lang('please_wait_js')}}</span>
+    <span id="success_js">{{lang('success_js')}}</span>
+    <span id="failed_js">{{lang('failed_js')}}</span>
+    <span id="something_wrong_js">{{lang('something_wrong_js')}}</span>   
+    <span id="system_mail_disabled_js">{{lang('system_mail_disabled_js')}}</span>
+    <span id="system_mail_enabled_js">{{lang('system_mail_enabled_js')}}</span> 
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('mail_contents')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+
+                <div class="alert alert-info">
+                    <button data-dismiss="alert" class="close">
+                        ×
+                    </button>
+                    <strong>{{lang('Info')}}</strong> :-
+                    <a href="#" class="alert-link" data-toggle="modal" data-target="#mail_mangement_modal">
+                        {{ lang('click_here') }}
+                    </a>
+                    {{ lang('mail_mangement_desc') }}.
+                </div>
+
+                <div id="mail_mangement_modal" class="modal extended-modal fade no-display" tabindex="-1" data-width="760">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title">{{lang('system_mail_management')}}</h4>
+                    </div>
+
+                    <div class="modal-body">    
+                        <div class="row">
+                            {% for sm in mails %}
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label">
+                                            {{ lang(sm.type) }} 
+                                        </label>
+                                        <div class="col-sm-6">
+                                            <label class="switch">
+                                                <input type="checkbox" {% if sm.status %} checked {% endif %} id="togBtn" onchange='changeSystemMailStatus({{sm.id}}, this)'>
+                                                <div class="slider round">
+                                                    <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                                    <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                                                </div>
+                                            </label>
+                                        </div>                                   
+
+                                    </div>
+                                </div> 
+                            {% endfor %}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" data-dismiss="modal" class="btn btn-default">
+                                {{lang('close')}}
+                            </button>
+                        </div>                    
+                    </div>
+                </div>
+                <div class="tabbable">
+                    <ul id="myTab" class="nav nav-tabs">
+                        {% for sm in sys_mails %}
+                            <li {% if sm.active %} class="dropdown active " {% else %} class="dropdown" {% endif %} >
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    {{lang(sm.type)}} <i class="fa fa-caret-down width-auto"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-info">
+                                    {% for mc in sm.contents %}
+                                        <li {% if mc.active %} class="active" {% endif %} >
+                                            <a href="javascript:#myTab_example{{sm.id}}{{mc.id}}" data-toggle="tab">
+                                                {{ lang(mc.lang_name) }}
+                                            </a>
+                                        </li>
+                                    {% endfor %}                                    
+                                </ul>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="tab-content">
+                        {% for sm in sys_mails %}
+                            {% for mc in sm.contents %}
+                                <div {% if mc.active %} class ="tab-pane fade in active " {% else %} class="tab-pane fade" {% endif %} id="myTab_example{{sm.id}}{{mc.id}}">
+
+                                    <h4 align="center"><span class="text-bold" align="center">{{lang(sm.type)}}-{{ lang(mc.lang_name) }} </span></h4>
+                                    {{form_open("",mc.form)|raw}}
+                                    <div class="form-horizontal">
+                                        <div class='form-group'>
+                                            <label class="col-sm-2 control-label">{{lang('mail_subject')}}<i class='symbol required'></i>:</label>
+                                            <div class='col-sm-10'>
+                                                <input type='text' name='mail_subject' id='mail_subject' value="{{mc.subject}}">                                               
+
+                                                {% if content_id==mc.id and error.mail_subject is defined %}<code> {{ error.mail_subject }} </code> {% endif %} 
+                                            </div>
+                                        </div>
+                                        <div class='form-group'>
+                                            <label class="col-sm-2 control-label">{{lang('mail_content')}}<i class='symbol required'></i>:</label>
+                                            <div class="col-sm-10">
+                                                <textarea class="ckeditor"  rows="5" cols="10" name='mail_content' id='mail_content_{{mc.id}}'>
+                                                    {{mc.content}}
+                                                </textarea>
+                                                {% if content_id==mc.id and error.mail_content is defined %}<code> {{ error.mail_content }} </code> {% endif %} 
+                                            </div>
+                                        </div>
+
+                                        <div class="alert alert-warning">
+                                            <button data-dismiss="alert" class="close">
+                                                ×
+                                            </button>
+                                            <strong>{{lang('notice')}}!</strong>
+                                            {{lang('dont_edit_basic_literals')}} :- {username} {admin} {email} {fullname} {company_name} {company_address} {sponsor_username} {payment_type} {transaction_password} {verification_code} {amount} {description} {enquiry_id} 
+                                        </div>
+
+                                        <div class='form-action'>
+                                            <div class="col-sm-offset-4">
+                                                <button type='submit' name='update_mail_content' id='update_mail_content' class='btn btn-primary' value="{{mc.id}}" onclick="valMailContents({{mc.id}})">{{lang('update')}} <i class='fa fa-check-circle'></i>
+                                                </button>
+                                            </div>
+                                        </div>  
+                                    </div>
+                                    {{form_close()|raw}}   
+
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>      
+        </div>
+    </div>
+</div>
+{% include('admin/layout/footer.twig')%}
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css"/>
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" href="assets/css/checkbox_switcher.css">
+<script src="assets/plugins/ckeditor/ckeditor.js"></script>
+<script src="assets/js/mail_contents.js"></script>

@@ -1,0 +1,641 @@
+{% include 'admin/layout/header.twig' %}
+<link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="assets/css/buttons.dataTables.css">
+<link rel="stylesheet" type="text/css" href="assets/css/colReorder.dataTables.min.css">         
+<script type="text/javascript" language="javascript" src="assets/js/jquery.dataTables.js"></script>
+<script type="text/javascript" language="javascript" src="assets/js/dataTables.buttons.js"></script>
+<script type="text/javascript" language="javascript" src="assets/js/buttons.flash.js"></script>
+<script type="text/javascript" language="javascript" src="assets/js/jszip.min.js"></script>
+<script type="text/javascript" language="javascript" src="assets/js/pdfmake.min.js"></script>
+<script type="text/javascript" language="javascript" src="assets/js/pdfmaker_datatable.js"></script>
+<script type="text/javascript" language="javascript" src="assets/js/buttons.html5.js"></script>
+<script type="text/javascript" language="javascript" src="assets/js/buttons.print.js"></script>
+<script type="text/javascript" language="javascript" class="init">
+
+    $(document).ready(function () {
+        var oTable = $('#report_user_activity').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/report/report_total_history",
+            "dataType": "json",
+            "order": [[ 3, "desc" ]],
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "dom": 'lBfrtip',
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+            "buttons": [
+                {
+                    extend: 'copyHtml5',
+                    text: '<i class="fa fa-files-o"></i>',
+                    titleAttr: ' {{ lang('copy') }} '
+                },
+                {
+                    extend: 'excelHtml5',
+                    text: '<i class="fa fa-file-excel-o"></i>',
+                    titleAttr: ' {{ lang('excel') }} '
+                },
+                {
+                    extend: 'csvHtml5',
+                    text: '<i class="fa fa-file-text-o"></i>',
+                    titleAttr: ' {{ lang('csv') }} '
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: '<i class="fa fa-file-pdf-o"></i>',
+                    titleAttr: ' {{ lang('pdf') }} '
+                },
+                {
+                    extend: 'print',
+                    text: '<i class="fa fa-print"></i>',
+                    titleAttr: ' {{ lang('print') }} '
+                }
+
+            ],
+        });
+    });
+</script>
+
+<div id="js_messages" style="display: none;"> 
+    <span id="invalid_username_js">{{lang('invalid_username_js')}}</span>
+    <span id="username_req_js">{{lang('username_req_js')}}</span>
+    <span id="from_date_req_js">{{lang('from_date_req_js')}}</span>
+    <span id="to_date_req_js">{{lang('to_date_req_js')}}</span>
+    <span id="to_date_gt_from_date_js">{{lang('to_date_gt_from_date_js')}}</span>
+    <span id="please_wait_js">{{lang('please_wait_js')}}</span>
+    <span id="success_js">{{lang('success_js')}}</span>
+    <span id="location_updated_js">{{lang('location_updated_js')}}</span>
+    <span id="failed_js">{{lang('failed_js')}}</span>
+    <span id="location_updated_failed_js">{{lang('location_updated_failed_js')}}</span>
+</div>
+
+<div class="alert alert-info">
+    <button data-dismiss="alert" class="close">
+        ×
+    </button>
+    <strong>{{lang('notice')}}!</strong>
+    <a class="alert-link" href="javascript:void" id="update_location" name="update_location">
+        {{lang('click_here')}}</a>
+    , {{lang('to_update_location_details')}}.
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{ lang('view_all_details') }}</span></h4>
+            </div>
+            <div class="panel-body">                
+                <div class="form-horizontal">
+                    <div class="errorHandler alert alert-danger no-display">
+                        <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                        </label>
+                        <div class="col-sm-6">
+                            <button  type="button"class="btn btn-primary" value="1" name="ua_all" id="ua_all">
+                                {{ lang('view_all') }} <i class="fa fa-arrow-circle-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>                                    
+
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{ lang('user_with_date_intervell') }}</span></h4>
+            </div>
+            <div class="panel-body">                
+                {{ form_open('', ' id="ua_user_with_date_intervell" name="ua_user_with_date_intervell"')|raw }}
+                <div class="form-horizontal">
+                    <div class="errorHandler alert alert-danger no-display">
+                        <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">
+                            {{ lang('select_user_name') }} :<span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-6">
+                            <span class="input-icon input-icon-right">
+                                <div class="text-center">
+                                    <input class="typeahead form-control"  type="text" name="user_name1" placeholder="{{ lang('select_user_name') }}" id="user_name1" autocomplete="off">
+                                    <div  id="full_name1">
+
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">
+                            {{lang('select_from_date')}} :<span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                <input name="from1" id="from1" type="text" data-date-format="yyyy-mm-dd" data-date-viewmode="years" class="form-control date-picker" placeholder='{{lang('select_from_date')}}'>
+                                <span class="input-group-addon"> <i class="fa fa-calendar"></i> </span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">
+                            {{lang('select_to_date')}} :<span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                <input name="to1" id="to1" type="text" data-date-format="yyyy-mm-dd" data-date-viewmode="years" class="form-control date-picker" placeholder='{{lang('select_to_date')}}'>
+                                <span class="input-group-addon"> <i class="fa fa-calendar"></i> </span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">
+                        </label>
+                        <div class="col-sm-6">
+                            <button  type="submit"class="btn btn-primary" value="1" name="submit1">
+                                {{ lang('search') }} <i class="fa fa-arrow-circle-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {{ form_close()|raw }}
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-6">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{ lang('user_wise') }}</span></h4>
+            </div>
+            <div class="panel-body">                
+                {{ form_open('', ' id="ua_user_wise" name="ua_user_wise"')|raw }}
+                <div class="form-horizontal">
+                    <div class="errorHandler alert alert-danger no-display">
+                        <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">
+                            {{ lang('select_user_name') }} :<span class="symbol required"></span> 
+                        </label>
+                        <div class="col-sm-6">
+                            <span class="input-icon input-icon-right">
+                                <div class="text-center">
+                                    <input class="typeahead form-control"  type="text" name="user_name2" placeholder="{{ lang('select_user_name') }}" id="user_name2" autocomplete="off">
+                                    <div  id="full_name2">
+
+                                    </div>
+                                </div>
+                        </div>
+                    </div>                    
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">
+                        </label>
+                        <div class="col-sm-6">
+                            <button  type="submit"class="btn btn-primary" value="1" name="submit1">
+                                {{ lang('search') }} <i class="fa fa-arrow-circle-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {{ form_close()|raw }}
+            </div>
+        </div>
+
+
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{ lang('date_intervell') }}</span></h4>
+            </div>
+            <div class="panel-body">                
+                {{ form_open('', ' id="ua_date_intervell" name="ua_date_intervell"')|raw }}
+                <div class="form-horizontal">
+                    <div class="errorHandler alert alert-danger no-display">
+                        <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                    </div>                    
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">
+                            {{lang('select_from_date')}} :<span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                <input name="from2" id="from2" type="text" data-date-format="yyyy-mm-dd" data-date-viewmode="years" class="form-control date-picker" placeholder='{{lang('select_from_date')}}'>
+                                <span class="input-group-addon"> <i class="fa fa-calendar"></i> </span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">
+                            {{lang('select_to_date')}} :<span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                <input name="to2" id="to2" type="text" data-date-format="yyyy-mm-dd" data-date-viewmode="years" class="form-control date-picker" placeholder='{{lang('select_to_date')}}'>
+                                <span class="input-group-addon"> <i class="fa fa-calendar"></i> </span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">
+                        </label>
+                        <div class="col-sm-6">
+                            <button  type="submit"class="btn btn-primary" value="1" name="submit1">
+                                {{ lang('search') }} <i class="fa fa-arrow-circle-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {{ form_close()|raw }}
+            </div>
+        </div>                                    
+    </div>
+</div>
+
+
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="ua_report_modal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">
+                    ×
+                </button>
+                <h4 id="myLargeModalLabel" class="modal-title">{{ title }}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped" id="report_user_activity">
+                        <thead>
+                            <tr>
+                                <th>{{lang('sl.no')}}</th>
+                                <th>{{lang('user_name')}}</th>
+                                <th>{{lang('activity')}}</th>
+                                <th>{{lang('date_and_time')}}</th>
+                                <th>{{lang('ip_address')}}</th>
+                                <th>{{lang('location')}}</th>
+
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default" type="button">
+                    {{ lang('close') }}
+                </button>                
+            </div>
+        </div>        
+    </div>
+</div>
+
+{% include('admin/layout/footer.twig')%}
+
+<link rel="stylesheet" href="assets/plugins/datepicker/css/datepicker.css">
+<script src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<script src="assets/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+<script src="assets/js/lead_date_picker.js"></script>
+<script src="assets/js/typeahead.js"></script>
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css"/>
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
+<link href="assets/plugins/sweetalert/lib/sweet-alert.css" rel="stylesheet" />
+<script src="assets/plugins/sweetalert/lib/sweet-alert.min.js"></script>
+<script>
+    jQuery(document).ready(function () {
+        DpElements.init();
+        validateUserWithDate();
+        validateUserWithoutDate();
+        validateUserDateOnly();
+    });
+    $('input.typeahead').typeahead({
+        source: function (query, process) {
+            var url = "{{BASE_URL}}admin/member/get_usernames";
+            return $.get(url, {query: query}, function (data) {
+                data = $.parseJSON(data);
+                return process(data);
+            });
+        }
+    });
+
+    function redraw_table() {
+        var table = $('#report_user_activity').DataTable();
+        table.clear().draw();
+        $('#ua_report_modal').modal('toggle');
+    }
+
+    $("#ua_all").click(function () {
+        var isSuccess = false;
+        $.ajax({url: "admin/report/set_ua_variables",
+            data: {report_type: 'all'},
+            async: false,
+            success:
+                    function (msg) {
+                        if (msg === "yes") {
+                            redraw_table();
+                        }
+                    }
+        });
+
+
+    });
+
+    $.validator.addMethod("validUsername", function () {
+        var isSuccess = false;
+        $.ajax({url: "register/validate_sponsor",
+            data: {username: $("#user_name1").val()},
+            async: false,
+            success:
+                    function (msg) {
+                        isSuccess = msg === "yes" ? true : false
+                        if (isSuccess) {
+                            $.ajax({url: "register/get_full_name",
+                                data: {username: $("#user_name1").val()},
+                                async: false,
+                                success:
+                                        function (msg) {
+                                            $("#full_name1").html(msg);
+                                        }
+                            });
+                        }
+                    }
+        });
+        return isSuccess;
+    }, '');
+
+    $.validator.addMethod("greaterThan", function (value, element, param) {
+
+        var sDate = new Date(value);
+        var eDate = new Date($(param).val());
+        if (sDate > eDate)
+        {
+            return true;
+        }
+        return false;
+    }, '');
+
+
+    var validateUserWithDate = function (form_id) {
+        var form = $('#ua_user_with_date_intervell');
+        var errorHandler2 = $('.errorHandler', form);
+        var successHandler2 = $('.successHandler', form);
+        form.validate({
+            errorElement: "span",
+            errorClass: 'help-block',
+            errorPlacement: function (error, element) {
+                if (element.attr("type") == "radio" || element.attr("type") == "checkbox") { // for chosen elements, need to insert the error after the chosen container
+                    error.insertAfter($(element).closest('.form-group').children('div').children().last());
+                } else if (element.hasClass("ckeditor")) {
+                    error.appendTo($(element).closest('.form-group'));
+                } else {
+                    error.insertAfter($(element).closest('.form-group').children('div').children().last());
+                }
+            },
+            ignore: "hidden",
+            rules: {
+                user_name1: {
+                    validUsername: true,
+                    required: true
+                },
+                from1: {
+                    required: true
+                },
+                to1: {
+                    required: true,
+                    greaterThan: "#from1"
+                }
+            },
+            messages: {
+                user_name1: {
+                    validUsername: $('#invalid_username_js').html(),
+                    required: $('#username_req_js').html()
+                },
+                from1: {
+                    required: $('#from_date_req_js').html()
+                },
+                to1: {
+                    required: $('#to_date_req_js').html(),
+                    greaterThan: $('#to_date_gt_from_date_js').html()
+                }
+
+            },
+            invalidHandler: function (event, validator) {
+                successHandler2.hide();
+                errorHandler2.show();
+            },
+            highlight: function (element) {
+                $(element).closest('.help-block').removeClass('valid');
+                $(element).closest('.form-group').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-group').removeClass('has-error');
+            },
+            success: function (label, element) {
+                label.addClass('help-block valid');
+                $(element).closest('.form-group').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
+            },
+            submitHandler: function (form) {
+                successHandler2.show();
+                errorHandler2.hide();
+
+                var user_id = $('#user_name1').val();
+                var from_date = $('#from1').val();
+                var to_date = $('#to1').val();
+
+                $.ajax({
+                    url: "admin/report/set_ua_variables",
+                    data: {report_type: 'user_date', ua_user: user_id, from_date: from_date, to_date: to_date},
+                    success:
+                            function (msg) {
+                                if (msg === "yes") {
+                                    redraw_table();
+                                }
+                            }
+                });
+            }
+        });
+    };
+
+    $.validator.addMethod("validUser", function () {
+        var isSuccess = false;
+        $.ajax({url: "register/validate_sponsor",
+            data: {username: $("#user_name2").val()},
+            async: false,
+            success:
+                    function (msg) {
+                        isSuccess = msg === "yes" ? true : false
+                        if (isSuccess) {
+                            $.ajax({url: "register/get_full_name",
+                                data: {username: $("#user_name2").val()},
+                                async: false,
+                                success:
+                                        function (msg) {
+                                            $("#full_name2").html(msg);
+                                        }
+                            });
+                        }
+                    }
+        });
+        return isSuccess;
+    }, $('#invalid_username_js').html());
+    var validateUserWithoutDate = function (form_id) {
+        var form = $('#ua_user_wise');
+        var errorHandler2 = $('.errorHandler', form);
+        var successHandler2 = $('.successHandler', form);
+        form.validate({
+            errorElement: "span",
+            errorClass: 'help-block',
+            errorPlacement: function (error, element) {
+                if (element.attr("type") == "radio" || element.attr("type") == "checkbox") { // for chosen elements, need to insert the error after the chosen container
+                    error.insertAfter($(element).closest('.form-group').children('div').children().last());
+                } else if (element.hasClass("ckeditor")) {
+                    error.appendTo($(element).closest('.form-group'));
+                } else {
+                    error.insertAfter($(element).closest('.form-group').children('div').children().last());
+                }
+            },
+            ignore: "hidden",
+            rules: {
+                user_name2: {
+                    validUser: true,
+                    required: true
+                }
+            },
+            messages: {
+                user_name2: {
+                    validUser: $('#invalid_username_js').html(),
+                    required: $('#username_req_js').html()
+                }
+            },
+            invalidHandler: function (event, validator) {
+                successHandler2.hide();
+                errorHandler2.show();
+            },
+            highlight: function (element) {
+                $(element).closest('.help-block').removeClass('valid');
+                $(element).closest('.form-group').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-group').removeClass('has-error');
+            },
+            success: function (label, element) {
+                label.addClass('help-block valid');
+                $(element).closest('.form-group').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
+            },
+            submitHandler: function (form) {
+                successHandler2.show();
+                errorHandler2.hide();
+                var user_id = $('#user_name2').val();
+
+                $.ajax({
+                    url: "admin/report/set_ua_variables",
+                    data: {report_type: 'user', ua_user: user_id},
+                    success:
+                            function (msg) {
+                                if (msg === "yes") {
+                                    redraw_table();
+                                }
+                            }
+                });
+            }
+        });
+    };
+
+
+    var validateUserDateOnly = function (form_id) {
+        var form = $('#ua_date_intervell');
+        var errorHandler2 = $('.errorHandler', form);
+        var successHandler2 = $('.successHandler', form);
+        form.validate({
+            errorElement: "span",
+            errorClass: 'help-block',
+            errorPlacement: function (error, element) {
+                if (element.attr("type") == "radio" || element.attr("type") == "checkbox") { // for chosen elements, need to insert the error after the chosen container
+                    error.insertAfter($(element).closest('.form-group').children('div').children().last());
+                } else if (element.hasClass("ckeditor")) {
+                    error.appendTo($(element).closest('.form-group'));
+                } else {
+                    error.insertAfter($(element).closest('.form-group').children('div').children().last());
+                }
+            },
+            ignore: "hidden",
+            rules: {
+                from2: {
+                    required: true
+                },
+                to2: {
+                    required: true,
+                    greaterThan: "#from2"
+                }
+            },
+            messages: {
+                from2: {
+                    required: $('#from_date_req_js').html()
+                },
+                to2: {
+                    required: $('#to_date_req_js').html(),
+                    greaterThan: $('#to_date_gt_from_date_js').html()
+                }
+            },
+            invalidHandler: function (event, validator) {
+                successHandler2.hide();
+                errorHandler2.show();
+            },
+            highlight: function (element) {
+                $(element).closest('.help-block').removeClass('valid');
+                $(element).closest('.form-group').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-group').removeClass('has-error');
+            },
+            success: function (label, element) {
+                label.addClass('help-block valid');
+                $(element).closest('.form-group').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
+            },
+            submitHandler: function (form) {
+                successHandler2.show();
+                errorHandler2.hide();
+
+
+                var from_date = $('#from2').val();
+                var to_date = $('#to2').val();
+
+                var isSuccess = false;
+
+                $.ajax({
+                    url: "admin/report/set_ua_variables",
+                    data: {report_type: 'date', from_date: from_date, to_date: to_date},
+                    success:
+                            function (msg) {
+                                if (msg === "yes") {
+                                    redraw_table();
+                                }
+                            }
+                });
+            }
+        });
+    };
+
+    $("#update_location").click(function () {
+        $.blockUI({
+            message: '<i class="fa fa-spinner fa-spin"></i>' + $('#please_wait_js').html()
+        });
+
+        $.ajax({
+            url: 'admin/schedule/update_activity_location',
+            success: function (res) {
+                $.unblockUI();
+                if (res == 'yes') {
+                    swal($('#success_js').html(), $('#location_updated_js').html(), "success");
+                } else {
+                    swal($('#failed_js').html(), $('#location_updated_failed_js').html(), "error");
+                }
+            }
+        });
+    });
+</script>
+<style>
+    table.dataTable thead th{border-bottom:1px #111}
+    table.dataTable.no-footer{border-bottom:1px #dfe1e5 solid}
+</style>

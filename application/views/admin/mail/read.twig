@@ -1,0 +1,155 @@
+{% include('admin/layout/header.twig')%}
+<link rel="stylesheet" href="assets/css/mail_sys.css">
+<div id="js_messages" style="display: none;"> 
+    <span id="success_js">{{lang('success_js')}}</span>
+    <span id="marked_as_spam_msg">{{lang('marked_as_spam_msg')}}</span>   
+    <span id="unmarked_from_spam_msg">{{lang('unmarked_from_spam_msg')}}</span>   
+    <span id="marked_as_starred_msg">{{lang('marked_as_starred_msg')}}</span>   
+    <span id="unmarked_from_starred_msg">{{lang('unmarked_from_starred_msg')}}</span> 
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title">{{lang('mail_box')}}<span class="text-bold"></span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <br>
+                <hr>
+                
+
+                <section class="content">
+                    <div class="row">
+                        <div class="col-md-3">
+                            {% include('admin/mail/compose_mail.twig')%}
+                            <div class="box box-solid">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">{{lang('folders')}}</h3>
+
+                                    <div class="box-tools">
+                                        <button type="button" class="btn btn-box-tool expand" id='expand_btn1' onclick="expand_oprtn('expand_btn1','folder_expand')" data-widget="collapse"><i class="fa fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="box-body no-padding" id="folder_expand">
+                                    <ul class="nav nav-pills nav-stacked">
+                                        <li ><a href="admin/inbox"><i class="fa fa-inbox"></i> {{lang('inbox')}}
+                                                {% if unread_mail > 0 %}<span class="label label-primary pull-right">{{unread_mail}}</span>{% endif %}
+                                            </a></li>
+                                        <li><a href="admin/sent"><i class="fa fa-envelope-o"></i> {{lang('sent')}}</a></li>
+                                        <li ><a href="admin/draft"><i class="fa fa-file-text-o"></i> {{lang('drafts')}}</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="box box-solid">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">{{lang('more')}}</h3>
+
+                                    <div class="box-tools">
+                                        <button type="button" class="btn btn-box-tool expand" id='expand_btn2' onclick="expand_oprtn('expand_btn2','more_expand')" data-widget="collapse"><i class="fa fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="box-body no-padding" id='more_expand'>
+                                    <ul class="nav nav-pills nav-stacked">
+                                        <li><a href="admin/stared"><i class="fa fa-circle-o text-yellow"></i> {{lang('stared')}}</a></li>
+                                        <li><a href="admin/spam"><i class="fa fa-circle-o text-red"></i> {{lang('spam')}}</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            {{ form_open('admin/mail/compose', ' id="reply" name="reply"')|raw }}
+                            <div class="box box-primary">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">{{lang('read_mail')}}</h3>
+
+                                    <div class="box-tools pull-right">
+                                        <a href="#" class="btn btn-box-tool" data-toggle="tooltip" title="Previous"><i class="fa fa-chevron-left"></i></a>
+                                        <a href="#" class="btn btn-box-tool" data-toggle="tooltip" title="Next"><i class="fa fa-chevron-right"></i></a>
+                                    </div>
+                                </div>
+                                <div class="box-body no-padding">
+                                    <div class="mailbox-read-info">
+                                        <h5>{{lang('subject')}}:{{mail_details.subject}}</h5>
+                                        <h5>{{lang('username')}}: {{mail_details.from_username}}
+                                            <span class="mailbox-read-time pull-right">{{mail_details.date}}</span></h5>
+                                    </div>
+
+                                    <div class="mailbox-read-message">
+                                        <textarea readonly="" name="content" id="compose-textarea" class="form-control" style="height: 300px">{{mail_details.content}}</textarea>
+                                    </div>
+
+                                </div>                                   
+                                {% if mail_details.attachment_name != '' %}
+                                    <div class="box-footer">
+                                        <ul class="mailbox-attachments clearfix">
+                                            <li>
+                                                <span class="mailbox-attachment-icon has-img"><img src="assets/images/mail_system/{{mail_details.attachment_name}}"></span>
+                                                <div class="mailbox-attachment-info">
+                                                    <a href="#" class="mailbox-attachment-name">{{mail_details.attachment_name}}</a>
+
+                                                    <a href="assets/images/mail_system/{{mail_details.attachment_name}}" class="btn btn-default btn-xs pull-right" download><i class="fa fa-cloud-download"></i></a>
+
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <input type="hidden" name="attachment" value="{{mail_details.attachment_name}}" >
+                                {%endif%}
+
+                                <div class="box-footer">
+                                    <div class="pull-right">
+                                        {% if mail_details.catagories != 'draft' %}
+                                            <button type="submit" name="reply" value="1" class="btn btn-default"><i class="fa fa-reply"></i> Reply</button>
+                                        {%endif%}
+                                        <input type="hidden" name="to_user" value="{{mail_details.from_username}}" >
+                                        <input type="hidden" name="subject" value="{{mail_details.subject}}" >
+                                        <input type="hidden" name="content" value="{{mail_details.content}}" >
+
+                                        <button type="submit" name="forward" value="1" class="btn btn-default"><i class="fa fa-share"></i> Forward</button>
+                                    </div>
+                                    <button value="1" type="submt" name="delete" class="btn btn-default"><i class="fa fa-trash-o"></i> Delete</button>
+                                </div>
+                            </div>
+                            {{ form_close()|raw }}
+                        </div>
+                    </div>
+                </section>
+                
+            </div>
+
+        </div>
+    </div>                                    
+</div>
+{% include('admin/layout/footer.twig')%}
+<script src="assets/js/file_extension.js"></script>
+<script src="assets/js/compose_mail.js"></script>
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css"/>
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
+<script src="assets/js/typeahead.js"></script><script src="assets/js/compose_mail.js"></script>
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css"/>
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
+<script src="assets/js/typeahead.js"></script>
+<script>
+    $('input.typeahead').typeahead({
+        source: function (query, process) {
+            var url = "admin/mail/get_usernames";
+            return $.get(url, {query: query}, function (data) {
+                data = $.parseJSON(data);
+                return process(data);
+            });
+        }
+    });    
+</script>

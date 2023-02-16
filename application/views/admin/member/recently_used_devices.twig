@@ -1,0 +1,53 @@
+{% include('admin/layout/header.twig')%}
+<div id="js_messages" style="display: none;"> 
+    <span id="are_you_sure_js"> {{lang('are_you_sure_js')}}</span>    
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('menu_name_160')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+
+
+                {% if rec_devices|length %}
+                <div class="search-classic">
+                    {% for rd in rec_devices %}    
+                    <div class="search-result">
+                        <h4><i class="fa fa-dashcube"></i> <b>{{rd.country}},{{rd.region}},{{rd.city}}</b></h4>
+                        <p>
+                            <b>{{lang('ip_address')}}</b> : {{rd.ip_address}}
+                        </p>
+                        <p>
+                            <b>{{lang('date')}}</b> : {{rd.date}} ,<b>{{rd.carbon_date}}</b>
+                        </p>
+                        <p>
+                            <b>{{lang('device_details')}}</b> : {{rd.user_agent}}
+                        </p>
+                    </div>
+                    <hr>                   
+                    {% endfor %}
+                </div>
+                {% else %}
+                    <h4 align="center"> {{lang('no_recent_activity_available')}}</h4>
+                {% endif %}
+                
+                
+            </div>
+        </div>
+    </div>                                    
+</div>
+{% include('admin/layout/footer.twig')%}

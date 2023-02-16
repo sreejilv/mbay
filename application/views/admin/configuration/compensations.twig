@@ -1,0 +1,443 @@
+<div class="form-horizontal">         
+    <div class="row">
+        {% for ob in other_bonuses %}
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">
+                        {{ lang(ob.name) }} :
+                    </label>
+                    <div class="col-sm-3">
+                        <label class="switch">
+                            {% if PRESET_DEMO_STATUS %}
+                                <input type="checkbox" {% if ob.status %} checked {% endif %} id="togBtn" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                            {% else %}                        
+                                <input type="checkbox" {% if ob.status %} checked {% endif %} id="togBtn" onchange='changeBonusStatus("{{ ob.name }}", this)'>
+                            {% endif %}
+
+                            <div class="slider round">
+                                <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                            </div>
+                        </label>
+                    </div>               
+                    {% if ob.flag %}
+                        <label id='{{ob.name}}_set' class="col-sm-4">
+                            <a href="#" data-toggle="modal" data-target="#{{ob.name}}_modal">
+                                <i class="fa fa-gears"></i> {{lang('settings')}}
+                            </a>
+                        </label>
+                    {% endif %}
+
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div id="binary_bonus_modal" class="modal extended-modal fade no-display" tabindex="-1" data-focus-on="input:first">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                &times;
+            </button>
+            <h4 class="modal-title">{{lang('binary_bonus_settings')}}</h4>
+        </div>
+
+        <div class="modal-body">
+            {{ form_open('', ' id="binary_bonus_form" name="binary_bonus_form"')|raw }}
+            <div class="form-horizontal">                                            
+                <div class="errorHandler alert alert-danger no-display">
+                    <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">
+                        {{lang('bonus_type')}}:<span class="symbol required"></span>
+                    </label>
+                    <div class="col-sm-6">
+                        <select name="binary_bonus_type" id="binary_bonus_type" class="form-control field_type search-select" >
+                            <option value="">{{lang('select_bonus_type')}}</option>
+                            <option value="fixed" {% if binary.binary_bonus_type=="fixed" %} selected {% endif %}>{{lang('fixed')}}</option>
+                            <option value="percentage" {% if binary.binary_bonus_type=="percentage" %} selected {% endif %}>{{lang('percentage')}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="binary_fixed_div" {% if binary.binary_bonus_type!="fixed" %} style="display:none"{% endif %}>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">
+                            {{lang('pair_amount')}}({{ DEFAULT_CURRENCY_SYMBOL }}):<span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-6">
+                            <input class="form-control" type="text" name="pair_amount" id="pair_amount"  value="{{ binary.pair_amount }}" min="0">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">
+                            {{lang('pair_value')}}:<span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-6">
+                            <input class="form-control" type="text" name="pair_value" id="pair_value"  value="{{ binary.pair_value }}" min="0">
+                        </div>
+                    </div> 
+                </div>
+
+                <div id="binary_percentage_div" {% if binary.binary_bonus_type!="percentage" %} style="display:none"{% endif %}>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">
+                            {{lang('pair_percentage')}} (%):<span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-6">
+                            <input class="form-control" type="text" name="pair_percentage" id="pair_percentage"  value="{{ binary.pair_percentage }}" min="0">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">
+                        {{lang('cap_type')}}:<span class="symbol required"></span>
+                    </label>
+                    <div class="col-sm-6">
+                        <select name="cap_type" id="cap_type" class="form-control field_type search-select" >
+                            <option value="">{{lang('select_cap_type')}}</option>
+                            <option value="instant" {% if binary.cap_type=="instant" %} selected {% endif %}>{{lang('instant')}}</option>
+                            <option value="daily" {% if binary.cap_type=="daily" %} selected {% endif %}>{{lang('daily')}}</option>
+                            <option value="weekly" {% if binary.cap_type=="weekly" %} selected {% endif %}>{{lang('weekly')}}</option>
+                            <option value="monthly" {% if binary.cap_type=="monthly" %} selected {% endif %}>{{lang('monthly')}}</option>
+                            <option value="yearly" {% if binary.cap_type=="yearly" %} selected {% endif %}>{{lang('yearly')}}</option>
+
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">
+                        {{lang('cap_amount')}}({{ DEFAULT_CURRENCY_SYMBOL }}):<span class="symbol required"></span>
+                    </label>
+                    <div class="col-sm-6">
+                        <input class="form-control" type="text" name="cap_amount" id="cap_amount"  value="{{ binary.cap_amount }}" min="0">
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-default">
+                    {{lang('cancel')}}
+                </button>
+
+                {% if PRESET_DEMO_STATUS %}
+                    <button type="button" class="btn btn-primary" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                        {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                    </button>         
+                {% else %}                        
+                    <button type="submit"class="btn btn-primary" value="binary_bonus_settings" name="binary_bonus_settings">
+                        {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                    </button>                                         
+                {% endif %}
+            </div>
+            {{ form_close()|raw }}
+        </div>
+    </div>
+
+    <div id="refferal_bonus_modal" class="modal extended-modal fade no-display" tabindex="-1" data-focus-on="input:first">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                &times;
+            </button>
+            <h4 class="modal-title">{{lang('referal_bonus_settings')}}</h4>
+        </div>
+
+        <div class="modal-body">
+            {{ form_open('', ' id="referal_bonus_form" name="referal_bonus_form"')|raw }}
+            <div class="form-horizontal">                                            
+                <div class="errorHandler alert alert-danger no-display">
+                    <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">
+                        {{lang('bonus_type')}}:<span class="symbol required"></span>
+                    </label>
+                    <div class="col-sm-6">
+                        <select name="referal_bonus_type" id="referal_bonus_type" class="form-control field_type search-select" >
+                            <option value="">{{lang('select_bonus_type')}}</option>
+                            <option value="fixed" {% if referal.bonus_type=="fixed" %} selected {% endif %}>{{lang('fixed')}}</option>
+                            <option value="percentage" {% if referal.bonus_type=="percentage" %} selected {% endif %}>{{lang('percentage')}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="referal_fixed_div" {% if referal.bonus_type!="fixed" %} style="display:none"{% endif %}>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">
+                            {{lang('amount')}}({{ DEFAULT_CURRENCY_SYMBOL }}):<span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-6">
+                            <input class="form-control" type="text" name="referal_amount" id="referal_amount"  value="{{ referal.amount }}">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="referal_percentage_div" {% if referal.bonus_type!="percentage" %} style="display:none"{% endif %}>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">
+                            {{lang('percentage')}} (%):<span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-6">
+                            <input class="form-control" type="text" name="referal_percentage" id="referal_percentage"  value="{{ referal.percentage }}" min="0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-default">
+                    {{lang('cancel')}}
+                </button>
+
+
+                {% if PRESET_DEMO_STATUS %}
+                    <button type="button" class="btn btn-primary" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                        {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                    </button>         
+                {% else %}                        
+                    <button type="submit"class="btn btn-primary" value="referal_bonus_settings" name="referal_bonus_settings">
+                        {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                    </button>                                            
+                {% endif %}
+            </div>
+            {{ form_close()|raw }}
+        </div>
+    </div>
+
+
+    <div id="rank_bonus_modal" class="modal extended-modal fade no-display" tabindex="-1" data-focus-on="input:first">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                &times;
+            </button>
+            <h4 class="modal-title">{{lang('rank_bonus_settings')}}</h4>
+        </div>
+
+        <div class="modal-body">
+            {{ form_open('', ' id="rank_bonus_form" name="rank_bonus_form"')|raw }}
+            <div class="form-horizontal">                                            
+                <div class="errorHandler alert alert-danger no-display">
+                    <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                </div>
+
+                {% for rs in ranks %}
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">
+                            {{ rs.rank_name}} ({{ DEFAULT_CURRENCY_SYMBOL }}):<span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-6">
+                            <input class="form-control" type="text" name="{{ rs.rank_name}}" id="{{ rs.rank_name}}"  value="{{ rs.rank_bonus }}" min="0" required >
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-default">
+                    {{lang('cancel')}}
+                </button>
+
+                {% if PRESET_DEMO_STATUS %}
+                    <button type="button" class="btn btn-primary" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                        {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                    </button> 
+                {% else %}                        
+                    <button type="submit"class="btn btn-primary" value="referal_bonus_settings" name="referal_bonus_settings">
+                        {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                    </button> 
+                {% endif %}
+            </div>
+            {{ form_close()|raw }}
+        </div>
+    </div>
+
+
+    <div id="matrix_level_modal" class="modal extended-modal fade no-display" tabindex="-1" data-focus-on="input:first">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                &times;
+            </button>
+            <h4 class="modal-title">{{lang('matrix_level_bonus_settings')}}</h4>
+        </div>
+        <div class="modal-body">
+
+            {{ form_open('', ' id="matrix_level_bonus_form" name="matrix_level_bonus_form"')|raw }}
+            <div class="form-horizontal">                                            
+                <div class="errorHandler alert alert-danger no-display">
+                    <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">
+                        {{lang('bonus_type')}}:<span class="symbol required"></span>
+                    </label>
+                    <div class="col-sm-6">
+                        <select name="matrix_level_bonus_type" id="matrix_level_bonus_type" class="form-control field_type search-select" required>
+                            <option value="">{{lang('select_bonus_type')}}</option>
+                            <option value="fixed" {% if matrix_level_bonus_type=="fixed" %} selected {% endif %}>{{lang('fixed')}}</option>
+                            <option value="percentage" {% if matrix_level_bonus_type=="percentage" %} selected {% endif %}>{{lang('percentage')}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                {% for ml in matrix_level_bonus %}
+                    <div class="fixed_matrix_level" {% if matrix_level_bonus_type=='percentage' %}style="display:none"{% endif %}>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">
+                                {{lang('level')}}{{ ml.level}} ({{ DEFAULT_CURRENCY_SYMBOL }}):<span class="symbol required"></span>
+                            </label>
+                            <div class="col-sm-6">
+                                <input class="form-control" type="text" name="fixed_{{ ml.level}}" id="fixed_{{ ml.level}}"  value="{{ ml.amount }}" min="0" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="percentage_matrix_level" {% if matrix_level_bonus_type=='fixed' %}style="display:none"{% endif %}>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">
+                                {{lang('level')}}{{ ml.level}} :<span class="symbol required"></span> (%)
+                            </label>
+                            <div class="col-sm-6">
+
+                                <input class="form-control" type="text" name="perc_{{ ml.level}}" id="perc_{{ ml.level}}"  value="{{ ml.percentage }}" min="0" required>                                                                         
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-default">
+                    {{lang('cancel')}}
+                </button>
+                {% if PRESET_DEMO_STATUS %}
+                    <button type="button" class="btn btn-primary" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                        {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                    </button> 
+                {% else %}                        
+                    <button type="submit"class="btn btn-primary" value="referal_bonus_settings" name="referal_bonus_settings">
+                        {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                    </button> 
+                {% endif %}
+            </div>
+            {{ form_close()|raw }}
+        </div>
+    </div>
+
+
+    <div id="unilevel_level_modal" class="modal extended-modal fade no-display" tabindex="-1" data-focus-on="input:first">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                &times;
+            </button>
+            <h4 class="modal-title">{{lang('unilevel_bonus_settings')}}</h4>
+        </div>
+        <div class="modal-body">
+            {{ form_open('', ' id="unilevel_level_bonus_form" name="unilevel_level_bonus_form"')|raw }}
+            <div class="form-horizontal">                                            
+                <div class="errorHandler alert alert-danger no-display">
+                    <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">
+                        {{lang('bonus_type')}}:<span class="symbol required"></span>
+                    </label>
+                    <div class="col-sm-6">
+                        <select name="unilevel_level_bonus_type" id="unilevel_level_bonus_type" class="form-control field_type search-select" required>
+                            <option value="">{{lang('select_bonus_type')}}</option>
+                            <option value="fixed" {% if unilevel_level_bonus_type=="fixed" %} selected {% endif %}>{{lang('fixed')}}</option>
+                            <option value="percentage" {% if unilevel_level_bonus_type=="percentage" %} selected {% endif %}>{{lang('percentage')}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                {% for ub in unilevel_level_bonus %}
+                    <div class="fixed_unilevel_level" {% if unilevel_level_bonus_type=='percentage' %}style="display:none"{% endif %}>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">
+                                {{lang('level')}}{{ ub.level}} ({{ DEFAULT_CURRENCY_SYMBOL }}):<span class="symbol required"></span>
+                            </label>
+                            <div class="col-sm-6">
+                                <input class="form-control" type="text" name="fixed_uni_{{ ub.level}}" id="fixed_uni_{{ ub.level}}"  value="{{ ub.amount }}" min="0" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="percentage_unilevel_level" {% if unilevel_level_bonus_type=='fixed' %}style="display:none"{% endif %}>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">
+                                {{lang('level')}}{{ ub.level}} :<span class="symbol required"></span> (%)
+                            </label>
+                            <div class="col-sm-6">
+                                <input class="form-control" type="text" name="perc_uni_{{ ub.level}}" id="perc_uni_{{ ub.level}}"  value="{{ ub.percentage }}" min="0" required>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-default">
+                    {{lang('cancel')}}
+                </button>
+                {% if PRESET_DEMO_STATUS %}
+                    <button type="button" class="btn btn-primary" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                        {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                    </button>
+                {% else %}                        
+                    <button type="submit"class="btn btn-primary" value="referal_bonus_settings" name="referal_bonus_settings">
+                        {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                    </button>
+                {% endif %}
+            </div>
+            {{ form_close()|raw }}
+        </div>
+    </div>
+
+    <div id="matching_bonus_modal" class="modal extended-modal fade no-display" tabindex="-1" data-focus-on="input:first">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                &times;
+            </button>
+            <h4 class="modal-title">{{lang('matching_bonus_settings')}}</h4>
+        </div>
+        <div class="modal-body">
+            {{ form_open('', ' id="matching_bonus_form" name="matching_bonus_form"')|raw }}
+            <div class="form-horizontal">                                            
+                <div class="errorHandler alert alert-danger no-display">
+                    <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                </div>
+                {% for mb in matching_bonus_level %}
+                    <div class="matching_bonus_level">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">
+                                {{lang('level')}}{{ mb.level}} :<span class="symbol required"></span> (%)
+                            </label>
+                            <div class="col-sm-6">
+
+                                <input class="form-control" type="text" name="perc_mb_{{ mb.level}}" id="perc_mb_{{ mb.level}}"  value="{{ mb.percentage }}" min="0" required>                                                                         
+                            </div>
+
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-default">
+                    {{lang('cancel')}}
+                </button>
+
+                {% if PRESET_DEMO_STATUS %}
+                    <button type="button" class="btn btn-primary" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                        {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                    </button> 
+                {% else %}                        
+                    <button type="submit"class="btn btn-primary" value="referal_bonus_settings" name="referal_bonus_settings">
+                        {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                    </button>     
+                {% endif %}
+            </div>
+            {{ form_close()|raw }}
+        </div>
+    </div>
+</div>

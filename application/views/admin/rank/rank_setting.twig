@@ -1,0 +1,181 @@
+{% include('admin/layout/header.twig')%}
+<link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="assets/css/shCore.css">
+<script type="text/javascript" language="javascript" src="assets/js/jquery.dataTables.js">
+</script>
+<script type="text/javascript" language="javascript" src="assets/js/shCore.js">
+</script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
+<script type="text/javascript" language="javascript" src="assets/js/lead_datatable.js">
+</script>
+<script type="text/javascript" language="javascript" class="init">
+
+    $(document).ready(function () {
+        var oTable = $('#rank_list').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/rank/rank_list",
+            "dataType": "json",
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+</script>
+<div id="js_messages" style="display: none;"> 
+    <span id="rank_name_req_js">{{lang('rank_name_req_js')}}</span>
+    <span id="inv_rank_name_js">{{lang('inv_rank_name_js')}}</span>
+    <span id="referal_count_req_js">{{lang('referal_count_req_js')}}</span>
+    <span id="total_sales_req_js">{{lang('total_sales_req_js')}}</span>    
+    <span id="are_you_sure_js">{{lang('are_you_sure_js')}}</span>
+    <span id="cancel_it_js">{{lang('cancel_it_js')}}</span>
+    <span id="rank_safe_js">{{lang('rank_safe_js')}}</span>
+    <span id="canceled_js">{{lang('canceled_js')}}</span>
+    <span id="delete_this_rank_js">{{lang('delete_this_rank_js')}}</span>
+    <span id="delete_it_js">{{lang('delete_it_js')}}</span>
+    <span id="activate_this_rank_js">{{lang('activate_this_rank_js')}}</span>
+    <span id="activate_it_js">{{lang('activate_it_js')}}</span>
+    <span id="inactivate_this_rank_js">{{lang('inactivate_this_rank_js')}}</span>
+    <span id="inactivate_it_js">{{lang('inactivate_it_js')}}</span>
+    <span id="edit_this_rank_js">{{lang('edit_this_rank_js')}}</span>
+    <span id="edit_it_js">{{lang('edit_it_js')}}</span>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <span class="text-bold">
+                        {% if edit_flag %}
+                            {{lang('update_rank')}}
+                        {% else %}
+                            {{lang('add_new_rank')}}
+                        {% endif %}
+                    </span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                {{ form_open('', ' id="rank_form" name="rank_form"')|raw }}
+                <div class="form-horizontal">                                            
+                    <div class="errorHandler alert alert-danger no-display">
+                        <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('rank_name')}}: <span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-3">
+                            <input class="form-control" type="text" name="rank_name" id="rank_name" value="{{ rank_details.rank_name}}" placeholder='{{lang('rank_name')}}' tabindex='1'>
+                            {% if validation_error.rank_name is defined %}<code> {{ validation_error.rank_name}} </code> {% endif %} 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('referal_count')}}: <span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-3">
+                            <input class="form-control" type="text" name="referal_count" id="referal_count" value="{{ rank_details.referal_count}}" placeholder='{{lang('referal_count')}}' tabindex='2'>
+                            {% if validation_error.referal_count is defined %}<code> {{ validation_error.referal_count}} </code> {% endif %} 
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('total_sales')}}: <span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-3">
+                            <input class="form-control" type="text" name="total_sales" id="total_sales" value="{{ rank_details.total_sales}}" placeholder='{{lang('total_sales')}}' tabindex='3'>
+                            {% if validation_error.total_sales is defined %}<code> {{ validation_error.total_sales}} </code> {% endif %} 
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+
+                        </label>
+                        <div class="col-sm-4">
+                            <input type="hidden" name="edited_rank" id="edited_rank" value="{{edited_rank}}">
+                            {% if edit_flag %}                                
+                                <button type="submit"class="btn btn-primary" value="update_rank" name="update_rank">
+                                    {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                                </button>
+                            {% else %}
+                                <button type="submit"class="btn btn-primary" value="add_rank" name="add_rank">
+                                    {{lang('add')}} <i class="fa fa-arrow-circle-right"></i>
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {{ form_close()|raw }}
+            </div>
+        </div>
+    </div>                                    
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('existing_ranks')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped" id="rank_list">
+                        <thead>
+                            <tr>       
+                                <th>{{lang('slno')}}</th>
+                                <th>{{lang('rank_name')}}</th>
+                                <th>{{lang('referal_count')}}</th>
+                                <th>{{lang('total_sales')}}</th>
+                                <th>{{lang('status')}}</th>                                
+                                <th>{{lang('action')}}</th>
+                            </tr>
+                        </thead>                        
+                    </table>
+                </div>
+            </div>
+        </div>                                    
+    </div>
+</div>
+{% include('admin/layout/footer.twig')%}
+
+
+<link href="assets/plugins/sweetalert/lib/sweet-alert.css" rel="stylesheet" />
+<script src="assets/plugins/sweetalert/lib/sweet-alert.min.js"></script>
+<script src="assets/js/rank_settings.js"></script>
+<script>
+    jQuery(document).ready(function () {
+        valRankSetings();
+    });
+</script>
+<style>
+table.dataTable thead th{border-bottom:1px #111}
+table.dataTable.no-footer{border-bottom:1px #dfe1e5 solid}
+</style>

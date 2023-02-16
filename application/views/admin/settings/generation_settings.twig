@@ -1,0 +1,114 @@
+{% include('admin/layout/header.twig')%}
+<div id="js_messages" style="display: none;"> 
+    <span id="rank_req_js">{{lang('rank_req_js')}}</span>
+    <span id="val1_req_js">{{lang('val1_req_js')}}</span>
+    <span id="val2_req_js">{{lang('val2_req_js')}}</span>
+    <span id="val3_req_js">{{lang('val3_req_js')}}</span>
+    <span id="invalid_number_js">{{lang('invalid_number_js')}}</span>        
+    <span id="gt_zero_js">{{lang('gt_zero_js')}}</span>  
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <span class="text-bold">                        
+                        {{lang('generation_settings')}}                        
+                    </span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                {{ form_open('', ' id="generation_form" name="generation_form"')|raw }}
+                <div class="form-horizontal">                                            
+                    <div class="errorHandler alert alert-danger no-display">
+                        <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover" id="sample-table-1">
+                            <thead>
+                                <tr>
+                                    <th>{{lang('title')}}</th>
+                                    <th>{{lang('generation')}}-1 (%)</th>
+                                    <th>{{lang('generation')}}-2 (%)</th>
+                                    <th>{{lang('generation')}}-3 (%)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for gen in generation %}
+                                    <tr>
+                                        <td>
+                                            <input type="hidden" id="gen[]" value="{{ gen.id }}" name="gen[]">
+                                            <select class="form-control search-select" id="rank_{{ gen.id }}" name="rank_{{ gen.id }}" style="width:150px;">
+                                                <option value="">{{ lang('select_a_rank')}}</option>
+                                                {% for rn in ranks %}
+                                                    <option value="{{rn.id}}" {% if gen.rank_id==rn.id %} selected {% endif %}>{{rn.rank_name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input class="form-control" type="text" name="value1_{{ gen.id }}" id="value1_{{ gen.id }}" min="0" value="{{ gen.g1_value }}">
+                                        </td>
+                                        <td>
+                                            <input class="form-control" type="text" name="value2_{{ gen.id }}" id="value2_{{ gen.id }}" min="0" value="{{ gen.g2_value }}">
+                                        </td>
+                                        <td>
+                                            <input class="form-control" type="text" name="value3_{{ gen.id }}" id="value3_{{ gen.id }}" min="0" value="{{ gen.g3_value }}">
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+
+                        </label>
+                        <div class="col-sm-4"> 
+                            {% if PRESET_DEMO_STATUS %}
+                                <button type="button" class="btn btn-primary" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                                    {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                                </button>
+                            {% else %}                        
+                                <button type="submit"class="btn btn-primary" value="gen_set" name="gen_set">
+                                    {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                                </button>                      
+                            {% endif %}
+
+
+                        </div>
+                    </div>
+                </div>
+                {{ form_close()|raw }}
+            </div>
+        </div>
+    </div>                                    
+</div>
+{% include('admin/layout/footer.twig')%}
+<link rel="stylesheet" href="assets/plugins/select2/select2.css">		
+<link rel="stylesheet" href="assets/css/plugins.css">
+<script src="assets/plugins/select2/select2.min.js"></script>
+<script src="assets/js/form-elements.js"></script>
+<script src="assets/js/gen_settings.js">
+</script>
+<style>
+    .help-block {
+        color:#a94442;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        valGeneration();
+        FormElements.init2();
+    });
+</script>

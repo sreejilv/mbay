@@ -1,0 +1,236 @@
+{% include('admin/layout/header.twig') %}
+<div class="span_message" style="display:none;">
+    <span id="smtp_name">{{lang('host_name')}}</span>
+    <span id="smtp_uname">{{lang('host_username')}}</span>
+    <span id="smtp_pswd">{{lang('smtp_password')}}</span>
+    <span id="smtp_prt">{{lang('smtp_port')}}</span>
+    <span id="pswd_min">{{lang('min')}}</span>
+    <span id="prt_min">{{lang('port_min')}}</span>
+    <span id="from_mail">{{lang('from_mail')}}</span>
+    <span id="from_mail_length">{{lang('from_mail_length')}}</span>
+    <span id="email_engine">{{lang('mail_engine')}}</span>
+    <span id="pls_wt_js">{{lang('pls_wt_js')}}</span>
+    <span id="system_mail_activated_js">{{lang('system_mail_activated_js')}}</span>
+    <span id="system_mail_inactivate_js">{{lang('system_mail_inactivate_js')}}</span>
+    <span id="succ_js">{{lang('succ_js')}}</span>
+    <span id="failed_js">{{lang('failed_js')}}</span>
+    <span id="failed_to_update_js">{{lang('something_went_wrong')}}</span>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title text-bold">{{page_title}} <span class="text-bold"></span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                {{form_open('',"method='post' name='email_settings' id='email_settings' ")|raw}}
+                <div class="form-horizontal">
+                    <div class="errorHandler alert alert-danger no-display">
+                        <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('status')}} : 
+                        </label>
+                        <div class="col-sm-6 ">
+
+                            <label class="switch">
+                                {% if PRESET_DEMO_STATUS %}
+                                    <input type="checkbox" {% if ob.status %} checked {% endif %} id="togBtn" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
+                                {% else %}                        
+                                    <input type="checkbox" {% if mail_status %} checked {% endif %} id="togBtn" onchange='changeMailStatus(this)'>
+                                {% endif %}
+
+                                <div class="slider round">
+                                    <span class="on" title="{{ lang('disable') }}"> <i class="fa fa-check"></i></span>
+                                    <span class="off" title="{{ lang('enable') }}"> <i class="fa fa-times"></i></span>
+                                </div>
+                            </label>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+
+                            {{lang('mail_engine')}}: <span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-4 ">
+
+                            <select class="form-control search-select" type="text" name="mail_engine" id="mail_engine">
+                                <option value="mail" {% if(mail_data.mail_engine=='mail')%}selected {%endif%}>{{lang('mail')}}</option>
+                                <option value="smtp"{% if(mail_data.mail_engine=='smtp')%}selected {%endif%}>{{lang('smtp')}}</option>
+                            </select>
+
+                        </div>
+                        {% if(form_error.mail_engine) %}<code>{{form_error.mail_engine}}</code>{% endif %}
+                    </div>
+                    <div id="smtp_div" {% if(mail_data.mail_engine=='mail')%}style="display:none;"{%endif%}>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">
+
+                                {{lang('from_mail')}}: <span class="symbol required"></span>
+                            </label>
+                            <div class="col-sm-4 ">
+
+                                <input class="form-control" type="text" name="from_mail" id="from_mail" placeholder="{{lang('from_mail')}}" value="{{mail_data.from_mail}}" >
+                                {% if(error.from_mail) %}<code>{{error.from_mail}}</code>{% endif %}
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">
+
+                                {{lang('smtp_hostname')}}: <span class="symbol required"></span>
+                            </label>
+                            <div class="col-sm-4 ">
+
+                                <input class="form-control" type="text" name="host_name" id="host_name" placeholder="{{lang('host_name')}}" value="{{mail_data.host_name}}" >
+                                {% if(error.host_name) %}<code>{{error.host_name}}</code>{% endif %}
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">
+
+                                {{lang('smtp_username')}}: <span class="symbol required"></span>
+                            </label>
+                            <div class="col-sm-4">
+
+                                <input class="form-control" type="text" name="smtp_username" id="smtp_username" placeholder="{{lang('host_username')}}" value="{{mail_data.smtp_username}}"/>
+                                {% if(error.smtp_username) %}<code>{{error.smtp_username}}</code>{% endif %}
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">
+
+                                {{lang('smtp_password')}}: <span class="symbol required"></span>
+                            </label>
+                            <div class="col-sm-4">
+
+                                <input class="form-control" type="password" name="smtp_password" id="smtp_password" placeholder="{{lang('smtp_password')}}" value="{{mail_data.smtp_password}}">
+                                {% if(error.smtp_password) %}<code>{{error.smtp_password}}</code>{% endif %}
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">
+
+                                {{lang('smtp_port')}}: <span class="symbol required"></span>
+                            </label>
+                            <div class="col-sm-4">
+
+                                <input class="form-control" type="text" name="smtp_port" id="smtp_port"  value="{{mail_data.smtp_port}}">
+                                {% if(error.smtp_port) %}<code>{{error.smtp_port}}</code>{% endif %}
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-action">
+                        <div class="col-sm-4 col-sm-offset-5">
+                            {% if PRESET_DEMO_STATUS %}
+                                <input type="button" value="{{lang('submit')}}" class="btn btn-primary" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">   
+                            {% else %}  
+                                <button class="btn btn-primary" type="submit" name="submit" id="submit" value="{{lang('submit')}}">
+                                    {{ lang('submit') }} <i class="fa fa-arrow-circle-right"></i>  
+                                </button>              
+                            {% endif %}
+                        </div>
+                    </div>
+
+
+                </div>
+
+                {{form_close()|raw}}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include('admin/layout/footer.twig') %}
+<link rel="stylesheet" href="assets/plugins/select2/select2.css">		
+<link rel="stylesheet" href="assets/css/plugins.css">
+<script src="assets/plugins/select2/select2.min.js"></script>
+<script src="assets/js/form-elements.js"></script>
+<link rel="stylesheet" href="assets/css/checkbox_switcher.css">
+<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css"/>
+<script src="assets/js/mail_settings.js">
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        SmtpValidation.init();
+        FormElements.init2();
+    });
+
+    $('#mail_engine').on('change', function (e) {
+        var optionSelected = $("option:selected", this);
+        var mail_engine = this.value;
+
+        if (mail_engine == 'mail') {
+            $('#smtp_div').hide();
+        } else if (mail_engine == 'smtp') {
+            $('#smtp_div').show();
+        }
+
+    });
+
+    function changeMailStatus(element)
+    {
+        var pls_wt_js = $('#pls_wt_js').html();
+        var system_mail_activated_js = $('#system_mail_activated_js').html();
+        var system_mail_inactivate_js = $('#system_mail_inactivate_js').html();
+        var succ_js = $('#succ_js').html();
+        var failed_js = $('#failed_js').html();
+        var failed_to_update_js = $('#failed_to_update_js').html();
+
+        $.blockUI({
+            message: '<i class="fa fa-spinner fa-spin"></i>' + pls_wt_js
+        });
+        if (element.checked) {
+            var status = "1";
+        } else {
+            var status = "0";
+        }
+        $.ajax({
+            url: "admin/site_management/change_mail_send_status",
+            data: {status: status},
+            success: function (result) {
+                $.unblockUI();
+                if (result == "yes") {
+                    if (status == "1") {
+                        var msg = system_mail_activated_js;
+                        var flag = "success";
+                        var title = succ_js;
+                        show_notification(flag, title, msg);
+                    } else {
+                        var flag = "error";
+                        var msg = system_mail_inactivate_js;
+                        var title = succ_js;
+                        show_notification(flag, title, msg);
+                    }
+                } else {
+                    var flag = "error";
+                    var msg = failed_to_update_js;
+                    var title = failed_js;
+                    show_notification(flag, title, msg);
+                }
+            }
+        });
+    }
+</script>
+

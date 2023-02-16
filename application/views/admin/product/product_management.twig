@@ -1,0 +1,242 @@
+{% include('admin/partials/head-main.twig')%}
+<head>
+    <base href="{{ base_url() }}" />
+    <?= $title_meta ?>
+
+
+    <!-- DataTables -->
+    <link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+    <!-- Responsive datatable examples -->
+    <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+    <?= $this->include('partials/head-css') ?>
+
+
+{% include('admin/partials/head-css.twig')%}
+</head>
+
+{% include('admin/partials/body.twig')%}
+<!-- <body data-layout="horizontal"> -->
+
+<!-- Begin page -->
+<div id="layout-wrapper">
+
+{% include('admin/partials/menu.twig')%}
+
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+
+    <!-- ============================================================== -->
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+
+                <!-- start page title -->
+                <?= $page_title ?>
+                <h4 class="panel-title">
+                    <span class="text-bold">
+                        {% if edit_flag %} 
+                            {{lang('update_product')}}
+                        {% else %}
+                            {{lang('add_product')}} 
+                        {% endif %}
+                    </span>
+                </h4>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div>
+                                    <!-- {{ form_open_multipart('', ' id="product_form" name="product_form" class="dropzone"')|raw }} -->
+                                    <form id="pristine-valid-example" novalidate method="post" enctype="multipart/form-data">
+                                        <input type="hidden" />
+                                        <div class="row">
+                                            <div class="col-xl-4 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>Product Name</label>
+                                                    <input type="text" required data-pristine-required-message="Please Enter a Category" class="form-control" id="product_name" name="product_name" value="{{ product.product_name }}"/>
+
+                                                    <input type="hidden"  name="submit" value="edit"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>Description</label>
+                                                    <div class="col-sm-12">
+                                                        <textarea required data-pristine-required-message="Please Enter a Description" class="ckeditor"  rows="2" cols="36" name="description" id="description" value="{{ product.description }}">{{ product.description }}</textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>Product Amount</label>
+                                                    <input type="text" required data-pristine-required-message="Please Enter a Parent" class="form-control" name="product_amount" id="product_amount" value="{{ product.product_amount }}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>Quantity</label>
+                                                    <input type="text" required data-pristine-required-message="Please Enter a Parent" class="form-control" name="quantity" id="quantity" value="{{ product.quantity }}"/>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-xl-4 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>Category</label>
+                                                    <select class="form-control search-select" id="category" name="category" tabindex='9'>
+                                                        <option value="">{{ lang('select_a_category')}}</option>
+                                                        {% for cts in categories %}
+                                                            <option value="{{cts.id}}" {% if product.category==cts.id %} selected {% endif %}>{{cts.category}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        
+                                            <div class="col-xl-4 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>Sort Order</label>
+                                                    <input type="text" required data-pristine-required-message="Please Enter a Sort Order" class="form-control" name="sort_order" id="sort_order" value="{{ product.sort_order }}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>Keyword</label>
+                                                    <input type="text" required data-pristine-required-message="Please Enter a Keyword" class="form-control" name="keyword" id="keyword" value="{{ product.keyword }}" />
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4 col-md-6">
+                                                <!-- <form action="#" class="dropzone"> -->
+                                                    <div class="fallback">
+                                                        <input type="file" multiple="multiple" id="images" name="images[]" tabindex='10' accept="image/*"/>
+                                                    </div>
+                                                    <div class="dz-message needsclick">
+                                                        <div class="mb-3">
+                                                            <i class="display-4 text-muted bx bx-cloud-upload"></i>
+                                                        </div>
+
+                                                        <h5>Drop files here or click to upload.</h5>
+                                                    </div>
+                                                <!-- </form> -->
+
+                                                <!-- <div class="text-center mt-4">
+                                                    <button type="button" class="btn btn-primary waves-effect waves-light">Send
+                                                        Files</button>
+                                                </div> -->
+                           
+                                            </div>
+
+                                            <div class="text-center mt-4">
+                                            <button type="button" class="btn btn-primary waves-effect waves-light" name="dsfghdf">Send
+                                                Files</button>
+                                        </div>
+                                        <div class="col-xl-4 col-md-6">
+
+                                        <div class="form-group">
+
+                                            {% if edit_flag %}                               
+                                                <button type="button"class="btn btn-primary" value="{{ product_id }}" name="update_product" onclick="$('#pristine-valid-example').submit();" id="update_product">
+                                                    {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                                                </button>
+                                            {% else %}
+                                                <button type="button"class="btn btn-primary" value="add_product" name="add_product" onclick="$('#pristine-valid-example').submit();">
+                                                    {{lang('add')}} <i class="fa fa-arrow-circle-right"></i>
+                                                </button>
+                                            {% endif %}
+                                         </div>
+                                         </div>
+                                        </div>
+                                        <!-- end row -->
+                                    </form>
+                                    <!-- {{ form_close()|raw }} -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end card -->
+                    </div>
+                    <!-- end col -->
+                </div>
+                {% if not edit_flag %} 
+    
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <table id="datatable" class="table table-bordered dt-responsive  nowrap w-100">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>{{ lang('product_name') }}</th>
+                                            <th>{{ lang('product_amount') }}</th>
+                                            <th>{{ lang('quantity') }}</th>
+                                            <th>{{ lang('action') }}</th>  
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for row in data %} 
+                                        <tr>
+                                            <td>{{loop.index}}</td>
+                                            <td>{{row.product_name}}</td>
+                                            <td>{{row.product_amount}}</td>
+                                            <td>{{row.quantity}}</td>
+                                            <td><a href="{{BASE_URL}}admin/product-manage/edit/{{row.id}}" button type="submit"class="btn btn-primary"><i class="fas fa-pencil-alt"></i></a> <a href="{{BASE_URL}}admin/product-manage/delete/{{row.id}}" button type="submit"class="btn btn-danger"><i class="fa fa-trash fa fa-white"></i></a></td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+                {% endif %}
+            </div>
+        </div> <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+
+   {% include('admin/partials/footer.twig')%}
+    </div>
+    <!-- end main content-->
+</div>
+<!-- END layout-wrapper -->
+
+
+{% include('admin/partials/right-sidebar.twig')%}
+<!-- JAVASCRIPT -->
+{% include('admin/partials/vendor-scripts.twig')%}
+<script src="assets/js/app.js"></script>
+
+<!-- Required datatable js -->
+<script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+<!-- Buttons examples -->
+<script src="assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+<script src="assets/libs/jszip/jszip.min.js"></script>
+<script src="assets/libs/pdfmake/build/pdfmake.min.js"></script>
+<script src="assets/libs/pdfmake/build/vfs_fonts.js"></script>
+<script src="assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+
+<!-- Responsive examples -->
+<script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+
+<!-- pristine js -->
+<script src="assets/libs/pristinejs/pristine.min.js"></script>
+<!-- form validation -->
+<script src="assets/js/pages/form-validation.init.js"></script>
+
+<!-- Datatable init js -->
+<script src="assets/js/pages/datatables.init.js"></script>
+
+<script src="assets/libs/dropzone/min/dropzone.min.js"></script>
+
+{# <script src="assets/js/app.js"></script> #}
+
+</body>
+
+</html>

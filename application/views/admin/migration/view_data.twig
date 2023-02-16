@@ -1,0 +1,63 @@
+{% include('admin/layout/header.twig')%}
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('view_data')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+
+                {% if excel_row|length %}
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover" id="sample-table-1">
+                            <thead>
+                                <tr>                                    
+                                    <th>{{lang('slno')}}</th>
+                                    <th>{{lang('username')}}</th>
+                                    <th>{{lang('sponsor_name')}}</th>
+                                    <th>{{lang('email')}}</th>
+                                    <th>{{lang('password')}}</th>
+                                    <th>{{lang('first_name')}}</th>  
+                                    <th>{{lang('status')}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% for er in excel_row %}
+                                    <tr>                                        
+                                        <td>{{ loop.index }}</td>
+                                        <td>{{ er.username }}</td>
+                                        <td>{{ er.sponser_name }}</td>
+                                        <td>{{ er.email }}</td>
+                                        <td>{{ er.password }}</td>
+                                        <td>{{ er.first_name }}</td>
+                                        <td>{{ er.status |raw}}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                {% else %}
+                    <h4>{{lang('empty_excel')}}</h4>
+                {% endif %}
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+{% include('admin/layout/footer.twig')%}

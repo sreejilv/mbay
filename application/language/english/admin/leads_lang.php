@@ -1,0 +1,10 @@
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+$lang['leads'] = 'Leads';
+$lang['first_name'] = 'First Name';
+$lang['last_name'] = 'Last Name';
+$lang['email'] = 'E-Mail Address';
+$lang['phone_no'] = 'Phone Number';
+$lang['country'] = 'Country';
+$lang['comment'] = 'Comment';
+$lang['date'] = 'Date';
+$lang['no_leads'] = 'No Leads Available';

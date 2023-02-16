@@ -1,0 +1,332 @@
+<div class="tabbable partition-dark">
+    <input type="hidden" name="to_user" id="to_user" value="{{to_user}}">
+    <div class="panel-heading">
+        <span class="glyphicon glyphicon-comment"></span> {{lang('chat')}}- <span id='to_username' class="text-bold" >
+            {%if to_username %}
+                {{to_username}}
+            {% else %}
+                {{lang('select_a_chat')}}
+            {% endif %}
+        </span>
+    </div>
+    <div class="tab-content msg-panel-body" id="chat_window">
+        <div class="tab-pane fade active in" >
+            <input type="hidden" name="first_msg_id" id="first_msg_id" value="0">
+            <ul class="chat" id="load_more_ul" style="display:none">
+                <button class="btn btn btn-block" id="load_more_btn" name="load_more_btn">
+                    {{lang('load_more')}} <i class="fa fa-comments-o"></i>
+                </button>
+                <p>
+            </ul>
+            <ul class="chat" id="previous_msg">
+
+            </ul>
+            <ul class="chat" id="received">
+
+            </ul>
+
+            <span id="chat_box_footer"></span>
+        </div>
+
+    </div>
+    <div class="panel-footer">
+        <div class="clearfix">                                    
+            <div class="col-md-12" id="msg_block">
+                <div class="input-group">
+                    <input id="message" type="text" class="emojis-wysiwyg"/>
+                    <span class="input-group-btn">
+                        <button class="btn btn-warning btn-sm" id="submit">{{lang('send')}}</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link href="assets/css/emoji/jquery.emojiarea.css" rel="stylesheet" /> 
+<script src="assets/js/emoji/jquery.emojiarea.js"></script>
+<script src="assets/js/emoji/packs/basic/emojis.js"></script>
+<link href="assets/css/emoji/fontello/css/fontello.css" rel="stylesheet" />
+
+<script>
+    $('.emojis-plain').emojiarea({wysiwyg: false});
+    var $wysiwyg = $('.emojis-wysiwyg').emojiarea({wysiwyg: true});
+</script>
+
+<style>
+    textarea, .emoji-wysiwyg-editor {
+        width: 98%;
+        height: 75px;
+        border: 1px solid #d0d0d0;
+        padding: 15px;
+        font-size: 13px;
+        color: black;        
+    }
+    .chat
+    {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    .chat li
+    {
+        margin-bottom: 10px;
+        padding-bottom: 5px;
+        border-bottom: 1px dotted #B3A9A9;
+    }
+    .chat li.left .chat-body
+    {
+        margin-left: 60px;
+    }
+    .chat li.right .chat-body
+    {
+        margin-right: 60px;
+    }
+    .chat li .chat-body p
+    {
+        margin: 0;
+        color: #777777;
+    }
+    .panel .slidedown .glyphicon, .chat .glyphicon
+    {
+        margin-right: 5px;
+    }
+
+    .msg-panel-body
+    {
+        overflow-y: scroll;
+        height: 300px;
+    }
+
+    ::-webkit-scrollbar-track
+    {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        background-color: #F5F5F5;
+    }
+
+    ::-webkit-scrollbar
+    {
+        width: 12px;
+        background-color: #F5F5F5;
+    }
+
+    ::-webkit-scrollbar-thumb
+    {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+        background-color: #555;
+    }
+</style>
+<script>
+            var request_timestamp = 0;
+            var first_msg_id = 0;
+            var user_guid = {{ loged_user }};
+            var getCookie = function (key) {
+            return{{ loged_user }};
+            }
+
+    var parseTimestamp = function (timestamp) {
+    var d = new Date(timestamp * 1000);
+            var yyyy = d.getFullYear();
+            var mm = ('0' + (d.getMonth() + 1)).slice( - 2);
+            var dd = ('0' + d.getDate()).slice( - 2);
+            var hh = d.getHours();
+            var h = hh;
+            var min = ('0' + d.getMinutes()).slice( - 2);
+            var ampm = 'AM';
+            var timeString;
+            if (hh > 12) {
+    h = hh - 12;
+            ampm = 'PM';
+    } else if (hh === 12) {
+    h = 12;
+            ampm = 'PM';
+    } else if (hh == 0) {
+    h = 12;
+    }
+
+    timeString = yyyy + '-' + mm + '-' + dd + ', ' + h + ':' + min + ' ' + ampm;
+            return timeString;
+    }
+    var sendChat = function (message, callback) {
+    $.ajax({
+    url: "admin/message/send_message",
+            data: {message: message, to_user: $('#to_user').val(), guid:{{ loged_user }}},
+            success: function (result) {
+            callback();
+            }
+    });
+    }
+
+    var append_chat_data = function (chat_data) {
+    chat_data.forEach(function (data) {
+    if (first_msg_id == 0){
+    first_msg_id = data.id;
+    }
+    var is_me = data.guid == {{ loged_user }};
+            if (is_me) {
+    var html = '<li class="right clearfix">';
+            html += '	<span class="chat-img pull-right">';
+            html += '		<img src="assets/images/users/' + data.img + '" class="img-circle" style="width: 40px;height: 40px;" />';
+            html += '	</span>';
+            html += '	<div class="chat-body clearfix">';
+            html += '		<div class="header">';
+            html += '			<small class="text-muted"><span class="glyphicon glyphicon-time"></span>' + parseTimestamp(data.timestamp) + '</small>';
+            html += '			<strong class="pull-right primary-font">' + data.nickname + '</strong>';
+            html += '		</div>';
+            html += '		<p>' + data.message + '</p> ';
+            if (data.read_status == 1)
+    {
+    html += '<span class="pull-right" title="' + data.read_msg + '">✓✓</span>';
+    }
+    else
+    {
+    html += '<span class="pull-right delivered_symbol" title="' + data.read_msg + '">✓</span>';
+    }
+    html += '	</div>';
+            html += '</li>';
+    } else {
+    var html = '<li class="left clearfix">';
+            html += '<span class="chat-img pull-left">';
+            html += '<img src="assets/images/users/' + data.img + '" class="img-circle" style="width: 40px;height: 40px;" />';
+            html += '</span>';
+            html += '<div class="chat-body clearfix">';
+            html += '<div class="header">';
+            html += '<strong class="primary-font">' + data.nickname + '</strong>';
+            html += '<small class="pull-right text-muted"><span class="glyphicon glyphicon-time"></span>' + parseTimestamp(data.timestamp) + '</small>';
+            html += '</div>';
+            html += '<p>' + data.message + '</p>';
+            html += '</div>';
+            html += '</li>';
+            $(".delivered_symbol").html('✓✓');
+    }
+    $('#first_msg_id').val(first_msg_id);
+            $("#received").html($("#received").html() + html);
+            win_scroll();
+    });
+    }
+
+    var update_chats = function () {
+    if (typeof (request_timestamp) == 'undefined') {
+    request_timestamp = 0;
+    }
+
+    $.getJSON('admin/message/get_messages?timestamp=' + request_timestamp + '&to_user=' + $('#to_user').val(), function (data) {
+    append_chat_data(data);
+            var newIndex = data.length - 1;
+            if (typeof (data[newIndex]) != 'undefined') {
+    request_timestamp = data[newIndex].timestamp;
+    }
+    });
+    }
+
+    $('#submit').click(function (e) {
+    e.preventDefault();
+            var $field = $('#message');
+            var data = $field.val();
+            if ($('#to_user').val()){
+    if (data != ''){
+    sendChat(data, function () {
+    $field.val('');
+            $('.emoji-wysiwyg-editor').html('');
+    });
+    }
+    else
+    {
+    var flag = "warning";
+            var msg = $('#please_enter_a_message').html();
+            var title = $('#failed_js').html();
+            show_notification(flag, title, msg);
+    }
+    }
+    else
+    {
+    var flag = "warning";
+            var msg = $('#please_select_a_username').html();
+            var title = $('#failed_js').html();
+            show_notification(flag, title, msg);
+    }
+
+    });
+            $('#message').keyup(function (e) {
+    if (e.which == 13) {
+    $('#submit').trigger('click');
+    }
+    });
+            var append_more_data = function (msg_id, chat_data) {
+            chat_data.forEach(function (data) {
+            first_msg_id = data.id;
+                    var is_me = data.guid == {{ loged_user }};
+                    if (is_me) {
+            var html = '<li class="right clearfix">';
+                    html += '<span class="chat-img pull-right">';
+                    html += '<img src="assets/images/users/' + data.img + '" class="img-circle" style="width: 40px;height: 40px;" />';
+                    html += '</span>';
+                    html += '<div class="chat-body clearfix">';
+                    html += '<div class="header">';
+                    html += '<small class="text-muted"><span class="glyphicon glyphicon-time"></span>' + parseTimestamp(data.timestamp) + '</small>';
+                    html += '<strong class="pull-right primary-font">' + data.nickname + '</strong>';
+                    html += '</div>';
+                    html += '<p>' + data.message + '</p>';
+                    if (data.read_status == 1)
+            {
+            html += '<span class="pull-right" title="' + data.read_msg + '">✓✓</span>';
+            }
+            else
+            {
+            html += '<span class="pull-right delivered_symbol" title="' + data.read_msg + '">✓</span>';
+            }
+            html += '</div>';
+                    html += '</li>';
+            } else {
+            var html = '<li class="left clearfix">';
+                    html += '<span class="chat-img pull-left">';
+                    html += '<img src="assets/images/users/' + data.img + '" class="img-circle" style="width: 40px;height: 40px;" />';
+                    html += '</span>';
+                    html += '<div class="chat-body clearfix">';
+                    html += '<div class="header">';
+                    html += '<strong class="primary-font">' + data.nickname + '</strong>';
+                    html += '<small class="pull-right text-muted"><span class="glyphicon glyphicon-time"></span>' + parseTimestamp(data.timestamp) + '</small>';
+                    html += '</div>';
+                    html += '<p>' + data.message + '</p>';
+                    html += '</div>';
+                    html += '</li>';
+            }
+            $('#first_msg_id').val(first_msg_id);
+                    $("#previous_msg").html(html + $("#previous_msg").html());
+            });
+            }
+
+    $('#load_more_btn').click(function (e) {
+    var msg_id = $('#first_msg_id').val();
+            $.getJSON('admin/message/load_more?msg_id=' + msg_id + '&to_user=' + $('#to_user').val(), function (data) {
+            append_more_data(msg_id, data);
+            });
+    });
+            var check_load_more = function () {
+            var msg_id = $('#first_msg_id').val();
+                    $.getJSON('admin/message/load_more_count?msg_id=' + msg_id + '&to_user=' + $('#to_user').val(), function (data) {
+                    if (data == 'yes'){
+                    $('#load_more_ul').show();
+                    } else {
+                    $('#load_more_ul').hide();
+                    }
+                    });
+            }
+
+    var win_scroll = function () {
+    var container = $('#chat_window'),
+            scrollTo = $('#chat_box_footer');
+            //scrollTo = $('#submit');
+            container.animate({scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()});
+    }
+
+    setInterval(function () {
+    update_chats();
+            check_load_more();
+    }, 3000);
+
+
+
+
+
+</script>

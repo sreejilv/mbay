@@ -1,0 +1,85 @@
+{% include('admin/layout/header.twig')%}
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('documents')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="controls">                    
+                    <ul class="nav nav-pills">
+                        <li class="filter active" data-filter="all">
+                            <a href="javascript:view_files('all');">
+                                {{lang('all_files')}}
+                            </a>
+                        </li>
+                        <li class="filter" data-filter=".aud">
+                            <a href="javascript:view_files('aud');">
+                                {{lang('aud_files')}}
+                            </a>
+                        </li>
+                        <li class="filter" data-filter=".img">
+                            <a href="javascript:view_files('img');">
+                                {{lang('img_files')}}
+                            </a>
+                        </li>
+                        <li class="filter" data-filter=".docs">
+                            <a href="javascript:view_files('docs');">
+                                {{lang('doc_files')}}
+                            </a>
+                        </li>
+                        <li class="filter" data-filter=".vdo">
+                            <a href="javascript:view_files('vdo');">
+                                {{lang('vdo_files')}}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <hr/>
+                {% if files|length %}
+                    <ul id="Grid" class="list-unstyled">
+                        {% for fl in files %}
+                            <li class="col-md-3 col-sm-6 col-xs-12 mix {{fl.file_type}} gallery-img" data-cat="1">
+                                <div class="portfolio-item" style="height: 209px;">
+                                    <a class="thumb-info" href="javascript:void(0)" data-title="{{fl.title}}">
+                                        <img src="assets/images/documents/{{fl.img}}" class="img-responsive" alt="">
+                                        <span class="thumb-info-title"> {{fl.title}} </span>
+                                    </a>
+
+                                    <div class="tools tools-bottom">
+                                        <a target='_BLANK' href="assets/images/documents/{{ fl.document }}" class="tooltips" data-placement="top" data-original-title="{{lang('view')}}"><i class="fa fa-eye"></i> </a>
+                                        <a href="admin/document-download/{{ fl.document }}" class="tooltips" data-placement="top" data-original-title="{{lang('download')}}"><i class="fa fa-download"></i></a>
+
+                                    </div>
+                                </div>
+                            </li>                            
+                        {% endfor %} 
+                        <li class="gap"></li>
+                    </ul>
+                {% else %}
+                    <h4 align="center">{{lang('no_data')}}</h4>
+                {% endif %}               
+            </div>
+        </div>
+    </div>
+</div>
+{% include('admin/layout/footer.twig')%}
+<script src="assets/plugins/mixitup/src/jquery.mixitup.js"></script>
+<script src="assets/plugins/lightbox2/js/lightbox.min.js"></script>
+<script src="assets/js/pages-gallery.js"></script>
+<script>
+    jQuery(document).ready(function () {
+        PagesGallery.init();
+    });                    
+</script>

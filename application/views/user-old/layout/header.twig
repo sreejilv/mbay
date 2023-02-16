@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!-- Template Name: Rapido - Responsive Admin Template build with Twitter Bootstrap 3.x Version: 1.2 Author: ClipTheme -->
+<!--[if IE 8]><html class="ie8" lang="en"><![endif]-->
+<!--[if IE 9]><html class="ie9" lang="en"><![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+    <!--<![endif]-->
+    <!-- start: HEAD -->
+    <head>
+        <title>{{title}} | {{COMPANY_NAME}}</title>
+        <!-- start: META -->
+        <meta charset="utf-8" />
+        <base href="{{BASE_URL}}" />
+        <link rel="shortcut icon" href="assets/images/logos/{{COMPANY_FAV_ICON}}" />
+        <!--[if IE]><meta http-equiv='X-UA-Compatible' content="IE=edge,IE=9,IE=8,chrome=1" /><![endif]-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta content="" name="description" />
+        <meta content="" name="author" />
+        <!-- end: META -->	
+        {%include('user/layout/load_header_script.twig')%}
+    </head>
+    <!-- end: HEAD -->
+
+    <div id="js_validation_messages" style="display: none;"> 
+        <span id="no_data_in_datatable_js">{{lang('no_data_in_datatable_js')}}</span>    
+        <span id="no_matching_recods_js">{{lang('no_matching_recods_js')}}</span>  
+        <span id="next_js">{{lang('next')}}</span>    
+        <span id="previous_js">{{lang('previous')}}</span> 
+        <span id="showing_js">{{lang('showing')}}</span>  
+        <span id="to_js">{{lang('to')}}</span>  
+        <span id="of_js">{{lang('of')}}</span>  
+        <span id="entries_js">{{lang('entries')}}</span>
+        <span id="processing_js">{{lang('processing')}}</span>
+        <span id="search_js">{{lang('search')}}</span>
+        <span id="show_js">{{lang('show')}}</span>
+        <span id="no_matching_js">{{lang('no_matching')}}</span>     
+        <span id="filtered_js">{{lang('filtered')}}</span>
+        <span id="total_entries_js">{{lang('total_entries')}}</span> 
+        <span id="left_axis_js">{{lang('left_axis_js')}}</span>     
+        <span id="right_axis_js">{{lang('right_axis_js')}}</span> 
+        <span id="file_not_support">{{lang('file_not_support')}}</span>
+    </div>
+
+    <!-- start: BODY -->
+    <body class="{{THEME.body_class}}">
+
+        <div class="main-wrapper">
+
+            <input type = "hidden" name = "LOG_USER_TYPE" id="LOG_USER_TYPE" value="{{LOG_USER_TYPE}}"/>
+            <input type = "hidden" name = "path_root" id="path_root" value="{{BASE_URL}}"/>
+
+            {%include('user/layout/top_bar.twig')%}
+            {%include('user/layout/menu.twig')%}
+            {%include('user/layout/page_right.twig')%}
+            {%include('user/layout/main_container.twig')%}
+            {%include('user/layout/notification.twig')%}
+
+

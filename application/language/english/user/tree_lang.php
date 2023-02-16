@@ -1,0 +1,16 @@
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+$lang['genealogy_tree'] = 'Genealogy Tree';
+$lang['sponsor_tree'] = 'Sponsor Tree';
+$lang['root_tree'] = 'Root Tree';
+$lang['empty_tree'] = 'Empty Tree, No Downlines Available';
+$lang['email'] = 'E-Mail';
+$lang['join_date'] = 'Date Of Joining';
+$lang['tabular_tree'] = 'Horizontal Tree';
+$lang['user_name'] = 'User Name';
+$lang['lives_in'] = 'Also Lives in';
+$lang['downlines'] = 'Downlines';
+$lang['left_user_count'] = 'User Left Carry';
+$lang['right_user_count'] = 'User Right Carry';
+$lang['user_total_left'] = 'User Total Left';
+$lang['user_total_right'] = 'User Total Right';
+$lang['search_member'] = 'Search Member';

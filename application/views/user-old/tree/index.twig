@@ -1,0 +1,34 @@
+{% include('user/layout/header.twig')%}
+
+
+
+
+
+
+
+
+
+
+
+{% include('user/layout/footer.twig')%}
+
+<link rel="stylesheet" href="assets/plugins/weather-icons/css/weather-icons.min.css">
+<link rel="stylesheet" href="assets/plugins/nvd3/nv.d3.min.css">
+
+<script src="assets/plugins/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+<script src="assets/plugins/nvd3/lib/d3.v3.js"></script>
+<script src="assets/plugins/nvd3/nv.d3.min.js"></script>
+<script src="assets/plugins/nvd3/src/models/historicalBar.js"></script>
+<script src="assets/plugins/nvd3/src/models/historicalBarChart.js"></script>
+<script src="assets/plugins/nvd3/src/models/stackedArea.js"></script>
+<script src="assets/plugins/nvd3/src/models/stackedAreaChart.js"></script>
+<script src="assets/plugins/jquery.sparkline/jquery.sparkline.js"></script>
+<script src="assets/plugins/easy-pie-chart/dist/jquery.easypiechart.min.js"></script>
+<script src="assets/js/index.js"></script>
+
+<script>
+    jQuery(document).ready(function () {
+        Index.init();
+    });
+</script>
+

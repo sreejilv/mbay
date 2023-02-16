@@ -1,0 +1,382 @@
+{% include('admin/layout/header.twig')%}
+<link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="assets/css/shCore.css">
+<script type="text/javascript" language="javascript" src="assets/js/jquery.dataTables.js">
+</script>
+<script type="text/javascript" language="javascript" src="assets/js/shCore.js">
+</script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
+<script type="text/javascript" language="javascript" src="assets/js/lead_datatable.js">
+</script>
+<script type="text/javascript" language="javascript" class="init">
+
+    $(document).ready(function () {
+        var oTable = $('#ticket_list').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/ticket_system/get_new_tickets",
+            "dataType": "json",
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+</script>
+<div id="js_messages" style="display: none;">
+    <span id="pls_wt_js">{{lang('pls_wt_js')}}</span>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-default panel-white core-box">
+                    <div class="panel-tools">
+                    </div>
+                    <div class="panel-body no-padding">
+                        <div class="partition-blue padding-20 text-center core-icon">
+                            <i class="fa fa-ticket fa-2x icon-big"></i>
+                        </div>
+                        <div class="padding-20 core-content">
+                            <h3 class="title block no-margin font-22">{{ lang('new_tickets') }}</h3>
+                            <span class="sub-style joining"> {{ new_tickets }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default panel-white core-box">
+                    <div class="panel-tools">
+                    </div>
+                    <div class="panel-body no-padding">
+                        <div class="partition-azure padding-20 text-center core-icon">
+                            <i class="fa fa-stethoscope fa-3x icon-big"></i>
+                        </div>
+                        <div class="padding-20 core-content">
+                            <h3 class="title block no-margin font-22">{{ lang('open_tickets') }}</h3>
+                            <span class="sub-style commission"> {{ open_tickets }} </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default panel-white core-box">
+                    <div class="panel-tools">
+                    </div>
+                    <div class="panel-body no-padding">
+                        <div class="partition-green padding-20 text-center core-icon">
+                            <i class="fa fa-truck fa-2x icon-big"></i>
+                        </div>
+                        <div class="padding-20 core-content">
+                            <h3 class="title block no-margin font-22">{{ lang('processed_tickets') }}</h3>
+                            <span class="sub-style credit"> {{ processed_tickets }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default panel-white core-box">
+                    <div class="panel-tools">
+                    </div>
+                    <div class="panel-body no-padding">
+                        <div class="partition-red padding-20 text-center core-icon">
+                            <i class="fa fa-trophy fa-2x icon-big "></i>
+                        </div>
+                        <div class="padding-20 core-content">
+                            <h3 class="title block no-margin font-22">{{ lang('completed_tickets') }}</h3>
+                            <span class="sub-style debit"> {{ completed_tickets }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="">
+            <div class="panel panel-green">
+                <div class="panel-heading border-light">
+                    <span class="text-extra-small text-dark">{{lang('ticket')}} : </span><span class="text-large text-white">{{lang('completion_ratio')}}</span>
+                </div>
+                <div class="panel-body no-padding">
+                    <div class="row no-margin">
+                        <div class="padding-10 col-md-12">
+                            <div class="progress progress-xs transparent-black no-radius space5">
+                                <div aria-valuetransitiongoal="{{tickets_ratio}}" class="progress-bar progress-bar-success partition-white animate-progress-bar" ></div>
+                            </div>
+                            <span class="text-extra-small">{{tickets_ratio}}% {{ lang('completed') }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-6">
+        <div class="panel panel-white">
+            <div class="panel-heading" style="height: 61px;">
+                <h4 class="panel-title">{{ lang('ticket') }} <span class="text-bold">{{ lang('chart') }}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div id="demo-chart-10" class="height-300">
+                    <svg></svg>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('new_tickets')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped" id="ticket_list">
+                        <thead>
+                            <tr>
+                                <th>{{ lang('slno') }}</th>
+                                <th>{{lang('created_user')}}</th>
+                                <th>{{ lang('ticket_id') }}</th>
+                                <th>{{ lang('title') }}</th>
+                                <th>{{lang('subject')}}</th>
+                                <th>{{lang('description')}}</th>
+                                <th>{{lang('created_date')}}</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+      <div class="col-sm-6">
+        <div class="panel panel-white">
+          <div class="panel-heading">
+            <h4>{{lang('tag_wise_ticket')}}</h4><hr>
+          </div>
+          <div class="panel-body">
+            {%if tag_wise_ticket|length >0 %}
+                  {% for data in tag_wise_ticket %}
+                  <div class="col-sm-4">
+												<h4><strong>{{data.per}}%</strong></h4>
+												<div class="progress progress-xs transparent-black no-margin no-radius">
+													<div aria-valuetransitiongoal="{{data.per}}" class="progress-bar progress-bar-success partition-green animate-progress-bar" style="width: {{data.per}}%;" aria-valuenow="{{data.per}}"></div>
+												</div>
+												<strong>{{data.department_name}}</strong>
+											</div>
+
+                {%endfor%}
+          {%else%}
+              {{lang('no_data')}}
+          {%endif%}
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="panel panel-green">
+          <div class="panel-heading">
+            <h4>{{lang('tickets_by_status')}}</h4><hr>
+          </div>
+          <div class="panel-body">
+            {%if tickets_by_status|length >0 %}
+                  {% for data in tickets_by_status %}
+                  <div class="col-sm-4">
+												<h4><strong>{{data.per}}%</strong></h4>
+												<div class="progress progress-xs transparent-black no-margin no-radius">
+													<div aria-valuetransitiongoal="{{data.per}}" class="progress-bar progress-bar-success partition-green animate-progress-bar" style="width: {{data.per}}%;" aria-valuenow="{{data.per}}"></div>
+												</div>
+												<strong>{{data.type_name}}</strong>
+											</div>
+                {%endfor%}
+          {%else%}
+              {{lang('no_data')}}
+          {%endif%}
+          </div>
+    		</div>
+      </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading border-light">
+                <h4 class="panel-title">{{lang('daily_tickets')}}</h4>
+            </div>
+            <div class="panel-body no-padding partition-green">
+                <div class="col-md-12 col-lg-12 no-padding partition-green">
+                    <div class="partition">
+                        <div class="partition-body padding-15">
+                            <div class="height-300">
+                                <div id="chart5" class='with-3d-shadow with-transitions'>
+                                    <svg></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+{% include('admin/layout/footer.twig')%}
+<link rel="stylesheet" href="assets/plugins/nvd3/nv.d3.min.css">
+<script src="assets/js/chart.js"></script>
+<script src="assets/js/dashboard1.js"></script>
+<script src="assets/plugins/nvd3/lib/d3.v3.js"></script>
+<script src="assets/plugins/jquery.sparkline/jquery.sparkline.js"></script>
+<script src="assets/plugins/nvd3/nv.d3.min.js"></script>
+<script>
+    jQuery(document).ready(function () {
+        pieChart();
+
+        runChart5();
+    });
+
+    var pieChart = function () {
+        nv.addGraph(function () {
+            var chart = nv.models.pieChart().x(function (d) {
+                return d.label;
+            }).y(function (d) {
+                return d.value;
+            }).showLabels(true)//Display pie labels
+                    .labelThreshold(.05)//Configure the minimum slice size for labels to show up
+                    .labelType("percent")//Configure what type of data to show in the label. Can be "key", "value" or "percent"
+                    .donut(true)//Turn on Donut mode. Makes pie chart look tasty!
+                    .donutRatio(0.35)//Configure how big you want the donut hole size to be.
+                    ;
+
+            $.getJSON('api/general/get_ticket_details', function (ticket_data) {
+                var tick_array = [{
+                        "label": ticket_data.label0,
+                        "value": ticket_data.value0
+                    }, {
+                        "label": ticket_data.label1,
+                        "value": ticket_data.value1
+                    }, {
+                        "label": ticket_data.label2,
+                        "value": ticket_data.value2
+                    }, {
+                        "label": ticket_data.label3,
+                        "value": ticket_data.value3
+                    }];
+
+                d3.select("#demo-chart-10 svg").datum(tick_array).transition().duration(350).call(chart);
+
+                return chart;
+            });
+
+
+        });
+    };
+    // function to initiate Chart 4
+    var runChart5 = function () {
+        function randValue() {
+            return (Math.floor(Math.random() * (100 + 4000 - 2000))) + 2000;
+        }
+        ;
+
+        function createSeries() {
+            $.getJSON('api/general/get_ticket_graph', function (graph1_data) {
+                var ymax=10;
+                var key1 = graph1_data.key1;
+                var key2 = graph1_data.key2;
+                var currency = graph1_data.currency;
+                var graph1 = graph1_data.graph;
+                graph1.forEach(function (data) {
+                   // alert(data.value1+'-'+data.value2);
+                    series1.push([new Date(data.date), data.value1]);
+                    series2.push([new Date(data.date), data.value2]);
+
+                    if (ymax < data.value1) {
+                        ymax = data.value1 + 10;
+                    }
+                    if (ymax < data.value2) {
+                        ymax = data.value2 + 10;
+                    }
+
+                });
+
+                var data = [{
+                    "key": key1,
+                    "values": series1
+                }, {
+                    "key": key2,
+                    "values": series2
+                }];
+
+            nv.addGraph(function () {
+
+                var chart = nv.models.lineChart().margin({
+                    top: 30,
+                    right: 0,
+                    bottom: 20,
+                    left: 35
+                }).x(function (d) {
+                    return d[0];
+                }).y(function (d) {
+                    return d[1];
+                }).forceY([0, ymax]).useInteractiveGuideline(true).color(['#D9534F', '#ffffff']).clipEdge(true);
+                var options = {
+                    showControls: false,
+                    showLegend: true
+                };
+                chart.options(options);
+                chart.xAxis.tickFormat(function (d) {
+                    return d3.time.format('%x')(new Date(d));
+                }).showMaxMin(false);
+
+                chart.yAxis.tickFormat(d3.format(',f'));
+                d3.select('#chart5 svg').datum(data).call(chart);
+
+                nv.utils.windowResize(chart.update);
+
+                return chart;
+            });
+
+            });
+
+
+
+        }
+
+        if ($("#chart5 > svg").length) {
+            var date = new Date();
+            var series1 = [];
+            var series2 = [];
+            var firstDay, lastDay, fifthDay, tenthDay, fifteenthDay, twentiethDay, twentyfifthDay;
+            createSeries();
+        }
+    };
+</script>
+<style>
+    table.dataTable thead th{border-bottom:1px #111}
+    table.dataTable.no-footer{border-bottom:1px #dfe1e5 solid}
+</style>

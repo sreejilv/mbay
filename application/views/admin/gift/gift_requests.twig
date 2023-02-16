@@ -1,0 +1,283 @@
+{% include'admin/layout/header.twig' %}
+<link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="assets/css/shCore.css">
+<script type="text/javascript" language="javascript" src="assets/js/jquery.dataTables.js">
+</script>
+<script type="text/javascript" language="javascript" src="assets/js/shCore.js">
+</script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
+<script type="text/javascript" language="javascript" src="assets/js/lead_datatable.js">
+</script>
+<script type="text/javascript" language="javascript" class="init">
+
+    $(document).ready(function () {
+        var oTable = $('#gift_pending_list').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/gift/gift_pending_list",
+            "dataType": "json",
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+    $(document).ready(function () {
+        var oTable = $('#gift_active_list').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/gift/gift_active_list",
+            "dataType": "json",
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+    $(document).ready(function () {
+        var oTable = $('#gift_inactive_list').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/gift/gift_inactive_list",
+            "dataType": "json",
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+    $(document).ready(function () {
+        var oTable = $('#gift_complete_list').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "admin/gift/gift_complete_list",
+            "dataType": "json",
+            "type": "POST",
+            "data": {'{{ CSRF_TOKEN_NAME }}': '{{ CSRF_TOKEN_VALUE }}'},
+            "lengthMenu": [[10, 50,100,500,1000], [10,50,100,500,1000]],
+        });
+    });
+</script>
+<div id="js_messages" style="display: none;"> 
+    <span id="r_u_sure_js">{{lang('r_u_sure_js')}}</span>
+    <span id="activate_this_gift_request_js">{{lang('activate_this_gift_request_js')}}</span>
+    <span id="yes_activate_it">{{lang('yes_activate_it')}}</span>
+    <span id="no_cancel_js">{{lang('no_cancel_js')}}</span>
+    <span id="canceled_js">{{lang('canceled_js')}}</span>        
+    <span id="gift_req_is_safe">{{lang('gift_req_is_safe')}}</span>
+    <span id="delete_this_gift_request_js">{{lang('delete_this_gift_request_js')}}</span>
+    <span id="yes_delete_it">{{lang('yes_delete_it')}}</span>
+    <span id="inactivate_this_gift_request_js">{{lang('inactivate_this_gift_request_js')}}</span>
+    <span id="yes_inactivate_it">{{lang('yes_inactivate_it')}}</span>  
+    <span id="username_req_js">{{lang('username_req_js')}}</span>    
+    <span id="inv_username_js">{{lang('inv_username_js')}}</span>    
+    <span id="amount_req_js">{{lang('amount_req_js')}}</span>    
+    <span id="amount_number_js">{{lang('amount_number_js')}}</span>    
+    <span id="amount_min_js">{{lang('amount_min_js')}}</span> 
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('gift_request')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+                {{ form_open_multipart('', ' id="gift_req_form" name="gift_req_form"')|raw }}
+                <div class="form-horizontal">                                            
+                    <div class="errorHandler alert alert-danger no-display">
+                        <i class="fa fa-remove-sign"></i> {{ lang('form_error_msg') }}
+                    </div>                    
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('username')}} : <span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-4">
+                            <input class="typeahead form-control" type="text" name="username" id="username" placeholder="{{lang('username')}}" autocomplete="off" tabindex='1'>
+                            <div  id="full_name">
+
+                            </div>
+                            {% if gift_error.username is defined %}<code> {{ gift_error.username}} </code> {% endif %} 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            {{lang('gift_amount')}} <b>({{MLM_CURRENCY_LEFT~MLM_CURRENCY_RIGHT}})</b> : <span class="symbol required"></span>
+                        </label>
+                        <div class="col-sm-4">
+                            <input class="form-control" type="text" name="amount" id="amount" {% if gift_amount_type=='fixed' %}  value="{{(fixed_amount*MLM_CURRENCY_VALUE)|round(CURRENCY_ROUND, 'floor')}}" readonly {% endif %} placeholder="{{lang('gift_amount')}}" tabindex='2'>
+                            {% if gift_error.amount is defined %}<code> {{ gift_error.amount}} </code> {% endif %} 
+                        </div>
+                    </div>                        
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+
+                        </label>
+                        <div class="col-sm-4">
+                            <button type="submit"class="btn btn-primary" value="gift" name="gift">
+                                {{lang('create')}} <i class="fa fa-arrow-circle-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {{ form_close()|raw }} 
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title"><span class="text-bold">{{lang('gifts_details')}}</span></h4>
+                <div class="panel-tools">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
+                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
+                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
+                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
+                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <hr>
+
+                <div class="tabbable">
+                    <ul id="myTab" class="nav nav-tabs">
+                        <li class="active">
+                            <a href="javascript:#myTab_example1" data-toggle="tab">
+                                {{lang('pending_request')}} <span class="badge badge-danger">{{ pending_gifts }}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:#myTab_example2" data-toggle="tab">
+                                {{lang('active_request')}} <span class="badge badge-danger">{{ active_gifts }}</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="javascript:#myTab_example3" data-toggle="tab">
+                                {{lang('inactive_request')}} <span class="badge badge-danger">{{ inactive_gifts }}</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="javascript:#myTab_example4" data-toggle="tab">
+                                {{lang('completed_request')}} <span class="badge badge-danger">{{ completed_gifts }}</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="myTab_example1">
+                            <div class="table-responsive">
+                            <table class="table table-hover table-striped" id="gift_pending_list">
+                                <thead>
+                                    <tr>
+                                        <th>{{lang('sl_no')}}</th>
+                                        <th>{{lang('username')}}</th>
+                                        <th>{{lang('gift_amount')}}</th>
+                                        <th>{{lang('request_date')}}</th>
+                                        <th>{{lang('gift_send')}}</th>
+                                        <th>{{lang('gift_rec')}}</th>
+                                        <th>{{lang('action')}}</th>
+                                    </tr>
+                                </thead>                                    
+                            </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="myTab_example2">
+                            <div class="table-responsive">
+                            <table class="table table-hover table-striped" id="gift_active_list">
+                                <thead>
+                                    <tr>
+                                        <th>{{lang('sl_no')}}</th>
+                                        <th>{{lang('username')}}</th>
+                                        <th>{{lang('gift_amount')}}</th>
+                                        <th>{{lang('request_date')}}</th>
+                                        <th>{{lang('gift_send')}}</th>
+                                        <th>{{lang('gift_rec')}}</th>
+                                        <th>{{lang('action')}}</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="myTab_example3">
+                            <div class="table-responsive">
+                            <table class="table table-hover table-striped" id="gift_inactive_list">
+                                <thead>
+                                    <tr>
+                                        <th>{{lang('sl_no')}}</th>
+                                        <th>{{lang('username')}}</th>
+                                        <th>{{lang('gift_amount')}}</th>
+                                        <th>{{lang('request_date')}}</th>
+                                        <th>{{lang('gift_send')}}</th>
+                                        <th>{{lang('gift_rec')}}</th>
+                                        <th>{{lang('action')}}</th>
+                                    </tr>
+                                </thead>                                    
+                            </table>  
+                            </div>
+                        </div>                        
+                        <div class="tab-pane fade" id="myTab_example4">
+                            <div class="table-responsive">
+                            <table class="table table-hover table-striped" id="gift_complete_list">                                   <thead>
+                                    <tr>
+                                        <th>{{lang('sl_no')}}</th>
+                                        <th>{{lang('username')}}</th>
+                                        <th>{{lang('gift_amount')}}</th>
+                                        <th>{{lang('request_date')}}</th>
+                                        <th>{{lang('paid_user')}}</th>
+                                        <th>{{lang('paid_date')}}</th>
+                                    </tr>
+                                </thead>                                    
+                            </table>
+                            </div>
+                        </div>                                
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include'admin/layout/footer.twig' %}
+
+<link href="assets/plugins/sweetalert/lib/sweet-alert.css" rel="stylesheet" />
+<script src="assets/plugins/sweetalert/lib/sweet-alert.min.js"></script>
+<script src="assets/js/typeahead.js"></script>
+<script src="assets/js/gift_request.js"></script>
+<script>
+    jQuery(document).ready(function () {
+        valGiftReqSearch();
+    });
+
+    $('input.typeahead').typeahead({
+        source: function (query, process) {
+            var url = "admin/member/get_usernames";
+            return $.get(url, {query: query}, function (data) {                
+                data = $.parseJSON(data);
+                return process(data);
+            });
+        }
+    });
+</script>
+<style>
+    table.dataTable thead th{border-bottom:1px #111}
+    table.dataTable.no-footer{border-bottom:1px #dfe1e5 solid}
+</style>
