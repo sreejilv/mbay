@@ -1,217 +1,227 @@
-{% include('admin/layout/header.twig')%}
-<div style="display:none">
-    <span id="js_error_message">{{lang('js_error_message')}}</span>
-    <span id="user_logo_ext_js">{{lang('user_logo_ext_js')}}</span>  
-    <span id="user_fav_ext_js">{{lang('user_fav_ext_js')}}</span>  
-    <span id="company_name_req_js">{{lang('company_name_req_js')}}</span>  
-    <span id="company_address_req_js">{{lang('company_address_req_js')}}</span>  
-    <span id="min_length_address_js">{{lang('min_length_address_js')}}</span>  
-    <span id="company_email_req_js">{{lang('company_email_req_js')}}</span>  
-    <span id="min_length_js">{{lang('min_length_js')}}</span>    
-    <span id="company_phone_req_js">{{lang('company_phone_req_js')}}</span>    
-    <span id="min_phone_req_js">{{lang('min_phone_req_js')}}</span>     
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <div class="panel panel-white">
-            <div class="panel-heading">
-                <h4 class="panel-title"><span class="text-bold">{{ page_title}} </span></h4>
-                <div class="panel-tools">
-                    <div class="dropdown">
-                        <a data-toggle="dropdown" class="btn btn-xs dropdown-toggle btn-transparent-grey"><i class="fa fa-cog"></i></a>
-                        <ul class="dropdown-menu dropdown-light pull-right" role="menu">
-                            <li><a class="panel-collapse collapses" href="#"><i class="fa fa-angle-up"></i> <span>{{ lang('collapse') }}</span> </a></li>
-                            <li><a class="panel-refresh" href="#"><i class="fa fa-refresh"></i> <span>{{ lang('refresh') }}</span></a></li>
-                            <li><a class="panel-expand" href="#"><i class="fa fa-expand"></i> <span>{{ lang('full_screen') }}</span></a></li>
-                        </ul>
-                    </div>
-                    <a class="btn btn-xs btn-link panel-close" href="#"><i class="fa fa-times"></i></a>
+{% include('admin/partials/head-main.twig')%}
+<head>
+    <base href="{{ base_url() }}" />
+    <?= $title_meta ?>
 
-                </div>
-            </div>
-            
-            <div class="panel-body">
-                <hr>
-                {{ form_open_multipart('', ' method="post" id="update_siteinfo_form" name="update_siteinfo_form"')|raw }}
-                <div class="col-sm-12">
-                    <div class="tabbable">
-                        <ul id="myTab" class="nav nav-tabs">
-                            <li class="active">
-                                <a href="javascript:#myTab_example1" data-toggle="tab">
-                                    <i class="green fa fa-list"></i>  {{lang('general')}}
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:#myTab_example2" data-toggle="tab">
-                                    <i class="green fa fa-image"></i>  {{lang('image')}}
-                                </a>
-                            </li>
-                        </ul>
-                        <div class="tab-content">
-                            <div class="tab-pane fade in active" id="myTab_example1">
-                                <div class="form-horizontal">
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">
+{% include('admin/partials/head-css.twig')%}
+    <link href="assets/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css">
+    <!-- DataTables -->
+    <link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 
-                                            {{lang('company_name')}}: <span class="symbol required"></span>
-                                        </label>
-                                        <div class="input-group col-sm-4 ">
-                                            <span class="input-group-addon"> <i class="fa fa-user"></i> </span>
-                                            <input class="form-control" type="text" name="company_name" id="company_name" placeholder='{{lang('company_name')}}' value="{{site_info['company_name']}}">
-                                        </div>
-                                        {% if(error.company_name)%}<code>{{error.company_name}} </code>{% endif%}
-                                    </div>
-                                    {#<div class="form-group">
-                                        <label class="col-sm-3 control-label">
+    <!-- Responsive datatable examples -->
+    <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
 
-                                            {{lang('admin_email')}}: <span class="symbol required"></span>
-                                        </label>
-                                        <div class="input-group col-sm-4 ">
-                                            <span class="input-group-addon"> <i class="fa fa-envelope"></i> </span>
-                                            <input class="form-control" type="text" name="admin_email" id="admin_email" placeholder='{{lang('admin_email')}}' value="{{site_info['admin_email']}}">
-                                        </div>
-                                        {% if(error.admin_email)%}<code>{{error.admin_email}} </code>{% endif%}
-                                    </div>#}
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">
+    <link href="assets/libs/dropify/dropify.min.css" rel="stylesheet" type="text/css" />
 
-                                            {{lang('address')}}: <span class="symbol required"></span>
-                                        </label>
-                                        <div class="col-sm-8">
-                                            <textarea class="form-control ckeditor" type="text" rows="4" cols="60" name="company_address" id="company_address" placeholder='{{lang('address')}}'>{{site_info['company_address']}}</textarea>
+</head>
 
-                                        </div>
-                                        {% if(error.company_address)%}<code>{{error.company_address}} </code>{% endif%}
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">
+{% include('admin/partials/body.twig')%}
+<!-- <body data-layout="horizontal"> -->
 
-                                            {{lang('company_email')}}: <span class="symbol required"></span>
-                                        </label>
-                                        <div class="input-group col-sm-4 ">
-                                            <span class="input-group-addon"> <i class="fa fa-envelope"></i> </span>
-                                            <input class="form-control" type="email" name="company_email" id="company_email" placeholder='{{lang('company_email')}}'value="{{site_info['company_email']}}">
-                                        </div>
-                                        {% if(error.company_email)%}<code>{{error.company_email}} </code>{% endif%}
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">
+<!-- Begin page -->
+<div id="layout-wrapper">
 
-                                            {{lang('company_phone')}}: <span class="symbol required"></span>
-                                        </label>
-                                        <div class="input-group col-sm-4 ">
-                                            <span class="input-group-addon"> <i class="fa fa-phone"></i> </span>
-                                            <input class="form-control" type="text" name="company_phone" id="company_phone" placeholder='{{lang('company_phone')}}' value="{{site_info['company_phone']}}">
-                                        </div>
-                                        {% if(error.company_phone)%}<code>{{error.company_phone}} </code>{% endif%}
-                                    </div>
-                                    
-                                     <div class="form-group">
-                                         
-                                        <label class="col-sm-3 control-label">
-                                          {{lang('google_analytics')}}: 
-                                        </label>
-                                        
-                                        <div class="input-group col-sm-4 ">
-                                            <span class="input-group-addon"> <i class="fa fa-text-width"></i> </span>
-                                            <input class="form-control" type="text" name="google_analytics" id="google_analytics" placeholder='{{lang('google_analytics')}}' value="{{site_info['google_analytics']}}">
-                                         </div>
-                                         {% if(error.google_analytics)%}<code>{{error.google_analytics}} </code>{% endif%}
-                                         
-                                    </div>
-                                    <div class="form-group">
-                                         <div class="col-sm-3">
-                                         </div>
-                                         <div class="col-sm-6 col-sm-offest-3">
-                                                <span class="label label-info"> {{ lang('note') }}</span>
-                                              <span> {{ lang('google_analytics_note') }} </span>
+    {% include('admin/partials/menu.twig')%}
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="main-content">
 
-                                        </div>
-                                    </div>
-                                </div>
+        <div class="page-content">
+            {%include('admin/layout/notification.twig')%}
+            <div class="container-fluid">
+
+                <!-- start page title -->
+                <?= $page_title ?>
+                
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title"> <i class="bx bxs-edit-alt"></i> Web Site Settings</h4>
                             </div>
-                            <div class="tab-pane fade" id="myTab_example2">
-                                <div class="form-horizontal">
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">
-                                            {{lang('logo')}}
-                                        </label>
-                                        <div class="fileupload fileupload-new col-sm-5" data-provides="fileupload">
-                                            <div class="fileupload-new thumbnail"><img src="{{BASE_URL}}assets/images/logos/{{site_info['company_logo']}}" alt="" value="{{site_info['company_logo']}}">
-                                            </div>
-                                            <div class="fileupload-preview fileupload-exists thumbnail"></div>
-                                            <div class="user-edit-image-buttons">
-                                                <span class="btn btn-azure btn-file"><span class="fileupload-new"><i class="fa fa-picture"></i>{{lang('select_image')}}</span><span class="fileupload-exists"><i class="fa fa-picture"></i> {{lang('change')}}</span>
-                                                    <input type="file" name="company_logo" id="company_logo" value="{{site_info['company_logo']}}" accept="image/*">
-                                                </span>
-                                                <a href="#" class="btn fileupload-exists btn-red" data-dismiss="fileupload">
-                                                    <i class="fa fa-times"></i> {{lang('remove')}}
-                                                </a>
-                                            </div>
-                                            <div class="alert alert-warning">
-                                                <span class="label label-warning">{{lang('note')}}!</span>
-                                                <span> {{lang('supported_formats')}} : {{lang('JPEG')}} , {{lang('PNG')}} , {{lang('JPG')}} </span>
+                            {{ form_open_multipart('', 'class="update_form" id="update_form" name="update_form"')|raw }}
+                            
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="edit-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">General</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="address-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Image</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                    <div class="card-body p-4">
+                                        <div class="row">
+                                            <div class="col-lg-12 ms-lg-auto">
+                                                    
+                                                    <div class="mt-4 mt-lg-0">
+                                                        <div class="row mb-4">
+                                                            <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Company Name</label>
+                                                             
+                                                            <div class="col-sm-9">
+                                                                <input type="text" class="form-control" name="company_name" id="horizontal-firstname-input" value="{{site_info.company_name}}">
+                                                                {% if login_error.company_name is defined %}<code> {{ login_error.company_name}} </code> {% endif %}
+                                                           
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row mb-4">
+                                                            <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Address</label>
+                                                            <div class="col-sm-9">
+                                                            <textarea class="form-control ckeditor" type="text" rows="4" cols="60" name="company_address" id="company_address" placeholder='{{lang('address')}}'>{{site_info['company_address']}}</textarea>
+                                                            {% if login_error.company_address is defined %}<code> {{ login_error.company_address}} </code> {% endif %}
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row mb-4">
+                                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">Company Email</label>
+                                                            <div class="col-sm-9">
+                                                                <input type="company_email" class="form-control" name="company_email" id="horizontal-email-input"  value="{{site_info.company_email}}">
+                                                             {% if login_error.company_email is defined %}<code> {{ login_error.company_email}} </code> {% endif %}
+                                                           
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row mb-4">
+                                                            <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Company Phone Number</label>
+                                                            <div class="col-sm-9">
+                                                                <input type="text" class="form-control"  name="company_phone" id="horizontal-firstname-input" value="{{site_info.company_phone}}">
+                                                             {% if login_error.company_phone is defined %}<code> {{ login_error.company_phone}} </code> {% endif %}
+                                                          
+                                                            </div>
+                                                        </div> 
+                                                        <div class="row mb-4">
+                                                            <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Google Analytics</label>
+                                                            <div class="col-sm-9">
+                                                                <input class="form-control" type="text" name="google_analytics" id="google_analytics" placeholder='{{lang('google_analytics')}}' value="{{site_info['google_analytics']}}">
+                                                             {% if login_error.company_phone is defined %}<code> {{ login_error.company_phone}} </code> {% endif %}
+                                                          
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">
-                                            {{lang('fav_icon')}}
-                                        </label>
-                                        <div class="fileupload fileupload-new col-sm-5" data-provides="fileupload">
-                                            <div class="fileupload-new thumbnail"><img src="{{BASE_URL}}assets/images/logos/{{site_info['company_fav_icon']}}" alt="" value="{{site_info['company_fav_icon']}}">
+                                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="address-tab">
+                             
+                                    <div class="card-body p-4"> 
+                                        <div class="row">
+                                            <div class="col-lg-12 ms-lg-auto">
+                                                <div class="mt-4 mt-lg-0">
+                                                    <div class="col-lg-6">
+                                                        <label>Company Logo</label>
+                                                        <div class="dropify-wrapper mb-4 form-group col-lg-6">
+                                                            <div class="dropify-errors-container">
+                                                            <ul></ul>
+                                                            </div>
+                                                            <input type="file" class="dropify" data-default-file="assets/images/{{site_info.company_logo}}" name="company_logo" id="company_logo" />
+                                                                <button class="dropify-clear" type="button">Remove</button>
+                                                                    <span class="dropify-render"></span>
+                                                                        <p class="dropify-filename"><span class="file-icon"></span>
+                                                                        <span class="dropify-filename-inner"></span></p>
+                                                                        <p class="dropify-infos-message">Drag and drop or click to replace</p>
+                                                        </div>
+                                                    </div>
+                                                   
+                                                    <div class="col-lg-6">
+                                                        <label>Fav Icon</label>
+                                                        <div class="dropify-wrapper mb-4 form-group col-lg-6">
+                                                            <div class="dropify-errors-container">
+                                                            <ul></ul>
+                                                            </div>
+                                                            <input type="file" class="dropify" data-default-file="assets/images/{{site_info.company_fav_icon}}" name="company_fav_icon" id="company_fav_icon" />
+                                                                <button class="dropify-clear" type="button">Remove</button>
+                                                                    <span class="dropify-render"></span>
+                                                                        <p class="dropify-filename"><span class="file-icon"></span>
+                                                                        <span class="dropify-filename-inner"></span></p>
+                                                                        <p class="dropify-infos-message">Drag and drop or click to replace</p>
+                                                        </div>
+                                                    </div>
+                                                </div> 
                                             </div>
-                                            <div class="fileupload-preview fileupload-exists thumbnail"></div>
-                                            <div class="user-edit-image-buttons">
-                                                <span class="btn btn-azure btn-file"><span class="fileupload-new"><i class="fa fa-picture"></i> {{lang('select_image')}}</span><span class="fileupload-exists"><i class="fa fa-picture"></i> {{lang('change')}}</span>
-                                                    <input type="file" name="company_fav_icon" id="company_fav_icon" value="{{site_info['company_fav_icon']}}" accept="image/*">
-                                                </span>
-                                                <a href="#" class="btn fileupload-exists btn-red" data-dismiss="fileupload">
-                                                    <i class="fa fa-times"></i> {{lang('remove')}}
-                                                </a>
-                                            </div>
-
-                                            <div class="alert alert-warning">
-                                                <span class="label label-warning">{{lang('note')}}!</span>
-                                                <span> {{lang('supported_formats')}} : {{lang('JPEG')}} , {{lang('PNG')}} , {{lang('JPG')}} </span>
-                                            </div>
-                                        </div>
+                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
+                        <div class="row justify-content-end">
+                            <div class="col-sm-9">
+                                <div>
+                                    <button type="submit" name="update_site_info" value="update" class="btn btn-primary w-md">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">
-
-                    </label>
-                    <div class="col-sm-4">
-
-                        {% if PRESET_DEMO_STATUS %}
-                            <button type="button" class="btn btn-primary" onclick="show_notification('warning', $('#operation_blocked').html(), $('#operation_blocked_msg').html())">
-                                {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
-                            </button>
-                        {% else %}                        
-                            <button type="submit"class="btn btn-primary" value="update" name="update_site_info" id="update_site_info">
-                                {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
-                            </button>                         
-                        {% endif %}
+                        {{form_close()|raw}}
                     </div>
-                </div>
-                {{ form_close()|raw }}
+                </div> <!-- container-fluid -->
             </div>
-        </div>                                    
+            <!-- End Page-content -->
+
+        {% include('admin/partials/footer.twig')%}
+        </div>
+        
+        <!-- end main content-->
     </div>
 </div>
-{% include('admin/layout/footer.twig') %}
-<script src="assets/plugins/ckeditor/ckeditor.js"></script>
-<script src="assets/js/file_extension.js"></script>
-<script src="assets/js/site_management.js">
+<!-- END layout-wrapper -->
+
+
+{% include('admin/partials/right-sidebar.twig')%}
+<!-- JAVASCRIPT -->
+{% include('admin/partials/vendor-scripts.twig')%}
+<script src="assets/js/app.js"></script>
+<script src="assets/libs/flatpickr/flatpickr.min.js"></script>
+
+<!-- Required datatable js -->
+<script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+<!-- Responsive examples -->
+<script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+<script src="assets/js/pages/dashboard.init.js"></script>
+<script src="assets/js/pages/invoices-list.init.js"></script>
+
+<script src="assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+<script src="assets/libs/jszip/jszip.min.js"></script>
+<script src="assets/libs/pdfmake/build/pdfmake.min.js"></script>
+<script src="assets/libs/pdfmake/build/vfs_fonts.js"></script>
+<script src="assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+ 
+<!-- <script src="assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
+<script src="assets/js/pages/form-editor.init.js"></script>  -->
+<script src="assets/libs/dropzone/min/dropzone.min.js"></script>
+
+
+<!-- Responsive examples -->
+<script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+<script src="assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js"></script>
+<script src="assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js"></script>
+<!-- dashboard init -->
+<script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<!-- App js -->
+<script src="assets/js/app.js"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="assets/libs/dropify/dropify.min.js"></script>
+<script>
+
+var imgUpload = $('.dropify').dropify({
+    imgFileExtensions: ["png", "jpg", "jpeg", "gif", "bmp","svg"]
+});
+
 </script>
-<script type="text/javascript">
-    jQuery(document).ready(function () {
-        validateSiteSettings();
-    });
-</script>
+</body>
+
+</html>

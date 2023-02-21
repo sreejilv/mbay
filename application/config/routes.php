@@ -377,4 +377,5 @@ $route['(:any)/join-report/(:num)'] = '$1/report/user_join/$2';
 $route['admin/categories'] = 'admin/product/categories';
 $route['admin/categories/(:any)/(:num)'] = 'admin/product/categories/$1/$2';
 $route['image_upload'] = 'admin/product/image_upload';
+$route['admin/website-image-upload'] = 'admin/site_management/website_image_upload';
 

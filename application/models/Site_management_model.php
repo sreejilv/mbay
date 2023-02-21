@@ -54,8 +54,8 @@ class Site_management_model extends CI_Model {
      * @return type
      */
     function updateSiteInformation($company_name, $admin_email, $company_address, $company_email, $company_phone, $logo, $fav_icon,$google_analytics) {
+        // print_r($logo);die;
         $data_array = array('company_name' => $company_name, 'admin_email' => $admin_email, 'company_address' => $company_address, 'company_email' => $company_email, 'company_phone' => $company_phone, 'company_logo' => $logo, 'company_fav_icon' => $fav_icon, 'google_analytics' => $google_analytics);
-
         $this->db->where('id', 1)
                 ->update('site_info', $data_array);
         if ($this->db->affected_rows() > 0) {
