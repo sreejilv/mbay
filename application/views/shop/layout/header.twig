@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="assets/shop/css/vendor/bootstrap.min.css" media="all">
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.rtl.min.css"> -->
     <link rel="stylesheet" href="assets/shop/css/vendor/simple-line-icons.css" media="all">
+    <link rel="stylesheet" href="assets/shop/css/vendor/elegant.css">
     <link rel="stylesheet" href="assets/shop/css/style.css" media="all">
     <!-- <link rel="stylesheet" href="assets/shop/css/style_rtl.css"> -->
     <link rel="stylesheet" href="assets/shop/css/custom_style.css">
@@ -72,6 +73,11 @@
                                         <a href="{{BASE_URL}}login-site"><i class="icon-user"></i> Log In / Register</a>
                                     </div>
                                  {% endif %}
+                                 <!--language-->
+                                    <div class="header-login-regi">
+                                        <a href="#" title="العربية">العربية</a>
+                                    </div>
+                                    <!--end language-->
                                     <div class="header-cart-2">
                                         <a class="cart-active" href="{{BASE_URL}}cart"><i class="icon-basket-loaded"></i> <span
                                                 class="black">02</span> $264.50</a>
@@ -109,14 +115,27 @@
                         </div>
                         <div class="col-6">
                             <div class="header-action header-action-flex">
-                                <div class="same-style-2">
-                                    <a href="#"><i class="icon-user"></i></a>
+                            <!--language-->
+                                <div class="same-style-wrap language-swicher">
+                                    <div class="same-style same-style-border language-wrap">
+                                        <a class="language-dropdown-active" href="#">EN <i
+                                                class="icon-arrow-down"></i></a>
+                                        <div class="language-dropdown">
+                                            <ul>
+                                                <li><a href="#">English</a></li>
+                                                <li><a href="#">العربية</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
+                                <!--end language-->
+                                <!--cart-->
                                 <div class="same-style-2 header-cart">
                                     <a class="cart-active" href="#">
                                         <i class="icon-basket-loaded"></i><span class="pro-count black">02</span>
                                     </a>
                                 </div>
+                                <!--end cart-->
                                 <div class="same-style-2 main-menu-icon">
                                     <a class="mobile-header-button-active" href="#"><i class="icon-menu"></i> </a>
                                 </div>
