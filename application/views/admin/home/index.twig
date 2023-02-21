@@ -370,16 +370,23 @@
 <script src="assets/js/app.js"></script>
 <script>
 
+   $.getJSON('api/general/get_graph_data', function (graph_data) {
+
+// let x= [44, 55, 57, 56, 61, 58, 63, 60, 66]
+    // let x= graph_data[0]
+// console.log(graph_data[0])
+
  var options = {
-          series: [{
+
+           series: [{
           name: 'Order',
-          data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+          data: graph_data[0]['values']
         }, {
           name: 'Sales',
-          data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
+          data: graph_data[1]['values']
         }, {
           name: 'Customers',
-          data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
+          data: graph_data[2]['values']
         }],
           chart: {
           type: 'bar',
@@ -401,7 +408,7 @@
           colors: ['transparent']
         },
         xaxis: {
-          categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+          categories: graph_data[3]['values'],
         },
         yaxis: {
           title: {
@@ -419,9 +426,11 @@
           }
         }
         };
-
-        var chart = new ApexCharts(document.querySelector("#chart"), options);
+ var chart = new ApexCharts(document.querySelector("#chart"), options);
         chart.render();
+});
+       
+       
 </script> 
 <script src="assets/libs/flatpickr/flatpickr.min.js"></script>
 
@@ -442,9 +451,9 @@
 {# <script src="assets/js/app.js"></script> #}
 <script>
 
-$(document).ready(function () {
-    mapdata();
-});
+// $(document).ready(function () {
+//     mapdata();
+// });
 </script>
 </body>
 

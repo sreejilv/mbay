@@ -8,6 +8,7 @@ if (!defined('BASEPATH'))
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+use Carbon\Carbon;
 
 class General extends Core_Base_Controller {
 
@@ -213,5 +214,58 @@ class General extends Core_Base_Controller {
         echo json_encode($this->helper_model->getGraphTicketData($user_id));
         exit();
     }
+    function get_graph_data()
+    {
+        $this->load->model('home_model');
+        $date = date("Y-m-d", strtotime('-1year'));
+
+       
+        $values1 = $values2 =$values3=$values4= array();
+
+        for ($i = 0; $i < 12; $i++) 
+        {
+           $month = date("m", strtotime( date( 'Y-m-01' )." -$i months"));
+           $year = date("Y", strtotime( date( 'Y-m-01' )." -$i months"));
+            $year_month=$year.'-'.$month;
+            
+            $values1[] = $this->home_model->getUserOrderPerMonth($year_month);
+
+            $values2[] = $this->home_model->getUserSalesPerMonth($year_month);
+          
+            $values3[] = $this->home_model->getCustomersCount($year_month);
+            $values4[] = date("M", mktime(0, 0, 0, $month, 10));
+   
+           
+       }
+    
+        $data1 =$data2=$data3=$data4=array();
+        $data1['key'] = "Orders";
+        $data1['color'] = '#26001b';
+        $data1['values'] = $values1;
+
+        $data2['key'] = "Sales";
+        $data2['color'] = '#93329e';
+        $data2['values'] = $values2;
+
+       $data3['key'] = "Customers";
+       $data3['color'] = '#e48900';
+       $data3['values'] = $values3;
+
+       $data4['values'] =  $values4;
+
+       
+       
+
+        $graph[] = $data1;
+        $graph[] = $data2;
+        $graph[] = $data3;
+        $graph[] = $data4;
+
+
+
+        echo json_encode($graph);
+        exit;
+    }
+
 
 }

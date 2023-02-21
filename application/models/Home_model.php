@@ -256,7 +256,45 @@ class Home_model extends CI_Model {
             $amount = $res->row()->original_amount;
         }
         return $amount;
+
     }
+   
+
+
+    function getUserOrderPerMonth($year_month)
+    {
+        return $this->db->select('count(*)')
+                             ->where("DATE_FORMAT(confirm_date,'%Y-%m')", $year_month)
+                            ->where('order_status' , 1)
+                            ->from('orders')
+                            ->count_all_results();
+    }    
+
+    function getUserSalesPerMonth($year_month)
+    {                       
+        return $this->db->select_sum('total_amount')
+                             ->where("DATE_FORMAT(confirm_date,'%Y-%m')", $year_month)
+                            ->where('order_status' , 1)
+                            ->from('orders')
+                            ->count_all_results();
+
+
+    }
+    function getCustomersCount($year_month)
+    {
+        return $this->db->select('count(*)')
+                             ->where("DATE_FORMAT(date,'%Y-%m')", $year_month)
+                            ->where('user_type', 'user')
+                            ->from('user')
+                            ->count_all_results();
+    }
+    function getMonthNames($monthNum)
+    {
+       
+        $monthName = date("F", mktime(0, 0, 0, $monthNum, 10));
+        
+    }
+
 
     function getTotalOrders() {
         return $this->db->select('count(*)')
