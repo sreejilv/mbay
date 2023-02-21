@@ -883,9 +883,28 @@
     padding: 6px 21px;
 }
 
+.order-success-area .card {
+    border: none;
+}
+.order-success-area .card .card-header {
+    border: none;
+    background: none;
+}
 
-
-
+.order-success-area .card .done-icon {
+    margin: auto;
+    background-color: #6aae27;
+    border-radius: 100px;
+    padding: 7px;
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+}
+.order-success-area .card .done-icon img { 
+    filter: brightness(0) invert(1);
+    max-width: 100%;
+    max-height: 100%;
+}
 
 
 
