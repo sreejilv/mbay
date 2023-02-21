@@ -1,6 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 defined('BASEPATH') OR exit('No direct script access allowed');
+use Carbon\Carbon;
 
 require_once 'Base_Controller.php';
 
@@ -26,7 +27,7 @@ class Home extends Base_Controller {
         // $total_users=$this->helper_model->getUserCounts('',$user_id);
         
         // $lat_docs = $this->home_model->getDocs();
-        // $pay_details = $this->home_model->getPayoutDetails();        
+        // $pay_details = $this->home_model->getPayoutDetails();
                
         // $this->setData('pay_details', $pay_details);
         // $this->setData('lat_docs', $lat_docs);
@@ -41,7 +42,21 @@ class Home extends Base_Controller {
         // $this->setData('lcp_link', $lcp_link);
         // $this->setData('year', date('Y'));
         // $this->setData('title', lang('menu_name_1'));
+        $last_monday = date("Y-m-d", strtotime("last week monday"));
+        $last_sunday = date("Y-m-d", strtotime("last week sunday"));
+        $total_orders_last_week = $this->home_model->getLastWeekOrders($last_monday , $last_sunday );
+        $total_sales_last_week = $this->home_model->getLastWeekSales($last_monday , $last_sunday);
+        $total_customers_last_week = $this->home_model->getLastWeekTotalUsers($last_monday , $last_sunday);
         $order_data = '';
+        $total_orders = $this->home_model->getTotalOrders();
+        $total_sales = $this->home_model->getTotalSales(); 
+        $total_customers = $this->home_model->getTotalUsers();
+        $this->setData('total_customers_last_week', $total_customers_last_week);
+        $this->setData('total_orders_last_week', $total_orders_last_week);
+        $this->setData('total_sales_last_week', $total_sales_last_week);
+        $this->setData('total_customers', $total_customers);
+        $this->setData('total_orders', $total_orders);
+        $this->setData('total_sales', $total_sales);
         $this->setData('order_data', $order_data);
         $this->loadView();
     }
@@ -136,5 +151,49 @@ class Home extends Base_Controller {
         }
         echo 'yes';exit;
     }
+
+    public function totalorder() {
+        $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
+        $date = date("Y-m-d H:i:s");
+        $date = date("Y-m-d", strtotime($date));
+        $value1 = array();
+        for ($i = 8; $i >= 1; $i--) {
+            $value1[] = $this->home_model->getUserOrderTotal($date);
+            $date = date('Y-m-d', strtotime($date . ' -1 day'));
+        }
+        echo json_encode($value1);
+        exit();
+
+    }
+
+    public function totalsales() {
+        $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
+        $date = date("Y-m-d H:i:s");
+        $date = date("Y-m-d", strtotime($date));
+        $value1 = array();
+        for ($i = 8; $i >= 1; $i--) {
+            $value1[] = $this->home_model->getUserSalesTotal($date);
+            $date = date('Y-m-d', strtotime($date . ' -1 day'));
+        }
+        echo json_encode($value1);
+        exit();
+
+    }
+
+    public function total_users() {
+        $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
+        $date = date("Y-m-d H:i:s");
+        $date = date("Y-m-d", strtotime($date));
+        $value1 = array();
+        for ($i = 8; $i >= 1; $i--) {
+            $value1[] = $this->home_model->getTotalUserCount($date);
+            $date = date('Y-m-d', strtotime($date . ' -1 day'));
+        }
+        echo json_encode($value1);
+        exit();
+
+    }
+
+    
     
 }

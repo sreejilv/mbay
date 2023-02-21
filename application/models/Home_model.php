@@ -256,6 +256,99 @@ class Home_model extends CI_Model {
             $amount = $res->row()->original_amount;
         }
         return $amount;
-    }    
+    }
+
+    function getTotalOrders() {
+        return $this->db->select('count(*)')
+                        ->from('orders')
+                        ->where('order_status', 1)
+                        ->count_all_results();
+        
+    }
+
+    function getTotalSales() {
+        $total_amount = 0;
+        $query = $this->db->select_sum('total_amount')
+                ->where('order_status', 1)
+                ->get('orders');
+        if ($query->num_rows() > 0 && $query->row()->total_amount != '') {
+            $total_amount = $query->row()->total_amount;
+        }
+        return $total_amount;
+
+    }
+
+    function getTotalUsers() {
+       $this->db->select('mlm_user_id')
+                ->from("user")
+                ->where('user_type', 'user');
+                 return $this->db->count_all_results();
+
+    }
+
+    function getLastWeekOrders($from_date , $to_date) {
+        return $this->db->select('count(*)')
+                        ->from('orders')
+                        ->where('order_status', 1)
+                        ->where('order_date BETWEEN "' . $from_date . '" and "' . $to_date . '"')
+                        ->count_all_results();
+        
+    }
+
+    function getLastWeekSales($from_date , $to_date) {
+        $total_amount = 0;
+        $query = $this->db->select_sum('total_amount')
+                ->where('order_status', 1)
+                ->where('order_date BETWEEN "' . $from_date . '" and "' . $to_date . '"')
+                ->get('orders');
+        if ($query->num_rows() > 0 && $query->row()->total_amount != '') {
+            $total_amount = $query->row()->total_amount;
+        }
+        return $total_amount;
+
+    }
+
+    function getLastWeekTotalUsers($from_date , $to_date) {
+       $this->db->select('mlm_user_id')
+                ->from("user")
+                ->where('user_type', 'user')
+                ->where('date BETWEEN "' . $from_date . '" and "' . $to_date . '"');
+                 return $this->db->count_all_results();
+
+    }
+
+    function getUserOrderTotal($date) {
+
+      return $this->db->select('count(*)')
+                        ->from('orders')
+                        ->where('order_status', 1)
+                        ->like('order_date', $date)
+                        ->count_all_results();
+
+    }
+
+    function getUserSalesTotal($date) {
+        $total_amount = 0;
+        $query = $this->db->select_sum('total_amount')
+                ->where('order_status', 1)
+                ->like('order_date', $date)
+                ->get('orders');
+        if ($query->num_rows() > 0 && $query->row()->total_amount != '') {
+            $total_amount = $query->row()->total_amount;
+        }
+        return $total_amount;
+
+    }
+
+    function getTotalUserCount($date) {
+       $this->db->select('mlm_user_id')
+                ->from("user")
+                ->like('date', $date)
+                ->where('user_type', 'user');
+                 return $this->db->count_all_results();
+
+    }
+    
+        
 
 }

@@ -25,10 +25,12 @@ function getChartColorsArray(chartId) {
 
 // mini-1
 var minichart1Colors = getChartColorsArray("#mini-chart1");
+$.getJSON('admin/totalorder', function (graph1_data) {
+    console.log(graph1_data);
 var options = {
     series: [{
-        data: [2, 10, 18, 22, 36, 15, 47, 75, 65, 19, 14, 2, 47, 42, 15, ]
-    }],
+                    data: graph1_data
+                }],
     chart: {
         type: 'line',
         height: 50,
@@ -64,12 +66,14 @@ var options = {
 var chart = new ApexCharts(document.querySelector("#mini-chart1"), options);
 chart.render();
 
+});
 // mini-2
 var minichart2Colors = getChartColorsArray("#mini-chart2");
+$.getJSON('admin/totalsales', function (graph2_data) {
 var options = {
     series: [{
-        data: [15, 42, 47, 2, 14, 19, 65, 75, 47, 15, 42, 47, 2, 14, 12, ]
-    }],
+                    data: graph2_data
+                }],
     chart: {
         type: 'line',
         height: 50,
@@ -104,13 +108,14 @@ var options = {
 
 var chart = new ApexCharts(document.querySelector("#mini-chart2"), options);
 chart.render();
-
+});
 // mini-3
 var minichart3Colors = getChartColorsArray("#mini-chart3");
+$.getJSON('admin/total-users', function (graph3_data) {
 var options = {
     series: [{
-        data: [47, 15, 2, 67, 22, 20, 36, 60, 60, 30, 50, 11, 12, 3, 8, ]
-    }],
+                    data: graph3_data
+                }],
     chart: {
         type: 'line',
         height: 50,
@@ -145,7 +150,7 @@ var options = {
 
 var chart = new ApexCharts(document.querySelector("#mini-chart3"), options);
 chart.render();
-
+});
 // mini-4
 var minichart4Colors = getChartColorsArray("#mini-chart4");
 var options = {

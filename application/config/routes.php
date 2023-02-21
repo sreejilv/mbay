@@ -216,7 +216,9 @@ $route['(:any)/binary-history-report'] = '$1/report/binary_history_report';
 
 //For Home
 $route['(:any)/dashboard'] = '$1/home/index';
-
+$route['admin/totalorder'] = 'admin/home/totalorder';
+$route['admin/totalsales'] = 'admin/home/totalsales';
+$route['admin/total-users'] = 'admin/home/total_users';
 
 
 $route['(:any)/used-devices'] = '$1/member/recently_used_devices';
