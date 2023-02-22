@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="en" >
 
 <head>
     <meta charset="utf-8">
@@ -17,17 +17,19 @@
     <link rel="icon" type="image/png" sizes="16x16" href="assets/shop/images/favicon/favicon-16x16.png">
 
     <!-- BASE CSS -->
-    <link rel="stylesheet" href="assets/shop/css/vendor/bootstrap.min.css" media="all">
-    {# <link rel="stylesheet" href="assets/shop/css/vendor/bootstrap.rtl.min.css">  #}
-    <link rel="stylesheet" href="assets/shop/css/vendor/simple-line-icons.css" media="all">
-    <link rel="stylesheet" href="assets/shop/css/vendor/elegant.css">
     {%if MLM_LANG_CODE =='en' %}   
+    <link rel="stylesheet" href="assets/shop/css/vendor/bootstrap.min.css" media="all">
     <link rel="stylesheet" href="assets/shop/css/style.css" media="all">
     <link rel="stylesheet" href="assets/shop/css/custom_style.css">
     {%elseif MLM_LANG_CODE =='ar' %}
-    <link rel="stylesheet" href="assets/shop/css/custom_style_rtl.css">
+    <link rel="stylesheet" href="assets/shop/css/vendor/bootstrap.rtl.min.css">
     <link rel="stylesheet" href="assets/shop/css/style_rtl.css">
+    <link rel="stylesheet" href="assets/shop/css/custom_style_rtl.css">
     {% endif %}
+    <link rel="stylesheet" href="assets/shop/css/vendor/simple-line-icons.css" media="all">
+    <link rel="stylesheet" href="assets/shop/css/vendor/elegant.css">
+
+
     <!-- PAGE CSS -->
     <link rel="stylesheet" href="assets/shop/css/plugins/slick.css" media="all">
     <link rel="stylesheet" href="assets/shop/css/plugins/animate.css" media="all">
@@ -87,7 +89,7 @@
                                         <!--end language-->
                                         <div class="header-cart-2">
                                             <a class="cart-active" href="{{BASE_URL}}cart"><i class="icon-basket-loaded"></i> <span
-                                                class="black">02</span> $264.50</a>
+                                                class="black">02</span></a>
                                             </div>
                                         </div>
                                     </div>
