@@ -86,9 +86,24 @@ $lang['add_brand_settings'] = "Add Brand Settings";
 $lang['update_brand_settings'] = "Update Brand Settings";
 $lang['brand_name'] = "Brand Name";
 $lang['date'] = "Created Date";
+$lang['slider_settings'] = "Slider Settings";
+$lang['add_slider_settings'] = "Add Slider";
+$lang['update_slider_settings'] = "Update Slider";
+$lang['slider_deleted_complete'] = "Successfully Deleted Slider";
+$lang['slider_deleted_failed'] = "Slider Deleted Failed";
+$lang['invalid_action'] = "Invalid Action";
+$lang['slider_added_successfully'] = "Slider Added Successfully";
+$lang['slider_adding_failed'] = "Slider Added Failed";
+$lang['slider_updated_successfully'] = "Slider Updated Successfully";
+$lang['slider_updation_failed'] = "Slider Updated Failed";
 $lang['brand_added_successfully'] = "Brand Settings Added Successfully";
 $lang['brand_adding_failed'] = "Failes to Add Brand Settings";
 $lang['brand_updated_successfully'] = "Brand Settings Updated Successfully";
 $lang['brand_updation_failed'] = "Failes to Add Brand Settings";
 $lang['brand_name_req_js'] = "Brand Name Is Required";
 $lang['image_req_js'] = "Image Is Required";
+$lang['title_req_js'] = "Title Is Required";
+$lang['subtitle_req_js'] = "Subtitle Is Required";
+
+
+

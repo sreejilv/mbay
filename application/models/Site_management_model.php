@@ -643,4 +643,73 @@ class Site_management_model extends CI_Model {
         return false;
     }
 
+    function getSliderSettings($id) {
+        $data = array();
+        $res = $this->db->select("title,subtitle,image")
+                ->from("slider_info")
+                ->where('id', $id)
+                ->limit(1)
+                ->get();
+        foreach ($res->result() as $row) {
+            $data['title'] = $row->title;
+             $data['subtitle'] = $row->subtitle;
+            $data['image'] = $row->image;
+        }
+        return $data;
+    }
+
+    function addSlider($data, $brand_image) {
+        $this->db->set('title', $data['title'])
+                ->set('subtitle', $data['subtitle'])
+                ->set('image', $brand_image)
+                ->set('created_date', date("Y-m-d H:i:s"))
+                ->insert('slider_info');
+
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    function updateSlider($data, $slider_image) {
+       
+        $this->db->set('title', $data['title'])
+                ->set('subtitle', $data['subtitle'])
+                ->set('image', $slider_image)
+                ->set('created_date', date("Y-m-d H:i:s"))
+                ->where('id', $data['update_slider'])
+                ->update('slider_info');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    function getSliderLists() {
+        $data = array();
+        $res = $this->db->select("id,title,subtitle,image,created_date")
+                ->from("slider_info")
+                ->get();
+        $i = 0;
+        foreach ($res->result() as $row) {
+            $data[$i]['id'] = $row->id;
+            $data[$i]['title'] = $row->title;
+            $data[$i]['subtitle'] = $row->subtitle;
+            $data[$i]['image'] = $row->image;
+            $data[$i]['created_date'] = $row->created_date;
+            $i++;
+        }
+        return $data;
+    }
+    function deleteSliderSettings($id) {
+        $this->db->where('id', $id)
+                ->delete('slider_info');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+
+
 }

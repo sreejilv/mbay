@@ -459,4 +459,130 @@ class Site_management extends Base_Controller {
         $this->loadView();
     }
 
+// Slider Setting
+
+ public function slider_settings($action = "", $slider_id = "") {
+
+        $loged_user_id = ($this->aauth->getUserType() == 'employee') ? $this->base_model->getAdminUserId() : $this->aauth->getId();
+        $slider_details = array();
+        $edit_id = 0;
+
+        $edit_flag = FALSE;
+        if ($action && $slider_id) {
+
+            if ($action == "slider_edit") {
+                $edit_flag = TRUE;
+                $slider_details = $this->site_management_model->getSliderSettings($slider_id);
+            }elseif ($action == "slider_delete") {
+                $res = $this->site_management_model->deleteSliderSettings($slider_id);
+                if ($res) {
+                    $data['slider_id'] = $slider_id;
+                    $this->helper_model->insertActivity($loged_user_id, 'slider_deleted', $data);
+                    $this->loadPage(lang('slider_deleted_complete'), 'slider_settings','success');
+                } else {
+                    $this->loadPage(lang('slider_deleted_failed'), 'slider_settings', 'danger');
+                }
+            } else {
+                $this->loadPage(lang('invalid_action'), 'slider_settings', 'danger');
+            }
+        }
+        
+        if ($this->input->post('add_slider')) {
+
+            $this->load->helper('security');
+            $post = $this->security->xss_clean($this->input->post());
+            $config['upload_path'] = FCPATH . 'assets/shop/images/slider/';
+            $config['allowed_types'] = 'jpg|png|jpeg';
+            $new_name = 'slider_' . time();
+            $config['file_name'] = $new_name;
+            $this->load->library('upload', $config);
+            $slider_image = '';
+
+            if ($this->upload->do_upload('image')) {
+
+                $data_upload = $this->upload->data();
+                $slider_image = $data_upload['file_name'];
+
+                if ($this->dbvars->IMAGE_RESIZE_STATUS) {
+                    if (isset($data_upload['full_path'])) {
+                        $this->load->library('image_lib');
+                        $configer = array(
+                            'image_library' => 'gd2',
+                            'source_image' => $data_upload['full_path'],
+                            'maintain_ratio' => TRUE,
+                            'width' => 500,
+                            'height' => 500,
+                        );
+                        $this->image_lib->initialize($configer);
+                        if (!$this->image_lib->resize()) {
+                            $error['reason'] = $this->image_lib->display_errors();
+                            $this->helper_model->insertFailedActivity($loged_user_id, 'resize_fail', $error);
+                        }
+                        $this->image_lib->clear();
+                    }
+                }
+            }
+            $res = $this->site_management_model->addSlider($post, $slider_image);
+            if ($res) {
+                $this->helper_model->insertActivity($loged_user_id, 'slider', $post);
+                $this->loadPage(lang('slider_added_successfully'), 'slider_settings','success');
+            } else {
+                $this->loadPage(lang('slider_adding_failed'), 'slider_settings', 'danger');
+            }
+        }
+
+        if ($this->input->post('update_slider')) {
+            $this->load->helper('security');
+            $post = $this->security->xss_clean($this->input->post());
+
+            $slider_image = $this->site_management_model->getBrandImage($post['update_slider']);
+            $config['upload_path'] = FCPATH . 'assets/shop/images/slider/';
+            $config['allowed_types'] = 'jpg|png|jpeg';
+            $new_name = 'slider' . time();
+            $config['file_name'] = $new_name;
+            $this->load->library('upload', $config);
+            if ($this->upload->do_upload('image')) {
+                $data_upload = $this->upload->data();
+                $slider_image = $data_upload['file_name'];
+
+                if ($this->dbvars->IMAGE_RESIZE_STATUS) {
+                    if (isset($data_upload['full_path'])) {
+                        $this->load->library('image_lib');
+                        $configer = array(
+                            'image_library' => 'gd2',
+                            'source_image' => $data_upload['full_path'],
+                            'maintain_ratio' => TRUE,
+                            'width' => 500,
+                            'height' => 500,
+                        );
+                        $this->image_lib->initialize($configer);
+                        if (!$this->image_lib->resize()) {
+                            $error['reason'] = $this->image_lib->display_errors();
+                            $this->helper_model->insertFailedActivity($loged_user_id, 'resize_fail', $error);
+                        }
+                        $this->image_lib->clear();
+                    }
+                }
+            }
+            $res = $this->site_management_model->updateSlider($post, $slider_image);
+            if ($res) {
+                $this->helper_model->insertActivity($loged_user_id, 'slider_updated', $post);
+                $this->loadPage(lang('slider_updated_successfully'), 'slider_settings','success');
+            } else {
+                $this->loadPage(lang('slider_updation_failed'), 'slider_settings', 'danger');
+            }
+        }
+        $data = $this->site_management_model->getSliderLists();
+        $this->setData('data', $data);
+        $this->setData('slider', $slider_details);
+        $this->setData('error', $this->form_validation->error_array());
+        $this->setData('slider_id', $slider_id);
+        $this->setData('edit_flag', $edit_flag);
+        $this->setData('title', lang('menu_name_198'));
+        $this->setData('edit_id', $edit_id);
+        $this->loadView();
+    }
+
+
+
 }

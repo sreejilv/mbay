@@ -129,6 +129,7 @@ $route['admin/stair-step-plan'] = 'admin/settings/stair_step_settings';
 $route['admin/website-manage'] = 'admin/site_management/site_configuration';
 $route['admin/mail-template'] = 'admin/site_management/mail_contents';
 $route['admin/mail-manage'] = 'admin/site_management/mail_settings';
+
 // For Brand Settings
 $route['admin/brand-settings'] = 'admin/site_management/brand_settings';
 $route['admin/brand-settings/(:any)/(:num)'] = 'admin/site_management/brand_settings/$1/$2';
@@ -381,4 +382,9 @@ $route['(:any)/join-report/(:num)'] = '$1/report/user_join/$2';
 $route['admin/categories'] = 'admin/product/categories';
 $route['admin/categories/(:any)/(:num)'] = 'admin/product/categories/$1/$2';
 $route['image_upload'] = 'admin/product/image_upload';
+$route['admin/website-image-upload'] = 'admin/site_management/website_image_upload';
+$route['admin/slider_settings'] = 'admin/site_management/slider_settings';
+$route['admin/slider_settings/(:any)/(:num)'] = 'admin/site_management/slider_settings/$1/$2';
+
+
 
