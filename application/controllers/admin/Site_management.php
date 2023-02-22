@@ -373,7 +373,7 @@ class Site_management extends Base_Controller {
             $new_name = 'brand_' . time();
             $config['file_name'] = $new_name;
             $this->load->library('upload', $config);
-
+            $brand_image = '';
             if ($this->upload->do_upload('image')) {
 
                 $data_upload = $this->upload->data();
