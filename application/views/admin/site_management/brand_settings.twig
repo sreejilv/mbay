@@ -16,6 +16,13 @@
 
 </head>
 
+<div id="js_messages" style="display: none;"> 
+    <span id="brand_name_req_js">{{lang('brand_name_req_js')}}</span>   
+    <span id="image_req_js">{{lang('image_req_js')}}</span>   
+    
+    <span id="user_photo_ext_js">{{lang('user_photo_ext_js')}}</span>  
+</div>
+
 {% include('admin/partials/body.twig')%}
 <!-- <body data-layout="horizontal"> -->
 
@@ -49,8 +56,8 @@
                         <div class="card">
                             <div class="card-body">
                                 <div>
-                                    {{ form_open_multipart('', 'class="update_form" id="update_form" name="update_form"')|raw }}
-                                    <form id="pristine-valid-example" novalidate method="post">
+                                    {{ form_open_multipart('', ' id="update_form" name="update_form"')|raw }}
+                                    
                                         <input type="hidden" />
                                         <div class="row">
                                             <div class="col-lg-12 ms-lg-auto">
@@ -58,7 +65,8 @@
                                                 <div class="col-xl-6 col-md-6">
                                                     <div class="form-group mb-3">
                                                         <label>Brand Name</label>
-                                                        <input type="text" required data-pristine-required-message="Please Enter a brand Name" class="form-control" id="brand_name" name="brand_name" value="{{ brand.brand_name }}"/>
+                                                        <input type="text"  class="form-control" id="brand_name" name="brand_name" value="{{ brand.brand_name }}"/>
+                                                        
                                                     </div>
                                                 </div>
                                             </div>
@@ -91,7 +99,6 @@
                                                 </button>
                                             {% endif %}
                                         </div>
-                                    </form>
                                     {{ form_close()|raw }}
                                 </div>
                             </div>
@@ -171,6 +178,8 @@
 <script src="assets/js/pages/form-validation.init.js"></script>
 <!-- Datatable init js -->
 <script src="assets/js/pages/datatables.init.js"></script>
+<script src="assets/js/file_extension.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
 
 var imgUpload = $('.dropify').dropify({
@@ -178,6 +187,82 @@ var imgUpload = $('.dropify').dropify({
 });
 
 </script>
+
+<script>
+    $(document).ready(function () {
+        validate_brand_settings();
+    });
+</script>
+<script>
+    var validate_brand_settings = function () {
+
+        var form = $('#update_form');
+        var errorHandler1 = $('.errorHandler', form);
+        var successHandler1 = $('.successHandler', form);
+        form.validate({
+            errorElement: "div", // contain the error msg in a span tag
+            errorClass: 'invalid-feedback',
+            errorPlacement: function (error, element) { // render error placement for 
+                    error.appendTo($(element).closest('.form-group'));
+            },
+            ignore: ':hidden',
+            rules: {
+                brand_name: {
+                    required: true,
+                    minlength: 3
+                },
+                image: {
+                    required: true,
+                    extension: "jpg|jpeg|png"
+                }
+
+            },
+            messages: {
+                brand_name: {
+                    required: $('#brand_name_req_js').html()
+                },
+                image: {
+                    required: $('#image_req_js').html(),
+                    extension: $('#user_photo_ext_js').html()
+                }
+
+            },
+            invalidHandler: function(event, validator) { 
+
+            successHandler1.hide();
+            errorHandler1.show();
+            },
+            highlight: function(element) {
+                $(element).closest('.form-control').removeClass('is-invalid');
+                //display Checkbox invalid Data
+                $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+                // display OK icon
+                $(element).closest('.form-control').removeClass('is-valid').addClass('is-invalid').find('.symbol').removeClass('ok').addClass('required');
+                // add the Bootstrap error class to the control group
+            },
+            unhighlight: function(element) { // revert the change done by hightlight
+                //display Checkbox invalid Data
+
+                $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+                $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
+                // set error class to the control group
+            },
+            success: function(label, element) {
+                //display Checkbox invalid Data
+                $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+                $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
+                // mark the current input as valid and display OK icon
+            },
+            submitHandler: function(form) {
+                successHandler1.show();
+                errorHandler1.hide();
+                form.submit();
+            }
+        });
+    };
+
+</script>
+
 </body>
 
 </html>
