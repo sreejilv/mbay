@@ -401,7 +401,7 @@ class Site_management extends Base_Controller {
             $res = $this->site_management_model->addBrand($post, $brand_image);
             if ($res) {
                 $this->helper_model->insertActivity($loged_user_id, 'brand_added', $post);
-                $this->loadPage(lang('brand_added_successfully'), 'brand-settings');
+                $this->loadPage(lang('brand_added_successfully'), 'brand-settings','success');
             } else {
                 $this->loadPage(lang('brand_adding_failed'), 'brand-settings', 'danger');
             }
@@ -443,7 +443,7 @@ class Site_management extends Base_Controller {
             $res = $this->site_management_model->updateBrand($post, $brand_image);
             if ($res) {
                 $this->helper_model->insertActivity($loged_user_id, 'brand_updated', $post);
-                $this->loadPage(lang('brand_updated_successfully'), 'brand-settings');
+                $this->loadPage(lang('brand_updated_successfully'), 'brand-settings','success');
             } else {
                 $this->loadPage(lang('brand_updation_failed'), 'brand-settings', 'danger');
             }
