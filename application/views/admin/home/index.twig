@@ -37,7 +37,8 @@
                                 <div class="row align-items-center">
                                     <div class="col-6">
                                         <span class="text-muted mb-3 lh-1 d-block text-truncate">TOTAL ORDERS</span>
-                                        <h4 class="mb-3">{{ total_orders }}
+                                        <h4 class="mb-3">
+                                            <span class="counter-value" data-target="865.2">0</span>k
                                         </h4>
                                     </div>
 
@@ -46,7 +47,7 @@
                                     </div>
                                 </div>
                                 <div class="text-nowrap">
-                                    <span class="badge bg-soft-success text-success">{{total_orders_last_week}} Orders</span>
+                                    <span class="badge bg-soft-success text-success">20.9k Orders</span>
                                     <span class="ms-1 text-muted font-size-13">Since last week</span>
                                 </div>
                             </div><!-- end card body -->
@@ -61,8 +62,8 @@
                                 <div class="row align-items-center">
                                     <div class="col-6">
                                         <span class="text-muted mb-3 lh-1 d-block text-truncate">TOTAL SALES</span>
-                                        <h4 class="mb-3">${{ total_sales |number_format(2)}}
-                                            
+                                        <h4 class="mb-3">
+                                            $<span class="counter-value" data-target="6258">0</span>
                                         </h4>
                                     </div>
                                     <div class="col-6">
@@ -70,7 +71,7 @@
                                     </div>
                                 </div>
                                 <div class="text-nowrap">
-                                    <span class="badge bg-soft-success text-success">${{total_sales_last_week |number_format(2)}}</span>
+                                    <span class="badge bg-soft-danger text-danger">- $29</span>
                                     <span class="ms-1 text-muted font-size-13">Since last week</span>
                                 </div>
                             </div><!-- end card body -->
@@ -85,8 +86,8 @@
                                 <div class="row align-items-center">
                                     <div class="col-6">
                                         <span class="text-muted mb-3 lh-1 d-block text-truncate">TOTAL CUSTOMERS</span>
-                                        <h4 class="mb-3">{{ total_customers}}
-                                            
+                                        <h4 class="mb-3">
+                                            <span class="counter-value" data-target="4.32">0</span>M
                                         </h4>
                                     </div>
                                     <div class="col-6">
@@ -94,7 +95,7 @@
                                     </div>
                                 </div>
                                 <div class="text-nowrap">
-                                    <span class="badge bg-soft-success text-success">{{total_customers_last_week}} Customers</span>
+                                    <span class="badge bg-soft-success text-success">+2.8k Customers</span>
                                     <span class="ms-1 text-muted font-size-13">Since last week</span>
                                 </div>
                             </div><!-- end card body -->
@@ -369,12 +370,12 @@
 {% include('admin/partials/vendor-scripts.twig')%}
 <script src="assets/js/app.js"></script>
 <script>
-
-   $.getJSON('api/general/get_graph_data', function (graph_data) {
+    $.getJSON('api/general/get_graph_data', function (graph_data) {
 
 // let x= [44, 55, 57, 56, 61, 58, 63, 60, 66]
     // let x= graph_data[0]
 // console.log(graph_data[0])
+        var l ='2';
 
  var options = {
 
@@ -408,11 +409,12 @@
           colors: ['transparent']
         },
         xaxis: {
-          categories: graph_data[3]['values'],
+          categories: 
+          graph_data[3]['values'],
         },
         yaxis: {
           title: {
-            text: '$ (thousands)'
+            text: ''
           }
         },
         fill: {
@@ -420,8 +422,12 @@
         },
         tooltip: {
           y: {
-            formatter: function (val) {
-              return "$ " + val + " thousands"
+            formatter: function (val, { series, seriesIndex, dataPointIndex, w }) {
+               if(seriesIndex==1) {
+                return '$ '+val;
+               }else{
+                return val;
+               }
             }
           }
         }
@@ -429,7 +435,6 @@
  var chart = new ApexCharts(document.querySelector("#chart"), options);
         chart.render();
 });
-       
        
 </script> 
 <script src="assets/libs/flatpickr/flatpickr.min.js"></script>

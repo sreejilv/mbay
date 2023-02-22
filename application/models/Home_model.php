@@ -272,11 +272,16 @@ class Home_model extends CI_Model {
 
     function getUserSalesPerMonth($year_month)
     {                       
-        return $this->db->select_sum('total_amount')
-                             ->where("DATE_FORMAT(confirm_date,'%Y-%m')", $year_month)
-                            ->where('order_status' , 1)
-                            ->from('orders')
-                            ->count_all_results();
+
+        $total_amount = 0;
+        $query = $this->db->select_sum('total_amount')
+                ->where('order_status', 1)
+                ->like("DATE_FORMAT(confirm_date,'%Y-%m')", $year_month)
+                ->get('orders');
+        if ($query->num_rows() > 0 && $query->row()->total_amount != '') {
+            $total_amount = $query->row()->total_amount;
+        }
+        return $total_amount;
 
 
     }
