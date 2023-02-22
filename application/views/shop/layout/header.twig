@@ -1,5 +1,10 @@
 <!doctype html>
 <html class="no-js" lang="en" >
+{%if MLM_LANG_CODE =='en' %} 
+<html class="no-js" lang="en">
+{%elseif MLM_LANG_CODE =='ar' %}
+<html dir="rtl">
+{% endif %}
 
 <head>
     <meta charset="utf-8">
@@ -78,12 +83,12 @@
                                         <!--language-->
                                         {%if MLM_LANG_CODE =='en' %}
                                         <div class="header-login-regi">
-                                            <a href="javascript:;" onclick="switchLanguage('ar');" title="{{MLM_LANG_NAME}}">{{MLM_LANG_NAME}} </a>
+                                            <a href="javascript:;" onclick="switchLanguage('ar');" title="">عربى </a>
                                         </div>
 
                                         {%elseif MLM_LANG_CODE =='ar' %}
                                         <div class="header-login-regi">
-                                            <a href="javascript:;" onclick="switchLanguage('en');" title="{{MLM_LANG_NAME}}">{{MLM_LANG_NAME}}</a>
+                                            <a href="javascript:;" onclick="switchLanguage('en');" title="">English</a>
                                         </div>
                                         {%endif%}
                                         <!--end language-->
@@ -133,7 +138,7 @@
                                                     <ul>
                                                         {% if MLM_LANG_CODE %}
                                                         <li>
-                                                            
+
                                                             <a href="javascript:;" onclick="switchLanguage('en');">English</a>
                                                         </li>
                                                         <li>

@@ -574,4 +574,73 @@ class Site_management_model extends CI_Model {
         }
     }
 
+    // Brand Settings
+
+    function addBrand($data, $brand_image) {
+        $this->db->set('brand_name', $data['brand_name'])
+                ->set('image', $brand_image)
+                ->set('created_date', date("Y-m-d H:i:s"))
+                ->insert('brand_settings');
+
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    function getBrandSettings($id) {
+        $data = array();
+        $res = $this->db->select("brand_name,image")
+                ->from("brand_settings")
+                ->where('id', $id)
+                ->limit(1)
+                ->get();
+        foreach ($res->result() as $row) {
+            $data['brand_name'] = $row->brand_name;
+            $data['image'] = $row->image;
+        }
+        return $data;
+    }
+
+    function getBrandLists() {
+        $data = array();
+        $res = $this->db->select("id,brand_name,image,created_date")
+                ->from("brand_settings")
+                ->get();
+        $i = 0;
+        foreach ($res->result() as $row) {
+            $data[$i]['id'] = $row->id;
+            $data[$i]['brand_name'] = $row->brand_name;
+            $data[$i]['image'] = $row->image;
+            $data[$i]['created_date'] = $row->created_date;
+            $i++;
+        }
+        return $data;
+    }
+
+    public function getBrandImage($id) {
+        $image = ' ';
+        $query = $this->db->select('image')
+                ->where('id', $id)
+                ->limit(1)
+                ->get('brand_settings');
+        if ($query->num_rows() > 0) {
+            $image = $query->row()->image;
+        }
+        return $image;
+    }
+
+    function updateBrand($data, $brand_image) {
+       
+        $this->db->set('brand_name', $data['brand_name'])
+                ->set('image', $brand_image)
+                ->set('created_date', date("Y-m-d H:i:s"))
+                ->where('id', $data['update_brand'])
+                ->update('brand_settings');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return false;
+    }
+
 }
