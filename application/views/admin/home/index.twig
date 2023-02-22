@@ -238,7 +238,16 @@
                                                 <td>{{loop.index}}</td>
                                                 <td style="width: 80px;"><b>{{orders.order_id}}</b></td>
                                                 <td>{{orders.customer}}</td>
-                                                <td>{{orders.order_status}}</td>
+
+                                              {% if orders.order_status == "complete" %}  
+                                                <td><span style="color:green">{{orders.order_status}}</span></td>
+
+                                               {%elseif orders.order_status =='declined' %} 
+                                               <td><span style="color:red">{{orders.order_status}}</span></td>
+                                               {%else %}
+                                               <td><span style="color:yellow">{{orders.order_status}}</span></td>
+                                               {% endif %}
+
                                                 <td>{{orders.order_date}}</td>
                                                 <td>{{orders.total_amount}}</td> 
                                             

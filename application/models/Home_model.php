@@ -400,7 +400,7 @@ class Home_model extends CI_Model {
         if ($query->num_rows() > 0) {
             $i = 0;
             foreach ($query->result_array() as $row) {
-                $data[$i]['order_id'] = 'mb00'.$row['id'];
+                $data[$i]['order_id'] = 'MB00'.$row['id'];
                 $data[$i]['customer'] = $row['user_name'];
                 $data[$i]['order_status'] = $this->getOrderStatus($row['order_status']);
                 $data[$i]['order_date'] = $row['order_date'];
