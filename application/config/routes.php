@@ -134,6 +134,7 @@ $route['admin/brand-settings'] = 'admin/site_management/brand_settings';
 $route['admin/brand-settings/(:any)/(:num)'] = 'admin/site_management/brand_settings/$1/$2';
 
 
+
 //For Testimonials
 $route['admin/testimonial-view'] = 'admin/testimonial/view_testimonial';
 $route['user/testimonial-add'] = 'user/testimonial/create_testimonial';
