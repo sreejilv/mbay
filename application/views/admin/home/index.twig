@@ -26,6 +26,29 @@
             <div class="page-content">
                 <div class="container-fluid">
 
+                    <div class="card-body">
+                        {% if prod_stock_out %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="mdi mdi-block-helper me-2"></i>
+                            Products Stock Out!--
+                            {% for pro in prod_stock_out %}  
+                            {{ pro['product_name'] }},
+                            {% endfor %}
+
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endif %}
+                        {% if prod_stock_out_soon %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <i class="mdi mdi-alert-outline me-2"></i>
+                            Products Stock Out Soon!--
+                            {% for pro in prod_stock_out_soon %}  
+                            {{ pro['product_name'] }},
+                            {% endfor %}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endif %}
+                    </div>
                     <!-- start page title -->
                     <?= $page_title ?>
                     <div class="row">
@@ -38,11 +61,11 @@
                                         <div class="col-6">
                                             <span class="text-muted mb-3 lh-1 d-block text-truncate">TOTAL ORDERS</span>
                                             <h4 class="mb-3">
-                                               <h4 class="mb-3">{{ total_orders }}
-                                               </h4>
-                                           </div>
+                                             <h4 class="mb-3">{{ total_orders }}
+                                             </h4>
+                                         </div>
 
-                                           <div class="col-6">
+                                         <div class="col-6">
                                             <div id="mini-chart1" data-colors='["#5156be"]' class="apex-charts mb-2"></div>
                                         </div>
                                     </div>
@@ -132,7 +155,7 @@
                                         <div class="d-flex flex-wrap align-items-center mb-4">
                                             <h5 class="card-title me-2">Analytics</h5>
                                             <div class="ms-auto">
-                                              
+
                                             </div>
                                         </div>
 
@@ -142,7 +165,7 @@
                                                     <div id="chart" data-colors='["#5156be", "#34c38f"]' class="apex-charts"></div>
                                                 </div>
                                             </div>
-                                            
+
                                         </div>
                                     </div>
                                     <!-- end card -->
@@ -202,7 +225,7 @@
                             <!-- end col -->
                         </div>
                         <div class="row">
-                            <div class="col-xl-10">
+                            <div class="col-xl-12">
                                 <!-- card -->
                                 <div class="row">
                                     <div class="col-lg-12">
@@ -214,13 +237,13 @@
                                                             {# <button type="button" class="btn btn-light waves-effect waves-light"><i class="bx bx-plus me-1"></i> Add Invoice</button> #}
                                                         </div>
                                                     </div>
-                                                    
+
                                                 </div>
                                                 <!-- end row -->
 
                                                 <div class="table-responsive">
-                                                    
-                                                 <table class="table align-middle datatable dt-responsive table-check nowrap" id="order_history_list" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
+
+                                                   <table class="table align-middle datatable dt-responsive table-check nowrap" id="order_history_list" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
                                                     <thead>
                                                         <tr class="bg-transparent">
                                                             <th style="width: 40px;">#</th>
@@ -229,7 +252,7 @@
                                                             <th>Status</th>
                                                             <th>Date Added</th>
                                                             <th>Total</th> 
-                                                            
+
                                                         </tr>
                                                     </thead>
                                                     {% for orders in order_data %}
@@ -242,215 +265,215 @@
                                                         {% if orders.order_status == "complete" %}  
                                                         <td><span class="badge badge-soft-success">{{orders.order_status}}</span>
 
-                                                         {%elseif orders.order_status =='declined' %} 
-                                                         <td><span class="badge badge-soft-danger">{{orders.order_status}}</span></td>
-                                                         {%else %}
-                                                         <td><span class="badge badge-soft-warning">{{orders.order_status}}</span></td>
-                                                         {% endif %}
+                                                           {%elseif orders.order_status =='declined' %} 
+                                                           <td><span class="badge badge-soft-danger">{{orders.order_status}}</span></td>
+                                                           {%else %}
+                                                           <td><span class="badge badge-soft-warning">{{orders.order_status}}</span></td>
+                                                           {% endif %}
 
-                                                         <td>{{orders.order_date}}</td>
-                                                         <td>{{orders.total_amount}}</td> 
-                                                         
-                                                     </tr>
-                                                     {% endfor %}
-                                                 </table> 
-                                             </div>
-                                             <!-- end table responsive -->
-                                         </div>
-                                         <!-- end card body -->
-                                     </div>
-                                     <!-- end card -->
-                                 </div>
-                                 <!-- end col -->
-                             </div>
-                             
-                             <!-- end col -->
-                         </div>
-                         <!-- end row-->
+                                                           <td>{{orders.order_date}}</td>
+                                                           <td>{{orders.total_amount}}</td> 
 
-                         <div class="col-xl-2">
+                                                       </tr>
+                                                       {% endfor %}
+                                                   </table> 
+                                               </div>
+                                               <!-- end table responsive -->
+                                           </div>
+                                           <!-- end card body -->
+                                       </div>
+                                       <!-- end card -->
+                                   </div>
+                                   <!-- end col -->
+                               </div>
+
+                               <!-- end col -->
+                           </div>
+                           <!-- end row-->
+
+                           <!-- <div class="col-xl-2"> -->
                             <!-- card -->
-                            <div class="card bg-primary text-white shadow-primary card-h-100">
+                            <!-- <div class="card bg-primary text-white shadow-primary card-h-100"> -->
                                 <!-- card body -->
-                                <div class="card-body p-0">
-                                    <div id="carouselExampleCaptions" class="carousel slide text-center widget-carousel" data-bs-ride="carousel">
-                                        <div class="carousel-inner">
-                                            <div class="carousel-item active">
-                                                <div class="text-center p-4">
-                                                    <i class="mdi mdi-bitcoin widget-box-1-icon"></i>
-                                                    <div class="avatar-md m-auto">
-                                                        <span class="avatar-title rounded-circle bg-soft-light text-white font-size-24">
-                                                            <i class="mdi mdi-currency-btc"></i>
-                                                        </span>
+                                   <!--  <div class="card-body p-0">
+                                    <div id="carouselExampleCaptions" class="carousel slide text-center widget-carousel" data-bs-ride="carousel"> -->
+                                        <!-- <div class="carousel-inner"> -->
+                                            <!-- <div class="carousel-item active"> -->
+                                                <!-- <div class="text-center p-4"> -->
+                                                    <!-- <i class="mdi mdi-bitcoin widget-box-1-icon"></i> -->
+                                                    <!-- <div class="avatar-md m-auto"> -->
+                                                        <!-- <span class="avatar-title rounded-circle bg-soft-light text-white font-size-24"> -->
+                                                            <!-- <i class="mdi mdi-currency-btc"></i> -->
+                                                            <!-- </span> -->
+                                                            <!-- </div> -->
+                                                            <!-- <h4 class="mt-3 lh-base fw-normal text-white"><b>Loremlispum</b> News</h4> -->
+                                                            <!-- <p class="text-white-50 font-size-13">Bitcoin prices fell sharply amid the global sell-off in equities. Negative news -->
+                                                            <!-- over the Bitcoin past week has dampened Bitcoin basics
+                                                            sentiment for bitcoin. Negative news
+                                                            over the Bitcoin past week has dampened Bitcoin basics
+                                                        sentiment for bitcoin. </p> -->
+                                                        <!-- {# <button type="button" class="btn btn-light btn-sm">View details <i class="mdi mdi-arrow-right ms-1"></i></button> #} -->
+                                                        <!-- </div> -->
+                                                        <!-- </div> -->
+                                                        <!-- end carousel-item -->
+                                                        <!-- <div class="carousel-item"> -->
+                                                    <!-- <div class="text-center p-4">
+                                                        <i class="mdi mdi-ethereum widget-box-1-icon"></i>
+                                                        <div class="avatar-md m-auto">
+                                                            <span class="avatar-title rounded-circle bg-soft-light text-white font-size-24">
+                                                                <i class="mdi mdi-ethereum"></i>
+                                                            </span>
+                                                        </div>
+                                                        <h4 class="mt-3 lh-base fw-normal text-white"><b>Loremlispum</b> News</h4>
+                                                        <p class="text-white-50 font-size-13">Bitcoin prices fell sharply amid the global sell-off in equities. Negative news
+                                                            over the Bitcoin past week has dampened Bitcoin basics
+                                                            sentiment for bitcoin. </p>
+                                                        {# <button type="button" class="btn btn-light btn-sm">View details <i class="mdi mdi-arrow-right ms-1"></i></button> #}
                                                     </div>
-                                                    <h4 class="mt-3 lh-base fw-normal text-white"><b>Loremlispum</b> News</h4>
-                                                    <p class="text-white-50 font-size-13">Bitcoin prices fell sharply amid the global sell-off in equities. Negative news
-                                                        over the Bitcoin past week has dampened Bitcoin basics
-                                                        sentiment for bitcoin. Negative news
-                                                        over the Bitcoin past week has dampened Bitcoin basics
-                                                    sentiment for bitcoin. </p>
-                                                    {# <button type="button" class="btn btn-light btn-sm">View details <i class="mdi mdi-arrow-right ms-1"></i></button> #}
-                                                </div>
-                                            </div>
-                                            <!-- end carousel-item -->
-                                            <div class="carousel-item">
-                                                <div class="text-center p-4">
-                                                    <i class="mdi mdi-ethereum widget-box-1-icon"></i>
-                                                    <div class="avatar-md m-auto">
-                                                        <span class="avatar-title rounded-circle bg-soft-light text-white font-size-24">
-                                                            <i class="mdi mdi-ethereum"></i>
-                                                        </span>
+                                                </div> -->
+                                                <!-- end carousel-item -->
+                                                <!-- <div class="carousel-item">
+                                                    <div class="text-center p-4">
+                                                        <i class="mdi mdi-litecoin widget-box-1-icon"></i>
+                                                        <div class="avatar-md m-auto">
+                                                            <span class="avatar-title rounded-circle bg-soft-light text-white font-size-24">
+                                                                <i class="mdi mdi-litecoin"></i>
+                                                            </span>
+                                                        </div>
+                                                        <h4 class="mt-3 lh-base fw-normal text-white"><b>Loremlispum</b> News</h4>
+                                                        <p class="text-white-50 font-size-13">Bitcoin prices fell sharply amid the global sell-off in equities. Negative news
+                                                            over the Bitcoin past week has dampened Bitcoin basics
+                                                            sentiment for bitcoin. </p>
+                                                        {# <button type="button" class="btn btn-light btn-sm">View details <i class="mdi mdi-arrow-right ms-1"></i></button> #}
                                                     </div>
-                                                    <h4 class="mt-3 lh-base fw-normal text-white"><b>Loremlispum</b> News</h4>
-                                                    <p class="text-white-50 font-size-13">Bitcoin prices fell sharply amid the global sell-off in equities. Negative news
-                                                        over the Bitcoin past week has dampened Bitcoin basics
-                                                    sentiment for bitcoin. </p>
-                                                    {# <button type="button" class="btn btn-light btn-sm">View details <i class="mdi mdi-arrow-right ms-1"></i></button> #}
-                                                </div>
-                                            </div>
-                                            <!-- end carousel-item -->
-                                            <div class="carousel-item">
-                                                <div class="text-center p-4">
-                                                    <i class="mdi mdi-litecoin widget-box-1-icon"></i>
-                                                    <div class="avatar-md m-auto">
-                                                        <span class="avatar-title rounded-circle bg-soft-light text-white font-size-24">
-                                                            <i class="mdi mdi-litecoin"></i>
-                                                        </span>
-                                                    </div>
-                                                    <h4 class="mt-3 lh-base fw-normal text-white"><b>Loremlispum</b> News</h4>
-                                                    <p class="text-white-50 font-size-13">Bitcoin prices fell sharply amid the global sell-off in equities. Negative news
-                                                        over the Bitcoin past week has dampened Bitcoin basics
-                                                    sentiment for bitcoin. </p>
-                                                    {# <button type="button" class="btn btn-light btn-sm">View details <i class="mdi mdi-arrow-right ms-1"></i></button> #}
-                                                </div>
-                                            </div>
-                                            <!-- end carousel-item -->
-                                        </div>
-                                        <!-- end carousel-inner -->
+                                                </div> -->
+                                                <!-- end carousel-item -->
+                                                <!-- </div> -->
+                                                <!-- end carousel-inner -->
 
-                                        <div class="carousel-indicators carousel-indicators-rounded">
-                                            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                                            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                                            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                                            <!-- <div class="carousel-indicators carousel-indicators-rounded">
+                                                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                                                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                                            </div> -->
+                                            <!-- end carousel-indicators -->
+                                            <!-- </div> -->
+                                            <!-- end carousel -->
+                                            <!-- </div> -->
+                                            <!-- end card body -->
+                                            <!-- </div> -->
+                                            <!-- end card -->
+                                            <!-- </div> -->
+                                            <!-- end col -->
                                         </div>
-                                        <!-- end carousel-indicators -->
-                                    </div>
-                                    <!-- end carousel -->
+                                    </div> <!-- container-fluid -->
                                 </div>
-                                <!-- end card body -->
+                                <!-- End Page-content -->
+
+
+                                {% include('admin/partials/footer.twig')%}
                             </div>
-                            <!-- end card -->
+                            <!-- end main content-->
+
                         </div>
-                        <!-- end col -->
-                    </div>
-                </div> <!-- container-fluid -->
-            </div>
-            <!-- End Page-content -->
+                        <!-- END layout-wrapper -->
 
 
-            {% include('admin/partials/footer.twig')%}
-        </div>
-        <!-- end main content-->
-
-    </div>
-    <!-- END layout-wrapper -->
-
-
-    {% include('admin/partials/right-sidebar.twig')%}
-    <!-- JAVASCRIPT -->
-    {% include('admin/partials/vendor-scripts.twig')%}
-    <script src="assets/js/app.js"></script>
-    <script>
-        $.getJSON('api/general/get_graph_data', function (graph_data) {
+                        {% include('admin/partials/right-sidebar.twig')%}
+                        <!-- JAVASCRIPT -->
+                        {% include('admin/partials/vendor-scripts.twig')%}
+                        <script src="assets/js/app.js"></script>
+                        <script>
+                            $.getJSON('api/general/get_graph_data', function (graph_data) {
 
 // let x= [44, 55, 57, 56, 61, 58, 63, 60, 66]
     // let x= graph_data[0]
 // console.log(graph_data[0])
-            var l ='2';
+                                var l ='2';
 
-            var options = {
+                                var options = {
 
-             series: [{
-              name: 'Order',
-              data: graph_data[0]['values']
-          }, {
-              name: 'Sales',
-              data: graph_data[1]['values']
-          }, {
-              name: 'Customers',
-              data: graph_data[2]['values']
-          }],
-             chart: {
-              type: 'bar',
-              height: 350
-          },
-          plotOptions: {
-              bar: {
-                horizontal: false,
-                columnWidth: '55%',
-                endingShape: 'rounded'
-            },
-        },
-        dataLabels: {
-          enabled: false
-      },
-      stroke: {
-          show: true,
-          width: 2,
-          colors: ['transparent']
-      },
-      xaxis: {
-          categories: 
-          graph_data[3]['values'],
-      },
-      yaxis: {
-          title: {
-            text: ''
-        }
-    },
-    fill: {
-      opacity: 1
-  },
-  tooltip: {
-      y: {
-        formatter: function (val, { series, seriesIndex, dataPointIndex, w }) {
-         if(seriesIndex==1) {
-            return '$ '+val;
-        }else{
-            return val;
-        }
-    }
-}
-}
-};
-var chart = new ApexCharts(document.querySelector("#chart"), options);
-chart.render();
-});
-        
-</script> 
-<script src="assets/libs/flatpickr/flatpickr.min.js"></script>
+                                   series: [{
+                                      name: 'Order',
+                                      data: graph_data[0]['values']
+                                  }, {
+                                      name: 'Sales',
+                                      data: graph_data[1]['values']
+                                  }, {
+                                      name: 'Customers',
+                                      data: graph_data[2]['values']
+                                  }],
+                                   chart: {
+                                      type: 'bar',
+                                      height: 350
+                                  },
+                                  plotOptions: {
+                                      bar: {
+                                        horizontal: false,
+                                        columnWidth: '55%',
+                                        endingShape: 'rounded'
+                                    },
+                                },
+                                dataLabels: {
+                                  enabled: false
+                              },
+                              stroke: {
+                                  show: true,
+                                  width: 2,
+                                  colors: ['transparent']
+                              },
+                              xaxis: {
+                                  categories: 
+                                  graph_data[3]['values'],
+                              },
+                              yaxis: {
+                                  title: {
+                                    text: ''
+                                }
+                            },
+                            fill: {
+                              opacity: 1
+                          },
+                          tooltip: {
+                              y: {
+                                formatter: function (val, { series, seriesIndex, dataPointIndex, w }) {
+                                   if(seriesIndex==1) {
+                                    return '$ '+val;
+                                }else{
+                                    return val;
+                                }
+                            }
+                        }
+                    }
+                };
+                var chart = new ApexCharts(document.querySelector("#chart"), options);
+                chart.render();
+            });
 
-<!-- Required datatable js -->
-<script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
-<script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-<!-- Responsive examples -->
-<script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-<script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
-<script src="assets/js/pages/dashboard.init.js"></script>
-<script src="assets/js/pages/invoices-list.init.js"></script>
-<script src="assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js"></script>
-<script src="assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js"></script>
-<!-- dashboard init -->
+        </script> 
+        <script src="assets/libs/flatpickr/flatpickr.min.js"></script>
+
+        <!-- Required datatable js -->
+        <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+        <!-- Responsive examples -->
+        <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+        <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+        <script src="assets/js/pages/dashboard.init.js"></script>
+        <script src="assets/js/pages/invoices-list.init.js"></script>
+        <script src="assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js"></script>
+        <script src="assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js"></script>
+        <!-- dashboard init -->
 
 
-<!-- App js -->
-{# <script src="assets/js/app.js"></script> #}
-<script>
+        <!-- App js -->
+        {# <script src="assets/js/app.js"></script> #}
+        <script>
 
 // $(document).ready(function () {
 //     mapdata();
 // });
-</script>
-</body>
+        </script>
+    </body>
 
-</html>
+    </html>

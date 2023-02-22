@@ -32,7 +32,7 @@ class Home_model extends CI_Model {
     function getEvents() {
         $data = [];
         $res = $this->db->select('name,desc,start_date')
-                ->get('events');
+        ->get('events');
         if ($res->num_rows() > 0) {
             $i = 0;
             foreach ($res->result_array() as $row) {
@@ -57,10 +57,10 @@ class Home_model extends CI_Model {
     function getNews() {
         $data = array();
         $res = $this->db->select('title,image,content,date')
-                ->where('status', 1)
-                ->limit(4)
-                ->order_by('id', 'desc')
-                ->get('news');
+        ->where('status', 1)
+        ->limit(4)
+        ->order_by('id', 'desc')
+        ->get('news');
 
         if ($res->num_rows() > 0) {
             $i = 0;
@@ -86,9 +86,9 @@ class Home_model extends CI_Model {
     function getTickets() {
         $data = array();
         $res = $this->db->select('title,content,created_date')
-                ->limit(3)
-                ->order_by('id', 'desc')
-                ->get('ticket');
+        ->limit(3)
+        ->order_by('id', 'desc')
+        ->get('ticket');
 
         if ($res->num_rows() > 0) {
             $i = 0;
@@ -113,9 +113,9 @@ class Home_model extends CI_Model {
     function getLead() {
         $data = array();
         $res = $this->db->select('first_name,last_name,email,comment,date')
-                ->limit(3)
-                ->order_by('id', 'desc')
-                ->get('leads');
+        ->limit(3)
+        ->order_by('id', 'desc')
+        ->get('leads');
 
         if ($res->num_rows() > 0) {
             $i = 0;
@@ -141,11 +141,11 @@ class Home_model extends CI_Model {
     function getDocs() {
         $data = array();
         $res = $this->db->select('title,document')
-                ->where('status', 1)
-                ->where('file_type', 'img')
-                ->limit(4)
-                ->order_by('id', 'desc')
-                ->get('documents');
+        ->where('status', 1)
+        ->where('file_type', 'img')
+        ->limit(4)
+        ->order_by('id', 'desc')
+        ->get('documents');
         $i = 0;
         if ($res->num_rows() > 0) {
             foreach ($res->result_array() as $row) {
@@ -172,16 +172,16 @@ class Home_model extends CI_Model {
 
         if (!empty($status_1) || !empty($status_2)) {
             return $this->db->select('count(*)')
-                            ->from('affiliate_enquiry')
-                            ->where('affiliate_id', $affiliate_id)
-                            ->where('enq_status', $status_1)
-                            ->where('enq_close_status', $status_2)
-                            ->count_all_results();
+            ->from('affiliate_enquiry')
+            ->where('affiliate_id', $affiliate_id)
+            ->where('enq_status', $status_1)
+            ->where('enq_close_status', $status_2)
+            ->count_all_results();
         } else {
             return $this->db->select('count(*)')
-                            ->from('affiliate_enquiry')
-                            ->where('affiliate_id', $affiliate_id)
-                            ->count_all_results();
+            ->from('affiliate_enquiry')
+            ->where('affiliate_id', $affiliate_id)
+            ->count_all_results();
         }
     }
 
@@ -195,11 +195,11 @@ class Home_model extends CI_Model {
      */
     function getAffiliatePendingEnquiry($affiliate_id, $enq_status, $enq_complete_status) {
         return $this->db->select('count(*)')
-                        ->from('affiliate_enquiry')
-                        ->where('affiliate_id', $affiliate_id)
-                        ->where('enq_status', $enq_status)
-                        ->where('enq_close_status', $enq_complete_status)
-                        ->count_all_results();
+        ->from('affiliate_enquiry')
+        ->where('affiliate_id', $affiliate_id)
+        ->where('enq_status', $enq_status)
+        ->where('enq_close_status', $enq_complete_status)
+        ->count_all_results();
     }
 
     function getPayoutDetails($user_id = 0) {
@@ -258,16 +258,16 @@ class Home_model extends CI_Model {
         return $amount;
 
     }
-   
+    
 
 
     function getUserOrderPerMonth($year_month)
     {
         return $this->db->select('count(*)')
-                             ->where("DATE_FORMAT(confirm_date,'%Y-%m')", $year_month)
-                            ->where('order_status' , 1)
-                            ->from('orders')
-                            ->count_all_results();
+        ->where("DATE_FORMAT(confirm_date,'%Y-%m')", $year_month)
+        ->where('order_status' , 1)
+        ->from('orders')
+        ->count_all_results();
     }    
 
     function getUserSalesPerMonth($year_month)
@@ -275,9 +275,9 @@ class Home_model extends CI_Model {
 
         $total_amount = 0;
         $query = $this->db->select_sum('total_amount')
-                ->where('order_status', 1)
-                ->like("DATE_FORMAT(confirm_date,'%Y-%m')", $year_month)
-                ->get('orders');
+        ->where('order_status', 1)
+        ->like("DATE_FORMAT(confirm_date,'%Y-%m')", $year_month)
+        ->get('orders');
         if ($query->num_rows() > 0 && $query->row()->total_amount != '') {
             $total_amount = $query->row()->total_amount;
         }
@@ -288,14 +288,14 @@ class Home_model extends CI_Model {
     function getCustomersCount($year_month)
     {
         return $this->db->select('count(*)')
-                             ->where("DATE_FORMAT(date,'%Y-%m')", $year_month)
-                            ->where('user_type', 'user')
-                            ->from('user')
-                            ->count_all_results();
+        ->where("DATE_FORMAT(date,'%Y-%m')", $year_month)
+        ->where('user_type', 'user')
+        ->from('user')
+        ->count_all_results();
     }
     function getMonthNames($monthNum)
     {
-       
+     
         $monthName = date("F", mktime(0, 0, 0, $monthNum, 10));
         
     }
@@ -303,17 +303,17 @@ class Home_model extends CI_Model {
 
     function getTotalOrders() {
         return $this->db->select('count(*)')
-                        ->from('orders')
-                        ->where('order_status', 1)
-                        ->count_all_results();
+        ->from('orders')
+        ->where('order_status', 1)
+        ->count_all_results();
         
     }
 
     function getTotalSales() {
         $total_amount = 0;
         $query = $this->db->select_sum('total_amount')
-                ->where('order_status', 1)
-                ->get('orders');
+        ->where('order_status', 1)
+        ->get('orders');
         if ($query->num_rows() > 0 && $query->row()->total_amount != '') {
             $total_amount = $query->row()->total_amount;
         }
@@ -322,105 +322,135 @@ class Home_model extends CI_Model {
     }
 
     function getTotalUsers() {
-       $this->db->select('mlm_user_id')
-                ->from("user")
-                ->where('user_type', 'user');
-                 return $this->db->count_all_results();
+     $this->db->select('mlm_user_id')
+     ->from("user")
+     ->where('user_type', 'user');
+     return $this->db->count_all_results();
 
+ }
+
+ function getLastWeekOrders($from_date , $to_date) {
+    return $this->db->select('count(*)')
+    ->from('orders')
+    ->where('order_status', 1)
+    ->where('order_date BETWEEN "' . $from_date . '" and "' . $to_date . '"')
+    ->count_all_results();
+    
+}
+
+function getLastWeekSales($from_date , $to_date) {
+    $total_amount = 0;
+    $query = $this->db->select_sum('total_amount')
+    ->where('order_status', 1)
+    ->where('order_date BETWEEN "' . $from_date . '" and "' . $to_date . '"')
+    ->get('orders');
+    if ($query->num_rows() > 0 && $query->row()->total_amount != '') {
+        $total_amount = $query->row()->total_amount;
     }
+    return $total_amount;
 
-    function getLastWeekOrders($from_date , $to_date) {
-        return $this->db->select('count(*)')
-                        ->from('orders')
-                        ->where('order_status', 1)
-                        ->where('order_date BETWEEN "' . $from_date . '" and "' . $to_date . '"')
-                        ->count_all_results();
-        
+}
+
+function getLastWeekTotalUsers($from_date , $to_date) {
+ $this->db->select('mlm_user_id')
+ ->from("user")
+ ->where('user_type', 'user')
+ ->where('date BETWEEN "' . $from_date . '" and "' . $to_date . '"');
+ return $this->db->count_all_results();
+
+}
+
+function getUserOrderTotal($date) {
+
+  return $this->db->select('count(*)')
+  ->from('orders')
+  ->where('order_status', 1)
+  ->like('order_date', $date)
+  ->count_all_results();
+
+}
+
+function getUserSalesTotal($date) {
+    $total_amount = 0;
+    $query = $this->db->select_sum('total_amount')
+    ->where('order_status', 1)
+    ->like('order_date', $date)
+    ->get('orders');
+    if ($query->num_rows() > 0 && $query->row()->total_amount != '') {
+        $total_amount = $query->row()->total_amount;
     }
+    return $total_amount;
 
-    function getLastWeekSales($from_date , $to_date) {
-        $total_amount = 0;
-        $query = $this->db->select_sum('total_amount')
-                ->where('order_status', 1)
-                ->where('order_date BETWEEN "' . $from_date . '" and "' . $to_date . '"')
-                ->get('orders');
-        if ($query->num_rows() > 0 && $query->row()->total_amount != '') {
-            $total_amount = $query->row()->total_amount;
+}
+
+function getTotalUserCount($date) {
+ $this->db->select('mlm_user_id')
+ ->from("user")
+ ->like('date', $date)
+ ->where('user_type', 'user');
+ return $this->db->count_all_results();
+
+}
+
+function getAllOrdersData(){
+    $data = array();
+    $query = $this->db->select('orders.id, orders.order_status,orders.total_amount,orders.order_date,user_name')
+    ->join('user', 'user.mlm_user_id = orders.user_id', 'inner')
+    ->get('orders');
+    if ($query->num_rows() > 0) {
+        $i = 0;
+        foreach ($query->result_array() as $row) {
+            $data[$i]['order_id'] = 'MB00'.$row['id'];
+            $data[$i]['customer'] = $row['user_name'];
+            $data[$i]['order_status'] = $this->getOrderStatus($row['order_status']);
+            $data[$i]['order_date'] = $row['order_date'];
+            $data[$i]['total_amount'] = $this->helper_model->currency_conversion(round($row['total_amount'], 8));
+            $i++;
         }
-        return $total_amount;
-
     }
+    return $data;
+}
 
-    function getLastWeekTotalUsers($from_date , $to_date) {
-       $this->db->select('mlm_user_id')
-                ->from("user")
-                ->where('user_type', 'user')
-                ->where('date BETWEEN "' . $from_date . '" and "' . $to_date . '"');
-                 return $this->db->count_all_results();
+function getOrderStatus($id){
+  $status_name = '';
+  $query = $this->db->select('status_name')
+  ->where('id', $id)
+  ->get('orderstatus');
+  if ($query->num_rows() > 0) {
+    $status_name = $query->row()->status_name;
+}
+return $status_name;
+}
 
-    }
-
-    function getUserOrderTotal($date) {
-
-      return $this->db->select('count(*)')
-                        ->from('orders')
-                        ->where('order_status', 1)
-                        ->like('order_date', $date)
-                        ->count_all_results();
-
-    }
-
-    function getUserSalesTotal($date) {
-        $total_amount = 0;
-        $query = $this->db->select_sum('total_amount')
-                ->where('order_status', 1)
-                ->like('order_date', $date)
-                ->get('orders');
-        if ($query->num_rows() > 0 && $query->row()->total_amount != '') {
-            $total_amount = $query->row()->total_amount;
+function getProductStock(){
+    $data = array();
+    $query = $this->db->select('product_name')
+    ->where('quantity <' , 5)
+    ->where('quantity >' , 0)
+    ->get('products');
+    if ($query->num_rows() > 0) {
+        $i = 0;
+        foreach ($query->result_array() as $value) {
+            $data[$i]['product_name'] = $value['product_name'];
+            $i++;
         }
-        return $total_amount;
-
     }
+    return $data;
+}
 
-    function getTotalUserCount($date) {
-       $this->db->select('mlm_user_id')
-                ->from("user")
-                ->like('date', $date)
-                ->where('user_type', 'user');
-                 return $this->db->count_all_results();
-
-    }
-
-    function getAllOrdersData(){
-        $data = array();
-        $query = $this->db->select('orders.id, orders.order_status,orders.total_amount,orders.order_date,user_name')
-                ->join('user', 'user.mlm_user_id = orders.user_id', 'inner')
-                ->get('orders');
-        if ($query->num_rows() > 0) {
-            $i = 0;
-            foreach ($query->result_array() as $row) {
-                $data[$i]['order_id'] = 'MB00'.$row['id'];
-                $data[$i]['customer'] = $row['user_name'];
-                $data[$i]['order_status'] = $this->getOrderStatus($row['order_status']);
-                $data[$i]['order_date'] = $row['order_date'];
-                $data[$i]['total_amount'] = $this->helper_model->currency_conversion(round($row['total_amount'], 8));
-                $i++;
-            }
+function getProductStockOut(){
+    $data = array();
+    $query = $this->db->select('product_name')
+    ->where('quantity' , 0)
+    ->get('products');
+    if ($query->num_rows() > 0) {
+        $i = 0;
+        foreach ($query->result_array() as $value) {
+            $data[$i]['product_name'] = $value['product_name'];
+            $i++;
         }
-        return $data;
     }
-
-    function getOrderStatus($id){
-          $status_name = '';
-        $query = $this->db->select('status_name')
-                ->where('id', $id)
-                ->get('orderstatus');
-        if ($query->num_rows() > 0) {
-            $status_name = $query->row()->status_name;
-        }
-        return $status_name;
-    }
-
+    return $data;
+}
 
 }

@@ -28,7 +28,7 @@ class Home extends Base_Controller {
         
         // $lat_docs = $this->home_model->getDocs();
         // $pay_details = $this->home_model->getPayoutDetails();
-               
+     
         // $this->setData('pay_details', $pay_details);
         // $this->setData('lat_docs', $lat_docs);
         // $this->setData('total_users', $total_users);
@@ -42,6 +42,8 @@ class Home extends Base_Controller {
         // $this->setData('lcp_link', $lcp_link);
         // $this->setData('year', date('Y'));
         // $this->setData('title', lang('menu_name_1'));
+        $prod_stock_out_soon = $this->home_model->getProductStock();
+        $prod_stock_out = $this->home_model->getProductStockOut();
         $last_monday = date("Y-m-d", strtotime("last week monday"));
         $last_sunday = date("Y-m-d", strtotime("last week sunday"));
         $total_orders_last_week = $this->home_model->getLastWeekOrders($last_monday , $last_sunday );
@@ -58,6 +60,8 @@ class Home extends Base_Controller {
         $this->setData('total_orders', $total_orders);
         $this->setData('total_sales', $total_sales);
         $this->setData('order_data', $order_data);
+        $this->setData('prod_stock_out_soon', $prod_stock_out_soon);
+        $this->setData('prod_stock_out', $prod_stock_out);
         $this->loadView();
     }
     
@@ -86,7 +90,7 @@ class Home extends Base_Controller {
         } elseif ($replica_status || $lcp_status) {
             $col = '12';
         }
-         
+        
         $this->setData('replica_status', $replica_status);
         $this->setData('lcp_status', $lcp_status);
         $this->setData('col', $col);
@@ -127,7 +131,7 @@ class Home extends Base_Controller {
         } elseif ($replica_status || $lcp_status) {
             $col = '12';
         }
-          
+        
         $this->setData('replica_status', $replica_status);
         $this->setData('lcp_status', $lcp_status);
         $this->setData('col', $col);
