@@ -67,8 +67,11 @@
     <script src="assets/shop/js/plugins/sticky-sidebar.js"></script>
     <script src="assets/shop/js/currency-lang-switch.js"></script>
     <!-- MAIN JS -->
+    {%if MLM_LANG_CODE =='en' %}
     <script src="assets/shop/js/main.js"></script>
-    <!-- <script src="assets/js/main-rtl.js"></script> -->
+    {%elseif MLM_LANG_CODE =='ar' %}
+    <script src="assets/js/main-rtl.js"></script>
+    {% endif %}
 
 </body>
 
