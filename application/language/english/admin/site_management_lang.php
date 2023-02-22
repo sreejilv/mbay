@@ -82,3 +82,7 @@ $lang['min_phone_req_js'] = 'Company Phone atleast 2 Digits long ';
 $lang['company_phone_req_js'] = 'Please Enter the Company Phone Number';
 $lang['google_analytics'] = 'Google Analytics';
 $lang['google_analytics_note'] = "Don't use script tag in Google Analytics";
+$lang['add_brand_settings'] = "Add Brand Settings";
+$lang['update_brand_settings'] = "Update Brand Settings";
+$lang['brand_name'] = "Brand Name";
+$lang['date'] = "Created Date";

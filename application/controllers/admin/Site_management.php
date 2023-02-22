@@ -63,6 +63,7 @@ class Site_management extends Base_Controller {
                     $fav_icon = $uploadData['file_name'];
                 }
             }
+
             $result = $this->site_management_model->updateSiteInformation($company_name, $admin_email, $company_address, $company_email, $company_phone, $logo_name, $fav_icon,$google_analytics);
             if ($result) {
                 $this->session->unset_userdata('mlm_site_info');
@@ -344,9 +345,181 @@ class Site_management extends Base_Controller {
         }
     }
 
-    function website_image_upload(){
-        $request = $_FILES;
-        print_r($request);die;
+    // brand Settings
+
+    // function brand_settings() {
+    //     $title = lang('brand_settings');
+    //     $this->setData('title', lang('menu_name_198'));
+    //     $this->setData('page_title', $title);
+    //     $site_info = $this->site_management_model->get_site_info();
+    //     if ($this->input->post('update_site_info') && $this->validate_site_info()) {
+    //         $this->load->helper('security');
+    //         $post_arr = $this->security->xss_clean($this->input->post());
+    //         $company_name = $post_arr['company_name'];
+            
+    //         $data = array();
+    //         $logo_name = $site_info['company_logo'];
+
+    //         // if ($_FILES['company_logo']['error'] == 0) {
+    //         if (isset($_FILES['company_logo']) && $_FILES['company_logo']['error'] == 0){
+    //             $config['upload_path'] = FCPATH . 'assets/images/';
+    //             // $config['upload_path'] = FCPATH . 'assets/images/logos/';
+    //             $config['allowed_types'] = 'jpg|png|jpeg|svg';
+    //             $new_name = 'logo_' . time();
+    //             $config['file_name'] = $new_name;
+    //             $this->load->library('upload', $config);
+    //             $this->upload->initialize($config);
+    //             if ($this->upload->do_upload('company_logo')) {
+    //                 $uploadData = $this->upload->data();
+    //                 $logo_name = $uploadData['file_name'];
+    //             }
+    //         }
+
+    //         $fav_icon = $site_info['company_fav_icon'];
+            
+    //         if ($_FILES['company_fav_icon']['error'] == 0) {
+    //             // $config1['upload_path'] = FCPATH . 'assets/images/logos/';
+    //             $config1['upload_path'] = FCPATH . 'assets/images/';
+    //             $config1['allowed_types'] = 'jpg|png|jpeg|svg';
+    //             $new_name = 'fav_' . time();
+    //             $config1['file_name'] = $new_name;
+    //             $this->load->library('upload', $config1);
+    //             $this->upload->initialize($config1);
+    //             if ($this->upload->do_upload('company_fav_icon')) {
+    //                 $uploadData = $this->upload->data();
+    //                 $fav_icon = $uploadData['file_name'];
+    //             }
+    //         }
+
+    //         $result = $this->site_management_model->updateSiteInformation($company_name, $admin_email, $company_address, $company_email, $company_phone, $logo_name, $fav_icon,$google_analytics);
+    //         if ($result) {
+    //             $this->session->unset_userdata('mlm_site_info');
+    //             $this->helper_model->insertActivity(($this->aauth->getUserType() == 'employee') ? $this->base_model->getAdminUserId() : $this->aauth->getId(), 'site_information_updated', $post_arr);
+
+    //             $msg = lang('successfully_update_site_settings');
+    //             $this->loadPage($msg, "website-manage", 'success');
+    //         } else {
+    //             $msg = lang('error_while_entring_site_settings');
+    //             $this->loadPage($msg, "website-manage", 'danger');
+    //         }
+    //     } else {
+    //         $this->setData('error', $this->form_validation->error_array());
+    //     }
+
+    //     $this->setData('site_info', $site_info);
+    //     $this->loadView();
+    // }
+
+    public function brand_settings($action = "", $brand_id = "") {
+
+        $loged_user_id = ($this->aauth->getUserType() == 'employee') ? $this->base_model->getAdminUserId() : $this->aauth->getId();
+        $brand_details = array();
+        $edit_id = 0;
+
+        $edit_flag = FALSE;
+        if ($action && $brand_id) {
+
+            if ($action == "brand_edit") {
+                $edit_flag = TRUE;
+                $brand_details = $this->site_management_model->getBrandSettings($brand_id);
+            } else {
+                $this->loadPage(lang('invalid_action'), 'brand-settings', 'danger');
+            }
+        }
+        
+        if ($this->input->post('add_brand')) {
+
+            $this->load->helper('security');
+            $post = $this->security->xss_clean($this->input->post());
+            $config['upload_path'] = FCPATH . 'assets/shop/images/brand/';
+            $config['allowed_types'] = 'jpg|png|jpeg';
+            $new_name = 'brand_' . time();
+            $config['file_name'] = $new_name;
+            $this->load->library('upload', $config);
+
+            if ($this->upload->do_upload('image')) {
+
+                $data_upload = $this->upload->data();
+                $brand_image = $data_upload['file_name'];
+
+                if ($this->dbvars->IMAGE_RESIZE_STATUS) {
+                    if (isset($data_upload['full_path'])) {
+                        $this->load->library('image_lib');
+                        $configer = array(
+                            'image_library' => 'gd2',
+                            'source_image' => $data_upload['full_path'],
+                            'maintain_ratio' => TRUE,
+                            'width' => 500,
+                            'height' => 500,
+                        );
+                        $this->image_lib->initialize($configer);
+                        if (!$this->image_lib->resize()) {
+                            $error['reason'] = $this->image_lib->display_errors();
+                            $this->helper_model->insertFailedActivity($loged_user_id, 'resize_fail', $error);
+                        }
+                        $this->image_lib->clear();
+                    }
+                }
+            }
+            $res = $this->site_management_model->addBrand($post, $brand_image);
+            if ($res) {
+                $this->helper_model->insertActivity($loged_user_id, 'brand_added', $post);
+                $this->loadPage(lang('cat_added_successfully'), 'brand-settings');
+            } else {
+                $this->loadPage(lang('cat_adding_failed'), 'brand-settings', 'danger');
+            }
+        }
+
+        if ($this->input->post('update_brand')) {
+            $this->load->helper('security');
+            $post = $this->security->xss_clean($this->input->post());
+
+            $brand_image = $this->site_management_model->getBrandImage($post['update_brand']);
+            $config['upload_path'] = FCPATH . 'assets/shop/images/brand/';
+            $config['allowed_types'] = 'jpg|png|jpeg';
+            $new_name = 'brand_' . time();
+            $config['file_name'] = $new_name;
+            $this->load->library('upload', $config);
+            if ($this->upload->do_upload('image')) {
+                $data_upload = $this->upload->data();
+                $cat_image = $data_upload['file_name'];
+
+                if ($this->dbvars->IMAGE_RESIZE_STATUS) {
+                    if (isset($data_upload['full_path'])) {
+                        $this->load->library('image_lib');
+                        $configer = array(
+                            'image_library' => 'gd2',
+                            'source_image' => $data_upload['full_path'],
+                            'maintain_ratio' => TRUE,
+                            'width' => 500,
+                            'height' => 500,
+                        );
+                        $this->image_lib->initialize($configer);
+                        if (!$this->image_lib->resize()) {
+                            $error['reason'] = $this->image_lib->display_errors();
+                            $this->helper_model->insertFailedActivity($loged_user_id, 'resize_fail', $error);
+                        }
+                        $this->image_lib->clear();
+                    }
+                }
+            }
+            $res = $this->site_management_model->updateBrand($post, $cat_image);
+            if ($res) {
+                $this->helper_model->insertActivity($loged_user_id, 'brand_updated', $post);
+                $this->loadPage(lang('brand_updated_successfully'), 'brand-settings');
+            } else {
+                $this->loadPage(lang('brand_updation_failed'), 'brand-settings', 'danger');
+            }
+        }
+        $data = $this->site_management_model->getBrandLists();
+        $this->setData('data', $data);
+        $this->setData('brand', $brand_details);
+        $this->setData('error', $this->form_validation->error_array());
+        $this->setData('brand_id', $brand_id);
+        $this->setData('edit_flag', $edit_flag);
+        $this->setData('title', lang('menu_name_198'));
+        $this->setData('edit_id', $edit_id);
+        $this->loadView();
     }
 
 }
