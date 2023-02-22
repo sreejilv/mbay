@@ -125,12 +125,19 @@
                                     <!--language-->
                                     <div class="same-style-wrap language-swicher">
                                         <div class="same-style same-style-border language-wrap">
-                                            <a class="language-dropdown-active" href="#">EN <i
+                                            <a class="language-dropdown-active" href="#">{{MLM_LANG_CODE}}<i
                                                 class="icon-arrow-down"></i></a>
                                                 <div class="language-dropdown">
                                                     <ul>
-                                                        <li><a href="#">English</a></li>
-                                                        <li><a href="#">العربية</a></li>
+                                                        {% if MLM_LANG_CODE %}
+                                                        <li>
+                                                            
+                                                            <a href="javascript:;" onclick="switchLanguage('en');">English</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:;" onclick="switchLanguage('ar');">العربية</a>
+                                                        </li>
+                                                        {%endif%}
                                                     </ul>
                                                 </div>
                                             </div>
