@@ -32,14 +32,18 @@
 
                 <!-- start page title -->
                 <?= $page_title ?>
-                
+                <h4 class="panel-title">
+                    <span class="text-bold">Profile </span>
+                </h4>
+                 
                 <div class="row">
+                  <div class="card"> <br/>
                     <div class="col-lg-12">
-                        <div class="card">
-                            <div class="card-header">
+                        <div class="card" style="border: 1px solid #fdfdff;">
+                            {# <div class="card-header">
                                 <h4 class="card-title"> <i class="bx bxs-edit-alt"></i> Edit Customer</h4>
-                            </div>
-                             <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            </div> #}
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link active" id="edit-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">General</button>
                             </li>
@@ -52,10 +56,10 @@
                                   <div class="card-body p-4">
                                 <div class="row">
                                     <div class="col-lg-12 ms-lg-auto">
-                                             {{ form_open('', 'class="update_form" id="update_form" name="update_form"')|raw }}
+                                        {{ form_open('', 'class="update_form" id="update_form" name="update_form"')|raw }}
                                         <div class="mt-4 mt-lg-0">
                                                 <div class="row mb-4">
-                                                    <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">First name</label>
+                                                    <label for="horizontal-firstname-input" class="col-sm-2 col-form-label">First name</label>
                                                     
                                                      <input type="hidden" value="{{details.user_id}}" id="user_id" name="user_id">
                                                     <div class="col-sm-9">
@@ -65,7 +69,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Last name</label>
+                                                    <label for="horizontal-firstname-input" class="col-sm-2 col-form-label">Last name</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" class="form-control"  name="last_name" id="horizontal-firstname-input" value="{{details.last_name}}">
                                                      {% if login_error.last_name is defined %}<code> {{ login_error.last_name}} </code> {% endif %}
@@ -73,7 +77,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="horizontal-email-input" class="col-sm-3 col-form-label">Email</label>
+                                                    <label for="horizontal-email-input" class="col-sm-2 col-form-label">Email</label>
                                                     <div class="col-sm-9">
                                                         <input type="email" class="form-control" name="email" id="horizontal-email-input" readonly value="{{details.email}}">
                                                      {% if login_error.email is defined %}<code> {{ login_error.email}} </code> {% endif %}
@@ -82,7 +86,7 @@
                                                 </div>
 
                                                  <div class="row mb-4">
-                                                    <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Telephone</label>
+                                                    <label for="horizontal-firstname-input" class="col-sm-2 col-form-label">Telephone</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" class="form-control"  name="phone_number" id="horizontal-firstname-input" value="{{details.phone_number}}">
                                                      {% if login_error.phone_number is defined %}<code> {{ login_error.phone_number}} </code> {% endif %}
@@ -90,22 +94,20 @@
                                                     </div>
                                                 </div>
                                                 <div class="row justify-content-end">
-                                                    <div class="col-sm-9">
+                                                    <div class="col-sm-12">
                                                         <div>
-                                                            <button type="submit" name="general" value="general" class="btn btn-primary w-md">Submit</button>
-                                                    
-                                                      
+                                                            <button type="submit" name="general" value="general" class="btn btn-primary w-md">Submit <i class="fa fa-arrow-circle-right"></i></button>
                                                         </div>
                                                     </div>
                                                 </div>
                                              
                                         </div>
-                                         {{form_close()|raw}}
+                                        {{form_close()|raw}}
                                     </div>
                                 </div>
-                            <div class="card-header">
+                            {# <div class="card-header">
                                 <h4 class="card-title"> <i class="bx bx-lock-alt"></i> Password</h4>
-                            </div>
+                            </div> #}
                             <br>
                                 <div class="row">
                                     <div class="col-lg-12 ms-lg-auto">
@@ -113,7 +115,7 @@
 
                                         <div class="mt-4 mt-lg-0">
                                                 <div class="row mb-4">
-                                                    <label for="horizontal-password-input" class="col-sm-3 col-form-label">Password</label>
+                                                    <label for="horizontal-password-input" class="col-sm-2 col-form-label">Password</label>
                                                     <div class="col-sm-9">
                                                         <input type="password" class="form-control" name="password" id="horizontal-password-input">
                                                      {% if login_error.password is defined %}<code> {{ login_error.password}} </code> {% endif %}
@@ -122,7 +124,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="horizontal-password-input" class="col-sm-3 col-form-label">Confirm Password</label>
+                                                    <label for="horizontal-password-input" class="col-sm-2 col-form-label">Confirm Password</label>
                                                     <div class="col-sm-9">
                                                         <input type="password" class="form-control" name="confirm_password" id="horizontal-password-input">
                                                      {% if login_error.confirm_password is defined %}<code> {{ login_error.confirm_password}} </code> {% endif %}
@@ -130,9 +132,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="row justify-content-end">
-                                                    <div class="col-sm-9">
+                                                    <div class="col-sm-12">
                                                         <div>
-                                                            <button type="submit" name="update_password" value="update_password" class="btn btn-primary w-md">Submit</button>
+                                                            <button type="submit" name="update_password" value="update_password" class="btn btn-primary w-md">Submit <i class="fa fa-arrow-circle-right"></i></button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -147,15 +149,15 @@
                            
                              {{ form_open('', 'class="address_form" id="address_form" name="address_form"')|raw }}
                              <div class="card-body p-4"> 
-                                <div class="card-header">
+                                {# <div class="card-header">
                                   <h5 class="card-title">Address</h5>
-                                 </div>
-                                 <br>
+                                 </div> #}
+                                 {# <br> #}
                                  <div class="row">
                                     <div class="col-lg-12 ms-lg-auto">
                                         <div class="mt-4 mt-lg-0">
                                                 <div class="row mb-4">
-                                                    <label for="horizontal-email-input" class="col-sm-3 col-form-label">Address 1</label>
+                                                    <label for="horizontal-email-input" class="col-sm-2 col-form-label">Address 1</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" class="form-control" id="address_1" name="address[0][address_1]" value="{{details.address_1}}">
                                                     </div>
@@ -163,19 +165,19 @@
                                                      <input type="hidden" value="{{details.user_id}}" id="user_id" name="user_id">
 
                                                  <div class="row mb-4">
-                                                    <label for="horizontal-email-input" class="col-sm-3 col-form-label">Address 2</label>
+                                                    <label for="horizontal-email-input" class="col-sm-2 col-form-label">Address 2</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" class="form-control" id="address_2" name="address[0][address_2]"  value="{{details.address_2}}">
                                                     </div>
                                                 </div>
                                                  <div class="row mb-4">
-                                                    <label for="horizontal-email-input" class="col-sm-3 col-form-label">City</label>
+                                                    <label for="horizontal-email-input" class="col-sm-2 col-form-label">City</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" class="form-control" id="city"  name="address[0][city]"  value="{{details.city}}">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="horizontal-email-input" class="col-sm-3 col-form-label">country</label>
+                                                    <label for="horizontal-email-input" class="col-sm-2 col-form-label">country</label>
                                                     <div class="col-sm-9">
                                                         <select name="country_id" id="country_id" class="form-control search-select" tabindex='4'>
                                                         <option value="">{{ lang('select_a_country') }}</option>
@@ -186,17 +188,17 @@
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="horizontal-email-input" class="col-sm-3 col-form-label">Zip code</label>
+                                                    <label for="horizontal-email-input" class="col-sm-2 col-form-label">Zip code</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" class="form-control" id="zip_code"  name="address[0][zip_code]" value="{{details.zip_code}}">
                                                     </div>
                                                 </div>
-                                                <div class="form-check form-check-right mb-3 ">
+                                                {# <div class="form-check form-check-right mb-3 ">
                                                     <input class="form-check-input" type="radio" name="default" value="0"  checked id="default" >
                                                     <label class="form-check-label" for="default">
                                                        Default
                                                     </label>
-                                                </div>
+                                                </div> #}
                                         </div> 
                                     </div>
                                  </div>
@@ -212,25 +214,25 @@
                                         <div class="mt-4 mt-lg-0">
                                           
                                                  <div class="row mb-4">
-                                                    <label for="horizontal-email-input" class="col-sm-3 col-form-label">Address 1</label>
+                                                    <label for="horizontal-email-input" class="col-sm-2 col-form-label">Address 1</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" class="form-control" id="address_1" name="address[{{j}}][address_1]" value="{{details.address_1}}">
                                                     </div>
                                                 </div>
                                                  <div class="row mb-4">
-                                                    <label for="horizontal-email-input" class="col-sm-3 col-form-label">Address 2</label>
+                                                    <label for="horizontal-email-input" class="col-sm-2 col-form-label">Address 2</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" class="form-control" id="address_2" name="address[{{j}}][address_2]"  value="{{details.address_2}}">
                                                     </div>
                                                 </div>
                                                  <div class="row mb-4">
-                                                    <label for="horizontal-email-input" class="col-sm-3 col-form-label">City</label>
+                                                    <label for="horizontal-email-input" class="col-sm-2 col-form-label">City</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" class="form-control" id="city"  name="address[{{j}}][city]" value="{{details.city}}">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="horizontal-email-input" class="col-sm-3 col-form-label">country</label>
+                                                    <label for="horizontal-email-input" class="col-sm-2 col-form-label">country</label>
                                                     <div class="col-sm-9">
                                                         <select name="country_id" id="country_id" class="form-control search-select" tabindex='4'>
                                                         <option value="">{{ lang('select_a_country') }}</option>
@@ -241,7 +243,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="horizontal-email-input" class="col-sm-3 col-form-label">Zip code</label>
+                                                    <label for="horizontal-email-input" class="col-sm-2 col-form-label">Zip code</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" class="form-control" id="zip_code"  name="address[{{j}}][zip_code]" value="{{details.zip_code}}">
                                                     </div>
@@ -261,15 +263,15 @@
                                   {% endif  %}
                                   <input type="hidden" value="{{j}}" id="total_chq">
                                   <span id="add_address_view"></span>
-                                    <div class="row mb-4">
+                                    {# <div class="row mb-4">
                                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                                                 <a class="btn btn-primary" onclick="myaddresss()"><i class="bx bx-plus"></i> Add Address</a>
                                         </div>
-                                     </div>
+                                     </div> #}
                                         <div class="row justify-content-end">
-                                            <div class="col-sm-9">
+                                            <div class="col-sm-12">
                                                 <div>
-                                                    <button type="submit" name="add_address" value="add_address"id="add_address" class="btn btn-primary w-md">Submit</button>
+                                                    <button type="submit" name="add_address" value="add_address"id="add_address" class="btn btn-primary w-md">Submit <i class="fa fa-arrow-circle-right"></i></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -280,6 +282,7 @@
                         {{form_close()|raw}}
                         </div>
                         
+                </div>
                 </div>
             </div> <!-- container-fluid -->
         </div>
@@ -335,11 +338,11 @@
          html +='<div class="card-header">';
          html += '<h5 class="card-title"> Address'+ count +'</h5></div><br><div class="row">';
          html += '<div class="col-lg-12 ms-lg-auto"><div class="mt-4 mt-lg-0"><div class="row mb-4">';
-         html += '<label for="horizontal-email-input" class="col-sm-3 col-form-label">Address 1</label><div class="col-sm-9"><input type="text" class="form-control" id="address_1" name="address['+ count +'][address_1]" ></div></div>';
-         html += '<div class="row mb-4"><label for="horizontal-email-input" class="col-sm-3 col-form-label">Address 2</label><div class="col-sm-9"> <input type="text" class="form-control" id="address_2" name="address['+ count +'][address_2]" ></div></div>';
-         html += '<div class="row mb-4"><label for="horizontal-email-input" class="col-sm-3 col-form-label">City</label><div class="col-sm-9"><input type="text" class="form-control" id="city"  name="address['+ count +'][city]"> </div></div>';
+         html += '<label for="horizontal-email-input" class="col-sm-2 col-form-label">Address 1</label><div class="col-sm-9"><input type="text" class="form-control" id="address_1" name="address['+ count +'][address_1]" ></div></div>';
+         html += '<div class="row mb-4"><label for="horizontal-email-input" class="col-sm-2 col-form-label">Address 2</label><div class="col-sm-9"> <input type="text" class="form-control" id="address_2" name="address['+ count +'][address_2]" ></div></div>';
+         html += '<div class="row mb-4"><label for="horizontal-email-input" class="col-sm-2 col-form-label">City</label><div class="col-sm-9"><input type="text" class="form-control" id="city"  name="address['+ count +'][city]"> </div></div>';
       
-         html += '<div class="row mb-4"><label for="horizontal-email-input" class="col-sm-3 col-form-label">country</label>'; 
+         html += '<div class="row mb-4"><label for="horizontal-email-input" class="col-sm-2 col-form-label">country</label>'; 
          html += '<div class="col-sm-9" > ';
          html += '<select id="country" name="address['+ count +'][country_id]" class="form-control">';
           html +=  ' <option value="">Select Country</option>';
@@ -348,7 +351,7 @@
             });
         html += '</select>';
         html +='</div> </div>';
-        html += '<div class="row mb-4"> <label for="horizontal-email-input" class="col-sm-3 col-form-label">Zip code</label><div class="col-sm-9"> <input type="text" class="form-control" id="zip_code"  name="address['+ count +'][zip_code]"></div> </div>';
+        html += '<div class="row mb-4"> <label for="horizontal-email-input" class="col-sm-2 col-form-label">Zip code</label><div class="col-sm-9"> <input type="text" class="form-control" id="zip_code"  name="address['+ count +'][zip_code]"></div> </div>';
         html += '<div class="form-check form-check-right mb-3 "><input class="form-check-input" type="radio" name="default" value="'+ count +'" id="formRadiosRight1" ><label class="form-check-label" for="formRadiosRight1"> Default</label> </div>';
         count +=1;
         $('#total_chq').val(count);

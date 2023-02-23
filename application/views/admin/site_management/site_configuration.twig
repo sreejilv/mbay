@@ -39,9 +39,9 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card">
-                            <div class="card-header">
+                            {# <div class="card-header">
                                 <h4 class="card-title"> <i class="bx bxs-edit-alt"></i>Site Settings</h4>
-                            </div>
+                            </div> #}
                             {{ form_open_multipart('', 'class="update_form" id="update_form" name="update_form"')|raw }}
                             
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -60,7 +60,7 @@
                                                     
                                                     <div class="mt-4 mt-lg-0">
                                                         <div class="row mb-4">
-                                                            <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Company Name</label>
+                                                            <label for="horizontal-firstname-input" class="col-sm-2 col-form-label">Company Name</label>
                                                              
                                                             <div class="col-sm-9">
                                                                 <input type="text" class="form-control" name="company_name" id="horizontal-firstname-input" value="{{site_info.company_name}}">
@@ -70,7 +70,7 @@
                                                         </div>
 
                                                         <div class="row mb-4">
-                                                            <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Address</label>
+                                                            <label for="horizontal-firstname-input" class="col-sm-2 col-form-label">Address</label>
                                                             <div class="col-sm-9">
                                                             <textarea class="form-control ckeditor" type="text" rows="4" cols="60" name="company_address" id="company_address" placeholder='{{lang('address')}}'>{{site_info['company_address']}}</textarea>
                                                             {% if login_error.company_address is defined %}<code> {{ login_error.company_address}} </code> {% endif %}
@@ -78,7 +78,7 @@
                                                         </div>
 
                                                         <div class="row mb-4">
-                                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">Company Email</label>
+                                                            <label for="horizontal-email-input" class="col-sm-2 col-form-label">Company Email</label>
                                                             <div class="col-sm-9">
                                                                 <input type="company_email" class="form-control" name="company_email" id="horizontal-email-input"  value="{{site_info.company_email}}">
                                                              {% if login_error.company_email is defined %}<code> {{ login_error.company_email}} </code> {% endif %}
@@ -87,7 +87,7 @@
                                                         </div>
 
                                                         <div class="row mb-4">
-                                                            <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Company Phone Number</label>
+                                                            <label for="horizontal-firstname-input" class="col-sm-2 col-form-label">Company Phone Number</label>
                                                             <div class="col-sm-9">
                                                                 <input type="text" class="form-control"  name="company_phone" id="horizontal-firstname-input" value="{{site_info.company_phone}}">
                                                              {% if login_error.company_phone is defined %}<code> {{ login_error.company_phone}} </code> {% endif %}
@@ -95,7 +95,7 @@
                                                             </div>
                                                         </div> 
                                                         <div class="row mb-4">
-                                                            <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Google Analytics</label>
+                                                            <label for="horizontal-firstname-input" class="col-sm-2 col-form-label">Google Analytics</label>
                                                             <div class="col-sm-9">
                                                                 <input class="form-control" type="text" name="google_analytics" id="google_analytics" placeholder='{{lang('google_analytics')}}' value="{{site_info['google_analytics']}}">
                                                              {% if login_error.company_phone is defined %}<code> {{ login_error.company_phone}} </code> {% endif %}
