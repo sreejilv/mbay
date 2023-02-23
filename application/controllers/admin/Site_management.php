@@ -535,7 +535,7 @@ class Site_management extends Base_Controller {
             $this->load->helper('security');
             $post = $this->security->xss_clean($this->input->post());
 
-            $slider_image = $this->site_management_model->getBrandImage($post['update_slider']);
+            $slider_image = $this->site_management_model->getSliderImage($post['update_slider']);
             $config['upload_path'] = FCPATH . 'assets/shop/images/slider/';
             $config['allowed_types'] = 'jpg|png|jpeg';
             $new_name = 'slider' . time();

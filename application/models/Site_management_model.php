@@ -701,6 +701,19 @@ class Site_management_model extends CI_Model {
         }
         return $data;
     }
+
+     public function getSliderImage($id) {
+        $image = ' ';
+        $query = $this->db->select('image')
+                ->where('id', $id)
+                ->limit(1)
+                ->get('slider_info');
+        if ($query->num_rows() > 0) {
+            $image = $query->row()->image;
+        }
+        return $image;
+    }
+    
     function deleteSliderSettings($id) {
         $this->db->where('id', $id)
                 ->delete('slider_info');
