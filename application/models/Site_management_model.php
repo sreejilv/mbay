@@ -642,6 +642,8 @@ class Site_management_model extends CI_Model {
         }
         return false;
     }
+    
+// Slider Settings
 
     function getSliderSettings($id) {
         $data = array();
@@ -713,7 +715,7 @@ class Site_management_model extends CI_Model {
         }
         return $image;
     }
-    
+
     function deleteSliderSettings($id) {
         $this->db->where('id', $id)
                 ->delete('slider_info');
