@@ -494,11 +494,13 @@ class Product_model extends CI_Model {
     }
 
     function addCategory($data, $cat_image) {
+        $cat_nav = isset($data['slider']) ? 1 : 0;
         $this->db->set('category', $data['category'])
                 ->set('description', $data['description'])
                 ->set('parent', $data['parent'])
                 ->set('sort_order', $data['sort_order'])
-                ->set('image', $cat_image)
+                ->set('image', serialize($cat_image))
+                ->set('cat_nav',$cat_nav)
                 ->set('keyword', $data['keyword'])
                 ->set('creation_date', date("Y-m-d H:i:s"))
                 ->insert('category');
@@ -513,7 +515,7 @@ class Product_model extends CI_Model {
 
     function getCatDetails($id) {
         $data = array();
-        $res = $this->db->select("category,description,parent,sort_order,image,keyword")
+        $res = $this->db->select("category,description,parent,sort_order,image,keyword,cat_nav")
                 ->from("category")
                 ->where('id', $id)
                 ->limit(1)
@@ -523,6 +525,7 @@ class Product_model extends CI_Model {
             $data['description'] = $row->description;
             $data['parent'] = $row->parent;
             $data['sort_order'] = $row->sort_order;
+            $data['cat_nav'] = $row->cat_nav;
             $data['image'] = $row->image;
             $data['keyword'] = $row->keyword;
         }
@@ -530,13 +533,14 @@ class Product_model extends CI_Model {
     }
     
     function updateCategory($data, $cat_image) {
-        $cat_nav = isset($data['cat_nav']) ? 1 : 0;
+        $cat_nav = isset($data['slider']) ? 1 : 0;
         $featured = isset($data['featured']) ? 1 : 0;
         $this->db->set('category', $data['category'])
                 ->set('description', $data['description'])
                 ->set('parent', $data['parent'])
                 ->set('sort_order', $data['sort_order'])
-                ->set('image', $cat_image)
+                ->set('cat_nav',$cat_nav)
+                ->set('image', serialize($cat_image))
                 ->set('keyword', $data['keyword'])
                 ->set('creation_date', date("Y-m-d H:i:s"))
                 ->where('id', $data['update_cat'])
@@ -767,6 +771,17 @@ class Product_model extends CI_Model {
             $i++;
         }
         return $data;
+    }
+
+    function updateimage($product_id,$newimage){
+        $this->db->set('image', serialize($newimage))
+                 ->where('id', $product_id)
+                 ->update('category');
+            if ($this->db->affected_rows() > 0) {
+                return true;
+            }
+            return false;
+
     }
 
 }

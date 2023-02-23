@@ -10,6 +10,7 @@
     <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
     <!-- Responsive datatable examples -->
     <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+      <link rel="stylesheet" href="assets/libs/imageupload/dist/image-uploader.min.css">
 
     <?= $this->include('partials/head-css') ?>
 
@@ -33,7 +34,7 @@
 
         <div class="page-content">
             <div class="container-fluid">
-
+            {% include('admin/layout/notification.twig') %}
                 <!-- start page title -->
                 <?= $page_title ?>
                 <h4 class="panel-title">
@@ -54,21 +55,21 @@
                             <div class="card-body">
                                 <div>
                                     {{ form_open_multipart('', ' id="pristine-valid-example" name="cat_form"')|raw }}
-                                    <form id="pristine-valid-example" novalidate method="post">
+                                    {# <form id="pristine-valid-example" novalidate method="post"> #}
                                         <input type="hidden" />
                                         <div class="row">
 
                                             <div class="col-xl-6 col-md-6">
                                                 <div class="form-group mb-3">
                                                     <label>Category Name</label>
-                                                    <input type="text" required data-pristine-required-message="Please Enter a Category" class="form-control" id="category" name="category" value="{{ category.category }}"/>
+                                                    <input type="text"   class="form-control" id="category" name="category" value="{{ category.category }}"/>
                                                 </div>
                                             </div>
 
                                             <div class="col-xl-6 col-md-6">
                                                 <div class="form-group mb-3">
                                                     <label>Parent Category</label>
-                                                    <input type="text" required data-pristine-required-message="Please Enter a Parent" class="form-control" name="parent" id="parent" value="{{ category.parent }}"/>
+                                                    <input type="text"  class="form-control" name="parent" id="parent" value="{{ category.parent }}"/>
                                                 </div>
                                             </div>
 
@@ -91,13 +92,16 @@
                                                 <div class="form-group mb-3">
                                                     <label>Description</label>
                                                     <div class="col-sm-12">
-                                                    <textarea id="ckeditor-classic" required data-pristine-required-message="Please Enter a Description"></textarea>
+                                                     <span id="errordescription"></span>
+                                    <textarea name="description" class="form-control" id="ckeditor-classic"></textarea>
+                                                    {{ category.description }}</textarea>
                                                         {# <textarea required data-pristine-required-message="Please Enter a Description" class="ckeditor"  rows="2" cols="36" name="description" id="ckeditor-classic" value="{{ category.description }}">{{ category.description }}</textarea> #}
                                                     </div>
+                                                           
                                                 </div>
                                             </div>
 
-                                            
+                                           
                                             {# <div class="col-xl-6 col-md-6">
                                                 <!-- <form action="#" class="dropzone"> -->
                                                     <div class="fallback">
@@ -118,41 +122,65 @@
                                                 </div> -->
                            
                                             </div> #}
-
-                                            <div class="col-xl-12 col-md-12">
+                                            {% if edit_flag %}                               
+                                                <div class="form-group input-field ">
+                                                    <label class="active form-group">Images</label>
+                                                    <div class="input-images-2" style="padding-top: .5rem;">
+                            
+                                                    </div>
+                                                </div>
+                                            {% else %}
+                                                <div class="form-group input-field">
+                                                    <label class="active form-group">Images</label>
+                                                    <div class="input-images-1"  style="padding-top: .5rem;">
+                            
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                            {# <div class="col-xl-12 col-md-12">
                                                 <div class="form-group mb-3">
                                                     <label>Category Image</label>
                                                     <div class="dropzone" id="myDropzone" required data-pristine-required-message="Please Enter a Description"></div>
                                                 </div>
-                                            </div>
-                                            
+                                            </div> #}
+                                             {# <img src="assets/shop/images/product/cat_1676958466.png" title="Smartphone" alt="Smartphone"> #}
+                                           
+
                                             <div class="col-xl-6 col-md-6">
                                                 <div class="form-group mb-3">
                                                     <label>Sort Order</label>
-                                                    <input type="text" required data-pristine-required-message="Please Enter a Sort Order" class="form-control" name="sort_order" id="sort_order" value="{{ category.sort_order }}"/>
+                                                    <input type="text" class="form-control" name="sort_order" id="sort_order" value="{{ category.sort_order }}"/>
                                                 </div>
                                             </div>
                                             <div class="col-xl-6 col-md-6">
                                                 <div class="form-group mb-3">
                                                     <label>SEO Keyword</label>
-                                                    <input type="text" required data-pristine-required-message="Please Enter a Keyword" class="form-control" name="keyword" id="keyword" value="{{ category.keyword }}" />
+                                                    <input type="text"  class="form-control" name="keyword" id="keyword" value="{{ category.keyword }}" />
                                                 </div>
+                                            </div>
+                                             <div class="col-xl-6 col-md-6">
+                                                    <div class="form-check mb-3">
+                                                        <input class="form-check-input" type="checkbox" id="slider" name="slider" {% if category.cat_nav == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="formCheck2">
+                                                            Navigation Slider
+                                                        </label>
+                                                    </div>
                                             </div>
                                         </div>
                                         <!-- end row -->
-
+                                       
                                         <div class="form-group">
                                             {% if edit_flag %}                               
                                             <button type="submit"class="btn btn-primary" value="{{ product_id }}" name="update_cat" id="update_cat">
                                                 {{lang('update')}}  <i class="fa fa-arrow-circle-right"></i>
                                             </button>
                                             {% else %}
-                                                <button type="submit"class="btn btn-primary" value="add_cat" name="add_cat">
+                                                <button type="submit"class="btn btn-primary" value="add_cat" name="add_cat" >
                                                     {{lang('submit')}}  <i class="fa fa-arrow-circle-right"></i>
                                                 </button>
                                             {% endif %}
                                         </div>
-                                    </form>
+                                    {# </form> #}
                                     {{ form_close()|raw }}
                                 </div>
                             </div>
@@ -233,9 +261,7 @@
 <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
 
 <!-- pristine js -->
-<script src="assets/libs/pristinejs/pristine.min.js"></script>
-<!-- form validation -->
-<script src="assets/js/pages/form-validation.init.js"></script>
+
 
 <!-- Datatable init js -->
 <script src="assets/js/pages/datatables.init.js"></script>
@@ -248,33 +274,154 @@
 <script src="assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
 <script src="assets/js/pages/form-editor.init.js"></script>
 
-
-
+<script type="text/javascript" src="assets/libs/imageupload/dist/image-uploader.min.js"></script>
 
 <script src="assets/js/app.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.ckeditor.com/4.5.6/standard/ckeditor.js"></script>
 
 <script>
-Dropzone.options.myDropzone = {
-  url: "image_upload",
-  autoProcessQueue: true,
-  paramName: "file",
-  clickable: true,
-  maxFilesize: 5, //in mb
-  addRemoveLinks: true,
-  acceptedFiles: '.png,.jpg',
-  dictDefaultMessage: "Upload your file here",
-  init: function() {
-    this.on("sending", function(file, xhr, formData) {
-      console.log("sending file");
+
+
+</script>
+
+<script>
+
+$('.input-images-1').imageUploader({
+     maxFiles: 6,
+
+});
+$(function() {
+   validate_user_profile();
+   CKEDITOR.replace( 'description' );
+});
+
+</script>
+
+<script>
+var validate_user_profile = function () {
+    var form = $('#pristine-valid-example');
+    var errorHandler1 = $('.errorHandler', form);
+    var successHandler1 = $('.successHandler', form);
+    $(form).validate({
+        errorElement: "div", // contain the error msg in a span tag
+        errorClass: 'invalid-feedback',
+            errorPlacement: function (error, element) { // render error placement for each input type
+                 if (element.hasClass("ck-editor")) {
+                    error.insertBefore(element);
+                }else if (element.attr("name") == "description") {
+                             $("#errordescription").append(error);
+                    } else{
+                    error.appendTo($(element).closest('.form-group'));
+                }  
+            },
+              
+            rules: {
+               "images[]" : {
+                required: true,
+                },
+                category: {
+                    required: true,
+                },
+                parent: {
+                    required: true,
+                },
+                description: {
+                      ckeditor_required: true,
+                },
+                sort_order: {
+                    required: true,
+                    digits: true
+                },
+                keyword:{
+                    required: true, 
+                }
+            },
+            messages: {
+                 "images[]": "Please select Image",
+                category: {
+                    required: 'Required',
+                }, 
+                parent: {
+                    required: 'Required',
+                },
+                description: {
+                     ckeditor_required: 'Required',
+                }, 
+                sort_order: {
+                    required: 'Required',
+                    digits: 'Only Number Format',
+                },
+                 keyword: {
+                    required: 'Required',
+                }
+            },
+        invalidHandler: function(event, validator) { 
+
+            successHandler1.hide();
+            errorHandler1.show();
+        },
+        highlight: function(element) {
+            $(element).closest('.form-control').removeClass('is-invalid');
+            //display Checkbox invalid Data
+            $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+            // display OK icon
+            $(element).closest('.form-control').removeClass('is-valid').addClass('is-invalid').find('.symbol').removeClass('ok').addClass('required');
+            // add the Bootstrap error class to the control group
+        },
+        unhighlight: function(element) { // revert the change done by hightlight
+            //display Checkbox invalid Data
+
+            $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+            $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
+            // set error class to the control group
+        },
+        success: function(label, element) {
+            //display Checkbox invalid Data
+            $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+            $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
+            // mark the current input as valid and display OK icon
+        },
+        submitHandler: function(form) {
+            successHandler1.show();
+            errorHandler1.hide();
+            form.submit();
+        }
+        });
+    };
+</script>
+
+<script>
+    $.validator.addMethod("ckeditor_required", function(value, element) {
+        alert('');
+      var editorData = CKEDITOR.instances[element.description].getData().trim();
+      return editorData !== '';
+    }, "This field is required.");
+</script>
+<script>
+var product_id = {{ product_id }};
+
+  var image = {{ cat_image|json_encode|raw }};
+        $('.input-images-2').imageUploader({
+            preloaded: image,
+            maxFiles: 10
+        });
+    
+$('.delete-image').on('click', function(){
+ var parent = $(this).parent().children("input").val();
+      $.ajax({
+        url: "admin/product/imagedelete",
+ 
+        data: {
+                parent: parent,
+                product_id:product_id
+            },
+        success: function (res) {
+              console.log($res);
+        }
     });
-    this.on("success", function(file, responseText) {
-      console.log('great success');
-    });
-    this.on("addedfile", function(file){
-  		console.log('file added');
-  	});
-  }
-};
+
+})
 </script>
 
 </body>

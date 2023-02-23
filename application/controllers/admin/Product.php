@@ -708,6 +708,8 @@ class Product extends Base_Controller {
 
         $loged_user_id = ($this->aauth->getUserType() == 'employee') ? $this->base_model->getAdminUserId() : $this->aauth->getId();
         $cat_details = array();
+        $cat_image = array();
+        $files = array();
         $edit_id = 0;
         $cat_details['image'] = 'cat-banner-1.jpg';
 
@@ -717,12 +719,22 @@ class Product extends Base_Controller {
             if ($action == "cat_edit") {
                 $edit_flag = TRUE;
                 $cat_details = $this->product_model->getCatDetails($product_id);
+                // $cat_image =$this->product_model->getAllFiles($cat_details['image']);
+
+                $image = unserialize($cat_details['image']);
+               
+                $i = 0;
+                foreach ($image as $key => $img) {
+                    $files[$i]['id'] = $key;
+                    $files[$i]['src'] = 'assets/shop/images/product/'.$img['file_name'];
+                    $i++;
+                }
             } elseif ($action == "cat_delete") {
                 $res = $this->product_model->deleteCategory($product_id);
                 if ($res) {
                     $data['product_id'] = $product_id;
                     $this->helper_model->insertActivity($loged_user_id, 'cat_deleted', $data);
-                    $this->loadPage(lang('cat_deleted_complete'), 'categories');
+                    $this->loadPage(lang('cat_deleted_complete'), 'categories','success');
                 } else {
                     $this->loadPage(lang('cat_deleted_failed'), 'categories', 'danger');
                 }
@@ -732,87 +744,116 @@ class Product extends Base_Controller {
         }
         
         if ($this->input->post('add_cat')) {
-
             $this->load->helper('security');
             $post = $this->security->xss_clean($this->input->post());
-            $cat_image = 'cat-banner-1.jpg';
-            // $config['upload_path'] = FCPATH . 'assets/cart/images/banners/';
             $config['upload_path'] = FCPATH . 'assets/shop/images/product/';
             $config['allowed_types'] = 'jpg|png|jpeg';
-            $new_name = 'cat_' . time();
-            $config['file_name'] = $new_name;
             $this->load->library('upload', $config);
+            $upload_data = array();
+            
+            $files = $_FILES;
+            // print_r($files);die;
+            $cpt = count($_FILES['images']['name']);
 
-            if ($this->upload->do_upload('image')) {
-                $data_upload = $this->upload->data();
-                $cat_image = $data_upload['file_name'];
+            for ($i = 0; $i < $cpt; $i++) {
+                $_FILES['userfile']['name'] = $files['images']['name'][$i];
+                $_FILES['userfile']['type'] = $files['images']['type'][$i];
+                $_FILES['userfile']['tmp_name'] = $files['images']['tmp_name'][$i];
+                $_FILES['userfile']['error'] = $files['images']['error'][$i];
+                $_FILES['userfile']['size'] = $files['images']['size'][$i];
 
-                if ($this->dbvars->IMAGE_RESIZE_STATUS) {
-                    if (isset($data_upload['full_path'])) {
-                        $this->load->library('image_lib');
-                        $configer = array(
-                            'image_library' => 'gd2',
-                            'source_image' => $data_upload['full_path'],
-                            'maintain_ratio' => TRUE,
-                            'width' => 500,
-                            'height' => 500,
-                        );
-                        $this->image_lib->initialize($configer);
-                        if (!$this->image_lib->resize()) {
-                            $error['reason'] = $this->image_lib->display_errors();
-                            $this->helper_model->insertFailedActivity($loged_user_id, 'resize_fail', $error);
+                $new_name = 'cat_' . time();
+                $config['file_name'] = $new_name;
+
+                $this->upload->initialize($config);
+                if ($this->upload->do_upload()) {
+                    $data_upload = $this->upload->data();
+                    $upload_data[] = $data_upload;
+                    if ($this->dbvars->IMAGE_RESIZE_STATUS) {
+                        if (isset($data_upload['full_path'])) {
+                            $this->load->library('image_lib');
+                            $configer = array(
+                                'image_library' => 'gd2',
+                                'source_image' => $data_upload['full_path'],
+                                'maintain_ratio' => TRUE,
+                                'width' => 500,
+                                'height' => 500,
+                            );
+                            $this->image_lib->initialize($configer);
+                            if (!$this->image_lib->resize()) {
+                                $error['reason'] = $this->image_lib->display_errors();
+                                $this->helper_model->insertFailedActivity($loged_user_id, 'resize_fail', $error);
+                            }
+                            $this->image_lib->clear();
                         }
-                        $this->image_lib->clear();
                     }
                 }
             }
-            $res = $this->product_model->addCategory($post, $cat_image);
+              $res = $this->product_model->addCategory($post, $upload_data);
             if ($res) {
                 $this->helper_model->insertActivity($loged_user_id, 'cat_added', $post);
-                $this->loadPage(lang('cat_added_successfully'), 'categories');
+
+                $this->loadPage(lang('cat_added_successfully'), 'categories', 'success');
             } else {
                 $this->loadPage(lang('cat_adding_failed'), 'categories', 'danger');
             }
         }
 
         if ($this->input->post('update_cat')) {
+            $files = $_FILES;
             $this->load->helper('security');
             $post = $this->security->xss_clean($this->input->post());
-
             $cat_image = $this->product_model->getCategoryImage($post['update_cat']);
-            // $config['upload_path'] = FCPATH . 'assets/cart/images/banners/';
+            $cat_image1 = unserialize($cat_image);
+        
             $config['upload_path'] = FCPATH . 'assets/shop/images/product/';
             $config['allowed_types'] = 'jpg|png|jpeg';
-            $new_name = 'cat_' . time();
-            $config['file_name'] = $new_name;
             $this->load->library('upload', $config);
-            if ($this->upload->do_upload('image')) {
-                $data_upload = $this->upload->data();
-                $cat_image = $data_upload['file_name'];
+            $upload_data = array();
+            $upload_data = $cat_image1;
+            
+            $files = $_FILES;
+            // print_r($files);die;
+            $cpt = count($_FILES['images']['name']);
 
-                if ($this->dbvars->IMAGE_RESIZE_STATUS) {
-                    if (isset($data_upload['full_path'])) {
-                        $this->load->library('image_lib');
-                        $configer = array(
-                            'image_library' => 'gd2',
-                            'source_image' => $data_upload['full_path'],
-                            'maintain_ratio' => TRUE,
-                            'width' => 500,
-                            'height' => 500,
-                        );
-                        $this->image_lib->initialize($configer);
-                        if (!$this->image_lib->resize()) {
-                            $error['reason'] = $this->image_lib->display_errors();
-                            $this->helper_model->insertFailedActivity($loged_user_id, 'resize_fail', $error);
+            for ($i = 0; $i < $cpt; $i++) {
+                $_FILES['userfile']['name'] = $files['images']['name'][$i];
+                $_FILES['userfile']['type'] = $files['images']['type'][$i];
+                $_FILES['userfile']['tmp_name'] = $files['images']['tmp_name'][$i];
+                $_FILES['userfile']['error'] = $files['images']['error'][$i];
+                $_FILES['userfile']['size'] = $files['images']['size'][$i];
+
+                $new_name = 'cat_' . time();
+                $config['file_name'] = $new_name;
+
+                $this->upload->initialize($config);
+                if ($this->upload->do_upload()) {
+                    $data_upload = $this->upload->data();
+                    $upload_data[] = $data_upload;
+                    if ($this->dbvars->IMAGE_RESIZE_STATUS) {
+                        if (isset($data_upload['full_path'])) {
+                            $this->load->library('image_lib');
+                            $configer = array(
+                                'image_library' => 'gd2',
+                                'source_image' => $data_upload['full_path'],
+                                'maintain_ratio' => TRUE,
+                                'width' => 500,
+                                'height' => 500,
+                            );
+                            $this->image_lib->initialize($configer);
+                            if (!$this->image_lib->resize()) {
+                                $error['reason'] = $this->image_lib->display_errors();
+                                $this->helper_model->insertFailedActivity($loged_user_id, 'resize_fail', $error);
+                            }
+                            $this->image_lib->clear();
                         }
-                        $this->image_lib->clear();
                     }
                 }
             }
-            $res = $this->product_model->updateCategory($post, $cat_image);
+            $res = $this->product_model->updateCategory($post, $upload_data);
             if ($res) {
                 $this->helper_model->insertActivity($loged_user_id, 'cat_updated', $post);
-                $this->loadPage(lang('cat_updated_successfully'), 'categories');
+                $this->loadPage(lang('cat_updated_successfully'), 'categories','success');
             } else {
                 $this->loadPage(lang('cat_updation_failed'), 'categories', 'danger');
             }
@@ -820,6 +861,7 @@ class Product extends Base_Controller {
         $data = $this->product_model->getCategoryLists();
         $this->setData('data', $data);
         $this->setData('category', $cat_details);
+        $this->setData('cat_image', $files);
         $this->setData('error', $this->form_validation->error_array());
         $this->setData('product_id', $product_id);
         $this->setData('edit_flag', $edit_flag);
@@ -827,10 +869,22 @@ class Product extends Base_Controller {
         $this->setData('edit_id', $edit_id);
         $this->loadView();
     }
-
-
     function image_upload(){
         $request = $_FILES;
         print_r($request);die;
+    }
+    public function imagedelete(){
+        $this->load->helper('security');
+        $get = $this->input->get();
+        $cat_details = $this->product_model->getCatDetails($get['product_id']);
+        $cat_image = unserialize($cat_details['image']);
+        unset($cat_image[$get['parent']]);
+        $res = $this->product_model->updateimage($get['product_id'],$cat_image);
+        if($res){
+            echo 'yes';
+            exit();
+        }
+        echo 'no';
+        exit();
     }
 }
