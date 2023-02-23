@@ -2189,7 +2189,7 @@ if ($where) {
         return $data;
     }
     
-    function totalCommissionAmount($user_id='', $from_date='', $to_date='', $amount_type,$table) {
+    function totalCommissionAmount($user_id='', $from_date='', $to_date='', $amount_type='',$table='') {
         $amount = 0;
         if ($from_date == '' && $to_date == '' && $user_id == '') {
             $where = " WHERE type = 'credit' AND `bonus_flag` = '1' AND `wallet_type` = '".$amount_type."' ";
