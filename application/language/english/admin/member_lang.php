@@ -229,5 +229,10 @@ $lang['blocktrail_payment_config_sucessfully_js'] = 'BTC Wallet Address Updated'
 $lang['username_req_js'] = 'Username Is Required';
 $lang['username_inv_js'] = 'Invalid Username';
 $lang['user_login_history'] = 'User Login History';
+$lang['order_history'] = 'Order History';
+$lang['customer'] = 'Customer';
+$lang['order_date'] = 'Order Date';
+$lang['total_amount'] = 'Total Amount';
+
 
 

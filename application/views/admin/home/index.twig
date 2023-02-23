@@ -34,7 +34,7 @@
                             {% for pro in prod_stock_out %}  
                                {% if loop.index!= 1 %} , {% endif %} {{ pro['product_name'] }}
                             {% endfor %}
-                            Stock Out!--
+                                {{lang('stock_out')}}
 
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
@@ -47,7 +47,8 @@
                               {% if loop.index!= 1 %} , {% endif %}
                             {{ pro['product_name'] }}
                             {% endfor %}
-                            Stock Out Soon!--
+                            {{lang('stock_out_soon')}}
+                            
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                         {% endif %}
@@ -62,7 +63,7 @@
                                 <div class="card-body">
                                     <div class="row align-items-center">
                                         <div class="col-6">
-                                            <span class="text-muted mb-3 lh-1 d-block text-truncate">TOTAL ORDERS</span>
+                                            <span class="text-muted mb-3 lh-1 d-block text-truncate">{{lang('total_orders')}}</span>
                                             <h4 class="mb-3">
                                                <h4 class="mb-3">{{ total_orders }}
                                                </h4>
@@ -73,8 +74,8 @@
                                         </div>
                                     </div>
                                     <div class="text-nowrap">
-                                        <span class="badge bg-soft-success text-success">{{total_orders_last_week}} Orders</span>
-                                        <span class="ms-1 text-muted font-size-13">Since last week</span>
+                                        <span class="badge bg-soft-success text-success">{{total_orders_last_week}} {{lang('orders')}}</span>
+                                        <span class="ms-1 text-muted font-size-13">{{lang('last_week')}}</span>
                                     </div>
                                 </div><!-- end card body -->
                             </div><!-- end card -->
@@ -87,7 +88,7 @@
                                 <div class="card-body">
                                     <div class="row align-items-center">
                                         <div class="col-6">
-                                            <span class="text-muted mb-3 lh-1 d-block text-truncate">TOTAL SALES</span>
+                                            <span class="text-muted mb-3 lh-1 d-block text-truncate">{{lang('total_sales')}}</span>
                                             <h4 class="mb-3">${{ total_sales |number_format(2)}}
                                             </h4>
                                         </div>
@@ -97,7 +98,7 @@
                                     </div>
                                     <div class="text-nowrap">
                                         <span class="badge bg-soft-success text-success">${{total_sales_last_week |number_format(2)}}</span>
-                                        <span class="ms-1 text-muted font-size-13">Since last week</span>
+                                        <span class="ms-1 text-muted font-size-13">{{lang('last_week')}}</span>
                                     </div>
                                 </div><!-- end card body -->
                             </div><!-- end card -->
@@ -110,7 +111,7 @@
                                 <div class="card-body">
                                     <div class="row align-items-center">
                                         <div class="col-6">
-                                            <span class="text-muted mb-3 lh-1 d-block text-truncate">TOTAL CUSTOMERS</span>
+                                            <span class="text-muted mb-3 lh-1 d-block text-truncate">{{lang('total_customers')}}</span>
                                             <h4 class="mb-3">{{ total_customers}}
                                             </div>
                                             <div class="col-6">
@@ -118,8 +119,8 @@
                                             </div>
                                         </div>
                                         <div class="text-nowrap">
-                                            <span class="badge bg-soft-success text-success">{{total_customers_last_week}} Customers</span>
-                                            <span class="ms-1 text-muted font-size-13">Since last week</span>
+                                            <span class="badge bg-soft-success text-success">{{total_customers_last_week}} {{lang('customers')}}</span>
+                                            <span class="ms-1 text-muted font-size-13">{{lang('last_week')}}</span>
                                         </div>
                                     </div><!-- end card body -->
                                 </div><!-- end card -->
@@ -253,11 +254,11 @@
                                                     <thead>
                                                         <tr class="bg-transparent">
                                                             <th style="width: 40px;">#</th>
-                                                            <th style="width: 80px;">Order ID</th>
-                                                            <th>Customer</th>
-                                                            <th>Status</th>
-                                                            <th>Date Added</th>
-                                                            <th>Total</th> 
+                                                            <th style="width: 80px;">{{lang('order_id')}}</th>
+                                                            <th>{{lang('customer')}}</th>
+                                                            <th>{{lang('status')}}</th>
+                                                            <th>{{lang('order_date')}}</th>
+                                                            <th>{{lang('total_amount')}}</th> 
 
                                                         </tr>
                                                     </thead>

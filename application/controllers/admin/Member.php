@@ -801,6 +801,8 @@ class Member extends Base_Controller {
     }
 
     function order_history() {
+        $order_data = $this->member_model->getAllOrdersData();
+        $this->setData('order_data', $order_data);
         $this->setData('title', lang('menu_name_178'));
         $this->loadView();
     }

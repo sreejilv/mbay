@@ -56,6 +56,22 @@ $lang['declined'] = 'Declined';
 $lang['processing'] = 'Processing';
 $lang['canceled'] = 'Cancelled';
 $lang['pending'] = 'Pending';
+$lang['stock_out'] = ' Stock Out!--';
+$lang['stock_out_soon'] = ' Stock Out Soon!--';
+$lang['total_orders'] = 'TOTAL ORDERS';
+$lang['orders'] = 'Orders';
+$lang['last_week'] = 'Since last week';
+$lang['total_sales'] = 'TOTAL SALES';
+$lang['customers'] = 'Customers';
+$lang['total_customers'] = 'TOTAL CUSTOMERS';
+$lang['order_id'] = 'Order ID';
+$lang['customer'] = 'Customer';
+$lang['status'] = 'Status';
+$lang['order_date'] = 'Date Added';
+$lang['total_amount'] = 'Total Amount';
+
+
+
 
 
 
