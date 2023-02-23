@@ -49,7 +49,8 @@ class Home extends Base_Controller {
         $total_orders_last_week = $this->home_model->getLastWeekOrders($last_monday , $last_sunday );
         $total_sales_last_week = $this->home_model->getLastWeekSales($last_monday , $last_sunday);
         $total_customers_last_week = $this->home_model->getLastWeekTotalUsers($last_monday , $last_sunday);
-        $order_data = $this->home_model->getAllOrdersData();
+        $date = date('Y-m-d');
+        $order_data = $this->home_model->getAllOrdersData($date);
         $total_orders = $this->home_model->getTotalOrders();
         $total_sales = $this->home_model->getTotalSales(); 
         $total_customers = $this->home_model->getTotalUsers();

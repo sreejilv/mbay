@@ -30,10 +30,11 @@
                         {% if prod_stock_out %}
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
                             <i class="mdi mdi-block-helper me-2"></i>
-                            Products Stock Out!--
+
                             {% for pro in prod_stock_out %}  
-                            {{ pro['product_name'] }},
+                               {% if loop.index!= 1 %} , {% endif %} {{ pro['product_name'] }}
                             {% endfor %}
+                            Stock Out!--
 
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
@@ -41,10 +42,12 @@
                         {% if prod_stock_out_soon %}
                         <div class="alert alert-warning alert-dismissible fade show" role="alert">
                             <i class="mdi mdi-alert-outline me-2"></i>
-                            Products Stock Out Soon!--
-                            {% for pro in prod_stock_out_soon %}  
-                            {{ pro['product_name'] }},
+                            
+                            {% for pro in prod_stock_out_soon %} 
+                              {% if loop.index!= 1 %} , {% endif %}
+                            {{ pro['product_name'] }}
                             {% endfor %}
+                            Stock Out Soon!--
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                         {% endif %}
@@ -61,11 +64,11 @@
                                         <div class="col-6">
                                             <span class="text-muted mb-3 lh-1 d-block text-truncate">TOTAL ORDERS</span>
                                             <h4 class="mb-3">
-                                             <h4 class="mb-3">{{ total_orders }}
-                                             </h4>
-                                         </div>
+                                               <h4 class="mb-3">{{ total_orders }}
+                                               </h4>
+                                           </div>
 
-                                         <div class="col-6">
+                                           <div class="col-6">
                                             <div id="mini-chart1" data-colors='["#5156be"]' class="apex-charts mb-2"></div>
                                         </div>
                                     </div>
@@ -226,11 +229,14 @@
                         </div>
                         <div class="row">
                             <div class="col-xl-12">
+
                                 <!-- card -->
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="card">
                                             <div class="card-body">
+                                                <h5 class="card-title me-2"><b>Today's Orders</b></h5>
+
                                                 <div class="row">
                                                     <div class="col-sm">
                                                         <div class="mb-4">
@@ -243,7 +249,7 @@
 
                                                 <div class="table-responsive">
 
-                                                   <table class="table align-middle datatable dt-responsive table-check nowrap" id="order_history_list" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
+                                                 <table class="table align-middle datatable dt-responsive table-check nowrap" id="order_history_list" style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
                                                     <thead>
                                                         <tr class="bg-transparent">
                                                             <th style="width: 40px;">#</th>
@@ -262,36 +268,36 @@
                                                         <td style="width: 80px;"><b>{{orders.order_id}}</b></td>
                                                         <td>{{orders.customer}}</td>
 
-                                                        {% if orders.order_status == "complete" %}  
+                                                        {% if orders.order_status == "Complete" %}  
                                                         <td><span class="badge badge-soft-success">{{orders.order_status}}</span>
 
-                                                           {%elseif orders.order_status =='declined' %} 
-                                                           <td><span class="badge badge-soft-danger">{{orders.order_status}}</span></td>
-                                                           {%else %}
-                                                           <td><span class="badge badge-soft-warning">{{orders.order_status}}</span></td>
-                                                           {% endif %}
+                                                         {%elseif orders.order_status =='Declined' %} 
+                                                         <td><span class="badge badge-soft-danger">{{orders.order_status}}</span></td>
+                                                         {%else %}
+                                                         <td><span class="badge badge-soft-warning">{{orders.order_status}}</span></td>
+                                                         {% endif %}
 
-                                                           <td>{{orders.order_date}}</td>
-                                                           <td>{{orders.total_amount}}</td> 
+                                                         <td>{{orders.order_date}}</td>
+                                                         <td>{{orders.total_amount}}</td> 
 
-                                                       </tr>
-                                                       {% endfor %}
-                                                   </table> 
-                                               </div>
-                                               <!-- end table responsive -->
-                                           </div>
-                                           <!-- end card body -->
-                                       </div>
-                                       <!-- end card -->
-                                   </div>
-                                   <!-- end col -->
-                               </div>
+                                                     </tr>
+                                                     {% endfor %}
+                                                 </table> 
+                                             </div>
+                                             <!-- end table responsive -->
+                                         </div>
+                                         <!-- end card body -->
+                                     </div>
+                                     <!-- end card -->
+                                 </div>
+                                 <!-- end col -->
+                             </div>
 
-                               <!-- end col -->
-                           </div>
-                           <!-- end row-->
+                             <!-- end col -->
+                         </div>
+                         <!-- end row-->
 
-                           <!-- <div class="col-xl-2"> -->
+                         <!-- <div class="col-xl-2"> -->
                             <!-- card -->
                             <!-- <div class="card bg-primary text-white shadow-primary card-h-100"> -->
                                 <!-- card body -->
@@ -393,87 +399,87 @@
 
                                 var options = {
 
-                                   series: [{
-                                      name: 'Order',
-                                      data: graph_data[0]['values']
-                                  }, {
-                                      name: 'Sales',
-                                      data: graph_data[1]['values']
-                                  }, {
-                                      name: 'Customers',
-                                      data: graph_data[2]['values']
-                                  }],
-                                   chart: {
-                                      type: 'bar',
-                                      height: 350
-                                  },
-                                  plotOptions: {
-                                      bar: {
-                                        horizontal: false,
-                                        columnWidth: '55%',
-                                        endingShape: 'rounded'
-                                    },
+                                 series: [{
+                                  name: 'Order',
+                                  data: graph_data[0]['values']
+                              }, {
+                                  name: 'Sales',
+                                  data: graph_data[1]['values']
+                              }, {
+                                  name: 'Customers',
+                                  data: graph_data[2]['values']
+                              }],
+                                 chart: {
+                                  type: 'bar',
+                                  height: 350
+                              },
+                              plotOptions: {
+                                  bar: {
+                                    horizontal: false,
+                                    columnWidth: '55%',
+                                    endingShape: 'rounded'
                                 },
-                                dataLabels: {
-                                  enabled: false
-                              },
-                              stroke: {
-                                  show: true,
-                                  width: 2,
-                                  colors: ['transparent']
-                              },
-                              xaxis: {
-                                  categories: 
-                                  graph_data[3]['values'],
-                              },
-                              yaxis: {
-                                  title: {
-                                    text: ''
-                                }
                             },
-                            fill: {
-                              opacity: 1
+                            dataLabels: {
+                              enabled: false
                           },
-                          tooltip: {
-                              y: {
-                                formatter: function (val, { series, seriesIndex, dataPointIndex, w }) {
-                                   if(seriesIndex==1) {
-                                    return '$ '+val;
-                                }else{
-                                    return val;
-                                }
+                          stroke: {
+                              show: true,
+                              width: 2,
+                              colors: ['transparent']
+                          },
+                          xaxis: {
+                              categories: 
+                              graph_data[3]['values'],
+                          },
+                          yaxis: {
+                              title: {
+                                text: ''
+                            }
+                        },
+                        fill: {
+                          opacity: 1
+                      },
+                      tooltip: {
+                          y: {
+                            formatter: function (val, { series, seriesIndex, dataPointIndex, w }) {
+                             if(seriesIndex==1) {
+                                return '$ '+val;
+                            }else{
+                                return val;
                             }
                         }
                     }
-                };
-                var chart = new ApexCharts(document.querySelector("#chart"), options);
-                chart.render();
-            });
+                }
+            };
+            var chart = new ApexCharts(document.querySelector("#chart"), options);
+            chart.render();
+        });
 
-        </script> 
-        <script src="assets/libs/flatpickr/flatpickr.min.js"></script>
+    </script> 
+    <script src="assets/libs/flatpickr/flatpickr.min.js"></script>
 
-        <!-- Required datatable js -->
-        <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
-        <script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-        <!-- Responsive examples -->
-        <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-        <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
-        <script src="assets/js/pages/dashboard.init.js"></script>
-        <script src="assets/js/pages/invoices-list.init.js"></script>
-        <script src="assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js"></script>
-        <script src="assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js"></script>
-        <!-- dashboard init -->
+    <!-- Required datatable js -->
+    <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <!-- Responsive examples -->
+    <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+    <script src="assets/js/pages/dashboard.init.js"></script>
+    <script src="assets/js/pages/invoices-list.init.js"></script>
+    <script src="assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js"></script>
+    <script src="assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js"></script>
+    <!-- dashboard init -->
 
 
-        <!-- App js -->
-        {# <script src="assets/js/app.js"></script> #}
-        <script>
+    <!-- App js -->
+    {# <script src="assets/js/app.js"></script> #}
+    <script>
 
 // $(document).ready(function () {
 //     mapdata();
 // });
-        </script>
-    </body>
+    </script>
+</body>
 
-    </html>
+</html>

@@ -258,7 +258,7 @@ class Home_model extends CI_Model {
         return $amount;
 
     }
-    
+
 
 
     function getUserOrderPerMonth($year_month)
@@ -295,7 +295,7 @@ class Home_model extends CI_Model {
     }
     function getMonthNames($monthNum)
     {
-     
+
         $monthName = date("F", mktime(0, 0, 0, $monthNum, 10));
         
     }
@@ -335,7 +335,7 @@ class Home_model extends CI_Model {
     ->where('order_status', 1)
     ->where('order_date BETWEEN "' . $from_date . '" and "' . $to_date . '"')
     ->count_all_results();
-    
+
 }
 
 function getLastWeekSales($from_date , $to_date) {
@@ -392,17 +392,18 @@ function getTotalUserCount($date) {
 
 }
 
-function getAllOrdersData(){
+function getAllOrdersData($date){        
     $data = array();
     $query = $this->db->select('orders.id, orders.order_status,orders.total_amount,orders.order_date,user_name')
     ->join('user', 'user.mlm_user_id = orders.user_id', 'inner')
+    ->like('order_date', $date)
     ->get('orders');
     if ($query->num_rows() > 0) {
         $i = 0;
         foreach ($query->result_array() as $row) {
             $data[$i]['order_id'] = 'MB00'.$row['id'];
             $data[$i]['customer'] = $row['user_name'];
-            $data[$i]['order_status'] = $this->getOrderStatus($row['order_status']);
+            $data[$i]['order_status'] = lang($this->getOrderStatus($row['order_status']));
             $data[$i]['order_date'] = $row['order_date'];
             $data[$i]['total_amount'] = $this->helper_model->currency_conversion(round($row['total_amount'], 8));
             $i++;

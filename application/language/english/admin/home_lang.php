@@ -51,3 +51,11 @@ $lang['total_users'] = 'Total Users';
 $lang['system_payout'] = 'System Payout';
 $lang['user_balance'] = 'User Balance';
 $lang['payout_completed'] = 'Payout Completed';
+$lang['complete'] = 'Complete';
+$lang['declined'] = 'Declined';
+$lang['processing'] = 'Processing';
+$lang['canceled'] = 'Cancelled';
+$lang['pending'] = 'Pending';
+
+
+
