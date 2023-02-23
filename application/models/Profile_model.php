@@ -21,9 +21,10 @@ class Profile_model extends CI_Model {
      * @return type
      */
     public function getUserDetails($user_id) {
+
         $data = array();
         $res = $this->db->select("us.user_name,us.email,us.tran_password,us.sponsor_id,us.date,us.user_rank_id")
-                ->select("ud.first_name,ud.last_name,ud.date_of_birth,ud.gender,ud.phone_number,ud.address_1,ud.city,ud.zip_code,ud.state_id,ud.country_id,ud.user_dp,ud.user_cover,ud.facebook,ud.twiter,ud.gplus,ud.instagram")
+                ->select("ud.first_name,ud.last_name,ud.date_of_birth,ud.gender,ud.phone_number,ud.address_1,ud.address_2,ud.city,ud.zip_code,ud.state_id,ud.country_id,ud.user_dp,ud.user_cover,ud.facebook,ud.twiter,ud.gplus,ud.instagram")
                 ->from("user as us")
                 ->join('user_details as ud', "us.mlm_user_id=ud.mlm_user_id", "INNER")
                 ->where("us.mlm_user_id", $user_id)
@@ -37,6 +38,7 @@ class Profile_model extends CI_Model {
             $data['first_name'] = $row->first_name;
             $data['last_name'] = $row->last_name;
             $data['address_1'] = $row->address_1;
+            $data['address_2'] = $row->address_2;
             $data['zipcode'] = $row->zip_code;
             $data['state'] = $row->state_id;
             $data['country'] = $row->country_id;
@@ -49,7 +51,7 @@ class Profile_model extends CI_Model {
             $data['rank_name'] = $this->helper_model->getRankIBydName($row->user_rank_id);
             $data['replica_link'] = $this->helper_model->getUserReplicaLink($row->user_name);
             $data['lcp_link'] = $this->helper_model->getUserLCPLink($row->user_name);
-            $data['ref_link'] = $this->helper_model->getUserRefLink($user_id);
+            // $data['ref_link'] = $this->helper_model->getUserRefLink($user_id);
             $data['facebook'] = $row->facebook;
             $data['twiter'] = $row->twiter;
             $data['gplus'] = $row->gplus;
@@ -289,6 +291,7 @@ class Profile_model extends CI_Model {
             $data[$i]['id'] = $row['state_id'];
             $i++;
         }
+
         return $data;
     }
 

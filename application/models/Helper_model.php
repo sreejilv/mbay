@@ -1007,6 +1007,7 @@ class Helper_model extends CI_Model {
                 ->where("status", '1')
                 ->where('country_id', $country_id)
                 ->get();
+
         $i = 0;
         foreach ($query->result_array() as $row) {
             $data[$i]['name'] = lang($row['state_name']);

@@ -22,7 +22,10 @@ class Profile extends Base_Controller {
         
         $logged_user_id = $profile_user = ($this->aauth->getUserType() == 'employee') ? $this->base_model->getAdminUserId() : $this->aauth->getId();
         $this->load->model('report_model');
-        $details = $this->report_model->edituserdetails($logged_user_id);
+        $user_details = $this->profile_model->getUserDetails($logged_user_id);
+        $country_id = $user_details['country'];
+        $countries = $this->helper_model->getAllCountries();
+        $states = $this->helper_model->getAllStates($country_id);
 
         if ($this->input->post('general') && $this->validate_general_pro_update()){
             $flag = 1;
@@ -48,9 +51,10 @@ class Profile extends Base_Controller {
           $this->loadPage(lang('update_address_success'),'profile-view', 'success');
         }
 
-        $countries = $this->helper_model->getAllCountries();
+        
+        $this->setData('user_details', $user_details);
         $this->setData('countries', $countries);
-        $this->setData('details', $details);
+        $this->setData('states', $states);
         $this->setData('login_error', $this->form_validation->error_array());
         $this->setData('title', lang('menu_name_4'));
         $this->loadView();
