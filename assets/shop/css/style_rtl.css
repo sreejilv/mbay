@@ -43,7 +43,7 @@ body {
 
 body {
   line-height: 24px;
-  font-size: 16px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 400;
   color: #000;
@@ -1684,7 +1684,6 @@ textarea:-ms-input-placeholder {
 input {
   background: #eceff8;
   border: 2px solid #eceff8;
-  height: 45px;
   -webkit-box-shadow: none;
   box-shadow: none;
   padding-left: 10px;
@@ -7432,7 +7431,7 @@ textarea:focus {
 }
 
 .hero-slider-content-6.slider-content-hm9.slider-content-hm10 {
-  padding-right: 150px;
+  padding-right: 85px;
   padding-top: 50px;
   padding-left: 0;
 }
@@ -7511,7 +7510,7 @@ textarea:focus {
 
 .hm10-hero-slider-img {
   margin-left: -170px;
-  margin-right: 50px;
+
 }
 
 @media only screen and (min-width: 1366px) and (max-width: 1600px) {
@@ -7552,7 +7551,7 @@ textarea:focus {
 }
 
 .hm10-hero-slider-img img {
-  max-width: 350px;
+  max-width: 273px;
   margin: auto;
   display: block;
 }

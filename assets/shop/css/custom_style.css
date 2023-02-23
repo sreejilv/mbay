@@ -720,7 +720,7 @@
 }
 
 .app-area .app-header .app-logo img {
-    max-width: 300px;
+    max-width: 285px;
 }
 .app-area .andorid-ios-tab {
     margin-top: 20px;
@@ -839,12 +839,12 @@
     .app-area .app-header h1 {
         max-width: 65%;
     }
-    .app-area .app-header p {
-        max-width: 50%;
+    .app-area .app-header .app-logo img {
+        max-width: 148px;
     }
     .app-area .app-header .app-logo {
-        right: -75px;
-        top: -44px;
+        right: 0;
+        top: -14px;
         z-index: 0;
     }
     .shop-area .single-product-wrap .product-content-wrap .product-content-left span.new-price {
