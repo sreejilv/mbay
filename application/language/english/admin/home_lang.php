@@ -69,6 +69,7 @@ $lang['customer'] = 'Customer';
 $lang['status'] = 'Status';
 $lang['order_date'] = 'Date Added';
 $lang['total_amount'] = 'Total Amount';
+$lang['todays_order'] = 'Today`s Orders';
 
 
 
