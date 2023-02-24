@@ -802,6 +802,9 @@ class Member extends Base_Controller {
 
     function order_history() {
         $order_data = $this->member_model->getAllOrdersData();
+        $order_status_list = $this->member_model->getOrderStatusList();
+         // print_r($order_data);die;
+         $this->setData('order_status_list', $order_status_list);
         $this->setData('order_data', $order_data);
         $this->setData('title', lang('menu_name_178'));
         $this->loadView();
@@ -1328,4 +1331,36 @@ class Member extends Base_Controller {
         exit();
     }
 
+
+    // function change_order_status() {
+    //     $this->load->helper('security');
+    //     $post = $this->security->xss_clean($this->input->get());
+
+    //     if ($post['order_status'] >= 0) {
+            
+    //         $order_id = $this->input->post('order_id');
+    //         $new_status = $this->input->post('new_status');
+
+    //         echo 'yes';
+    //         exit;
+    //     }
+    //     echo 'no';
+    //     exit;
+    // }
+
+    public function update_order_status() {
+        $request = $this->input->get();
+        $this->db->where('id', $request['order_id']);
+        $this->db->update('orders', array('order_status' => $request['order_status']));
+        
+        $affected_rows = $this->db->affected_rows();
+        if ($affected_rows > 0) {
+             echo 'yes';
+              exit;
+        }
+        echo 'no';
+         exit;
+    }
+
+       
 }

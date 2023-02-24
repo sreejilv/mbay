@@ -233,6 +233,7 @@ $lang['order_history'] = 'Order History';
 $lang['customer'] = 'Customer';
 $lang['order_date'] = 'Order Date';
 $lang['total_amount'] = 'Total Amount';
+$lang['select'] = 'Select';
 
 
 

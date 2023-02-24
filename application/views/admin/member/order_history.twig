@@ -15,6 +15,10 @@
     <link href="assets/libs/dropify/dropify.min.css" rel="stylesheet" type="text/css" />
 
 </head>
+<div id="js_messages" style="display: none;"> 
+    <span id="status_change_successfully_js">{{lang('status_change_successfully_js')}}</span>   
+    
+</div>
 
 {% include('admin/partials/body.twig')%}
 <!-- <body data-layout="horizontal"> -->
@@ -48,30 +52,37 @@
                                                 <th>#</th>
                                                 <th>{{lang('order_id')}}</th>
                                                 <th>{{lang('customer')}}</th>
-                                                <th>{{lang('status')}}</th>
                                                 <th>{{lang('order_date')}}</th>
                                                 <th>{{lang('total_amount')}}</th>
+                                                <th>{{lang('status')}}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {% for orders in order_data %} 
                                             <tr>
                                                 <td>{{loop.index}}</td>
-                                                <td><b>{{orders.order_id}}</b></td>
+                                                <td><b>MB00{{orders.order_id}}</b></td>
                                                 <td>{{orders.customer}}</td>
-                                                {% if orders.order_status == "Complete" %}  
-                                                <td><span class="badge badge-soft-success">{{orders.order_status}}</span>
-
+                                                <td>{{orders.order_date}}</td>
+                                                <td>{{orders.total_amount}}</td> 
+                                                  {# {% if orders.order_status == "Complete" %}  
+                                                    <td><span class="badge badge-soft-success">{{orders.order_status}}</span>
                                                    {%elseif orders.order_status =='Declined' %} 
                                                    <td><span class="badge badge-soft-danger">{{orders.order_status}}</span></td>
                                                    {%else %}
                                                    <td><span class="badge badge-soft-warning">{{orders.order_status}}</span></td>
-                                                   {% endif %}
+                                                   {% endif %}#}    
 
-                                                   <td>{{orders.order_date}}</td>
-                                                   <td>{{orders.total_amount}}</td> 
-                                               </tr>
-                                               {% endfor %}
+                                                    <td>
+                                                        <select name="order_status" onchange="updateOrderStatus(this.value, {{ orders.order_id }})">
+                                                            <option value="">{{ lang('select') }}</option>
+                                                                    {% for sts in order_status_list %}
+                                                                        <option value="{{ sts.id }}" {% if orders.order_status==sts.status_name %} selected {% endif %}>{{ sts.status_name|raw }}</option>
+                                                                    {% endfor %}
+                                                        </select>
+                                                    </td>
+                                            </tr>
+                                            {% endfor %}
                                            </tbody>
                                        </table>
                                    </div>
@@ -113,7 +124,37 @@
            <!-- Datatable init js -->
            <script src="assets/js/pages/datatables.init.js"></script>
            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
 
-       </body>
+    function updateOrderStatus(element,id) {
+        var order_status =element;
+        var order_id = id;
+        var msg = $("#status_change_successfully_js").html();
+        $.ajax({
+            url: "admin/member/update_order_status",
+            data: {
+                order_status: order_status,
+                order_id: order_id
+            },
+            success: function (result) {
+                if (result == "yes") {
+                    var flag = "success";
+                    var title = $('#success_js').html();
+                    // show_notification(flag, title, msg);
+                     alert('Error: The condition is not met.');
+                    location.reload(true);
+                }else {
+                    var flag = "error";
+                    var title = $('#success_js').html();
+                    // show_notification(flag, title, msg);
+                    location.reload(true);
+                }
+            }
+        });
+    }
 
-       </html>
+</script>
+
+    </body>
+
+</html>

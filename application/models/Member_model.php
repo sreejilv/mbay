@@ -1929,33 +1929,51 @@ class Member_model extends CI_Model {
     }
 
     function getAllOrdersData(){        
-    $data = array();
-    $query = $this->db->select('orders.id, orders.order_status,orders.total_amount,orders.order_date,user_name')
-    ->join('user', 'user.mlm_user_id = orders.user_id', 'inner')
-    ->get('orders');
-    if ($query->num_rows() > 0) {
+        $data = array();
+        $query = $this->db->select('orders.id, orders.order_status,orders.total_amount,orders.order_date,user_name')
+        ->join('user', 'user.mlm_user_id = orders.user_id', 'inner')
+        ->get('orders');
+        if ($query->num_rows() > 0) {
+            $i = 0;
+            foreach ($query->result_array() as $row) {
+                // $data[$i]['order_id'] = 'MB00'.$row['id'];
+                $data[$i]['order_id'] = $row['id'];
+                $data[$i]['customer'] = $row['user_name'];
+                $data[$i]['order_status'] = lang($this->getOrderStatus($row['order_status']));
+                $data[$i]['order_date'] = $row['order_date'];
+                $data[$i]['total_amount'] = $this->helper_model->currency_conversion(round($row['total_amount'], 8));
+                $i++;
+            }
+        }
+        return $data;
+    }
+
+
+    function getOrderStatusList() {
+        $data = array();
+        $query = $this->db->select("id,status_name")
+                ->from("orderstatus")
+                ->get();
         $i = 0;
         foreach ($query->result_array() as $row) {
-            $data[$i]['order_id'] = 'MB00'.$row['id'];
-            $data[$i]['customer'] = $row['user_name'];
-            $data[$i]['order_status'] = lang($this->getOrderStatus($row['order_status']));
-            $data[$i]['order_date'] = $row['order_date'];
-            $data[$i]['total_amount'] = $this->helper_model->currency_conversion(round($row['total_amount'], 8));
+            $data[$i]['status_name'] = lang($row['status_name']);
+            $data[$i]['id'] = $row['id'];
             $i++;
         }
+        return $data;
     }
-    return $data;
-}
 
-function getOrderStatus($id){
-  $status_name = '';
-  $query = $this->db->select('status_name')
-  ->where('id', $id)
-  ->get('orderstatus');
-  if ($query->num_rows() > 0) {
-    $status_name = $query->row()->status_name;
-}
-return $status_name;
-}
+    function getOrderStatus($id){
+      $status_name = '';
+      $query = $this->db->select('status_name')
+      ->where('id', $id)
+      ->get('orderstatus');
+      if ($query->num_rows() > 0) {
+        $status_name = $query->row()->status_name;
+    }
+    return $status_name;
+    }
+
+
 
 }

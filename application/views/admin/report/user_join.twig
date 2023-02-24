@@ -47,15 +47,7 @@
                             <div class="card-body">
                                 <div class="table-responsive">
 
-
-
-
-
-
-
-
-                                
-                                     <table id="datatable" class="table table-bordered dt-responsive nowrap w-100 dataTable no-footer dtr-inline">
+                                    <table id="datatable" class="table table-bordered dt-responsive  nowrap w-100">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
@@ -361,18 +353,15 @@
 {% include('admin/partials/right-sidebar.twig')%}
 <!-- JAVASCRIPT -->
 {% include('admin/partials/vendor-scripts.twig')%}
+
 <script src="assets/js/app.js"></script>
 <script src="assets/libs/flatpickr/flatpickr.min.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="assets/libs/dropify/dropify.min.js"></script>
 <!-- Required datatable js -->
 <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-<!-- Responsive examples -->
-<script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-<script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
-<script src="assets/js/pages/dashboard.init.js"></script>
-<script src="assets/js/pages/invoices-list.init.js"></script>
-
+<!-- Buttons examples -->
 <script src="assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
 <script src="assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
 <script src="assets/libs/jszip/jszip.min.js"></script>
@@ -381,14 +370,15 @@
 <script src="assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
 <script src="assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
 <script src="assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
-
 <!-- Responsive examples -->
 <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
 <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
-<script src="assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js"></script>
-<script src="assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js"></script>
-<!-- dashboard init -->
-<script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<!-- pristine js -->
+<script src="assets/libs/pristinejs/pristine.min.js"></script>
+<!-- form validation -->
+<script src="assets/js/pages/form-validation.init.js"></script>
+<!-- Datatable init js -->
+<script src="assets/js/pages/datatables.init.js"></script>
 
 <script>
 
