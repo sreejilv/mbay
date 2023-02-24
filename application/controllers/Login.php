@@ -434,12 +434,15 @@ class Login extends Base_Controller {
             }
             $user_full_name = $this->helper_model->getUserFullName($user_id);
             $image = $this->helper_model->getUserDp($user_id);
+            $company_address=$this->helper_model->getCompanyAddress();
+            // print_r($company_address);die;
 
             $this->setData('user_name', $user_name);
             $this->setData('image', $image);
             $this->setData('user_full_name', $user_full_name);
             $this->setData('CAPTCHA_STATUS', $captcha);
             $this->setData('title', lang('lock_screen'));
+            $this->setData('company_address', $company_address);
             $this->loadView();
         } else {
             $this->loadPage('', 'login-site');

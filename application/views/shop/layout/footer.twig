@@ -85,11 +85,14 @@
                         <div class="col-lg-6 col-md-6">
                             <div class="contact-info-wrap-2 text-center">
                                 <div class="footer-logo footer-logo-mrg">
-                                    <a href="#"><img src="assets/shop/images/logo/mbay.svg" alt="logo"></a>
+                                    <img src="assets/images/{{COMPANY_LOGO}}" alt="" height="24">
                                 </div>
-                                <p>Muscat, Oman</p>
-                                <p>+968 123456789</p>
-                                <p>hello@domain.com</p>
+                                {% set company_data = COMPANY_ADDRESS|split(',')%}
+                                <p>{{ company_data[0]}}</p>
+                                <p>{{ company_data[1]}}</p>
+                                <p>{{ company_data[2]}}</p>
+                                <p>{{COMPANY_EMAIL}} </p>
+                                <p>{{COMPANY_PHONE}} </p>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-3">
@@ -103,7 +106,7 @@
                     </div>
                 </div>
                 <div class="footer-bottom copyright text-center">
-                    <p>Copyright © 2022 mbay</p>
+                    <p>Copyright © 2022 {{COMPANY_NAME}}</p>
                 </div>
             </div>
         </footer>

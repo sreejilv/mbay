@@ -1038,6 +1038,21 @@ class Helper_model extends CI_Model {
         return $user_dp;
     }
 
+
+
+    public function getCompanyAddress() {
+        $address = '';
+        $query = $this->db->select("company_address")
+                ->get("site_info");
+        if ($query->num_rows() > 0) {
+            $address = $query->row()->address;
+        }
+
+        return $address;
+    }
+
+
+
     /**
      *
      * @author Techffodils Technologies LLP
