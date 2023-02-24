@@ -35,18 +35,27 @@
                 <?= $page_title ?>
               
                 {% if flag == 0 %}
+                <h4 class="panel-title">
+                        <span class="text-bold">Join Report</span>
+                </h4>
                  <div class="row">
                     <div class="col-lg-12">
                         <div class="card">
-                            <div class="card-header">
+                            {# <div class="card-header">
                                 <h4 class="card-title"><i class="bx bx-list-ol"></i> Customer List</h4>
-                            </div>
-                           
-                           
-                            
+                            </div> #}
                             <div class="card-body">
                                 <div class="table-responsive">
-                                     <table id="datatable" class="table align-middle datatable dt-responsive table-check nowrap">
+
+
+
+
+
+
+
+
+                                
+                                     <table id="datatable" class="table table-bordered dt-responsive nowrap w-100 dataTable no-footer dtr-inline">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
@@ -54,8 +63,8 @@
                                                 <th>E-mail </th>
                                                 {# <th>Customer group</th> #}
                                                 <th>Status </th>
-                                                <th>Date of joining </th>
-                                                <th>Action </th>
+                                                <th>Date of Joining </th>
+                                                <th>View Profile </th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -70,8 +79,9 @@
                                                 <td>{{ data.user_status}}</td>
                                                 <td>{{ data.date}}</td>
                                                 <td>
-                                                    <a href="admin/join-report/{{data.mlm_user_id}}" class="btn btn-outline-secondary btn-sm edit" title="Edit">
-                                                     <i class="fas fa-pencil-alt"></i></a>
+                                                    <a href="admin/join-report/{{data.mlm_user_id}}" class="btn btn-primary" title="Edit">
+                                                       <i class="fas fa-user-alt"></i>
+                                                    </a>
                                                 </td>
                                                
                                             </tr>

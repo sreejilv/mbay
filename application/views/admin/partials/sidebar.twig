@@ -7,11 +7,15 @@
             <ul class="metismenu list-unstyled" id="side-menu">
             {% for MENU  in USER_MENU %}
                 <li {% if MENU.selected == 'selected' and MENU.id != 1 %} class="mm-active" {% endif %}>
-                    <a href="{{ MENU.link }}"  target="{{ MENU.target }}" {% if MENU.selected == 'selected' and MENU.id != '1' %} class="active" {% endif %}  {% if  MENU.sub_menu %} class="has-arrow" {% endif %}>
+
+
+                    <a href="{{ MENU.link }}"  target="{{ MENU.target }}" {% if MENU.selected == 'selected' and MENU.id != '1' %} class="active {% if  MENU.sub_menu %} has-arrow {% endif %}" {% endif %}  {% if  MENU.sub_menu %} class="has-arrow" {% endif %} >
                         <!-- <i data-feather="home"></i> -->
                         <i class="bx {{ MENU.icon }}"></i>
-                        <span >{{ lang('menu_name_' ~ MENU.id) }}</span>
+                        <span> {{ lang('menu_name_' ~ MENU.id) }} </span>
                     </a>
+
+
 
                     {% if  MENU.sub_menu  is not null %}
                     <ul class="sub-menu" aria-expanded="false">

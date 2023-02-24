@@ -26,13 +26,13 @@
             <div class="page-content">
                 <div class="container-fluid">
 
-                    <div class="card-body">
+
                         {% if prod_stock_out %}
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
                             <i class="mdi mdi-block-helper me-2"></i>
 
                             {% for pro in prod_stock_out %}  
-                               {% if loop.index!= 1 %} , {% endif %} {{ pro['product_name'] }}
+                               {% if loop.index!= 1 %}, {% endif %} {{ pro['product_name'] }}
                             {% endfor %}
                                 {{lang('stock_out')}}
 
@@ -44,7 +44,7 @@
                             <i class="mdi mdi-alert-outline me-2"></i>
                             
                             {% for pro in prod_stock_out_soon %} 
-                              {% if loop.index!= 1 %} , {% endif %}
+                              {% if loop.index!= 1 %}, {% endif %}
                             {{ pro['product_name'] }}
                             {% endfor %}
                             {{lang('stock_out_soon')}}
@@ -52,7 +52,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                         {% endif %}
-                    </div>
+
                     <!-- start page title -->
                     <?= $page_title ?>
                     <div class="row">
@@ -74,7 +74,7 @@
                                         </div>
                                     </div>
                                     <div class="text-nowrap">
-                                        <span class="badge bg-soft-success text-success">{{total_orders_last_week}} {{lang('orders')}}</span>
+                                        <span class="badge bg-soft-success text-success">{{total_orders_last_week}}&nbsp; {{lang('orders')}}</span>
                                         <span class="ms-1 text-muted font-size-13">{{lang('last_week')}}</span>
                                     </div>
                                 </div><!-- end card body -->
@@ -111,7 +111,7 @@
                                 <div class="card-body">
                                     <div class="row align-items-center">
                                         <div class="col-6">
-                                            <span class="text-muted mb-3 lh-1 d-block text-truncate">{{lang('total_customers')}}</span>
+                                            <span class="text-muted mb-3 lh-1 d-block text-truncate" style="overflow: unset;">{{lang('total_customers')}}</span>
                                             <h4 class="mb-3">{{ total_customers}}
                                             </div>
                                             <div class="col-6">
@@ -119,7 +119,7 @@
                                             </div>
                                         </div>
                                         <div class="text-nowrap">
-                                            <span class="badge bg-soft-success text-success">{{total_customers_last_week}} {{lang('customers')}}</span>
+                                            <span class="badge bg-soft-success text-success">{{total_customers_last_week}} &nbsp; {{lang('customers')}}</span>
                                             <span class="ms-1 text-muted font-size-13">{{lang('last_week')}}</span>
                                         </div>
                                     </div><!-- end card body -->

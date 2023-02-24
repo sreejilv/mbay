@@ -10,7 +10,7 @@
     <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
     <!-- Responsive datatable examples -->
     <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-      <link rel="stylesheet" href="assets/libs/imageupload/dist/image-uploader.min.css">
+    <link rel="stylesheet" href="assets/libs/imageupload/dist/image-uploader.min.css">
 
     <?= $this->include('partials/head-css') ?>
 
@@ -92,9 +92,10 @@
                                                 <div class="form-group mb-3">
                                                     <label>Description</label>
                                                     <div class="col-sm-12">
-                                                     <span id="errordescription"></span>
-                                    <textarea name="description" class="form-control" id="ckeditor-classic"></textarea>
+                                                     
+                                                    <textarea name="description" class="form-control" id="ckeditor-classic"></textarea>
                                                     {{ category.description }}</textarea>
+                                                    <span id="errordescription"></span>
                                                         {# <textarea required data-pristine-required-message="Please Enter a Description" class="ckeditor"  rows="2" cols="36" name="description" id="ckeditor-classic" value="{{ category.description }}">{{ category.description }}</textarea> #}
                                                     </div>
                                                            
@@ -293,7 +294,7 @@ $('.input-images-1').imageUploader({
 });
 $(function() {
    validate_user_profile();
-   CKEDITOR.replace( 'description' );
+  // CKEDITOR.replace( 'description' );
 });
 
 </script>
@@ -304,14 +305,15 @@ var validate_user_profile = function () {
     var errorHandler1 = $('.errorHandler', form);
     var successHandler1 = $('.successHandler', form);
     $(form).validate({
+         ignore: [],
         errorElement: "div", // contain the error msg in a span tag
         errorClass: 'invalid-feedback',
             errorPlacement: function (error, element) { // render error placement for each input type
-                 if (element.hasClass("ck-editor")) {
+                if (element.hasClass("ck-editor")) {
                     error.insertBefore(element);
                 }else if (element.attr("name") == "description") {
-                             $("#errordescription").append(error);
-                    } else{
+                    $("#errordescription").append(error);
+                } else{
                     error.appendTo($(element).closest('.form-group'));
                 }  
             },
@@ -327,7 +329,7 @@ var validate_user_profile = function () {
                     required: true,
                 },
                 description: {
-                      ckeditor_required: true,
+                    ckeditor_required: true,
                 },
                 sort_order: {
                     required: true,
@@ -393,9 +395,10 @@ var validate_user_profile = function () {
 
 <script>
     $.validator.addMethod("ckeditor_required", function(value, element) {
-        alert('');
-      var editorData = CKEDITOR.instances[element.description].getData().trim();
-      return editorData !== '';
+       // alert('');
+      //var editorData = CKEDITOR.instances[element.description].getData().trim();
+      //return editorData !== '';
+      return false
     }, "This field is required.");
 </script>
 <script>
