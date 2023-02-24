@@ -473,6 +473,7 @@
 .p-detail-page-related-product .single-product-wrap .product-content-wrap-2 h3 {
     font-size: 16px;
     font-weight: 500;
+    margin-bottom: 2px;
 }
 
 .single-product-wrap .product-content-wrap .product-content-left span.old-price {
@@ -481,7 +482,7 @@
 }
 
 .single-product-wrap .product-content-wrap .product-content-left h4 {
-    margin: 0 0 5px;
+    margin: 0 0 1px;
 }
 
 .header-top-right .language-swicher {
@@ -701,7 +702,6 @@
 .shop-area .gb {
     color: #878787;
     font-size: 14px;
-    padding-bottom: 5px;
     word-wrap: break-word;
 }
 .app-area .app-header p {
@@ -798,8 +798,10 @@
 .checkout-main-area .nav-pills .nav-link.active {
     color: #fff;
 }
-
-
+.home-slider .btn {
+    border-radius: 100px;
+    font-size: 14px;
+}
 
 
 

@@ -7401,9 +7401,9 @@ textarea:focus {
 
 @media only screen and (max-width: 767px) {
   .hero-slider-content-6.slider-content-hm9 h1 {
-    margin: 12px 0 10px;
+    margin: 12px 0 23px;
     line-height: 30px;
-    font-size: 27px;
+    font-size: 32px;
   }
 }
 
@@ -7505,7 +7505,7 @@ textarea:focus {
 }
 
 .single-hero-slider-hm10 {
-  padding: 55px;
+  padding: 80px 0;
 }
 
 .hm10-hero-slider-img {
@@ -7551,7 +7551,7 @@ textarea:focus {
 }
 
 .hm10-hero-slider-img img {
-  max-width: 273px;
+  max-width: 230px;
   margin: auto;
   display: block;
 }

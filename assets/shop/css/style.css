@@ -6516,10 +6516,7 @@ textarea:focus {
     width: 50%;
   }
 }
-.hero-slider-content-6.slider-content-hm9 {
-  padding-left: 180px;
-  padding-top: 67px;
-}
+
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
   .hero-slider-content-6.slider-content-hm9 {
     padding-left: 70px;
@@ -6563,9 +6560,9 @@ textarea:focus {
 }
 @media only screen and (max-width: 767px) {
   .hero-slider-content-6.slider-content-hm9 h1 {
-    margin: 12px 0 10px;
+    margin: 12px 0 23px;
     line-height: 30px;
-    font-size: 27px;
+    font-size: 32px;
   }
 }
 .hero-slider-content-6.slider-content-hm9 p {
@@ -6587,16 +6584,8 @@ textarea:focus {
     margin: 0 0 15px;
   }
 }
-.hero-slider-content-6.slider-content-hm9.slider-content-hm10 {
-  padding-left: 150px;
-  padding-top: 50px;
-}
-@media only screen and (min-width: 992px) and (max-width: 1199px) {
-  .hero-slider-content-6.slider-content-hm9.slider-content-hm10 {
-    padding-left: 70px;
-    padding-top: 40px;
-  }
-}
+
+
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .hero-slider-content-6.slider-content-hm9.slider-content-hm10 {
     padding-left: 0px;
@@ -6650,19 +6639,11 @@ textarea:focus {
 }
 
 .single-hero-slider-hm10 {
-  padding: 55px 0;
+  padding: 80px 0;
 }
 
-.hm10-hero-slider-img {
-  margin-left: -170px;
-  margin-right: 50px;
-}
-@media only screen and (min-width: 1366px) and (max-width: 1600px) {
-  .hm10-hero-slider-img {
-    margin-left: -120px;
-    margin-right: 0px;
-  }
-}
+
+
 @media only screen and (min-width: 1200px) and (max-width: 1365px) {
   .hm10-hero-slider-img {
     margin-left: -120px;
@@ -6675,29 +6656,17 @@ textarea:focus {
     margin-right: 0px;
   }
 }
-@media only screen and (min-width: 768px) and (max-width: 991px) {
-  .hm10-hero-slider-img {
-    margin-left: -50px;
-    margin-right: 0;
-  }
-}
-@media only screen and (max-width: 767px) {
-  .hm10-hero-slider-img {
-    margin-left: 0px;
-    padding-top: 30px;
-    text-align: center;
-    margin-right: 0;
-  }
-}
+
+
 .hm10-hero-slider-img img {
-  max-width: 273px;
+  max-width: 230px;
   margin: auto;
   display: block;
 }
 @media only screen and (max-width: 767px) {
   .hm10-hero-slider-img img {
-    display: inline-block;
-    max-width: 200px;
+    max-width: 160px;
+    margin-top: 35px;
   }
 }
 
@@ -7290,7 +7259,6 @@ textarea:focus {
   font-weight: bold;
   font-family: "Heebo", sans-serif;
   margin: 0;
-  text-transform: uppercase;
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .section-title h2 {

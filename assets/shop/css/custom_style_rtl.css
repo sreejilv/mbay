@@ -692,7 +692,10 @@ body{
     border-top: dashed 1px #000 !important;
 }
 
-
+.home-slider .btn {
+    border-radius: 100px;
+    font-size: 14px;
+}
 
 
 
