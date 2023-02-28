@@ -115,3 +115,4 @@ $lang['inactivate_this_sub_category'] = 'Inactivate This Sub-Category';
 $lang['delete_this_sub_category'] = 'Delete This Sub-Category';
 $lang['banner_image'] = 'Banner Image';
 $lang['user_photo_ext_js'] = 'Please Select An Image (jpg|jpeg|png)';
+$lang['seo_keyword'] = 'Seo keyword';

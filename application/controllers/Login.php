@@ -119,7 +119,8 @@ class Login extends Base_Controller {
                 // }
                 return TRUE;
             } else {
-                $this->loadPage($this->aauth->error_return(), 'login-site', 'danger');
+                $this->loadPage('User does not exist  ! Please check Username and Password', 'login-site', 'danger');
+                // $this->aauth->error_return()
             }
         }
         return FALSE;

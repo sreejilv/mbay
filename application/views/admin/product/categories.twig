@@ -166,7 +166,7 @@
                                                     <div class="form-check mb-3">
                                                         <input class="form-check-input" type="checkbox" id="slider" name="slider" {% if category.cat_nav == 1 %} checked {% endif %}>
                                                         <label class="form-check-label" for="formCheck2">
-                                                            Navigation Slider
+                                                            Navigation Menu Status
                                                         </label>
                                                     </div>
                                             </div>
@@ -297,7 +297,6 @@ $('.input-images-1').imageUploader({
 });
 $(function() {
    validate_user_profile();
-  // CKEDITOR.replace( 'description' );
 });
 
 </script>
@@ -351,7 +350,7 @@ var validate_user_profile = function () {
                     required: 'Required',
                 },
                 description: {
-                     ckeditor_required: 'Required',
+                     ckeditor_required: 'This field is required',
                 }, 
                 sort_order: {
                     required: 'Required',
@@ -398,10 +397,12 @@ var validate_user_profile = function () {
 
 <script>
     $.validator.addMethod("ckeditor_required", function(value, element) {
-       // alert('');
-      //var editorData = CKEDITOR.instances[element.description].getData().trim();
-      //return editorData !== '';
-      return false
+       var editorData = element.innerText;
+       console.log(editorData);
+       if(editorData){
+        return true;
+       }
+       return false;
     }, "This field is required.");
 </script>
 <script>

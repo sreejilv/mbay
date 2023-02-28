@@ -2,7 +2,7 @@
 {% if FLASH_MESSAGE_DETAILS %}	
  <div class="col-xl-12">
 	{% if FLASH_MESSAGE_TYPE == 'success'  %}
-		<div class="card-body">
+
 			<div class="alert alert-success alert-dismissible alert-label-icon label-arrow fade show"  id="message_box" role="alert">
 				<i class="mdi mdi-check-all label-icon"></i><strong>Success</strong> :	{{ FLASH_MESSAGE_DETAILS }}
 				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -22,7 +22,7 @@
 				<i class="mdi mdi-alert-circle-outline label-icon"></i><strong>Info</strong> :	{{ FLASH_MESSAGE_DETAILS }}
 				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 			</div>
-		</div><!-- end card-body -->
+
 		{% endif  %}
 </div><!-- end col -->
 {% endif %}

@@ -8,40 +8,7 @@ require_once 'Base_Controller.php';
 class Home extends Base_Controller {
 
     function index() {
-        // $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
-        // $replica_link = $this->helper_model->getUserReplicaLink($user_name);
-        // $lcp_link = $this->helper_model->getUserLCPLink($user_name);
 
-        // $top_sales = $this->helper_model->getTopSales();
-
-        // $col = '';
-        // $replica_status = $this->dbvars->REPLICATED_WEBSITE_STATUS;
-        // $lcp_status = $this->dbvars->LCP_STATUS;
-        // if ($replica_status && $lcp_status) {
-        //     $col = '6';
-        // } elseif ($replica_status || $lcp_status) {
-        //     $col = '12';
-        // }
-        // $user_type = $this->aauth->getUserType();
-        // $user_id = ($user_type == 'user') ? $this->aauth->getId() : '';
-        // $total_users=$this->helper_model->getUserCounts('',$user_id);
-        
-        // $lat_docs = $this->home_model->getDocs();
-        // $pay_details = $this->home_model->getPayoutDetails();
-     
-        // $this->setData('pay_details', $pay_details);
-        // $this->setData('lat_docs', $lat_docs);
-        // $this->setData('total_users', $total_users);
-        // $this->setData('replica_status', $replica_status);
-        // $this->setData('lcp_status', $lcp_status);
-        // $this->setData('col', $col);
-        // $this->setData('top_sales', $top_sales);
-        // $this->setData('replica_link', $replica_link);
-        // $this->setData('replica_link_encode', urlencode($replica_link));
-        // $this->setData('lcp_link_encode', urlencode($lcp_link));
-        // $this->setData('lcp_link', $lcp_link);
-        // $this->setData('year', date('Y'));
-        // $this->setData('title', lang('menu_name_1'));
         $prod_stock_out_soon = $this->home_model->getProductStock();
         $prod_stock_out = $this->home_model->getProductStockOut();
         $last_monday = date("Y-m-d", strtotime("last week monday"));
@@ -54,6 +21,8 @@ class Home extends Base_Controller {
         $total_orders = $this->home_model->getTotalOrders();
         $total_sales = $this->home_model->getTotalSales(); 
         $total_customers = $this->home_model->getTotalUsers();
+        $country_orders =$this->countryorders_details();
+        $this->setData('country_orders', $country_orders);
         $this->setData('total_customers_last_week', $total_customers_last_week);
         $this->setData('total_orders_last_week', $total_orders_last_week);
         $this->setData('total_sales_last_week', $total_sales_last_week);
@@ -198,8 +167,50 @@ class Home extends Base_Controller {
         exit();
 
     }
+    public function mapdatafun(){
+        $data= array();
+        $this->db->select('country,COUNT(country) as countorder')
+                ->from('orders')
+                ->where('order_status >','0')
+                ->group_by('country');
+        $res =  $this->db->get()->result_array();
+        $i=0;
+        
+        foreach($res as $result){
+            $latti = $this->db->where("id", $result['country'])->get('countries')->row()->latitude;
+            $longi = $this->db->where("id", $result['country'])->get('countries')->row()->longitude;
+            $data[$i]['latLng'] = [$latti, $longi];
+            $data[$i]['name'] = $this->db->where("id", $result['country'])->get('countries')->row()->country_name;
+            $i++;
+        }
+        echo json_encode($data);
+        exit();
+    }
 
+    public function countryorders_details(){
+        $data = array();
+        $this->db->select('country,COUNT(country) as countorder')
+        ->from('orders')
+        ->where('order_status >','0')
+        ->order_by("countorder", "DESC")
+        ->limit(3)
+        ->group_by('country');
+        $res =  $this->db->get()->result_array();
+        $totalorders  =$this->db->select('*')
+                ->from('orders')
+                ->where('order_status >','0')
+                ->get()->num_rows();
+        $i =0;
+        foreach($res as $result){
+            $data[$i]['country'] = $this->db->where("id", $result['country'])->get('countries')->row()->country_name;
+            $percent = ($result['countorder'] / $totalorders) * 100;
+            $data[$i]['order_count'] = $percent;
+            $i++;
+        }
 
+       return $data;
+    }
+   
     
     
 }

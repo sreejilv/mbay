@@ -502,6 +502,7 @@ $lang['new_msg_added_ticket'] = 'Ticket Reply Message Send';
 $lang['open'] = 'Open';
 $lang['procesed'] = 'Processing';
 $lang['completed'] = 'Completed';
+$lang['declined'] = 'Declined';
 $lang['new'] = 'New';
 $lang['ip_blacklisted'] = 'IP Address Blacklisted';
 $lang['ticket_status_changed'] = 'Ticket Status Changed';

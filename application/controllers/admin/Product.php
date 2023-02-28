@@ -21,14 +21,13 @@ class Product extends Base_Controller {
      * @param type $product_id
      */
     public function product_management($action = "", $product_id = "") {
-    // die('dsfg');
+
         $loged_user_id = ($this->aauth->getUserType() == 'employee') ? $this->base_model->getAdminUserId() : $this->aauth->getId();
         $product = array();
         if ($this->session->userdata('product_post_data') != null)
             $product = $this->session->userdata('product_post_data');
            // print_r($this->input->post());die;
         if ($this->input->post('add_product')) {
-
             $this->load->helper('security');
             $post = $this->security->xss_clean($this->input->post());
            
@@ -110,11 +109,10 @@ class Product extends Base_Controller {
                 }
             }
             $res = $this->product_model->addProduct($post, $upload_data);
-            print_r($res);die;
             if ($res) {
                 $this->session->unset_userdata('product_post_data');
                 $this->helper_model->insertActivity($loged_user_id, 'product_added', $post);
-                $this->loadPage(lang('product_added_successfully'), 'product-manage');
+                $this->loadPage(lang('product_added_successfully'), 'product-manage' ,'success');
             } else {
                 $this->loadPage(lang('product_adding_failed'), 'product-manage', 'danger');
             }
@@ -125,6 +123,15 @@ class Product extends Base_Controller {
             if ($action == "edit") {
                 $edit_flag = TRUE;
                 $product = $this->product_model->getProductDetails($product_id);
+                $image = $product['files'];
+                $files = array();
+                $i=0;
+                foreach ($image as $key => $img) {
+                    $files[$i]['id'] = $key;
+                    $files[$i]['src'] = 'assets/shop/images/product/'.$img['file_name'];
+                    $i++;
+                }
+                $this->setData('cat_img', $files);
             } elseif ($action == "delete") {
                 if ($this->product_model->checkProductOrdered($product_id)) {
                     $this->loadPage(lang('cant_delete_this_product'), 'product-manage');
@@ -719,6 +726,7 @@ class Product extends Base_Controller {
             if ($action == "cat_edit") {
                 $edit_flag = TRUE;
                 $cat_details = $this->product_model->getCatDetails($product_id);
+
                 // $cat_image =$this->product_model->getAllFiles($cat_details['image']);
 
                 $image = unserialize($cat_details['image']);
@@ -873,6 +881,7 @@ class Product extends Base_Controller {
         $request = $_FILES;
         print_r($request);die;
     }
+
     public function imagedelete(){
         $this->load->helper('security');
         $get = $this->input->get();
@@ -880,6 +889,21 @@ class Product extends Base_Controller {
         $cat_image = unserialize($cat_details['image']);
         unset($cat_image[$get['parent']]);
         $res = $this->product_model->updateimage($get['product_id'],$cat_image);
+        if($res){
+            echo 'yes';
+            exit();
+        }
+        echo 'no';
+        exit();
+    }
+
+    public function product_manage_imageDelete(){
+        $this->load->helper('security');
+        $get = $this->input->get();
+        $product = $this->product_model->getProductDetails($get['product_id']);
+        $cat_image = $product['files'];
+        unset($cat_image[$get['parent']]);
+        $res = $this->product_model->updateimageproduct($get['product_id'],$cat_image);
         if($res){
             echo 'yes';
             exit();

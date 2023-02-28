@@ -784,4 +784,15 @@ class Product_model extends CI_Model {
 
     }
 
+    function updateimageproduct($product_id,$newimage){
+        $this->db->set('images', serialize($newimage))
+                 ->where('id', $product_id)
+                 ->update('products');
+            if ($this->db->affected_rows() > 0) {
+                return true;
+            }
+            return false;
+
+    }
+
 }

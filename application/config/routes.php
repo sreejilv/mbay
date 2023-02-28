@@ -224,7 +224,7 @@ $route['(:any)/dashboard'] = '$1/home/index';
 $route['admin/totalorder'] = 'admin/home/totalorder';
 $route['admin/totalsales'] = 'admin/home/totalsales';
 $route['admin/total-users'] = 'admin/home/total_users';
-
+$route['admin/total-mapdata'] = 'admin/home/mapdatafun';
 
 $route['(:any)/used-devices'] = '$1/member/recently_used_devices';
 $route['(:any)/rank-history'] = '$1/report/rank_history_report';

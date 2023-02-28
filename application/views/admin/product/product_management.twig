@@ -1,29 +1,27 @@
 {% include('admin/partials/head-main.twig')%}
+
 <head>
     <base href="{{ base_url() }}" />
     <?= $title_meta ?>
-
-
     <!-- DataTables -->
     <link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-    <link href="assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet"
+        type="text/css" />
     <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
     <!-- Responsive datatable examples -->
-    <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet"
+        type="text/css" />
     <link rel="stylesheet" href="assets/libs/imageupload/dist/image-uploader.min.css">
     <?= $this->include('partials/head-css') ?>
-
-
-{% include('admin/partials/head-css.twig')%}
+    {% include('admin/partials/head-css.twig')%}
 </head>
-
 {% include('admin/partials/body.twig')%}
 <!-- <body data-layout="horizontal"> -->
 
 <!-- Begin page -->
 <div id="layout-wrapper">
 
-{% include('admin/partials/menu.twig')%}
+    {% include('admin/partials/menu.twig')%}
 
     <!-- ============================================================== -->
     <!-- Start right Content here -->
@@ -33,15 +31,15 @@
 
         <div class="page-content">
             <div class="container-fluid">
-
+                    {% include('admin/layout/notification.twig') %}
                 <!-- start page title -->
                 <?= $page_title ?>
                 <h4 class="panel-title">
                     <span class="text-bold">
-                        {% if edit_flag %} 
-                            {{lang('update_product')}}
+                        {% if edit_flag %}
+                        {{lang('update_product')}}
                         {% else %}
-                            {{lang('add_product')}} 
+                        {{lang('add_product')}}
                         {% endif %}
                     </span>
                 </h4>
@@ -51,56 +49,64 @@
                             <div class="card-body">
                                 <div>
                                     <!-- {{ form_open_multipart('', ' id="product_form" name="product_form" class="dropzone"')|raw }} -->
-                                    <form id="pristine-valid-example" novalidate method="post" enctype="multipart/form-data">
-                                        <input type="hidden" />
-                                        <div class="row">
-                                            <div class="col-xl-6 col-md-6">
-                                                <div class="form-group mb-3">
-                                                    <label>Product Name</label>
-                                                    <input type="text" required data-pristine-required-message="Please Enter a Category" class="form-control" id="product_name" name="product_name" value="{{ product.product_name }}"/>
+                                    {# <form id="product-management-id"  method="post" enctype="multipart/form-data"> #}
+                                    {{ form_open_multipart('', ' id="pristine-valid-example" name="product_management_id"')|raw }}
+                                    <input type="hidden" />
+                                    <div class="row">
+                                        <div class="col-xl-6 col-md-6">
+                                            <div class="form-group mb-3">
+                                                <label>Product Name</label>
+                                                <input type="text" class="form-control" id="product_name"
+                                                    name="product_name" value="{{ product.product_name }}" />
 
-                                                    <input type="hidden"  name="submit" value="edit"/>
-                                                </div>
+                                                <input type="hidden" name="submit" value="edit" />
                                             </div>
+                                        </div>
 
-                                            <div class="col-xl-6 col-md-6">
-                                                <div class="form-group mb-3">
-                                                    <label>Product Amount</label>
-                                                    <input type="text" required data-pristine-required-message="Please Enter a Parent" class="form-control" name="product_amount" id="product_amount" value="{{ product.product_amount }}"/>
-                                                </div>
+                                        <div class="col-xl-6 col-md-6">
+                                            <div class="form-group mb-3">
+                                                <label>Product Amount</label>
+                                                <input type="text" class="form-control" name="product_amount"
+                                                    id="product_amount" value="{{ product.product_amount }}" />
                                             </div>
-                                            <div class="col-xl-6 col-md-6">
-                                                <div class="form-group mb-3">
-                                                    <label>Quantity</label>
-                                                    <input type="text" required data-pristine-required-message="Please Enter a Parent" class="form-control" name="quantity" id="quantity" value="{{ product.quantity }}"/>
-                                                </div>
+                                        </div>
+                                        <div class="col-xl-6 col-md-6">
+                                            <div class="form-group mb-3">
+                                                <label>Quantity</label>
+                                                <input type="text" class="form-control" name="quantity" id="quantity"
+                                                    value="{{ product.quantity }}" />
                                             </div>
-                                            
-                                            <div class="col-xl-6 col-md-6">
-                                                <div class="form-group mb-3">
-                                                    <label>Category</label>
-                                                    <select class="form-control search-select" id="category" name="category" tabindex='9'>
-                                                        <option value="">{{ lang('select_a_category')}}</option>
-                                                        {% for cts in categories %}
-                                                            <option value="{{cts.id}}" {% if product.category==cts.id %} selected {% endif %}>{{cts.category}}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
+                                        </div>
+
+                                        <div class="col-xl-6 col-md-6">
+                                            <div class="form-group mb-3">
+                                                <label>Category</label>
+                                                <select class="form-control search-select" id="category" name="category"
+                                                    tabindex='9'>
+                                                    <option value="">{{ lang('select_a_category')}}</option>
+                                                    {% for cts in categories %}
+                                                    <option value="{{cts.id}}" {% if product.category==cts.id %}
+                                                        selected {% endif %}>{{cts.category}}</option>
+                                                    {% endfor %}
+                                                </select>
                                             </div>
-                                        
-                                            <div class="col-xl-6 col-md-6">
-                                                <div class="form-group mb-3">
-                                                    <label>Sort Order</label>
-                                                    <input type="text" required data-pristine-required-message="Please Enter a Sort Order" class="form-control" name="sort_order" id="sort_order" value="{{ product.sort_order }}"/>
-                                                </div>
+                                        </div>
+
+                                        <div class="col-xl-6 col-md-6">
+                                            <div class="form-group mb-3">
+                                                <label>Sort Order</label>
+                                                <input type="text" class="form-control" name="sort_order"
+                                                    id="sort_order" value="{{ product.sort_order }}" />
                                             </div>
-                                            <div class="col-xl-6 col-md-6">
-                                                <div class="form-group mb-3">
-                                                    <label>Keyword</label>
-                                                    <input type="text" required data-pristine-required-message="Please Enter a Keyword" class="form-control" name="keyword" id="keyword" value="{{ product.keyword }}" />
-                                                </div>
+                                        </div>
+                                        <div class="col-xl-6 col-md-6">
+                                            <div class="form-group mb-3">
+                                                <label>Keyword</label>
+                                                <input type="text" class="form-control" name="keyword" id="keyword"
+                                                    value="{{ product.keyword }}" />
                                             </div>
-                                            {# <div class="col-xl-6 col-md-6">
+                                        </div>
+                                        {# <div class="col-xl-6 col-md-6">
                                                 <div class="form-group mb-3">
                                                     <label>Description</label>
                                                     <div class="col-sm-12">
@@ -109,71 +115,66 @@
                                                 </div>
                                             </div> #}
 
-                                            <div class="col-xl-12 col-md-12">
-                                                <div class="form-group mb-3">
-                                                    <label>Description</label>
-                                                    <div class="col-sm-12">
-                                                    <textarea name="description" class="form-control" id="ckeditor-classic">
+                                        <div class="col-xl-12 col-md-12">
+                                            <div class="form-group mb-3">
+                                                <label>Description</label>
+                                                <div class="col-sm-12">
+                                                    <textarea name="description" class="form-control"
+                                                        id="ckeditor-classic">
                                                     {{ product.description }}</textarea>
                                                     <span id="errordescription"></span>
-                                                        {# <textarea required data-pristine-required-message="Please Enter a Description" class="ckeditor"  rows="2" cols="36" name="description" id="ckeditor-classic" value="{{ category.description }}">{{ category.description }}</textarea> #}
-                                                    </div>
+                                                    {# <textarea required data-pristine-required-message="Please Enter a Description" class="ckeditor"  rows="2" cols="36" name="description" id="ckeditor-classic" value="{{ category.description }}">{{ category.description }}</textarea> #}
                                                 </div>
                                             </div>
+                                        </div>
 
 
-                                                <div class="form-group input-field ">
-                                                    <label class="active form-group">Images</label>
-                                                    <div class="input-images-2" style="padding-top: .5rem;">
-                            
-                                                    </div>
-                                                    <br/>
-                                                </div>
+                                        {% if edit_flag %}
+                                        <div class="form-group input-field ">
+                                            <label class="active form-group">Images</label>
+                                            <div class="input-images-2" style="padding-top: .5rem;">
 
-
-                                            <div class="col-xl-12 col-md-12">
-                                                <!-- <form action="#" class="dropzone"> -->
-                                                    <div class="fallback">
-                                                        <input type="file" multiple="multiple" id="images" name="images[]" tabindex='10' accept="image/*"/>
-                                                    </div>
-                                                    <div class="dz-message needsclick">
-                                                        <div class="mb-3">
-                                                            <i class="display-4 text-muted bx bx-cloud-upload"></i>
-                                                        </div>
-
-                                                        <h5>Drop files here or click to upload.</h5>
-                                                    </div>
-                                                <!-- </form> -->
-
-                                                <!-- <div class="text-center mt-4">
-                                                    <button type="button" class="btn btn-primary waves-effect waves-light">Send
-                                                        Files</button>
-                                                </div> -->
-                           
                                             </div>
-{# 
+                                            <br />
+                                        </div>
+                                        {% else %}
+                                        <div class="form-group input-field">
+                                            <label class="active form-group">Images</label>
+                                            <div class="input-images-1" style="padding-top: .5rem;">
+
+                                            </div>
+                                            <br />
+                                        </div>
+                                        {% endif %}
+
+
+
+                                        {# 
                                         <div class="text-center mt-4">
                                             <button type="button" class="btn btn-primary waves-effect waves-light" name="dsfghdf">Send
                                                 Files</button>
                                         </div> #}
                                         <div class="col-xl-6 col-md-6">
 
-                                        <div class="form-group">
+                                            <div class="form-group">
 
-                                            {% if edit_flag %}                               
-                                                <button type="button"class="btn btn-primary" value="{{ product_id }}" name="update_product" onclick="$('#pristine-valid-example').submit();" id="update_product">
+                                                {% if edit_flag %}
+                                                <button type="submit" class="btn btn-primary" value="{{ product_id }}"
+                                                    name="update_product" id="update_product">
                                                     {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
                                                 </button>
-                                            {% else %}
-                                                <button type="button"class="btn btn-primary" value="add_product" name="add_product" onclick="$('#pristine-valid-example').submit();">
+                                                {% else %}
+                                                <button type="submit" class="btn btn-primary" value="add_product"
+                                                    name="add_product">
                                                     {{lang('submit')}} <i class="fa fa-arrow-circle-right"></i>
                                                 </button>
-                                            {% endif %}
-                                         </div>
-                                         </div>
+                                                {% endif %}
+                                            </div>
                                         </div>
-                                        <!-- end row -->
-                                    </form>
+                                    </div>
+                                    <!-- end row -->
+                                    {# </form> #}
+                                    {{ form_close()|raw }}
                                     <!-- {{ form_close()|raw }} -->
                                 </div>
                             </div>
@@ -182,8 +183,8 @@
                     </div>
                     <!-- end col -->
                 </div>
-                {% if not edit_flag %} 
-    
+                {% if not edit_flag %}
+
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
@@ -195,24 +196,29 @@
                                             <th>{{ lang('product_name') }}</th>
                                             <th>{{ lang('product_amount') }}</th>
                                             <th>{{ lang('quantity') }}</th>
-                                            <th>{{ lang('action') }}</th>  
+                                            <th>{{ lang('action') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for row in data %} 
+                                        {% for row in data %}
                                         <tr>
                                             <td>{{loop.index}}</td>
                                             <td>{{row.product_name}}</td>
                                             <td>{{row.product_amount}}</td>
                                             <td>{{row.quantity}}</td>
-                                            <td><a href="{{BASE_URL}}admin/product-manage/edit/{{row.id}}" button type="submit"class="btn btn-primary"><i class="fas fa-pencil-alt"></i></a> <a href="{{BASE_URL}}admin/product-manage/delete/{{row.id}}" button type="submit"class="btn btn-danger"><i class="fa fa-trash fa fa-white"></i></a></td>
+                                            <td><a href="{{BASE_URL}}admin/product-manage/edit/{{row.id}}" button
+                                                    type="submit" class="btn btn-primary"><i
+                                                        class="fas fa-pencil-alt"></i></a> <a
+                                                    href="{{BASE_URL}}admin/product-manage/delete/{{row.id}}" button
+                                                    type="submit" class="btn btn-danger"><i
+                                                        class="fa fa-trash fa fa-white"></i></a></td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                    </div> 
+                    </div>
                 </div>
                 {% endif %}
             </div>
@@ -220,9 +226,9 @@
     </div>
     <!-- End Page-content -->
 
-   {% include('admin/partials/footer.twig')%}
-    </div>
-    <!-- end main content-->
+    {% include('admin/partials/footer.twig')%}
+</div>
+<!-- end main content-->
 </div>
 <!-- END layout-wrapper -->
 
@@ -230,7 +236,7 @@
 {% include('admin/partials/right-sidebar.twig')%}
 <!-- JAVASCRIPT -->
 {% include('admin/partials/vendor-scripts.twig')%}
-<script src="assets/js/app.js"></script>
+
 
 <!-- Required datatable js -->
 <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
@@ -249,11 +255,6 @@
 <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
 <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
 
-<!-- pristine js -->
-<script src="assets/libs/pristinejs/pristine.min.js"></script>
-<!-- form validation -->
-<script src="assets/js/pages/form-validation.init.js"></script>
-
 <!-- Datatable init js -->
 <script src="assets/js/pages/datatables.init.js"></script>
 
@@ -263,9 +264,167 @@
 <script src="assets/js/pages/form-editor.init.js"></script>
 
 <script type="text/javascript" src="assets/libs/imageupload/dist/image-uploader.min.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
+    integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 {# <script src="assets/js/app.js"></script> #}
+<script>
+    var validate_product = function () {
+        var form = $('#pristine-valid-example');
+        var errorHandler1 = $('.errorHandler', form);
+        var successHandler1 = $('.successHandler', form);
+        $(form).validate({
+            ignore: [],
+            errorElement: "div", // contain the error msg in a span tag
+            errorClass: 'invalid-feedback',
+            errorPlacement: function (error, element) { // render error placement for each input type
+                if (element.hasClass("ck-editor")) {
+                    error.insertBefore(element);
+                } else if (element.attr("name") == "description") {
+                    $("#errordescription").append(error);
+                } else {
+                    error.appendTo($(element).closest('.form-group'));
+                }
+            },
 
+            rules: {
+                "images[]": {
+                    required: true,
+                },
+                product_name: {
+                    required: true,
+                },
+                quantity: {
+                    required: true,
+                    digits: true
+                },
+                description: {
+                    ckeditor_required: true,
+                },
+                product_amount: {
+                    required: true,
+                    digits: true
+                },
+                category: {
+                    required: true,
+                },
+                sort_order: {
+                    required: true,
+                },
+                keyword: {
+                    required: true,
+                }
+
+            },
+            messages: {
+                "images[]": "Please select Image",
+                product_name: {
+                    required: 'Required',
+                },
+                quantity: {
+                    required: 'Required',
+                    digits: 'Only Number Format',
+                },
+                description: {
+                    ckeditor_required: 'This field is required',
+                },
+                product_amount: {
+                    required: 'Required',
+                    digits: 'Only Number Format',
+                },
+                category: {
+                    required: 'Required',
+                },
+                sort_order: {
+                    required: 'Required',
+                },
+                keyword: {
+                    required: 'Required',
+                }
+            },
+            invalidHandler: function (event, validator) {
+
+                successHandler1.hide();
+                errorHandler1.show();
+            },
+            highlight: function (element) {
+                $(element).closest('.form-control').removeClass('is-invalid');
+                //display Checkbox invalid Data
+                $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+                // display OK icon
+                $(element).closest('.form-control').removeClass('is-valid').addClass('is-invalid').find(
+                    '.symbol').removeClass('ok').addClass('required');
+                // add the Bootstrap error class to the control group
+            },
+            unhighlight: function (element) { // revert the change done by hightlight
+                //display Checkbox invalid Data
+
+                $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+                $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find(
+                    '.symbol').removeClass('ok').addClass('required');
+                // set error class to the control group
+            },
+            success: function (label, element) {
+                //display Checkbox invalid Data
+                $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+                $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find(
+                    '.symbol').removeClass('ok').addClass('required');
+                // mark the current input as valid and display OK icon
+            },
+            submitHandler: function (form) {
+                successHandler1.show();
+                errorHandler1.hide();
+                form.submit();
+            }
+        });
+    };
+    $('.input-images-1').imageUploader({
+        maxFiles: 6,
+
+    });
+</script>
+
+<script>
+    $(function () {
+        validate_product();
+    });
+    $.validator.addMethod("ckeditor_required", function(value, element) {
+       var editorData = element.innerText;
+       console.log(editorData);
+       if(editorData){
+        return true;
+       }
+       return false;
+    }, "This field is required.");
+</script>
+
+<script>
+var product_id = {{ product_id }};
+
+  var image = {{ cat_img|json_encode|raw }};
+        $('.input-images-2').imageUploader({
+       preloaded: image,
+            maxFiles: 10
+        });
+    
+$('.delete-image').on('click', function(){
+ var parent = $(this).parent().children("input").val();
+      $.ajax({
+        url: "admin/product/product_manage_imageDelete",
+ 
+        data: {
+                parent: parent,
+                product_id:product_id
+            },
+        success: function (res) {
+              console.log($res);
+        }
+    });
+
+})
+</script>
 </body>
 
 </html>

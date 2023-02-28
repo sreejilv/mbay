@@ -60,11 +60,13 @@
                                         <tbody>
                                             {% for orders in order_data %} 
                                             <tr>
+                                                
                                                 <td>{{loop.index}}</td>
                                                 <td><b>MB00{{orders.order_id}}</b></td>
                                                 <td>{{orders.customer}}</td>
                                                 <td>{{orders.order_date}}</td>
                                                 <td>{{orders.total_amount}}</td> 
+
                                                   {# {% if orders.order_status == "Complete" %}  
                                                     <td><span class="badge badge-soft-success">{{orders.order_status}}</span>
                                                    {%elseif orders.order_status =='Declined' %} 
@@ -74,7 +76,7 @@
                                                    {% endif %}#}    
 
                                                     <td>
-                                                        <select name="order_status" onchange="updateOrderStatus(this.value, {{ orders.order_id }})">
+                                                        <select class="form-select"  name="order_status" onchange="updateOrderStatus(this.value, {{ orders.order_id }})">
                                                             <option value="">{{ lang('select') }}</option>
                                                                     {% for sts in order_status_list %}
                                                                         <option value="{{ sts.id }}" {% if orders.order_status==sts.status_name %} selected {% endif %}>{{ sts.status_name|raw }}</option>
