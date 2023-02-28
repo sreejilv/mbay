@@ -25,4 +25,3 @@ RewriteRule ^(.*)$ index.php/$1 [PT,L]
 
 
 </IfModule>
-

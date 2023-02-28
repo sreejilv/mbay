@@ -72,13 +72,17 @@
                                             </div>
                                             <div class="col-lg-12 ms-lg-auto">
                                                 <div class="mt-4 mt-lg-0">
-                                                    <div class="col-lg-6">
+                                                    <div class="col-lg-12">
                                                         <label>Image</label>
                                                         <div class="dropify-wrapper mb-4 form-group col-lg-6">
                                                             <div class="dropify-errors-container">
                                                             <ul></ul>
                                                             </div>
-                                                            <input type="file" class="dropify" data-default-file="assets/shop/images/brand/{{brand.image}}" name="image" id="image" />
+                                                                {% if brand.image %}      
+                                                                    <input type="file" class="dropify" data-default-file="assets/shop/images/brand/{{brand.image}}" name="image" id="image" />
+                                                                {% else %}
+                                                                    <input type="file" class="dropify" name="image" id="image" />
+                                                                {% endif %}
                                                                 <button class="dropify-clear" type="button">Remove</button>
                                                                     <span class="dropify-render"></span>
                                                                         <p class="dropify-filename"><span class="file-icon"></span>
@@ -261,7 +265,11 @@ var imgUpload = $('.dropify').dropify({
     };
 
 </script>
-
+<style>
+.file-icon{
+    display: none;
+}
+</style>
 </body>
 
 </html>

@@ -85,10 +85,15 @@
                                                             <div class="dropify-errors-container">
                                                             <ul></ul>
                                                             </div>
+{% if slider.image %} 
                                                             <input type="file" class="dropify" data-default-file="assets/shop/images/slider/{{slider.image}}" name="image" id="image" />
+{% else %}
+                                                            <input type="file" class="dropify" name="image" id="image" />
+{% endif %}                                                             
                                                                 <button class="dropify-clear" type="button">Remove</button>
                                                                     <span class="dropify-render"></span>
-                                                                        <p class="dropify-filename"><span class="file-icon"></span>
+                                                                        <p class="dropify-filename">
+                                                                        <span class="file-icon" ></span>
                                                                         <span class="dropify-filename-inner"></span></p>
                                                                         <p class="dropify-infos-message">Drag and drop or click to replace</p>
                                                         </div>
@@ -275,6 +280,9 @@ var imgUpload = $('.dropify').dropify({
     };
 
 </script>
+<style>
+span.file-icon{display:none}
+</style>
 </body>
 
 </html>

@@ -93,7 +93,7 @@
                                                     <label>Description</label>
                                                     <div class="col-sm-12">
                                                      
-                                                    <textarea name="description" class="form-control" id="ckeditor-classic"></textarea>
+                                                    <textarea name="description" class="form-control" id="ckeditor-classic">
                                                     {{ category.description }}</textarea>
                                                     <span id="errordescription"></span>
                                                         {# <textarea required data-pristine-required-message="Please Enter a Description" class="ckeditor"  rows="2" cols="36" name="description" id="ckeditor-classic" value="{{ category.description }}">{{ category.description }}</textarea> #}
@@ -129,6 +129,7 @@
                                                     <div class="input-images-2" style="padding-top: .5rem;">
                             
                                                     </div>
+                                                    <br/>
                                                 </div>
                                             {% else %}
                                                 <div class="form-group input-field">
@@ -136,7 +137,8 @@
                                                     <div class="input-images-1"  style="padding-top: .5rem;">
                             
                                                     </div>
-                                                </div>
+                                                     <br/>
+                                            </div>
                                             {% endif %}
                                             {# <div class="col-xl-12 col-md-12">
                                                 <div class="form-group mb-3">
@@ -146,6 +148,7 @@
                                             </div> #}
                                              {# <img src="assets/shop/images/product/cat_1676958466.png" title="Smartphone" alt="Smartphone"> #}
                                            
+                                          
 
                                             <div class="col-xl-6 col-md-6">
                                                 <div class="form-group mb-3">
