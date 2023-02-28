@@ -89,17 +89,17 @@
 
                                              {{ form_open('', 'class="login_form" id="login_form" name="login_form"')|raw }}
 
-                                                <div class="mb-3">
+                                                <div class="mb-3 form-group">
                                                     {# <input class="form-control shadow-none" type="text" name="user-name" placeholder="Your Email/Phone Number"> #}
                                                     <input type="text" class="form-control" name="username" id="username" placeholder="{{lang('user_name')}}" tabindex='1' autocomplete='off'>
                                                      {% if login_error.username is defined %}<code> {{ login_error.username}} </code> {% endif %}
                                                 </div>
-                                                <div class="mb-3">
+                                                <div class="mb-3 form-group">
                                                     {# <input class="form-control shadow-none" type="password"  name="user-password" placeholder="Password"> #}
                                                     <input type="password" class="form-control password" id="password" name="password" placeholder="{{lang('password')}}" tabindex='2'>
                                                     {% if login_error.password is defined %}<code> {{ login_error.password}} </code> {% endif %}
                                                 </div>
-                                                <div class="button-box">
+                                                <div class="button-box ">
                                                     <div class="login-toggle-btn">
                                                         <input type="checkbox">
                                                         <label>Keep me logged in</label>
@@ -287,11 +287,83 @@
         }
     });
 };
+
+    var loginvalidate = function () {
+
+    var form = $('#login_form');
+    var errorHandler2 = $('.errorHandler', form);
+    var successHandler2 = $('.successHandler', form);
+    form.validate({
+        errorElement: "div", // contain the error msg in a span tag
+        errorClass: 'invalid-feedback',
+            errorPlacement: function (error, element) { // render error placement for each input type
+                if (element.hasClass("ck-editor")) {
+                    error.insertBefore(element);
+                }else if (element.attr("name") == "description") {
+                    $("#errordescription").append(error);
+                } else{
+                    error.appendTo($(element).closest('.form-group'));
+                }  
+            },
+        ignore: "",
+        rules: {
+            username: {
+                required: true,
+            },
+            password: {
+                required: true,
+            }
+        },
+        messages: {
+            username: {
+                  required:"Required",
+            },
+            password: {
+               // passwordFormat: $('#passwaord_validation_js').html(),
+                required:"Required",
+            }
+        },
+        invalidHandler: function(event, validator) { 
+
+            successHandler1.hide();
+            errorHandler1.show();
+        },
+        highlight: function(element) {
+            $(element).closest('.form-control').removeClass('is-invalid');
+            //display Checkbox invalid Data
+            $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+            // display OK icon
+            $(element).closest('.form-control').removeClass('is-valid').addClass('is-invalid').find('.symbol').removeClass('ok').addClass('required');
+            // add the Bootstrap error class to the control group
+        },
+        unhighlight: function(element) { // revert the change done by hightlight
+            //display Checkbox invalid Data
+
+            $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+            $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
+            // set error class to the control group
+        },
+        success: function(label, element) {
+            //display Checkbox invalid Data
+            $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+            $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
+            // mark the current input as valid and display OK icon
+        },
+        submitHandler: function(form) {
+            successHandler1.show();
+            errorHandler1.hide();
+            form.submit();
+        }
+    });
+};
+
+
 </script>
 
 <script>
 $(document).ready(function() {
  valSingleStep();
+ loginvalidate();
 });
 
  </script> 
