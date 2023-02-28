@@ -6,24 +6,27 @@
                 <div class="home-slider nav-style-1 nav-style-1-modify-2 nav-style-1-orange">
 
                     <!-- SLIDER SINGLE -->
+                     {% for img in slider_images %}
                     <div class="single-hero-slider single-hero-slider-hm10 single-animation-wrap">
+
                         <div class="row align-items-center">
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                 <div class="hero-slider-content-6 slider-content-hm9 slider-content-hm10">
-                                    <h1>Amazfit GTR 4</h1>
+                                    <h1>{{ img.title}}</h1>
                                         <a class="btn btn-outline-dark" href="#">Shop Now</a>
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                 <div class="hm10-hero-slider-img">
-                                    <img src="assets/shop/images/slider/1.png" alt="Product Name">
+                                    <img src="assets/shop/images/slider/{{ img.image}}">
                                 </div>
                             </div>
                         </div>
                     </div>
+                    {% endfor %}
                     <!-- END SLIDER SINGLE -->
                     <!-- SLIDER SINGLE -->
-                    <div class="single-hero-slider single-hero-slider-hm10 single-animation-wrap">
+                    <!-- <div class="single-hero-slider single-hero-slider-hm10 single-animation-wrap">
                         <div class="row align-items-center">
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                 <div class="hero-slider-content-6 slider-content-hm9 slider-content-hm10">
@@ -37,7 +40,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- END SLIDER SINGLE -->
 
                 </div>

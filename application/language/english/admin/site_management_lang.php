@@ -104,6 +104,8 @@ $lang['brand_name_req_js'] = "Brand Name Is Required";
 $lang['image_req_js'] = "Image Is Required";
 $lang['title_req_js'] = "Title Is Required";
 $lang['subtitle_req_js'] = "Subtitle Is Required";
+$lang['user_photo_ext_js'] = "Image File Not Supported";
+
 
 
 

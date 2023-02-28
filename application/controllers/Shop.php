@@ -15,7 +15,8 @@ class Shop extends Base_Controller {
      * @author Techffodils Technologies LLP
      */
     public function index() {
-        // $key = $this->dbvars->GOOGLE_CAPTCHA_KEY;
+        $this->load->model('site_management_model');
+        $slider_images = $this->site_management_model->getSliderLists();
         // if ($this->aauth->getId()) {
         //     $this->loadPage('', 'dashboard');
         // }
@@ -32,6 +33,7 @@ class Shop extends Base_Controller {
         // $this->setData('AFFILIATES_STATUS', $this->dbvars->AFFILIATES_STATUS);
         // $this->setData('sytem_title', $this->helper_model->getSystemPath());
         // $this->setData('title', lang('login'));
+        $this->setData('slider_images', $slider_images);
         $this->loadView();
     }
 
