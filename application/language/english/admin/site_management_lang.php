@@ -106,6 +106,14 @@ $lang['title_req_js'] = "Title Is Required";
 $lang['subtitle_req_js'] = "Subtitle Is Required";
 $lang['user_photo_ext_js'] = "Image File Not Supported";
 
+$lang['company_name_req_js'] = "Company Name Is Required";
+$lang['company_address_req_js'] = "Company Address Is Required";
+$lang['company_email_req_js'] = "Company Email Is Required";
+$lang['valid_email_msg_js'] = "Not A Valid E-Mail";
+$lang['company_phone_req_js'] = "Company Phone Is Required";
+$lang['company_logo_req_js'] = "Company Logo Is Required";
+$lang['company_fav_icon_req_js'] = "Company Fav Icon Is Required";
+
 
 
 

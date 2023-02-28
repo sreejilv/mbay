@@ -461,7 +461,7 @@ class Site_management extends Base_Controller {
 
 // Slider Setting
 
- public function slider_settings($action = "", $slider_id = "") {
+    public function slider_settings($action = "", $slider_id = "") {
 
         $loged_user_id = ($this->aauth->getUserType() == 'employee') ? $this->base_model->getAdminUserId() : $this->aauth->getId();
         $slider_details = array();

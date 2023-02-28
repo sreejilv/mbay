@@ -3,7 +3,7 @@
     <base href="{{ base_url() }}" />
     <?= $title_meta ?>
 
-{% include('admin/partials/head-css.twig')%}
+    {% include('admin/partials/head-css.twig')%}
     <link href="assets/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css">
     <!-- DataTables -->
     <link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
@@ -26,42 +26,42 @@
 {% include('admin/partials/body.twig')%}
 <!-- <body data-layout="horizontal"> -->
 
-<!-- Begin page -->
-<div id="layout-wrapper">
+    <!-- Begin page -->
+    <div id="layout-wrapper">
 
-    {% include('admin/partials/menu.twig')%}
-    <!-- ============================================================== -->
-    <!-- Start right Content here -->
-    <!-- ============================================================== -->
-    <div class="main-content">
+        {% include('admin/partials/menu.twig')%}
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
 
-        <div class="page-content">
-            {%include('admin/layout/notification.twig')%}
-            <div class="container-fluid">
+            <div class="page-content">
+                {%include('admin/layout/notification.twig')%}
+                <div class="container-fluid">
 
-                <!-- start page title -->
-                <?= $page_title ?>
-                <h4 class="panel-title">
-                    <span class="text-bold">
-                        {% if edit_flag %} 
+                    <!-- start page title -->
+                    <?= $page_title ?>
+                    <h4 class="panel-title">
+                        <span class="text-bold">
+                            {% if edit_flag %} 
                             {{lang('update_brand_settings')}}
-                        {% else %}
+                            {% else %}
                             {{lang('add_brand_settings')}} 
-                        {% endif %}
-                    </span>
-                </h4>
-                
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div>
-                                    {{ form_open_multipart('', ' id="update_form" name="update_form"')|raw }}
-                                    
+                            {% endif %}
+                        </span>
+                    </h4>
+                    
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div>
+                                        {{ form_open_multipart('', ' id="update_form" name="update_form"')|raw }}
+                                        
                                         <input type="hidden" />
                                         <div class="row">
                                             <div class="col-lg-12 ms-lg-auto">
-                                                    
+                                                
                                                 <div class="col-xl-6 col-md-6">
                                                     <div class="form-group mb-3">
                                                         <label>Brand Name</label>
@@ -76,173 +76,178 @@
                                                         <label>Image</label>
                                                         <div class="dropify-wrapper mb-4 form-group col-lg-6">
                                                             <div class="dropify-errors-container">
-                                                            <ul></ul>
+                                                                <ul></ul>
                                                             </div>
-                                                                {% if brand.image %}      
-                                                                    <input type="file" class="dropify" data-default-file="assets/shop/images/brand/{{brand.image}}" name="image" id="image" />
-                                                                {% else %}
-                                                                    <input type="file" class="dropify" name="image" id="image" />
-                                                                {% endif %}
-                                                                <button class="dropify-clear" type="button">Remove</button>
-                                                                    <span class="dropify-render"></span>
-                                                                        <p class="dropify-filename"><span class="file-icon"></span>
-                                                                        <span class="dropify-filename-inner"></span></p>
-                                                                        <p class="dropify-infos-message">Drag and drop or click to replace</p>
+                                                            {% if brand.image %}      
+                                                            <input type="file" class="dropify" data-default-file="assets/shop/images/brand/{{brand.image}}" name="image" id="image" />
+                                                            {% else %}
+                                                            <input type="file" class="dropify" name="image" id="image" />
+                                                            {% endif %}
+                                                            <button class="dropify-clear" type="button">Remove</button>
+                                                            <span class="dropify-render"></span>
+                                                            <p class="dropify-filename"><span class="file-icon"></span>
+                                                                <span class="dropify-filename-inner"></span></p>
+                                                                <p class="dropify-infos-message">Drag and drop or click to replace</p>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </div> 
+                                                    </div> 
+                                                </div>
+                                                <div class="form-group">
+                                                    {% if edit_flag %}                               
+                                                    <button type="submit"class="btn btn-primary" value="{{ brand_id }}" name="update_brand" id="update_brand">
+                                                        {{lang('update')}}  <i class="fa fa-arrow-circle-right"></i>
+                                                    </button>
+                                                    {% else %}
+                                                    <button type="submit"class="btn btn-primary" value="add_brand" name="add_brand">
+                                                        {{lang('submit')}}  <i class="fa fa-arrow-circle-right"></i>
+                                                    </button>
+                                                    {% endif %}
+                                                </div>
+                                                {{ form_close()|raw }}
                                             </div>
-                                        <div class="form-group">
-                                            {% if edit_flag %}                               
-                                            <button type="submit"class="btn btn-primary" value="{{ brand_id }}" name="update_brand" id="update_brand">
-                                                {{lang('update')}}  <i class="fa fa-arrow-circle-right"></i>
-                                            </button>
-                                            {% else %}
-                                                <button type="submit"class="btn btn-primary" value="add_brand" name="add_brand">
-                                                    {{lang('submit')}}  <i class="fa fa-arrow-circle-right"></i>
-                                                </button>
-                                            {% endif %}
                                         </div>
-                                    {{ form_close()|raw }}
+                                    </div>
                                 </div>
+                            </div> <!-- container-fluid -->
+                            {% if not edit_flag %} 
+                            
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <table id="datatable" class="table table-bordered dt-responsive  nowrap w-100">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>{{lang('brand_name')}}</th>
+                                                        <th>{{lang('image')}}</th>
+                                                        <!-- <th>{{lang('date')}}</th> -->
+                                                        <th>{{lang('action')}}</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for row in data %}  
+                                                    <tr>
+                                                        <td>{{loop.index}}</td>
+                                                        <td>{{row.brand_name}}</td>
+                                                        <td><img src="assets/shop/images/brand/{{row.image}}" height="40" width="40"></td>
+                                                        <!-- <td>{{row.created_date}}</td> -->
+                                                        <td><a href="{{BASE_URL}}admin/brand-settings/brand_edit/{{row.id}}" button type="submit"class="btn btn-primary"><i class="fas fa-pencil-alt"></i></a> </td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div> 
                             </div>
+                            {% endif %}
                         </div>
+                        <!-- End Page-content -->
+
+                        {% include('admin/partials/footer.twig')%}
                     </div>
-                </div> <!-- container-fluid -->
-                {% if not edit_flag %} 
-    
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <table id="datatable" class="table table-bordered dt-responsive  nowrap w-100">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>{{lang('brand_name')}}</th>
-                                            <th>{{lang('image')}}</th>
-                                            <th>{{lang('date')}}</th>
-                                            <th>{{lang('action')}}</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for row in data %}  
-                                        <tr>
-                                            <td>{{loop.index}}</td>
-                                            <td>{{row.brand_name}}</td>
-                                            <td><img src="assets/shop/images/brand/{{row.image}}" height="40" width="40"></td>
-                                            <td>{{row.created_date}}</td>
-                                            <td><a href="{{BASE_URL}}admin/brand-settings/brand_edit/{{row.id}}" button type="submit"class="btn btn-primary"><i class="fas fa-pencil-alt"></i></a> </td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div> 
+                    
+                    <!-- end main content-->
                 </div>
-                {% endif %}
             </div>
-            <!-- End Page-content -->
-
-        {% include('admin/partials/footer.twig')%}
-        </div>
-        
-        <!-- end main content-->
-    </div>
-</div>
-<!-- END layout-wrapper -->
+            <!-- END layout-wrapper -->
 
 
-{% include('admin/partials/right-sidebar.twig')%}
-<!-- JAVASCRIPT -->
-{% include('admin/partials/vendor-scripts.twig')%}
-<script src="assets/js/app.js"></script>
-<script src="assets/libs/flatpickr/flatpickr.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="assets/libs/dropify/dropify.min.js"></script>
-<!-- Required datatable js -->
-<script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
-<script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-<!-- Buttons examples -->
-<script src="assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-<script src="assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
-<script src="assets/libs/jszip/jszip.min.js"></script>
-<script src="assets/libs/pdfmake/build/pdfmake.min.js"></script>
-<script src="assets/libs/pdfmake/build/vfs_fonts.js"></script>
-<script src="assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
-<script src="assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
-<script src="assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
-<!-- Responsive examples -->
-<script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-<script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
-<!-- pristine js -->
-<script src="assets/libs/pristinejs/pristine.min.js"></script>
-<!-- form validation -->
-<script src="assets/js/pages/form-validation.init.js"></script>
-<!-- Datatable init js -->
-<script src="assets/js/pages/datatables.init.js"></script>
-<script src="assets/js/file_extension.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script>
+            {% include('admin/partials/right-sidebar.twig')%}
+            <!-- JAVASCRIPT -->
+            {% include('admin/partials/vendor-scripts.twig')%}
+            <script src="assets/js/app.js"></script>
+            <script src="assets/libs/flatpickr/flatpickr.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+            <script src="assets/libs/dropify/dropify.min.js"></script>
+            <!-- Required datatable js -->
+            <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+            <script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+            <!-- Buttons examples -->
+            <script src="assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+            <script src="assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+            <script src="assets/libs/jszip/jszip.min.js"></script>
+            <script src="assets/libs/pdfmake/build/pdfmake.min.js"></script>
+            <script src="assets/libs/pdfmake/build/vfs_fonts.js"></script>
+            <script src="assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+            <script src="assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+            <script src="assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+            <!-- Responsive examples -->
+            <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+            <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+            <!-- pristine js -->
+            <script src="assets/libs/pristinejs/pristine.min.js"></script>
+            <!-- form validation -->
+            <script src="assets/js/pages/form-validation.init.js"></script>
+            <!-- Datatable init js -->
+            <script src="assets/js/pages/datatables.init.js"></script>
+            <script src="assets/js/file_extension.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <script>
 
-var imgUpload = $('.dropify').dropify({
-    imgFileExtensions: ["png", "jpg", "jpeg", "gif", "bmp","svg"]
-});
+                var imgUpload = $('.dropify').dropify({
+                    imgFileExtensions: ["png", "jpg", "jpeg", "gif", "bmp","svg"]
+                });
 
-</script>
+            </script>
 
-<script>
-    $(document).ready(function () {
-        validate_brand_settings();
-    });
-</script>
-<script>
-    var validate_brand_settings = function () {
+            <script>
+                $(document).ready(function () {
+                    validate_brand_settings();
+                });
+            </script>
+            <script>
+                var validate_brand_settings = function () {
 
-        var form = $('#update_form');
-        var errorHandler1 = $('.errorHandler', form);
-        var successHandler1 = $('.successHandler', form);
-        form.validate({
+                    var form = $('#update_form');
+                    var errorHandler1 = $('.errorHandler', form);
+                    var successHandler1 = $('.successHandler', form);
+                    form.validate({
             errorElement: "div", // contain the error msg in a span tag
             errorClass: 'invalid-feedback',
-            errorPlacement: function (error, element) { // render error placement for 
-                    error.appendTo($(element).closest('.form-group'));
+             errorPlacement: function (error, element) { // render error placement for 
+               if (element.attr("type") == "file" ) { 
+                error.insertAfter($(element).closest('.form-group').children('div').children().last());                     
+            }else{
+                error.appendTo($(element).closest('.form-group'));
+            }
+        },
+        ignore: ':hidden',
+        rules: {
+            brand_name: {
+                required: true,
+                minlength: 3
             },
-            ignore: ':hidden',
-            rules: {
-                brand_name: {
-                    required: true,
-                    minlength: 3
-                },
-                image: {
-                    extension: "jpg|jpeg|png"
-                }
+            image: {
+                required: true,
+                extension: "jpg|jpeg|png"
+            }
 
+        },
+        messages: {
+            brand_name: {
+                required: $('#brand_name_req_js').html()
             },
-            messages: {
-                brand_name: {
-                    required: $('#brand_name_req_js').html()
-                },
-                image: {
-                    required: $('#image_req_js').html(),
-                    extension: $('#user_photo_ext_js').html()
-                }
+            image: {
+                required: $('#image_req_js').html(),
+                extension: $('#user_photo_ext_js').html()
+            }
 
-            },
-            invalidHandler: function(event, validator) { 
+        },
+        invalidHandler: function(event, validator) { 
 
             successHandler1.hide();
             errorHandler1.show();
-            },
-            highlight: function(element) {
-                $(element).closest('.form-control').removeClass('is-invalid');
+        },
+        highlight: function(element) {
+            $(element).closest('.form-control').removeClass('is-invalid');
                 //display Checkbox invalid Data
-                $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+            $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
                 // display OK icon
-                $(element).closest('.form-control').removeClass('is-valid').addClass('is-invalid').find('.symbol').removeClass('ok').addClass('required');
+            $(element).closest('.form-control').removeClass('is-valid').addClass('is-invalid').find('.symbol').removeClass('ok').addClass('required');
                 // add the Bootstrap error class to the control group
-            },
+        },
             unhighlight: function(element) { // revert the change done by hightlight
                 //display Checkbox invalid Data
 
@@ -262,14 +267,14 @@ var imgUpload = $('.dropify').dropify({
                 form.submit();
             }
         });
-    };
+                };
 
-</script>
-<style>
-.file-icon{
-    display: none;
-}
-</style>
-</body>
+            </script>
+            <style>
+                .file-icon{
+                    display: none;
+                }
+            </style>
+        </body>
 
-</html>
+        </html>
