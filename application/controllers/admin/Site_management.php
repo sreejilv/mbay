@@ -28,7 +28,7 @@ class Site_management extends Base_Controller {
             $company_address = $post_arr['company_address'];
             $company_email = $post_arr['company_email'];
             $company_phone = $post_arr['company_phone'];
-            $google_analytics = $post_arr['google_analytics'];
+            // $google_analytics = $post_arr['google_analytics'];
             $admin_email = 'na';
             $data = array();
             $logo_name = $site_info['company_logo'];
@@ -64,7 +64,7 @@ class Site_management extends Base_Controller {
                 }
             }
 
-            $result = $this->site_management_model->updateSiteInformation($company_name, $admin_email, $company_address, $company_email, $company_phone, $logo_name, $fav_icon,$google_analytics);
+            $result = $this->site_management_model->updateSiteInformation($company_name, $admin_email, $company_address, $company_email, $company_phone, $logo_name, $fav_icon);
             if ($result) {
                 $this->session->unset_userdata('mlm_site_info');
                 $this->helper_model->insertActivity(($this->aauth->getUserType() == 'employee') ? $this->base_model->getAdminUserId() : $this->aauth->getId(), 'site_information_updated', $post_arr);

@@ -24,8 +24,8 @@ class Site_management_model extends CI_Model {
      */
     function get_site_info() {
         $result = $this->db->select("*")
-                ->from('site_info')
-                ->get();
+        ->from('site_info')
+        ->get();
         foreach ($result->result_array() as $row) {
             $site_data['company_name'] = $row['company_name'];
             $site_data['company_address'] = $row['company_address'];
@@ -53,10 +53,10 @@ class Site_management_model extends CI_Model {
      * @param type $fav_icon
      * @return type
      */
-    function updateSiteInformation($company_name, $admin_email, $company_address, $company_email, $company_phone, $logo, $fav_icon,$google_analytics) {
-        $data_array = array('company_name' => $company_name, 'admin_email' => $admin_email, 'company_address' => $company_address, 'company_email' => $company_email, 'company_phone' => $company_phone, 'company_logo' => $logo, 'company_fav_icon' => $fav_icon, 'google_analytics' => $google_analytics);
+    function updateSiteInformation($company_name, $admin_email, $company_address, $company_email, $company_phone, $logo, $fav_icon) {
+        $data_array = array('company_name' => $company_name, 'admin_email' => $admin_email, 'company_address' => $company_address, 'company_email' => $company_email, 'company_phone' => $company_phone, 'company_logo' => $logo, 'company_fav_icon' => $fav_icon);
         $this->db->where('id', 1)
-                ->update('site_info', $data_array);
+        ->update('site_info', $data_array);
         if ($this->db->affected_rows() > 0) {
             return true;
         }
@@ -78,11 +78,11 @@ class Site_management_model extends CI_Model {
      */
     function getAllLangauage($type = '') {
         $result = $this->db->select("l.id ,l.lang_code,mc.subject,mc.content,l.lang_name")
-                ->from('languages as l')
-                ->join('mail_content as mc', 'mc.lang_id=l.id')
-                ->where('mc.status', 1)
-                ->where('mc.content_type', $type)
-                ->get();
+        ->from('languages as l')
+        ->join('mail_content as mc', 'mc.lang_id=l.id')
+        ->where('mc.status', 1)
+        ->where('mc.content_type', $type)
+        ->get();
 
         $i = 0;
         $data = array();
@@ -202,13 +202,13 @@ class Site_management_model extends CI_Model {
         $flag = '';
         $activity = 'mail_settings_updated';
         $result_status = $this->db->set('host_name', $post_arr['host_name'])
-                ->set('smtp_username', $post_arr['smtp_username'])
-                ->set('from_mail', $post_arr['from_mail'])
-                ->set('smtp_password', $post_arr['smtp_password'])
-                ->set('smtp_port', $post_arr['smtp_port'])
-                ->set('mail_engine', $post_arr['mail_engine'])
-                ->where('id', 1)
-                ->update('mail_settings');
+        ->set('smtp_username', $post_arr['smtp_username'])
+        ->set('from_mail', $post_arr['from_mail'])
+        ->set('smtp_password', $post_arr['smtp_password'])
+        ->set('smtp_port', $post_arr['smtp_port'])
+        ->set('mail_engine', $post_arr['mail_engine'])
+        ->where('id', 1)
+        ->update('mail_settings');
 
         $flag = TRUE;
 
@@ -279,9 +279,9 @@ class Site_management_model extends CI_Model {
             $active_mail_content_tab = $this->session->userdata('active_mail_content_tab');
 
         $result = $this->db->select('id,type,status')
-                ->where('status', 1)
-                ->from('system_mails')
-                ->get();
+        ->where('status', 1)
+        ->from('system_mails')
+        ->get();
         $details = array();
         $i = 0;
         foreach ($result->result_array() as $row) {
@@ -322,13 +322,13 @@ class Site_management_model extends CI_Model {
             $lang_id = $this->dbvars->LANG_ID;
         }
         $this->db->select('id,subject,content,status,lang_id')
-                ->from('mail_content')
-                ->where('content_type', $type);
+        ->from('mail_content')
+        ->where('content_type', $type);
         if ($lang_id) {
             $this->db->where('lang_id', $lang_id);
         }
         $result = $this->db->order_by('lang_id', 'ASC')
-                ->get();
+        ->get();
         $details = array();
         $i = 0;
         foreach ($result->result_array() as $row) {
@@ -369,10 +369,10 @@ class Site_management_model extends CI_Model {
     public function getLangName($id) {
         $lang_name = '';
         $query = $this->db->select('lang_name')
-                ->where('id', $id)
-                ->where('status', 1)
-                ->limit(1)
-                ->get('languages');
+        ->where('id', $id)
+        ->where('status', 1)
+        ->limit(1)
+        ->get('languages');
         foreach ($query->result() as $row) {
             $lang_name = $row->lang_name;
         }
@@ -391,9 +391,9 @@ class Site_management_model extends CI_Model {
     public function getMailType($id) {
         $content_type = '';
         $query = $this->db->select('content_type')
-                ->where('id', $id)
-                ->limit(1)
-                ->get('mail_content');
+        ->where('id', $id)
+        ->limit(1)
+        ->get('mail_content');
         foreach ($query->result() as $row) {
             $content_type = $row->content_type;
         }
@@ -411,10 +411,10 @@ class Site_management_model extends CI_Model {
      */
     function updateMailContent($content_id, $data) {
         $this->db->set('subject ', $data['mail_subject'])
-                ->set('content ', $data['mail_content'])
-                ->where('id ', $content_id)
-                ->limit(1)
-                ->update('mail_content');
+        ->set('content ', $data['mail_content'])
+        ->where('id ', $content_id)
+        ->limit(1)
+        ->update('mail_content');
         if ($this->db->affected_rows() > 0) {
             return true;
         }
@@ -431,8 +431,8 @@ class Site_management_model extends CI_Model {
     function checkAllMailContents() {
         $langs = $this->getAllActiveLangauges(0);
         $result = $this->db->select('type')
-                ->from('system_mails')
-                ->get();
+        ->from('system_mails')
+        ->get();
         foreach ($result->result_array() as $row) {
             $type = $row['type'];
             foreach ($langs as $l) {
@@ -441,11 +441,11 @@ class Site_management_model extends CI_Model {
                     $subj = $type . '_subject -' . $l['lang_name'];
                     $content = $type . '_content -' . $l['lang_name'];
                     $this->db->set('content', $content)
-                            ->set('subject', $subj)
-                            ->set('lang_id', $langid)
-                            ->set('content_type', $type)
-                            ->set('status', 1)
-                            ->insert('mail_content');
+                    ->set('subject', $subj)
+                    ->set('lang_id', $langid)
+                    ->set('content_type', $type)
+                    ->set('status', 1)
+                    ->insert('mail_content');
                 }
             }
         }
@@ -464,10 +464,10 @@ class Site_management_model extends CI_Model {
      */
     function checkContentStatus($type, $lang_id) {
         return $this->db->select("id")
-                        ->from('mail_content')
-                        ->where('content_type', $type)
-                        ->where('lang_id', $lang_id)
-                        ->count_all_results();
+        ->from('mail_content')
+        ->where('content_type', $type)
+        ->where('lang_id', $lang_id)
+        ->count_all_results();
     }
 
     /**
@@ -499,8 +499,8 @@ class Site_management_model extends CI_Model {
      */
     function getSiteManagementData() {
         $query = $this->db->select('mail_engine,host_name,from_mail,smtp_password,smtp_username,smtp_port')
-                ->from('mail_settings')
-                ->get();
+        ->from('mail_settings')
+        ->get();
         $data = [];
         foreach ($query->result_array() as $row) {
             $data[] = $row;
@@ -518,8 +518,8 @@ class Site_management_model extends CI_Model {
      */
     function getSystemMails() {
         $result = $this->db->select('id,type,status')
-                ->from('system_mails')
-                ->get();
+        ->from('system_mails')
+        ->get();
         $details = array();
         $i = 0;
         foreach ($result->result_array() as $row) {
@@ -543,8 +543,8 @@ class Site_management_model extends CI_Model {
      */
     function changeMailStatus($mail_id, $status) {
         $this->db->set('status', $status)
-                ->where('id', $mail_id)
-                ->update('system_mails');
+        ->where('id', $mail_id)
+        ->update('system_mails');
         if ($this->db->affected_rows() > 0) {
             return true;
         }
@@ -578,9 +578,9 @@ class Site_management_model extends CI_Model {
 
     function addBrand($data, $brand_image) {
         $this->db->set('brand_name', $data['brand_name'])
-                ->set('image', $brand_image)
-                ->set('created_date', date("Y-m-d H:i:s"))
-                ->insert('brand_settings');
+        ->set('image', $brand_image)
+        ->set('created_date', date("Y-m-d H:i:s"))
+        ->insert('brand_settings');
 
         if ($this->db->affected_rows() > 0) {
             return true;
@@ -591,10 +591,10 @@ class Site_management_model extends CI_Model {
     function getBrandSettings($id) {
         $data = array();
         $res = $this->db->select("brand_name,image")
-                ->from("brand_settings")
-                ->where('id', $id)
-                ->limit(1)
-                ->get();
+        ->from("brand_settings")
+        ->where('id', $id)
+        ->limit(1)
+        ->get();
         foreach ($res->result() as $row) {
             $data['brand_name'] = $row->brand_name;
             $data['image'] = $row->image;
@@ -605,8 +605,8 @@ class Site_management_model extends CI_Model {
     function getBrandLists() {
         $data = array();
         $res = $this->db->select("id,brand_name,image,created_date")
-                ->from("brand_settings")
-                ->get();
+        ->from("brand_settings")
+        ->get();
         $i = 0;
         foreach ($res->result() as $row) {
             $data[$i]['id'] = $row->id;
@@ -621,9 +621,9 @@ class Site_management_model extends CI_Model {
     public function getBrandImage($id) {
         $image = ' ';
         $query = $this->db->select('image')
-                ->where('id', $id)
-                ->limit(1)
-                ->get('brand_settings');
+        ->where('id', $id)
+        ->limit(1)
+        ->get('brand_settings');
         if ($query->num_rows() > 0) {
             $image = $query->row()->image;
         }
@@ -631,12 +631,12 @@ class Site_management_model extends CI_Model {
     }
 
     function updateBrand($data, $brand_image) {
-       
+     
         $this->db->set('brand_name', $data['brand_name'])
-                ->set('image', $brand_image)
-                ->set('created_date', date("Y-m-d H:i:s"))
-                ->where('id', $data['update_brand'])
-                ->update('brand_settings');
+        ->set('image', $brand_image)
+        ->set('created_date', date("Y-m-d H:i:s"))
+        ->where('id', $data['update_brand'])
+        ->update('brand_settings');
         if ($this->db->affected_rows() > 0) {
             return true;
         }
@@ -648,13 +648,13 @@ class Site_management_model extends CI_Model {
     function getSliderSettings($id) {
         $data = array();
         $res = $this->db->select("title,subtitle,image")
-                ->from("slider_info")
-                ->where('id', $id)
-                ->limit(1)
-                ->get();
+        ->from("slider_info")
+        ->where('id', $id)
+        ->limit(1)
+        ->get();
         foreach ($res->result() as $row) {
             $data['title'] = $row->title;
-             $data['subtitle'] = $row->subtitle;
+            $data['subtitle'] = $row->subtitle;
             $data['image'] = $row->image;
         }
         return $data;
@@ -662,10 +662,10 @@ class Site_management_model extends CI_Model {
 
     function addSlider($data, $brand_image) {
         $this->db->set('title', $data['title'])
-                ->set('subtitle', $data['subtitle'])
-                ->set('image', $brand_image)
-                ->set('created_date', date("Y-m-d H:i:s"))
-                ->insert('slider_info');
+        ->set('subtitle', $data['subtitle'])
+        ->set('image', $brand_image)
+        ->set('created_date', date("Y-m-d H:i:s"))
+        ->insert('slider_info');
 
         if ($this->db->affected_rows() > 0) {
             return true;
@@ -674,13 +674,13 @@ class Site_management_model extends CI_Model {
     }
 
     function updateSlider($data, $slider_image) {
-       
+     
         $this->db->set('title', $data['title'])
-                ->set('subtitle', $data['subtitle'])
-                ->set('image', $slider_image)
-                ->set('created_date', date("Y-m-d H:i:s"))
-                ->where('id', $data['update_slider'])
-                ->update('slider_info');
+        ->set('subtitle', $data['subtitle'])
+        ->set('image', $slider_image)
+        ->set('created_date', date("Y-m-d H:i:s"))
+        ->where('id', $data['update_slider'])
+        ->update('slider_info');
         if ($this->db->affected_rows() > 0) {
             return true;
         }
@@ -690,8 +690,8 @@ class Site_management_model extends CI_Model {
     function getSliderLists() {
         $data = array();
         $res = $this->db->select("id,title,subtitle,image,created_date")
-                ->from("slider_info")
-                ->get();
+        ->from("slider_info")
+        ->get();
         $i = 0;
         foreach ($res->result() as $row) {
             $data[$i]['id'] = $row->id;
@@ -704,12 +704,12 @@ class Site_management_model extends CI_Model {
         return $data;
     }
 
-     public function getSliderImage($id) {
+    public function getSliderImage($id) {
         $image = ' ';
         $query = $this->db->select('image')
-                ->where('id', $id)
-                ->limit(1)
-                ->get('slider_info');
+        ->where('id', $id)
+        ->limit(1)
+        ->get('slider_info');
         if ($query->num_rows() > 0) {
             $image = $query->row()->image;
         }
@@ -718,7 +718,7 @@ class Site_management_model extends CI_Model {
 
     function deleteSliderSettings($id) {
         $this->db->where('id', $id)
-                ->delete('slider_info');
+        ->delete('slider_info');
         if ($this->db->affected_rows() > 0) {
             return true;
         }
