@@ -15,6 +15,7 @@ class Shop extends Base_Controller {
      * @author Techffodils Technologies LLP
      */
     public function index() {
+
         $this->load->model('site_management_model');
         $slider_images = $this->site_management_model->getSliderLists();
         // if ($this->aauth->getId()) {
@@ -33,20 +34,44 @@ class Shop extends Base_Controller {
         // $this->setData('AFFILIATES_STATUS', $this->dbvars->AFFILIATES_STATUS);
         // $this->setData('sytem_title', $this->helper_model->getSystemPath());
         // $this->setData('title', lang('login'));
+
+        $this->load->model('product_model');
+        $nav_category = $this->product_model->getNavCategoryLists();
+        
+        $this->setData('nav_category', $nav_category);
+
         $this->setData('slider_images', $slider_images);
         $this->loadView();
     }
 
     public function login_register(){
+        $this->load->model('product_model');
+        $nav_category = $this->product_model->getNavCategoryLists();
+        
+        $this->setData('nav_category', $nav_category);
         $this->loadView();
     }
 
-    public function shop(){
+    public function shop($cat_id=""){
         $user_type = $this->aauth->getUserType();
+
+        $this->load->model('product_model');
+        $nav_category = $this->product_model->getNavCategoryLists();
+        $products = '';
+        if($cat_id){
+            $products = $this->product_model->getProducts($cat_id);
+            // print_r($products['files']);die;
+        }
+        $this->setData('nav_category', $nav_category);
+        $this->setData('products', $products);
         $this->loadView();
     }
 
     public function cart(){
+        $this->load->model('product_model');
+        $nav_category = $this->product_model->getNavCategoryLists();
+        
+        $this->setData('nav_category', $nav_category);
 
         // $data = array(
         //         'id'      => 'sku_123ABC',
@@ -65,22 +90,48 @@ class Shop extends Base_Controller {
     }
 
     public function about_us(){
+        $this->load->model('product_model');
+        $nav_category = $this->product_model->getNavCategoryLists();
+        
+        $this->setData('nav_category', $nav_category);
         $this->loadView();
     }
 
     public function contact(){
+        $this->load->model('product_model');
+        $nav_category = $this->product_model->getNavCategoryLists();
+        
+        $this->setData('nav_category', $nav_category);
         $this->loadView();
     }
 
     public function app(){
+        $this->load->model('product_model');
+        $nav_category = $this->product_model->getNavCategoryLists();
+        
+        $this->setData('nav_category', $nav_category);
         $this->loadView();
     }
 
-    public function shop_details(){
+    public function shop_details($pro_id=""){
+
+        $this->load->model('product_model');
+        $nav_category = $this->product_model->getNavCategoryLists();
+        $products = '';
+        if($pro_id){
+            $products = $this->product_model->getProductDtls($pro_id);
+            // print_r($products['files']);die;
+        }
+        $this->setData('nav_category', $nav_category);
+        $this->setData('products', $products);
         $this->loadView();
     }
 
     public function checkout(){
+        $this->load->model('product_model');
+        $nav_category = $this->product_model->getNavCategoryLists();
+        
+        $this->setData('nav_category', $nav_category);
         $this->loadView();
     }
     

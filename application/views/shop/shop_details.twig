@@ -1,6 +1,7 @@
 {% include('shop/layout/header.twig')%}
 
 <!-- SIDEBAR CART -->
+{% for pro in products %}
 <div class="sidebar-cart-active">
     <div class="sidebar-cart-all">
         <a class="cart-close" href="#"><i class="icon_close"></i></a>
@@ -45,13 +46,14 @@
 <!-- END SIDEBAR CART -->
 
 <!-- Breadcrumb-area -->
+
 <div class="breadcrumb-area bg-gray">
     <div class="container">
         <div class="breadcrumb-content text-center">
             <ul>
                 <li><a href="{{BASE_URL}}index">Home</a></li>
                 <li><a href="{{BASE_URL}}shop">Shop</a></li>
-                <li class="active">Shop - SAMSUNG Galaxy A03s (Black, 32 GB)</li>
+                <li class="active">{{pro.product_name}}</li>
             </ul>
         </div>
     </div>
@@ -69,42 +71,43 @@
 
                     <!-- BIG SLIDER -->
                     <div class="pro-dec-big-img-slider nav-style-3">
-
+                        
                         <!--loop image-->
                         <div class="item">
-                            <img src="assets/shop/images/product/product-sample.jpg"
-                                title="SAMSUNG Galaxy A03s (Black, 32 GB)" class="img-fluid"
-                                alt="SAMSUNG Galaxy A03s (Black, 32 GB)">
+                            <img {% for file in pro.files %} src="assets/shop/images/product/{{ file.file_name }}" {% endfor %}
+                                title="{{pro.product_name}}" class="img-fluid"
+                                alt="{{pro.product_name}}">
+                            
                         </div>
                         <!--end loop image-->
                         <!--loop image-->
                         <div class="item">
-                            <img src="assets/shop/images/product/product-sample-1.jpg"
-                                title="SAMSUNG Galaxy A03s (Black, 32 GB)" class="img-fluid"
-                                alt="SAMSUNG Galaxy A03s (Black, 32 GB)">
+                            <img {% for file in pro.files %} src="assets/shop/images/product/{{ file.file_name }}" {% endfor %}
+                                title="{{pro.product_name}}" class="img-fluid"
+                                alt="{{pro.product_name}}">
                         </div>
                         <!--end loop image-->
-
 
                     </div>
                     <!-- END BIG SLIDER -->
-
 
                 </div>
             </div>
 
             <div class="col-lg-7 col-md-7">
-                <div class="product-details-content pro-details-content-mrg">
-                    <h2>SAMSUNG Galaxy A03s (Black, 32 GB)</h2>
 
+                <div class="product-details-content pro-details-content-mrg">
+                    <h2>{{pro.product_name}}</h2>
+                    
                     <!--price-->
                     <div class="pro-details-price">
                         <span class="new-price">
-                            <r>OMR</r> 75.72
+                            <!-- <r>OMR</r> 75.72 -->
+                            <r>{{pro.product_amount}}</r>
                         </span>
-                        <span class="old-price">
+                        <!-- <span class="old-price">
                             <r>OMR</r> 95.72
-                        </span>
+                        </span> -->
                     </div>
                     <!--end price-->
 
@@ -129,7 +132,9 @@
                         </div>
                     </div>
                     <!--end outofstock-->
-
+                    
+                    <h4>{{ pro.description|striptags }}</h4>
+                    
                     <!--warrenty-->
                     <div class="product-warrenty">
                         <div class="c-logo">
@@ -278,5 +283,6 @@
     </div>
 </div>
 <!-- END RELATED PRODUCT -->
+{% endfor %}
 
 {% include('shop/layout/footer.twig')%}

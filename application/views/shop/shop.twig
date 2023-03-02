@@ -89,14 +89,16 @@
                         <!-- END FILTER MOBILE VIEW -->
 
                         <div class="row">
-
+                            {% for pro in products%}
                             <!--single loop item-->
                             <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-6">
                                 <div class="single-product-wrap mb-35">
                                     <div class="product-img product-img-zoom mb-20">
-                                        <a href="{{BASE_URL}}shop-details">
-                                            <img src="assets/shop/images/product/product-sample.jpg" title="SAMSUNG Galaxy A03s (Black, 32 GB)" alt="SAMSUNG Galaxy A03s (Black, 32 GB)">
+                                        
+                                        <a href="{{BASE_URL}}shop-details/{{pro.id}}">
+                                            <img {% for file in pro.files %} src="assets/shop/images/product/{{ file.file_name }}"{% endfor %} title="{{pro.product_name}}">
                                         </a>
+                                        
                                         <span class="pro-badge left bg-red">Label</span>
                                         <div class="product-action-wrap">
                                             <div class="product-action-left">
@@ -106,48 +108,22 @@
                                     </div>
                                     <div class="product-content-wrap">
                                         <div class="product-content-left">
-                                             <h4><a href="#" title="SAMSUNG Galaxy A03s (Black, 32 GB)">SAMSUNG Galaxy A03s (Black, 32 GB)</a></h4>
-                                             <!--gb-->
+                                             <h4><b><a href="#" title="{{pro.product_name}}">{{pro.product_name}}</a></b></h4>
                                              <div class="gb">
                                                 4 GB RAM
                                              </div>
-                                             <!--end gb-->
                                             <div class="product-price">
-                                                <span class="new-price">OMR 46.00</span>
-                                                <span class="old-price">OMR 66.75</span>
+                                                <span class="new-price">{{pro.product_amount}}</span>
+                                                <!-- <span class="new-price">OMR 46.00</span>
+                                                <span class="old-price">OMR 66.75</span> -->
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> 
                                 </div>
                             </div>
                             <!--end single loop item-->
-                            <!--single loop item-->
-                            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-6">
-                                <div class="single-product-wrap mb-35">
-                                    <div class="product-img product-img-zoom mb-20">
-                                        <a href="{{BASE_URL}}shop-details">
-                                            <img src="assets/shop/images/product/product-sample-1.jpg" title="SAMSUNG Galaxy A03s (Black, 32 GB)" alt="SAMSUNG Galaxy A03s (Black, 32 GB)">
-                                        </a>
-                                        <span class="pro-badge left bg-red">Label</span>
-                                        <div class="product-action-wrap">
-                                            <div class="product-action-left">
-                                                <button><i class="icon-basket-loaded"></i>Add to Cart</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content-left">
-                                             <h4><a href="#" title="SAMSUNG Galaxy A03s (Black, 32 GB)">SAMSUNG Galaxy A03s (Black, 32 GB)</a></h4>
-                                            <div class="product-price">
-                                                <span class="new-price">OMR 46.00</span>
-                                                <span class="old-price">OMR 66.75</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--end single loop item-->
-
+                            {% endfor %}
+                          
                         </div>
                         <div class="pro-pagination-style text-center mt-10">
                             <ul>

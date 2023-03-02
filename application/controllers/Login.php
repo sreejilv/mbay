@@ -60,6 +60,15 @@ class Login extends Base_Controller {
         }
         if ($this->dbvars->CAPTCHA_STATUS > 0 || $this->aauth->get_login_attempts() > $this->dbvars->CAPTCHA_LOGIN)
             $this->setData('CAPTCHA_STATUS', 1);
+
+
+
+        $this->load->model('product_model');
+        $nav_category = $this->product_model->getNavCategoryLists();
+        $this->setData('nav_category', $nav_category);
+
+
+
         $this->setData('key', $key);
 
         $this->setData('EMPLOYEE_STATUS', $this->dbvars->EMPLOYEE_STATUS);

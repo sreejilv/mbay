@@ -5,8 +5,8 @@
             <div class="navbar-brand-box">
                 <a href="/" class="logo logo-dark">
                     <span class="logo-sm">
-                    {%  if(COMPANY_LOGO != NULL) %}
-                        <img src="assets/images/{{COMPANY_LOGO}}" alt="" height="24">
+                    {%  if(COMPANY_FAV_ICON != NULL) %}
+                        <img src="assets/images/{{COMPANY_FAV_ICON}}" alt="" height="24">
                     {% else %}
                         <span class="logo-txt">{{COMPANY_NAME}}</span>
                     {% endif %}                    </span>
@@ -21,8 +21,8 @@
 
                 <a href="/" class="logo logo-light">
                     <span class="logo-sm">
-                    {%  if(COMPANY_LOGO != NULL) %}
-                        <img src="assets/images/{{COMPANY_LOGO}}" alt="" height="24">
+                    {%  if(COMPANY_FAV_ICON != NULL) %}
+                        <img src="assets/images/{{COMPANY_FAV_ICON}}" alt="" height="24">
                     {% else %}
                         <span class="logo-txt">{{COMPANY_NAME}}</span>
                     {% endif %}                    </span>

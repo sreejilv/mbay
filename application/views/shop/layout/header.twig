@@ -9,6 +9,7 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="robots" content="noindex, follow" />
+    <base href="{{BASE_URL}}" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
 
     <title>Mbay Online Shopping</title>
@@ -106,10 +107,15 @@
                                         class="main-menu main-menu-padding-2 main-menu-center main-menu-font-width-400 main-menu-lh-1">
                                         <nav>
                                             <ul>
-                                                <li><a href="{{BASE_URL}}shop">Smartphone </a></li>
-                                                <li><a href="{{BASE_URL}}shop">Tablets </a></li>
+                                                <!-- <li><a href="{{BASE_URL}}shop">Smartphone </a></li> -->
+                                               <!--  <li><a href="{{BASE_URL}}shop">Tablets </a></li>
                                                 <li><a href="{{BASE_URL}}shop">Accessories </a></li>
-                                                <li><a href="{{BASE_URL}}shop">Wearable Devices </a></li>
+                                                <li><a href="{{BASE_URL}}shop">Wearable Devices </a></li> -->
+
+                                                {% for nav in nav_category %}
+                                                <li><a href="{{BASE_URL}}shop/{{nav.id}}">{{nav.category}} </a></li>
+                                                {% endfor %}
+
                                             </ul>
                                         </nav>
                                     </div>

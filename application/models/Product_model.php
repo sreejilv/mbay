@@ -795,4 +795,71 @@ class Product_model extends CI_Model {
 
     }
 
+    function getNavCategoryLists() {
+        $data = array();
+        $res = $this->db->select("id, category, description, sort_order, creation_date")
+                ->from("category")
+                ->where('cat_nav', 1)
+                ->get();
+        $i = 0;
+        foreach ($res->result() as $row) {
+            $data[$i]['id'] = $row->id;
+            $data[$i]['category'] = $row->category;
+            $data[$i]['description'] = $row->description;
+            $data[$i]['sort_order'] = $row->sort_order;
+            $data[$i]['creation_date'] = $row->creation_date;
+            $i++;
+        }
+        return $data;
+    }
+
+    function getProducts($cat_id) {
+        $data = array();
+        $res = $this->db->select("pro.id, product_name, pro.category, pro.description, product_amount, product_pv, quantity, pro.sort_order, pro.keyword, images")
+                ->from("products as pro")
+                ->join("category as cat", 'cat.id = pro.category', 'inner')
+                ->where("cat.cat_nav", 1)
+                ->where("cat.id", $cat_id)
+                ->get();
+        $i = 0;
+        foreach ($res->result() as $row) {
+            $data[$i]['id'] = $row->id;
+            $data[$i]['product_name'] = $row->product_name;
+            $data[$i]['category'] = $row->category;
+            $data[$i]['description'] = $row->description;
+            $data[$i]['product_amount'] = $row->product_amount;
+            $data[$i]['product_pv'] = $row->product_pv;
+            $data[$i]['quantity'] = $row->quantity;
+            $data[$i]['sort_order'] = $row->sort_order;
+            $data[$i]['keyword'] = $row->keyword;
+            $data[$i]['files'] = $this->getAllFiles($row->images);
+            $i ++;
+        }
+        return $data;
+    }
+    function getProductDtls($pro_id) {
+        $data = array();
+        $res = $this->db->select("pro.id, product_name, pro.category, pro.description, product_amount, product_pv, quantity, pro.sort_order, pro.keyword, images")
+                ->from("products as pro")
+                ->join("category as cat", 'cat.id = pro.category', 'inner')
+                ->where("cat.cat_nav", 1)
+                ->where("pro.id", $pro_id)
+                ->get();
+        $i = 0;
+        foreach ($res->result() as $row) {
+            $data[$i]['id'] = $row->id;
+            $data[$i]['product_name'] = $row->product_name;
+            $data[$i]['category'] = $row->category;
+            $data[$i]['description'] = $row->description;
+            $data[$i]['product_amount'] = $row->product_amount;
+            $data[$i]['product_pv'] = $row->product_pv;
+            $data[$i]['quantity'] = $row->quantity;
+            $data[$i]['sort_order'] = $row->sort_order;
+            $data[$i]['keyword'] = $row->keyword;
+            $data[$i]['files'] = $this->getAllFiles($row->images);
+            $i ++;
+        }
+        return $data;
+    }
+
 }

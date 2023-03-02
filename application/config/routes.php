@@ -367,11 +367,13 @@ $route['(:any)/new-theme'] = '$1/home/theme';
 $route['index'] = 'shop/index';
 $route['login-register'] = 'shop/login_register';
 $route['shop'] = 'shop/shop';
+$route['shop/(:any)'] = 'shop/shop/$1';
 $route['cart'] = 'shop/cart';
 $route['about-us'] = 'shop/about_us';
 $route['contact'] = 'shop/contact';
 $route['app'] = 'shop/app';
 $route['shop-details'] = 'shop/shop_details';
+$route['shop-details/(:any)'] = 'shop/shop_details/$1';
 $route['checkout'] = 'shop/checkout';
 
 $route['account/(:any)'] = 'shop/account/$1';

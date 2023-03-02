@@ -1331,23 +1331,6 @@ class Member extends Base_Controller {
         exit();
     }
 
-
-    // function change_order_status() {
-    //     $this->load->helper('security');
-    //     $post = $this->security->xss_clean($this->input->get());
-
-    //     if ($post['order_status'] >= 0) {
-            
-    //         $order_id = $this->input->post('order_id');
-    //         $new_status = $this->input->post('new_status');
-
-    //         echo 'yes';
-    //         exit;
-    //     }
-    //     echo 'no';
-    //     exit;
-    // }
-
     public function update_order_status() {
         $request = $this->input->get();
         $this->db->where('id', $request['order_id']);
