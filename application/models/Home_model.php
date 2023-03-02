@@ -444,11 +444,12 @@ function getProductStockOut(){
     $query = $this->db->select('product_name')
     ->where('quantity' , 0)
     ->get('products');
+   
     if ($query->num_rows() > 0) {
-        $i = 0;
+      
         foreach ($query->result_array() as $value) {
-            $data[$i]['product_name'] = $value['product_name'];
-            $i++;
+            $data[]['product_name'] = $value['product_name'];
+       
         }
     }
     return $data;

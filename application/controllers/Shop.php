@@ -47,6 +47,20 @@ class Shop extends Base_Controller {
     }
 
     public function cart(){
+
+        // $data = array(
+        //         'id'      => 'sku_123ABC',
+        //         'qty'     => 1,
+        //         'pv'     => 1,
+        //         'price'   => 39.95,
+        //         'name'    => 'T-Shirt',
+        //         'options' => array('Size' => 'L', 'Color' => 'Red')
+        // );
+    
+        // $this->cart->insert($data);
+
+        // $cart = $this->cart->contents();
+        // print_r($cart);die;
         $this->loadView();
     }
 

@@ -11,6 +11,7 @@ class Home extends Base_Controller {
 
         $prod_stock_out_soon = $this->home_model->getProductStock();
         $prod_stock_out = $this->home_model->getProductStockOut();
+        // print_r($prod_stock_out);die;
         $last_monday = date("Y-m-d", strtotime("last week monday"));
         $last_sunday = date("Y-m-d", strtotime("last week sunday"));
         $total_orders_last_week = $this->home_model->getLastWeekOrders($last_monday , $last_sunday );
