@@ -21,7 +21,7 @@ class Site_management extends Base_Controller {
         $this->setData('title', lang('menu_name_42'));
         $this->setData('page_title', $title);
         $site_info = $this->site_management_model->get_site_info();
-        if ($this->input->post('update_site_info') && $this->validate_site_info()) {
+        if ($this->input->post() && $this->validate_site_info()) {
             $this->load->helper('security');
             $post_arr = $this->security->xss_clean($this->input->post());
             $company_name = $post_arr['company_name'];

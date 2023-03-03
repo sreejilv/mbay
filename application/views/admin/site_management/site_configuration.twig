@@ -53,7 +53,7 @@
                         <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-body">
-                                    {{ form_open_multipart('', 'class="update_form1" id="update_form1" name="update_form1"')|raw }}
+                                    {{ form_open_multipart('', 'method="post" id="update_form1" name="update_form1"')|raw }}
 
                                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                                         <li class="nav-item" role="presentation">
@@ -71,7 +71,7 @@
 
                                                         <div class="mt-4 mt-lg-0">
                                                             <div class="row mb-4">
-                                                                <label for="horizontal-company_name-input" class="col-sm-2 col-form-label">Company Name<span class="text-danger"> *</span> </label>
+                                                                <label class="col-sm-2 col-form-label">Company Name<span class="text-danger"> *</span> </label>
 
                                                                 <div class="col-sm-9">
                                                                     <input type="text" class="form-control" name="company_name" id="company_name" value="{{site_info.company_name}}">
@@ -81,15 +81,15 @@
                                                             </div>
 
                                                             <div class="row mb-4">
-                                                                <label for="horizontal-company_address-input" class="col-sm-2 col-form-label">Address<span class="text-danger"> *</span> </label>
+                                                                <label class="col-sm-2 col-form-label">Address<span class="text-danger"> *</span> </label>
                                                                 <div class="col-sm-9">
-                                                                    <textarea class="form-control ckeditor" type="text" rows="4" cols="60" name="company_address" id="company_address" placeholder='{{lang('address')}}'>{{site_info['company_address']}}</textarea>
+                                                                    <textarea class="form-control ckeditor" type="text" rows="4" cols="60" name="company_address" id="company_address" placeholder=''>{{site_info['company_address']}}</textarea>
                                                                     {% if login_error.company_address is defined %}<code> {{ login_error.company_address}} </code> {% endif %}
                                                                 </div>
                                                             </div>
 
                                                             <div class="row mb-4">
-                                                                <label for="horizontal-company_email-input" class="col-sm-2 col-form-label">Company Email<span class="text-danger"> *</span> </label>
+                                                                <label class="col-sm-2 col-form-label">Company Email<span class="text-danger"> *</span> </label>
                                                                 <div class="col-sm-9">
                                                                     <input type="text" class="form-control" name="company_email" id="company_email"  value="{{site_info.company_email}}">
                                                                     {% if login_error.company_email is defined %}<code> {{ login_error.company_email}} </code> {% endif %}
@@ -98,7 +98,7 @@
                                                             </div>
 
                                                             <div class="row mb-4">
-                                                                <label for="horizontal-company_phone-input" class="col-sm-2 col-form-label">Company Phone Number<span class="text-danger"> *</span> </label>
+                                                                <label class="col-sm-2 col-form-label">Company Phone Number<span class="text-danger"> *</span> </label>
                                                                 <div class="col-sm-9">
                                                                     <input type="text" class="form-control"  name="company_phone" id="company_phone" value="{{site_info.company_phone}}">
                                                                     {% if login_error.company_phone is defined %}<code> {{ login_error.company_phone}} </code> {% endif %}
@@ -163,7 +163,9 @@
                                     <div class="row justify-content-end">
                                         <div class="">
                                             <div>
-                                                <button type="submit" name="update_site_info" value="update" class="btn btn-primary w-md">Update</button>
+                                                  <button type="submit"class="btn btn-primary" value="update" name="update_site_info" id="update_site_info">
+                                    {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                                </button>  
                                             </div>
                                         </div>
                                     </div>
@@ -208,12 +210,16 @@
         <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
         <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
         <!-- pristine js -->
+
         {# <script src="assets/libs/pristinejs/pristine.min.js"></script> #}
+
         <!-- form validation -->
+
         {# <script src="assets/js/pages/form-validation.init.js"></script> #}
+
         <!-- Datatable init js -->
         <script src="assets/js/pages/datatables.init.js"></script>
-        <script src="assets/js/file_extension.js"></script>
+        <!-- <script src="assets/js/file_extension.js"></script> -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
        <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/additional-methods.js"></script>
         <script>
