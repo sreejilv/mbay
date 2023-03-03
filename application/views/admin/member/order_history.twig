@@ -142,14 +142,14 @@
                 if (result == "yes") {
                     var flag = "success";
                     var title = $('#success_js').html();
-                    // show_notification(flag, title, msg);
-                     alert('Error: The condition is not met.');
-                    location.reload(true);
+                    show_notification(flag, title, msg);
+                     // alert('Error: The condition is not met.');
+                    //location.reload(true);
                 }else {
                     var flag = "error";
                     var title = $('#success_js').html();
                     // show_notification(flag, title, msg);
-                    location.reload(true);
+                    //location.reload(true);
                 }
             }
         });

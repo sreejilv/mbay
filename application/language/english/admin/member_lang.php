@@ -234,6 +234,7 @@ $lang['customer'] = 'Customer';
 $lang['order_date'] = 'Order Date';
 $lang['total_amount'] = 'Total Amount';
 $lang['select'] = 'Select';
+$lang['status_change_successfully_js'] = 'Status Changed Successfully';
 
 
 

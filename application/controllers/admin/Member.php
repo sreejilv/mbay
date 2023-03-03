@@ -804,7 +804,7 @@ class Member extends Base_Controller {
         $order_data = $this->member_model->getAllOrdersData();
         $order_status_list = $this->member_model->getOrderStatusList();
          // print_r($order_data);die;
-         $this->setData('order_status_list', $order_status_list);
+        $this->setData('order_status_list', $order_status_list);
         $this->setData('order_data', $order_data);
         $this->setData('title', lang('menu_name_178'));
         $this->loadView();
@@ -1333,6 +1333,7 @@ class Member extends Base_Controller {
 
     public function update_order_status() {
         $request = $this->input->get();
+        // dd($request);
         $this->db->where('id', $request['order_id']);
         $this->db->update('orders', array('order_status' => $request['order_status']));
         
