@@ -134,7 +134,7 @@
                                 <!--dashboard-->
                                 <div class="card">
                                     <div class="card-header">
-                                      <h3 class="mb-0">Hello Username!</h3>
+                                      <h3 class="mb-0">Hello &nbsp;{{user_name}}</h3>
                                       </div>
                                       <div class="card-body">
                                         <p class="card-text">
@@ -208,7 +208,7 @@
                                         </address>
                                         <a href="#" class="btn-small text-primary acct-address-edit mb-2 d-inline-block">Edit</a>
                                         <!--edit-->
-                                        <div class="address-edit">
+                                        <div class="address-edit1">
                                             <form>
                                                 <div class="mb-3">
                                                     <label class="form-label">Building Name/House No, Floor, Apartment No. <abbr class="required" title="required">*</abbr></label>
@@ -254,25 +254,25 @@
                                       <div class="card-body">
                                         {{ form_open('', 'class="account_details" id="account_details" name="account_details"')|raw }}
                                             <div class="mb-3">
-                                                <label class="form-label">First Name. <abbr class="required" title="required">*</abbr></label>
+                                                <label class="form-label">First Name <span class="required" title="required">*</span></label>
                                                 <input type="text" name="first_name" value="{{ detail.first_name }}" class="form-control">
                                                   {% if login_error.first_name is defined %}<code> {{ login_error.first_name}} </code> {% endif %}
                                            
                                             </div>
                                              <div class="mb-3">
-                                                <label class="form-label">Last Name. <abbr class="required" title="required">*</abbr></label>
+                                                <label class="form-label">Last Name <span class="required" title="required">*</span></label>
                                                 <input type="text" name="last_name"  value="{{ detail.last_name }}" class="form-control">
                                                   {% if login_error.last_name is defined %}<code> {{ login_error.last_name}} </code> {% endif %}
 
                                             </div>
                                              <div class="mb-3">
-                                                <label class="form-label">Email.<abbr class="required" title="required">*</abbr></label>
+                                                <label class="form-label">Email<span class="required" title="required">*</span></label>
                                                 <input type="email" name="email"  value="{{ user_mail }}" class="form-control" readonly >
                                                   {% if login_error.email is defined %}<code> {{ login_error.email}} </code> {% endif %}
 
                                             </div>
                                             <div class="mb-3">
-                                                <label class="form-label">Mobile Number. <abbr class="required" title="required">*</abbr></label>
+                                                <label class="form-label">Mobile Number <span class="required" title="required">*</span></label>
                                                 <input type="text" name="phone_number"  value="{{ detail.phone_number }}" class="form-control">
                                                   {% if login_error.phone_number is defined %}<code> {{ login_error.phone_number}} </code> {% endif %}
 
@@ -296,17 +296,17 @@
                                       {{ form_open('', 'class="password_details" id="password_details" name="password_details"')|raw }}
 
                                             <div class="mb-3">
-                                                <label class="form-label">Current Password. <abbr class="required" title="required">*</abbr></label>
+                                                <label class="form-label">Current Password <span class="required" title="required">*</span></label>
                                                 <input type="password" name="current_password" class="form-control">
                                                   {% if login_error.current_password is defined %}<code> {{ login_error.current_password}} </code> {% endif %}
                                             </div>
                                             <div class="mb-3">
-                                                <label class="form-label">New Password. <abbr class="required" title="required">*</abbr></label>
+                                                <label class="form-label">New Password <span class="required" title="required">*</span></label>
                                                 <input type="password" name="password" class="form-control">
                                                   {% if login_error.password is defined %}<code> {{ login_error.password}} </code> {% endif %}
                                             </div>
                                             <div class="mb-3">
-                                                <label class="form-label">Confirm Password. <abbr class="required" title="required">*</abbr></label>
+                                                <label class="form-label">Confirm Password <span class="required" title="required">*</span></label>
                                                 <input type="password" name="confirm_password" class="form-control">
                                                   {% if login_error.confirm_password is defined %}<code> {{ login_error.confirm_password}} </code> {% endif %}
                                             </div>

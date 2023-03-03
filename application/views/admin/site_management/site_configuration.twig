@@ -208,13 +208,14 @@
         <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
         <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
         <!-- pristine js -->
-        <script src="assets/libs/pristinejs/pristine.min.js"></script>
+        {# <script src="assets/libs/pristinejs/pristine.min.js"></script> #}
         <!-- form validation -->
-        <script src="assets/js/pages/form-validation.init.js"></script>
+        {# <script src="assets/js/pages/form-validation.init.js"></script> #}
         <!-- Datatable init js -->
         <script src="assets/js/pages/datatables.init.js"></script>
         <script src="assets/js/file_extension.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+       <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/additional-methods.js"></script>
         <script>
 
             var imgUpload = $('.dropify').dropify({
@@ -225,13 +226,11 @@
 
         <script>
             $(document).ready(function () {
-             validate_site_set();
-         });
-     </script>
+                validate_site_set();
+            });
+        </script>
      <script>
         var validate_site_set = function () {
-            
-
             var form = $('#update_form1');
             var errorHandler1 = $('.errorHandler', form);
             var successHandler1 = $('.successHandler', form);
@@ -259,7 +258,7 @@
                 },
                 company_phone: {
                     required: true,
-                    digit:true,
+                    number: true,
 
                 },
                 company_logo: {

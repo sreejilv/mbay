@@ -15,6 +15,8 @@ class Shop extends Base_Controller {
      * @author Techffodils Technologies LLP
      */
     public function index() {
+        $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
+        $this->setData('user_name', $user_name);  
 
         $this->load->model('site_management_model');
         $slider_images = $this->site_management_model->getSliderLists();
@@ -45,6 +47,8 @@ class Shop extends Base_Controller {
     }
 
     public function login_register(){
+        $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
+        $this->setData('user_name', $user_name);  
         $this->load->model('product_model');
         $nav_category = $this->product_model->getNavCategoryLists();
         
@@ -53,6 +57,8 @@ class Shop extends Base_Controller {
     }
 
     public function shop($cat_id=""){
+        $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
+        $this->setData('user_name', $user_name);  
         $user_type = $this->aauth->getUserType();
 
         $this->load->model('product_model');
@@ -68,6 +74,8 @@ class Shop extends Base_Controller {
     }
 
     public function cart(){
+        $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
+        $this->setData('user_name', $user_name);  
         $this->load->model('product_model');
         $nav_category = $this->product_model->getNavCategoryLists();
         
@@ -90,6 +98,8 @@ class Shop extends Base_Controller {
     }
 
     public function about_us(){
+        $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
+        $this->setData('user_name', $user_name);  
         $this->load->model('product_model');
         $nav_category = $this->product_model->getNavCategoryLists();
         
@@ -98,6 +108,8 @@ class Shop extends Base_Controller {
     }
 
     public function contact(){
+        $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
+        $this->setData('user_name', $user_name);  
         $this->load->model('product_model');
         $nav_category = $this->product_model->getNavCategoryLists();
         
@@ -106,6 +118,8 @@ class Shop extends Base_Controller {
     }
 
     public function app(){
+        $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
+        $this->setData('user_name', $user_name);  
         $this->load->model('product_model');
         $nav_category = $this->product_model->getNavCategoryLists();
         
@@ -124,10 +138,14 @@ class Shop extends Base_Controller {
         }
         $this->setData('nav_category', $nav_category);
         $this->setData('products', $products);
+        $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
+        $this->setData('user_name', $user_name);  
         $this->loadView();
     }
 
     public function checkout(){
+        $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
+        $this->setData('user_name', $user_name);  
         $this->load->model('product_model');
         $nav_category = $this->product_model->getNavCategoryLists();
         
@@ -198,12 +216,5 @@ class Shop extends Base_Controller {
         $validation = $this->form_validation->run();
         return $validation;
     }
-    // function tab_actives(){
-    //     $this->load->helper('security');
-    //     $id = $this->security->xss_clean($this->input->post('tab_id')); 
-    //     echo $id;die;
-    //     $this->session->set_userdata('active_tab', $id);
-    //     echo 'yes';
-    //     exit();
-    // }
+
 }

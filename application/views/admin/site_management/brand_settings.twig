@@ -198,43 +198,45 @@
                 });
             </script>
             <script>
-                var validate_brand_settings = function () {
-
-                    var form = $('#update_form');
-                    var errorHandler1 = $('.errorHandler', form);
-                    var successHandler1 = $('.successHandler', form);
-                    form.validate({
-            errorElement: "div", // contain the error msg in a span tag
-            errorClass: 'invalid-feedback',
-             errorPlacement: function (error, element) { // render error placement for 
-               if (element.attr("type") == "file" ) { 
-                error.insertAfter($(element).closest('.form-group').children('div').children().last());                     
-            }else{
-                error.appendTo($(element).closest('.form-group'));
-            }
-        },
-        ignore: ':hidden',
-        rules: {
-            brand_name: {
-                required: true,
-                minlength: 3
+var validate_brand_settings = function () {
+    var form = $('#update_form');
+    var errorHandler1 = $('.errorHandler', form);
+    var successHandler1 = $('.successHandler', form);
+    $(form).validate({
+         ignore: [],
+        errorElement: "div", // contain the error msg in a span tag
+        errorClass: 'invalid-feedback',
+            errorPlacement: function (error, element) { // render error placement for each input type
+                console.log(element);
+                if (element.hasClass("ck-editor")) {
+                    error.insertBefore(element);
+                }if (element.hasClass("dropify")) {
+                    error.insertBefore(element);
+                }else if (element.attr("name") == "description") {
+                    $("#errordescription").append(error);
+                } else{
+                    error.appendTo($(element).closest('.form-group'));
+                }  
             },
-            image: {
-                required: true,
-                extension: "jpg|jpeg|png"
-            }
-
-        },
-        messages: {
-            brand_name: {
-                required: $('#brand_name_req_js').html()
+              
+            rules: {
+             
+                brand_name: {
+                    required: true,
+                },
+                image:{
+                    required: true, 
+                }
             },
-            image: {
-                required: $('#image_req_js').html(),
-                extension: $('#user_photo_ext_js').html()
-            }
-
-        },
+            messages: {
+              
+                brand_name: {
+                    required: 'Brand Name is Required',
+                }, 
+                image: {
+                    required: 'Image is Required',
+                }
+            },
         invalidHandler: function(event, validator) { 
 
             successHandler1.hide();
@@ -242,34 +244,33 @@
         },
         highlight: function(element) {
             $(element).closest('.form-control').removeClass('is-invalid');
-                //display Checkbox invalid Data
+            //display Checkbox invalid Data
             $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
-                // display OK icon
+            // display OK icon
             $(element).closest('.form-control').removeClass('is-valid').addClass('is-invalid').find('.symbol').removeClass('ok').addClass('required');
-                // add the Bootstrap error class to the control group
+            // add the Bootstrap error class to the control group
         },
-            unhighlight: function(element) { // revert the change done by hightlight
-                //display Checkbox invalid Data
+        unhighlight: function(element) { // revert the change done by hightlight
+            //display Checkbox invalid Data
 
-                $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
-                $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
-                // set error class to the control group
-            },
-            success: function(label, element) {
-                //display Checkbox invalid Data
-                $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
-                $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
-                // mark the current input as valid and display OK icon
-            },
-            submitHandler: function(form) {
-                successHandler1.show();
-                errorHandler1.hide();
-                form.submit();
-            }
+            $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+            $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
+            // set error class to the control group
+        },
+        success: function(label, element) {
+            //display Checkbox invalid Data
+            $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+            $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
+            // mark the current input as valid and display OK icon
+        },
+        submitHandler: function(form) {
+            successHandler1.show();
+            errorHandler1.hide();
+            form.submit();
+        }
         });
-                };
-
-            </script>
+    };
+</script>
             <style>
                 .file-icon{
                     display: none;
