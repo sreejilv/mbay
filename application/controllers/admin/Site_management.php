@@ -68,12 +68,14 @@ class Site_management extends Base_Controller {
             if ($result) {
                 $this->session->unset_userdata('mlm_site_info');
                 $this->helper_model->insertActivity(($this->aauth->getUserType() == 'employee') ? $this->base_model->getAdminUserId() : $this->aauth->getId(), 'site_information_updated', $post_arr);
+                $this->loadPage(lang('site_updated_complete'), 'website-manage','success');
 
-                $msg = lang('successfully_update_site_settings');
-                $this->loadPage($msg, "website-manage", 'success');
+                // $msg = lang('successfully_update_site_settings');
+                // $this->loadPage($msg, "website-manage", 'success');
             } else {
-                $msg = lang('error_while_entring_site_settings');
-                $this->loadPage($msg, "website-manage", 'danger');
+                $this->loadPage(lang('site_updated_failed'), 'website-manage', 'danger');
+                // $msg = lang('error_while_entring_site_settings');
+                // $this->loadPage($msg, "website-manage", 'danger');
             }
         } else {
             $this->setData('error', $this->form_validation->error_array());

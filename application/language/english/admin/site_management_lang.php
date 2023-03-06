@@ -113,6 +113,8 @@ $lang['valid_email_msg_js'] = "Not A Valid E-Mail";
 $lang['company_phone_req_js'] = "Company Phone Is Required";
 $lang['company_logo_req_js'] = "Company Logo Is Required";
 $lang['company_fav_icon_req_js'] = "Company Fav Icon Is Required";
+$lang['site_updated_complete'] = "Successfully updated Site Settings";
+$lang['site_updated_failed'] = "Failed To Update Site Settings";
 
 
 
