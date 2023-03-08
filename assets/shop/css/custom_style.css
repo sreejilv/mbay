@@ -802,7 +802,16 @@
     border-radius: 100px;
     font-size: 14px;
 }
-
+.cart-area .empty-cart {
+    max-width: 200px;
+    margin: auto;
+    display: block;
+}
+.cart-area .empty-cart-title {
+    font-size: 20px;
+    text-align: center;
+    margin: 25px auto;
+}
 
 
 
