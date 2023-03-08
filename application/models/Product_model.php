@@ -493,6 +493,17 @@ class Product_model extends CI_Model {
         return $files;
     }
 
+    function getProductImage($prod_id) {
+        $files = array();
+        $res = $this->db->select("images")
+                ->from("products")
+                ->where('id', $prod_id)
+                ->get();
+        foreach ($res->result() as $row) {
+            $files = $row->images;
+        }
+        return $files;
+    }
     function addCategory($data, $cat_image) {
         $cat_nav = isset($data['slider']) ? 1 : 0;
         $this->db->set('category', $data['category'])

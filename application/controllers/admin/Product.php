@@ -26,52 +26,16 @@ class Product extends Base_Controller {
         $product = array();
         if ($this->session->userdata('product_post_data') != null)
             $product = $this->session->userdata('product_post_data');
-           // print_r($this->input->post());die;
         if ($this->input->post('add_product')) {
             $this->load->helper('security');
             $post = $this->security->xss_clean($this->input->post());
-           
-            // $pro_image = 'cat-banner-1.jpg';
-            // // $config['upload_path'] = FCPATH . 'assets/images/products/';
-            // $config['upload_path'] = FCPATH . 'assets/shop/images/product/';
-            // $config['allowed_types'] = 'jpg|png|jpeg';
-            // $new_name = 'pro_' . time();
-            // $config['file_name'] = $new_name;
-            // $this->load->library('upload', $config);
-
-            // if ($this->upload->do_upload('images')) {
-            //     $data_upload = $this->upload->data();
-            //     $pro_image = $data_upload['file_name'];
-
-            //     if ($this->dbvars->IMAGE_RESIZE_STATUS) {
-            //         if (isset($data_upload['full_path'])) {
-            //             $this->load->library('image_lib');
-            //             $configer = array(
-            //                 'image_library' => 'gd2',
-            //                 'source_image' => $data_upload['full_path'],
-            //                 'maintain_ratio' => TRUE,
-            //                 'width' => 500,
-            //                 'height' => 500,
-            //             );
-            //             $this->image_lib->initialize($configer);
-            //             if (!$this->image_lib->resize()) {
-            //                 $error['reason'] = $this->image_lib->display_errors();
-            //                 $this->helper_model->insertFailedActivity($loged_user_id, 'resize_fail', $error);
-            //             }
-            //             $this->image_lib->clear();
-            //         }
-            //     }
-            // }
-
-
-            // $config['upload_path'] = FCPATH . 'assets/images/products/';
+   
             $config['upload_path'] = FCPATH . 'assets/shop/images/product/';
             $config['allowed_types'] = 'jpg|png|jpeg';
             $this->load->library('upload', $config);
             $upload_data = array();
             
             $files = $_FILES;
-            // print_r($files);die;
             $cpt = count($_FILES['images']['name']);
 
             for ($i = 0; $i < $cpt; $i++) {
@@ -152,15 +116,15 @@ class Product extends Base_Controller {
         if ($this->input->post('update_product')) {
             $this->load->helper('security');
             $post = $this->security->xss_clean($this->input->post());
-           
+        //    print_r($post);die;
             $pro_image = $this->product_model->getProductImage($post['update_product']);
-            // $config['upload_path'] = FCPATH . 'assets/images/products/';
+            $config['upload_path'] = FCPATH . 'assets/images/products/';
             $config['upload_path'] = FCPATH . 'assets/shop/images/product/';
             $config['allowed_types'] = 'jpg|png|jpeg';
             $new_name = 'pro_' . time();
             $config['file_name'] = $new_name;
             $this->load->library('upload', $config);
-            if ($this->upload->do_upload('images')) {
+            if ($this->upload->do_upload()) {
                 $data_upload = $this->upload->data();
                 $cat_image = $data_upload['file_name'];
 
