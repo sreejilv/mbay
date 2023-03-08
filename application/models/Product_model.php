@@ -135,7 +135,7 @@ class Product_model extends CI_Model {
      */
     function getAllProducts() {
         $data = array();
-        $res = $this->db->select("id,status,product_name,product_amount,product_pv,product_code,recurring_type,product_type")
+        $res = $this->db->select("id,status,product_name,product_amount,product_pv,product_code,recurring_type,product_type,description")
                 ->from("products")
                 ->get();
         $i = 0;

@@ -92,11 +92,18 @@
                                         </div>
                                         {%endif%}
                                         <!--end language-->
+                                        {% if items %}
                                         <div class="header-cart-2">
                                             <a class="cart-active" href="{{BASE_URL}}cart"><i class="icon-basket-loaded"></i> <span
-                                                class="black">02</span></a>
+                                                class="black">{{pro_count}}</span></a>
                                             </div>
                                         </div>
+                                        {% else %}
+                                        <div class="header-cart-2">
+                                            <a class="cart-active" href="{{BASE_URL}}index"><i class="icon-basket-loaded"></i> <span
+                                                class="black">{{pro_count}}</span></a>
+                                        </div>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>

@@ -340,10 +340,11 @@ class Cart extends Base_Controller {
         $this->load->helper('security');
         $get = $this->security->xss_clean($this->input->get());
         if ($get['product_id']) {
-            $party_id = 0;
-            if ($get['party_id']) {
-                $party_id = $get['party_id'];
-            }
+            // $party_id = 0;
+            // if ($get['party_id']) {
+            //     $party_id = $get['party_id'];
+            // }
+
             $product_id = $get['product_id'];
             $product_details = $this->cart_model->getProductDetails($product_id, 1);
             if ($product_details) {
@@ -355,12 +356,13 @@ class Cart extends Base_Controller {
                 if (strlen($product_details['product_name']) > 15) {
                     $short_name = substr($product_details['product_name'], 0, 15) . '...';
                 }
-                if ($party_id) {
-                    $party_pro_amount = $this->cart_model->getPartyProductAmount($party_id, $product_id);
-                    if ($party_pro_amount > 0) {
-                        $product_details['product_amount'] = $party_pro_amount;
-                    }
-                }
+                // if ($party_id) {
+                //     $party_pro_amount = $this->cart_model->getPartyProductAmount($party_id, $product_id);
+                //     if ($party_pro_amount > 0) {
+                //         $product_details['product_amount'] = $party_pro_amount;
+                //     }
+                // }
+
                 $data = array(
                     'id' => $product_id,
                     'qty' => 1,
@@ -372,8 +374,9 @@ class Cart extends Base_Controller {
                     'recurring_type' => $product_details['recurring_type'],
                     'description' => $product_details['description'],
                     'product_type' => $product_details['product_type'],
-                    'party_id' => $party_id
+                    // 'party_id' => $party_id
                 );
+
                 $cart = $this->cart->contents();
                 foreach ($cart as $key => $value) {
                     if ($value['id'] == $product_id) {

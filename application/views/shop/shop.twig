@@ -1,4 +1,17 @@
+
+
+<div id="js_messages" style="display: none;"> 
+    <span id="add_to_cart_js">{{lang('add_to_cart_js')}}</span>    
+    <span id="success_js">{{lang('success_js')}}</span>
+    <span id="failed_to_add_js">{{lang('failed_to_add_js')}}</span>
+    <span id="failed_js">{{lang('failed_js')}}</span>                
+    <span id="added_to_cart_js">{{lang('added_to_cart_js')}}</span>  
+</div>
    {% include('shop/layout/header.twig')%}
+
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css" rel="stylesheet"/>
+
 
         <!-- SIDEBAR CART -->
         <div class="sidebar-cart-active">
@@ -52,7 +65,7 @@
                         <li>
                             <a href="{{BASE_URL}}index">Home</a>
                         </li>
-                        <li class="active">Shop</li>
+                        <li class="active">Category</li>
                     </ul>
                 </div>
             </div>
@@ -102,7 +115,8 @@
                                         <span class="pro-badge left bg-red">Label</span>
                                         <div class="product-action-wrap">
                                             <div class="product-action-left">
-                                                <button><i class="icon-basket-loaded"></i>Add to Cart</button>
+                                                <button onclick='addToCart({{pro.id}})'><i class="icon-basket-loaded"></i>Add to Cart</button>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -113,7 +127,7 @@
                                                 4 GB RAM
                                              </div>
                                             <div class="product-price">
-                                                <span class="new-price">{{pro.product_amount}}</span>
+                                                <span class="new-price">OMR&nbsp;{{pro.product_amount}}</span>
                                                 <!-- <span class="new-price">OMR 46.00</span>
                                                 <span class="old-price">OMR 66.75</span> -->
                                             </div>
@@ -125,14 +139,14 @@
                             {% endfor %}
                           
                         </div>
-                        <div class="pro-pagination-style text-center mt-10">
+                        <!-- <div class="pro-pagination-style text-center mt-10">
                             <ul>
                                 <li><a class="prev" href="#"><i class="icon-arrow-left"></i></a></li>
                                 <li><a class="active" href="#">1</a></li>
                                 <li><a href="#">2</a></li>
                                 <li><a class="next" href="#"><i class="icon-arrow-right"></i></a></li>
                             </ul>
-                        </div>
+                        </div> -->
 
                     </div>
 
@@ -414,3 +428,33 @@
         <!-- END SHOP PAGE -->
 
         {% include('shop/layout/footer.twig')%}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<script>
+
+
+    function addToCart(product_id) { 
+    $.ajax({
+        url: "cart/add_to_cart",
+        data: {product_id: product_id},
+        success: function (res) {
+            if (res.trim() == "yes")
+            {
+                toastr.success('Added to cart')
+                $("html,body").animate({scrollTop: 0}, "slow");
+
+                setTimeout(function() {
+                    location.reload();
+                }, 1000);
+            }
+            else
+            {
+                var msg = res;//$('#failed_to_add_js').html();
+                toastr.error(msg)
+            }
+        }
+    });
+
+    }
+
+</script>

@@ -39,9 +39,17 @@ class Shop extends Base_Controller {
 
         $this->load->model('product_model');
         $nav_category = $this->product_model->getNavCategoryLists();
+        $cart = $this->cart->contents();
+        $cart_amount = $this->cart->total();
         
-        $this->setData('nav_category', $nav_category);
 
+
+
+
+        $this->setData('cart', $cart);
+        $this->setData('items', $this->cart->total_items());
+        $this->setData('cart_amount', $cart_amount);
+        $this->setData('nav_category', $nav_category);
         $this->setData('slider_images', $slider_images);
         $this->loadView();
     }
@@ -66,10 +74,11 @@ class Shop extends Base_Controller {
         $products = '';
         if($cat_id){
             $products = $this->product_model->getProducts($cat_id);
-            // print_r($products['files']);die;
         }
         $this->setData('nav_category', $nav_category);
         $this->setData('products', $products);
+        $this->setData('items', $this->cart->total_items());
+
         $this->loadView();
     }
 
@@ -77,9 +86,14 @@ class Shop extends Base_Controller {
         $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
         $this->setData('user_name', $user_name);  
         $this->load->model('product_model');
+        $this->load->model('cart_model');
         $nav_category = $this->product_model->getNavCategoryLists();
-        
-        $this->setData('nav_category', $nav_category);
+        $products = $this->cart_model->getAllProducts();
+
+        $user_name = $this->aauth->getUserName();
+        $user_type = $this->aauth->getUserType();
+        $user_id = ($this->aauth->getUserType() == 'employee') ? $this->base_model->getAdminUserId() : $this->aauth->getId();
+
 
         // $data = array(
         //         'id'      => 'sku_123ABC',
@@ -92,8 +106,16 @@ class Shop extends Base_Controller {
     
         // $this->cart->insert($data);
 
-        // $cart = $this->cart->contents();
-        // print_r($cart);die;
+        $cart = $this->cart->contents();
+        $cart_amount = $this->cart->total();
+        $pro_count = count($cart);
+        $this->setData('pro_count', $pro_count);
+        $this->setData('cart', $cart);
+        $this->setData('cart_amount', $cart_amount);
+        $this->setData('nav_category', $nav_category);
+        $this->setData('products', $products);
+        $this->setData('items', $this->cart->total_items());
+        $this->setData('total_items_amount', $this->cart->total());
         $this->loadView();
     }
 
@@ -128,16 +150,29 @@ class Shop extends Base_Controller {
     }
 
     public function shop_details($pro_id=""){
-
+        $party_id = 0;
         $this->load->model('product_model');
         $nav_category = $this->product_model->getNavCategoryLists();
         $products = '';
         if($pro_id){
             $products = $this->product_model->getProductDtls($pro_id);
-            // print_r($products['files']);die;
+            $party_cart = $this->cart->contents();
+            // foreach ($party_cart as $key => $c) {
+            //     if (!in_array($c['id'], $products)) {
+            //         $this->cart->remove($key);
+            //     }
+            // }
+        } else {
+            // $this->loadPage(lang('invalid_party'), 'shop-details', 'danger');
         }
+
+
+        $this->setData('party_id', $party_id);
         $this->setData('nav_category', $nav_category);
         $this->setData('products', $products);
+        $this->setData('items', $this->cart->total_items());
+        $this->setData('party_cart', $party_cart);
+        $this->setData('total_items_amount', $this->cart->total());
         $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
         $this->setData('user_name', $user_name);  
         $this->loadView();
@@ -148,8 +183,11 @@ class Shop extends Base_Controller {
         $this->setData('user_name', $user_name);  
         $this->load->model('product_model');
         $nav_category = $this->product_model->getNavCategoryLists();
-        
+        $cart = $this->cart->contents();
+        // print_r($cart);die;
+
         $this->setData('nav_category', $nav_category);
+        $this->setData('cart', $cart);
         $this->loadView();
     }
     

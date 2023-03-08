@@ -1,6 +1,15 @@
 {% include('shop/layout/header.twig')%}
 
 <!-- SIDEBAR CART -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css" rel="stylesheet"/>
+<div id="js_messages" style="display: none;"> 
+    <span id="add_to_cart_js">{{lang('add_to_cart_js')}}</span>    
+    <span id="success_js">{{lang('success_js')}}</span>
+    <span id="failed_to_add_js">{{lang('failed_to_add_js')}}</span>
+    <span id="failed_js">{{lang('failed_js')}}</span>                
+    <span id="added_to_cart_js">{{lang('added_to_cart_js')}}</span>                
+</div>
+
 {% for pro in products %}
 <div class="sidebar-cart-active">
     <div class="sidebar-cart-all">
@@ -52,7 +61,7 @@
         <div class="breadcrumb-content text-center">
             <ul>
                 <li><a href="{{BASE_URL}}index">Home</a></li>
-                <li><a href="{{BASE_URL}}shop">Shop</a></li>
+                <li><a href="{{BASE_URL}}shop">Category</a></li>
                 <li class="active">{{pro.product_name}}</li>
             </ul>
         </div>
@@ -102,15 +111,14 @@
                     <!--price-->
                     <div class="pro-details-price">
                         <span class="new-price">
-                            <!-- <r>OMR</r> 75.72 -->
-                            <r>{{pro.product_amount}}</r>
+                            <r>OMR</r> &nbsp;{{pro.product_amount}}
                         </span>
                         <!-- <span class="old-price">
                             <r>OMR</r> 95.72
                         </span> -->
                     </div>
                     <!--end price-->
-
+                    
                     <!--stock left message-->
                     <p class="text-danger my-1">
                         Hurry, Only 6 left!
@@ -210,8 +218,9 @@
 
                     <!--addtocart-buynow-->
                     <div class="action-button">
-                        <a class="btn btn-primary me-1" href="#" role="button">Add to Cart</a>
-                        <a class="btn btn-secondary" href="#" role="button">Buy Now</a>
+                        <a class="btn btn-primary me-1" role="button" onclick='addToCart({{pro.id}})'>Add to Cart</a>
+
+                        <a class="btn btn-secondary" href="cart" role="button">Buy Now</a>
                     </div>
                     <!--end addtocart-buynow-->
 
@@ -227,7 +236,7 @@
 
 
 <!-- RELATED PRODUCT -->
-<div class="related-product pb-115 p-detail-page-related-product">
+{#<div class="related-product pb-115 p-detail-page-related-product">
     <div class="container">
         <div class="section-title mb-45 text-center">
             <h2>Similar Products</h2>
@@ -281,8 +290,35 @@
 
         </div>
     </div>
-</div>
+</div>#}
 <!-- END RELATED PRODUCT -->
 {% endfor %}
 
 {% include('shop/layout/footer.twig')%}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<script>
+    
+    function addToCart(product_id) {
+    $.ajax({
+        url: "cart/add_to_cart",
+        data: {product_id: product_id},
+        success: function (res) {
+            if (res.trim() == "yes")
+            {
+                //update_cart();
+                toastr.success('Added to cart')
+                $("html,body").animate({scrollTop: 0}, "slow");
+                setTimeout(function() {
+                    location.reload();
+                }, 1000);
+            }
+            else
+            {
+                var msg = res;//$('#failed_to_add_js').html();
+                toastr.error(msg)
+            }
+        }
+    });
+
+    }
+</script>

@@ -4,8 +4,9 @@ class Base_Controller extends Core_Base_Controller {
 
     function __construct() {
         parent::__construct();
-
+// die('dfgdsf');
         $this->CheckUrl();
+        $this->ProductCount();
     }
 
     /**
@@ -25,4 +26,9 @@ class Base_Controller extends Core_Base_Controller {
         return TRUE;
     }
 
+    function ProductCount(){
+        $cart = $this->cart->contents();
+        $pro_count = count($cart);
+        $this->setData('pro_count', $pro_count);
+    }
 }

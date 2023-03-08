@@ -215,6 +215,7 @@
                         <div class="col-lg-5">
                             <div class="your-order-area">
                                 <h3>Your order summary</h3>
+                                {% for car in cart%}
                                 <div class="your-order-wrap gray-bg-4">
                                     <div class="your-order-info-wrap">
 
@@ -225,40 +226,20 @@
                                                     <img src="assets/shop/images/product/product-sample-1.jpg" alt="...">
                                                 </div>
                                                 <div class="flex-grow-1 ms-3">
-                                                    <h5>SAMSUNG Galaxy F13 (Waterfall Blue, 64
-                                                        GB)</h5>
+                                                    <h5>{{car.name}}</h5>
                                                     <p>Colour: <span>Grey</span></p>
                                                     <div
                                                         class="d-flex-price justify-content-between align-items-center">
-                                                        <p>Qty: <span>1</span></p>
-                                                        <p>Price: <span class="fw-semibold">OMR 15.00</span></p>
+                                                        <p>Qty: <span>{{car.qty}}</span></p>
+                                                        <p>Price: <span class="fw-semibold">OMR &nbsp;{{car.price}}</span></p>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!--end summary  loop items-->
-                                            <!--summary loop items-->
-                                            <div class="d-flex">
-                                                <div class="flex-shrink-0">
-                                                    <img src="assets/shop/images/product/product-sample-1.jpg" alt="...">
-                                                </div>
-                                                <div class="flex-grow-1 ms-3">
-                                                    <h5>SAMSUNG Galaxy F13 (Waterfall Blue, 64
-                                                        GB)</h5>
-                                                    <p>Colour: <span>Grey</span></p>
-                                                    <div
-                                                        class="d-flex-price justify-content-between align-items-center">
-                                                        <p>Qty: <span>1</span></p>
-                                                        <p>Price: <span class="fw-semibold">OMR 15.00</span></p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!--end summary  loop items-->
                                         </div>
-
 
                                         <div class="your-order-info order-shipping">
                                             <ul>
-                                                <li>Price (2 items) <span class="fw-semibold">OMR 329 </span></li>
+                                                <li>Price ({{car.qty}} items) <span class="fw-semibold">OMR &nbsp;{{car.subtotal}} </span></li>
                                                 <li>Delivery Charges <span class="fw-semibold">OMR 329 </span></li>
                                                 <li>Secured Packaging Fee <span class="fw-semibold">OMR 329 </span></li>
                                             </ul>
@@ -266,7 +247,7 @@
                                         <div class="your-order-info order-total b-top-dashed">
                                             <ul>
                                                 <li class="fw-semibold">Total Payable <span class="fw-semibold">OMR
-                                                        273.00 </span></li>
+                                                        &nbsp;{{car.subtotal}} </span></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -313,7 +294,7 @@
                                         </div>
                                     </div>
                                     <!--end payment-->
-
+                                    {% endfor %}
                                 </div>
                                 <div class="place-order">
                                     <a href="#">Place Order</a>
