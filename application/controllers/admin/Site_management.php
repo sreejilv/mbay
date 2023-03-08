@@ -574,8 +574,13 @@ class Site_management extends Base_Controller {
                 $this->loadPage(lang('slider_updation_failed'), 'slider_settings', 'danger');
             }
         }
+        $this->load->model('product_model');
+        $products = $this->product_model->getAllProducts();
+        $categories = $this->product_model->getAllCaegories();
         $data = $this->site_management_model->getSliderLists();
         $this->setData('data', $data);
+        $this->setData('products', $products);
+        $this->setData('categories', $categories);
         $this->setData('slider', $slider_details);
         $this->setData('error', $this->form_validation->error_array());
         $this->setData('slider_id', $slider_id);

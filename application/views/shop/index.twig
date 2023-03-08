@@ -1,144 +1,149 @@
-    {% include('shop/layout/header.twig')%}
+{% include('shop/layout/header.twig')%}
 
-        <!-- SLIDER AREA -->
-        <section class="slider-area bg-gray-10">
-            <div class="container">
-                <div class="home-slider nav-style-1 nav-style-1-modify-2 nav-style-1-orange">
+<!-- SLIDER AREA -->
+<section class="slider-area bg-gray-10">
+    <div class="container">
+        <div class="home-slider nav-style-1 nav-style-1-modify-2 nav-style-1-orange">
 
-                    <!-- SLIDER SINGLE -->
-                     {% for img in slider_images %}
-                    <div class="single-hero-slider single-hero-slider-hm10 single-animation-wrap">
+            <!-- SLIDER SINGLE -->
+            {% for img in slider_images %}
+                <div class="single-hero-slider single-hero-slider-hm10 single-animation-wrap">
 
-                        <div class="row align-items-center">
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                <div class="hero-slider-content-6 slider-content-hm9 slider-content-hm10">
-                                    <h1>{{ img.title}}</h1>
-                                        <a class="btn btn-outline-dark" href="#">Shop Now</a>
+                    <div class="row align-items-center">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                            <div class="hero-slider-content-6 slider-content-hm9 slider-content-hm10">
+                                <h1>{{ img.title}}</h1>
+                                {% if img.type == 'product' %}
+                                    <a class="btn btn-outline-dark" href="{{BASE_URL}}shop-details/{{img.pro_id}}">Shop Now</a>
+                                {% elseif img.type == 'category' %}
+                                    <a class="btn btn-outline-dark" href="{{BASE_URL}}shop/{{img.cat_id}}">Shop Now</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                            <div class="hm10-hero-slider-img">
+                                <img src="assets/shop/images/slider/{{ img.image}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <!-- END SLIDER SINGLE -->
+            <!-- SLIDER SINGLE -->
+            <!-- <div class="single-hero-slider single-hero-slider-hm10 single-animation-wrap">
+                <div class="row align-items-center">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="hero-slider-content-6 slider-content-hm9 slider-content-hm10">
+                            <h1>iPhone 14</h1>
+                                <a class="btn btn-outline-dark" href="#">Shop Now</a>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="hm10-hero-slider-img">
+                            <img src="assets/shop/images/slider/2.png" alt="Product Name">
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <!-- END SLIDER SINGLE -->
+
+        </div>
+    </div>
+</section>
+<!-- END SLIDER AREA -->
+
+<!-- CATEGORY -->
+<section class="product-categories-area pt-70 pb-70">
+    <div class="container">
+        <div class="section-title-btn-wrap mb-25">
+            <div class="section-title-8">
+                <h2>Popular Categories</h2>
+            </div>
+            <div class="btn-style-9">
+                <a href="{{BASE_URL}}shop">All Product</a>
+            </div>
+        </div>
+        <div class="section-wrap-1">
+            <div class="product-categories-slider-1 nav-style-3">
+
+                <!-- CATEGORY SINGLE -->
+
+                {% for popular in popular_categories %}
+                    <div class="product-plr-1">
+                        <div class="single-product-wrap">
+                            <div class="product-img product-img-border-transparent mb-15">
+                                <a href="#">
+                                    <img {% for file in popular.files %} src="assets/shop/images/product/{{ file.file_name }}" {% endfor %} title="{{popular.category}}"  alt="{{popular.category}}">
+
+                                </a>
+                            </div>
+                            <div class="product-content-categories-2 product-content-orange text-center">
+                                <h5 class="font-width-dec"><a href="#" title="{{popular.category}}">{{popular.category}}</a></h5>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+                <!-- END CATEGORY SINGLE -->
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- END CATEGORY -->
+
+
+<!-- DEAL OF THE DAY -->
+<section class="product-area pb-70 home-deal-area">
+    <div class="container">
+        <div class="section-title-btn-wrap mb-25 justify-content-end">
+            <div class="btn-style-9">
+                <a href="#">View All Products</a>
+            </div>
+        </div>
+        <div class="section-wrap-1">
+            <div class="section-title-deal-wrap mb-30">
+                <div class="section-title-8">
+                    <h2>deals of the day</h2>
+                </div>
+            </div>
+
+            <!-- SLIDER START -->
+            <div class="product-slider-active-8 dot-style-2 dot-style-2-position-static dot-style-2-mrg-3 nav-style-5 nav-style-5-modify">
+                {% for deal in deals_of_the_day %}
+                    <!-- SINGLE ITEM -->
+                    <div class="product-plr-1">
+                        <div class="single-product-wrap mb-35">
+                            <div class="product-img product-img-zoom mb-20">
+                                <a href="#">
+                                    <img src="assets/shop/images/product/{{ deal.first_image }}" title="{{ deal.product_name }}" alt="{{ deal.product_name }}">
+                                </a>
+                                <span class="pro-badge left bg-red">Label</span>
+                                <div class="product-action-wrap">
+                                    <div class="product-action-left">
+                                        <button><i class="icon-basket-loaded"></i>Add to Cart</button>
+                                    </div>
+
                                 </div>
                             </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                <div class="hm10-hero-slider-img">
-                                    <img src="assets/shop/images/slider/{{ img.image}}">
+                            <div class="product-content-wrap">
+                                <div class="product-content-left">
+                                    <h4><a href="#" title="{{ deal.product_name }}">{{ deal.product_name }}</a></h4>
+                                    <!--gb-->
+                                    <div class="text-muted">
+                                        4GB RAM
+                                    </div>
+                                    <!--end gb-->
+                                    <div class="product-price">
+                                        <span class="new-price">{{ deal.product_amount }}</span>
+{#                                        <span class="old-price">OMR 66.75</span>
+#}                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!-- END SINGLE ITEM -->
                     {% endfor %}
-                    <!-- END SLIDER SINGLE -->
-                    <!-- SLIDER SINGLE -->
-                    <!-- <div class="single-hero-slider single-hero-slider-hm10 single-animation-wrap">
-                        <div class="row align-items-center">
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                <div class="hero-slider-content-6 slider-content-hm9 slider-content-hm10">
-                                    <h1>iPhone 14</h1>
-                                        <a class="btn btn-outline-dark" href="#">Shop Now</a>
-                                </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                <div class="hm10-hero-slider-img">
-                                    <img src="assets/shop/images/slider/2.png" alt="Product Name">
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
-                    <!-- END SLIDER SINGLE -->
-
-                </div>
-            </div>
-        </section>
-        <!-- END SLIDER AREA -->
-
-        <!-- CATEGORY -->
-        <section class="product-categories-area pt-70 pb-70">
-            <div class="container">
-                <div class="section-title-btn-wrap mb-25">
-                    <div class="section-title-8">
-                        <h2>Popular Categories</h2>
-                    </div>
-                    <div class="btn-style-9">
-                        <a href="{{BASE_URL}}shop">All Product</a>
-                    </div>
-                </div>
-                <div class="section-wrap-1">
-                    <div class="product-categories-slider-1 nav-style-3">
-
-                        <!-- CATEGORY SINGLE -->
-                        <div class="product-plr-1">
-                            <div class="single-product-wrap">
-                                <div class="product-img product-img-border-transparent mb-15">
-                                    <a href="#">
-                                        <img src="assets/shop/images/category/smartphone.jpg" title="Smartphone" alt="Smartphone">
-                                    </a>
-                                </div>
-                                <div class="product-content-categories-2 product-content-orange text-center">
-                                    <h5 class="font-width-dec"><a href="#" title="Smartphone">Smartphone</a></h5>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- END CATEGORY SINGLE -->
-
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- END CATEGORY -->
-
-
-        <!-- DEAL OF THE DAY -->
-        <section class="product-area pb-70 home-deal-area">
-            <div class="container">
-                <div class="section-title-btn-wrap mb-25 justify-content-end">
-                    <div class="btn-style-9">
-                        <a href="#">View All Products</a>
-                    </div>
-                </div>
-                <div class="section-wrap-1">
-                    <div class="section-title-deal-wrap mb-30">
-                        <div class="section-title-8">
-                            <h2>deals of the day</h2>
-                        </div>
-                    </div>
-
-                    <!-- SLIDER START -->
-                    <div class="product-slider-active-8 dot-style-2 dot-style-2-position-static dot-style-2-mrg-3 nav-style-5 nav-style-5-modify">
-
-                        <!-- SINGLE ITEM -->
-                        <div class="product-plr-1">
-                            <div class="single-product-wrap mb-35">
-                                <div class="product-img product-img-zoom mb-20">
-                                    <a href="#">
-                                        <img src="assets/shop/images/product/product-sample.jpg" title="SAMSUNG Galaxy F13 (Waterfall Blue, 64
-                                        GB)" alt="SAMSUNG Galaxy F13 (Waterfall Blue, 64
-                                            GB)">
-                                    </a>
-                                    <span class="pro-badge left bg-red">Label</span>
-                                    <div class="product-action-wrap">
-                                        <div class="product-action-left">
-                                            <button><i class="icon-basket-loaded"></i>Add to Cart</button>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="product-content-wrap">
-                                    <div class="product-content-left">
-                                        <h4><a href="#" title="SAMSUNG Galaxy F13 (Waterfall Blue, 64
-                                            GB)">SAMSUNG Galaxy F13 (Waterfall Blue, 64
-                                                GB)</a></h4>
-                                                <!--gb-->
-                                                <div class="text-muted">
-                                                    4GB RAM
-                                                </div>
-                                                <!--end gb-->
-                                        <div class="product-price">
-                                            <span class="new-price">OMR 46.00</span>
-                                            <span class="old-price">OMR 66.75</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- END SINGLE ITEM -->
-
                     </div>
                     <!-- END SLIDER START -->
 
@@ -148,4 +153,4 @@
         <!-- END DEAL OF THE DAY -->
 
 
-    {% include('shop/layout/footer.twig')%}
+        {% include('shop/layout/footer.twig')%}

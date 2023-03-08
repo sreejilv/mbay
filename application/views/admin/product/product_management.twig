@@ -6,11 +6,11 @@
     <!-- DataTables -->
     <link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
     <link href="assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet"
-        type="text/css" />
+          type="text/css" />
     <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
     <!-- Responsive datatable examples -->
     <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet"
-        type="text/css" />
+          type="text/css" />
     <link rel="stylesheet" href="assets/libs/imageupload/dist/image-uploader.min.css">
     <?= $this->include('partials/head-css') ?>
     {% include('admin/partials/head-css.twig')%}
@@ -31,15 +31,15 @@
 
         <div class="page-content">
             <div class="container-fluid">
-                    {% include('admin/layout/notification.twig') %}
+                {% include('admin/layout/notification.twig') %}
                 <!-- start page title -->
                 <?= $page_title ?>
                 <h4 class="panel-title">
                     <span class="text-bold">
                         {% if edit_flag %}
-                        {{lang('update_product')}}
+                            {{lang('update_product')}}
                         {% else %}
-                        {{lang('add_product')}}
+                            {{lang('add_product')}}
                         {% endif %}
                     </span>
                 </h4>
@@ -57,7 +57,7 @@
                                             <div class="form-group mb-3">
                                                 <label>Product Name</label>
                                                 <input type="text" class="form-control" id="product_name"
-                                                    name="product_name" value="{{ product.product_name }}" />
+                                                       name="product_name" value="{{ product.product_name }}" />
 
                                                 <input type="hidden" name="submit" value="edit" />
                                             </div>
@@ -67,14 +67,14 @@
                                             <div class="form-group mb-3">
                                                 <label>Product Amount</label>
                                                 <input type="text" class="form-control" name="product_amount"
-                                                    id="product_amount" value="{{ product.product_amount }}" />
+                                                       id="product_amount" value="{{ product.product_amount }}" />
                                             </div>
                                         </div>
                                         <div class="col-xl-6 col-md-6">
                                             <div class="form-group mb-3">
                                                 <label>Quantity</label>
                                                 <input type="text" class="form-control" name="quantity" id="quantity"
-                                                    value="{{ product.quantity }}" />
+                                                       value="{{ product.quantity }}" />
                                             </div>
                                         </div>
 
@@ -82,11 +82,11 @@
                                             <div class="form-group mb-3">
                                                 <label>Category</label>
                                                 <select class="form-control search-select" id="category" name="category"
-                                                    tabindex='9'>
+                                                        tabindex='9'>
                                                     <option value="">{{ lang('select_a_category')}}</option>
                                                     {% for cts in categories %}
-                                                    <option value="{{cts.id}}" {% if product.category==cts.id %}
-                                                        selected {% endif %}>{{cts.category}}</option>
+                                                        <option value="{{cts.id}}" {% if product.category==cts.id %}
+                                                                selected {% endif %}>{{cts.category}}</option>
                                                     {% endfor %}
                                                 </select>
                                             </div>
@@ -96,14 +96,14 @@
                                             <div class="form-group mb-3">
                                                 <label>Sort Order</label>
                                                 <input type="text" class="form-control" name="sort_order"
-                                                    id="sort_order" value="{{ product.sort_order }}" />
+                                                       id="sort_order" value="{{ product.sort_order }}" />
                                             </div>
                                         </div>
                                         <div class="col-xl-6 col-md-6">
                                             <div class="form-group mb-3">
                                                 <label>Keyword</label>
                                                 <input type="text" class="form-control" name="keyword" id="keyword"
-                                                    value="{{ product.keyword }}" />
+                                                       value="{{ product.keyword }}" />
                                             </div>
                                         </div>
                                         {# <div class="col-xl-6 col-md-6">
@@ -120,8 +120,8 @@
                                                 <label>Description</label>
                                                 <div class="col-sm-12">
                                                     <textarea name="description" class="form-control"
-                                                        id="ckeditor-classic">
-                                                    {{ product.description }}</textarea>
+                                                              id="ckeditor-classic">
+                                                        {{ product.description }}</textarea>
                                                     <span id="errordescription"></span>
                                                     {# <textarea required data-pristine-required-message="Please Enter a Description" class="ckeditor"  rows="2" cols="36" name="description" id="ckeditor-classic" value="{{ category.description }}">{{ category.description }}</textarea> #}
                                                 </div>
@@ -129,24 +129,32 @@
                                         </div>
 
 
+
+
                                         {% if edit_flag %}
-                                        <div class="form-group input-field ">
-                                            <label class="active form-group">Images</label>
-                                            <div class="input-images-2" style="padding-top: .5rem;">
+                                            <div class="form-group input-field ">
+                                                <label class="active form-group">Images</label>
+                                                <div class="input-images-2" style="padding-top: .5rem;">
 
+                                                </div>
+                                                <br />
                                             </div>
-                                            <br />
-                                        </div>
                                         {% else %}
-                                        <div class="form-group input-field">
-                                            <label class="active form-group">Images</label>
-                                            <div class="input-images-1" style="padding-top: .5rem;">
+                                            <div class="form-group input-field">
+                                                <label class="active form-group">Images</label>
+                                                <div class="input-images-1" style="padding-top: .5rem;">
 
+                                                </div>
+                                                <br />
                                             </div>
-                                            <br />
-                                        </div>
                                         {% endif %}
 
+
+                                        <div class="col-xl-12 col-md-12">
+                                            <div class="form-group mb-3">
+                                                <input type="checkbox" class="grey agree" id="deal_of_the_day" name="deal_of_the_day" {% if product.deal_of_the_day %} checked {% endif %} tabindex='4'> Deal of the day    
+                                            </div>
+                                        </div>
 
 
                                         {# 
@@ -159,15 +167,15 @@
                                             <div class="form-group">
 
                                                 {% if edit_flag %}
-                                                <button type="submit" class="btn btn-primary" value="{{ product_id }}"
-                                                    name="update_product" id="update_product">
-                                                    {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
-                                                </button>
+                                                    <button type="submit" class="btn btn-primary" value="{{ product_id }}"
+                                                            name="update_product" id="update_product">
+                                                        {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                                                    </button>
                                                 {% else %}
-                                                <button type="submit" class="btn btn-primary" value="add_product"
-                                                    name="add_product">
-                                                    {{lang('submit')}} <i class="fa fa-arrow-circle-right"></i>
-                                                </button>
+                                                    <button type="submit" class="btn btn-primary" value="add_product"
+                                                            name="add_product">
+                                                        {{lang('submit')}} <i class="fa fa-arrow-circle-right"></i>
+                                                    </button>
                                                 {% endif %}
                                             </div>
                                         </div>
@@ -185,41 +193,41 @@
                 </div>
                 {% if not edit_flag %}
 
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <table id="datatable" class="table table-bordered dt-responsive  nowrap w-100">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>{{ lang('product_name') }}</th>
-                                            <th>{{ lang('product_amount') }}</th>
-                                            <th>{{ lang('quantity') }}</th>
-                                            <th>{{ lang('action') }}</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for row in data %}
-                                        <tr>
-                                            <td>{{loop.index}}</td>
-                                            <td>{{row.product_name}}</td>
-                                            <td>{{row.product_amount}}</td>
-                                            <td>{{row.quantity}}</td>
-                                            <td><a href="{{BASE_URL}}admin/product-manage/edit/{{row.id}}" button
-                                                    type="submit" class="btn btn-primary"><i
-                                                        class="fas fa-pencil-alt"></i></a> <a
-                                                    href="{{BASE_URL}}admin/product-manage/delete/{{row.id}}" button
-                                                    type="submit" class="btn btn-danger"><i
-                                                        class="fa fa-trash fa fa-white"></i></a></td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <table id="datatable" class="table table-bordered dt-responsive  nowrap w-100">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>{{ lang('product_name') }}</th>
+                                                <th>{{ lang('product_amount') }}</th>
+                                                <th>{{ lang('quantity') }}</th>
+                                                <th>{{ lang('action') }}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for row in data %}
+                                                <tr>
+                                                    <td>{{loop.index}}</td>
+                                                    <td>{{row.product_name}}</td>
+                                                    <td>{{row.product_amount}}</td>
+                                                    <td>{{row.quantity}}</td>
+                                                    <td><a href="{{BASE_URL}}admin/product-manage/edit/{{row.id}}" button
+                                                           type="submit" class="btn btn-primary"><i
+                                                                class="fas fa-pencil-alt"></i></a> <a
+                                                            href="{{BASE_URL}}admin/product-manage/delete/{{row.id}}" button
+                                                            type="submit" class="btn btn-danger"><i
+                                                                class="fa fa-trash fa fa-white"></i></a></td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 {% endif %}
             </div>
         </div> <!-- container-fluid -->
@@ -266,8 +274,8 @@
 <script type="text/javascript" src="assets/libs/imageupload/dist/image-uploader.min.js"></script>
 <script src="assets/js/app.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
-    integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
+crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 {# <script src="assets/js/app.js"></script> #}
 <script>
@@ -355,7 +363,7 @@
                 $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
                 // display OK icon
                 $(element).closest('.form-control').removeClass('is-valid').addClass('is-invalid').find(
-                    '.symbol').removeClass('ok').addClass('required');
+                        '.symbol').removeClass('ok').addClass('required');
                 // add the Bootstrap error class to the control group
             },
             unhighlight: function (element) { // revert the change done by hightlight
@@ -363,14 +371,14 @@
 
                 $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
                 $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find(
-                    '.symbol').removeClass('ok').addClass('required');
+                        '.symbol').removeClass('ok').addClass('required');
                 // set error class to the control group
             },
             success: function (label, element) {
                 //display Checkbox invalid Data
                 $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
                 $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find(
-                    '.symbol').removeClass('ok').addClass('required');
+                        '.symbol').removeClass('ok').addClass('required');
                 // mark the current input as valid and display OK icon
             },
             submitHandler: function (form) {
@@ -390,40 +398,40 @@
     $(function () {
         validate_product();
     });
-    $.validator.addMethod("ckeditor_required", function(value, element) {
-       var editorData = element.innerText;
-       console.log(editorData);
-       if(editorData){
-        return true;
-       }
-       return false;
+    $.validator.addMethod("ckeditor_required", function (value, element) {
+        var editorData = element.innerText;
+        console.log(editorData);
+        if (editorData) {
+            return true;
+        }
+        return false;
     }, "This field is required.");
 </script>
 
 <script>
-var product_id = {{ product_id }};
+    var product_id = {{ product_id }};
 
-  var image = {{ cat_img|json_encode|raw }};
-        $('.input-images-2').imageUploader({
-       preloaded: image,
-            maxFiles: 10
-        });
-    
-$('.delete-image').on('click', function(){
- var parent = $(this).parent().children("input").val();
-      $.ajax({
-        url: "admin/product/product_manage_imageDelete",
- 
-        data: {
-                parent: parent,
-                product_id:product_id
-            },
-        success: function (res) {
-              console.log($res);
-        }
+    var image = {{ cat_img|json_encode|raw }};
+    $('.input-images-2').imageUploader({
+        preloaded: image,
+        maxFiles: 10
     });
 
-})
+    $('.delete-image').on('click', function () {
+        var parent = $(this).parent().children("input").val();
+        $.ajax({
+            url: "admin/product/product_manage_imageDelete",
+
+            data: {
+                parent: parent,
+                product_id: product_id
+            },
+            success: function (res) {
+                console.log($res);
+            }
+        });
+
+    })
 </script>
 </body>
 

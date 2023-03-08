@@ -42,10 +42,10 @@ class Shop extends Base_Controller {
         $cart = $this->cart->contents();
         $cart_amount = $this->cart->total();
         
-
-
-
-
+        $deals_of_the_day = $this->product_model->getAllDealOftheDayProducts();
+        $popular_categories = $this->product_model->getAllPopularCategories();
+        $this->setData('deals_of_the_day', $deals_of_the_day);
+        $this->setData('popular_categories', $popular_categories);
         $this->setData('cart', $cart);
         $this->setData('items', $this->cart->total_items());
         $this->setData('cart_amount', $cart_amount);

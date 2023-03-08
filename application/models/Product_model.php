@@ -70,6 +70,7 @@ class Product_model extends CI_Model {
     // }
 
     function addProduct($data, $images = array()) {
+        $deal_of_the_day = isset($data['deal_of_the_day']) ? 1 : 0;
         $this->db->set('product_name', $data['product_name'])
                 ->set('description', $data['description'])
                 ->set('product_amount', $data['product_amount'])
@@ -78,6 +79,7 @@ class Product_model extends CI_Model {
                 ->set('sort_order', $data['sort_order'])
                 ->set('images', serialize($images))
                 ->set('keyword', $data['keyword'])
+                ->set('deal_of_the_day', $deal_of_the_day)
                 ->set('date', date("Y-m-d H:i:s"))
                 ->insert('products');
 
@@ -166,7 +168,7 @@ class Product_model extends CI_Model {
      */
     function getProductDetails($prod_id) {
         $data = array();
-        $res = $this->db->select("id,status,product_name,description,images,product_amount,product_pv,product_code,recurring_type,product_type,inv_cat,investment_amount,expiry_date,quantity,special,category,sub_category, sort_order, keyword")
+        $res = $this->db->select("id,status,product_name,description,images,product_amount,product_pv,product_code,recurring_type,product_type,inv_cat,investment_amount,expiry_date,quantity,special,category,sub_category, sort_order, keyword,deal_of_the_day")
                 ->from("products")
                 ->where('id', $prod_id)
                 ->limit(1)
@@ -191,6 +193,7 @@ class Product_model extends CI_Model {
             $data['sub_category'] = $row->sub_category;
             $data['sort_order'] = $row->sort_order;
             $data['keyword'] = $row->keyword;
+            $data['deal_of_the_day'] = $row->deal_of_the_day;
         }
         return $data;
     }
@@ -268,6 +271,7 @@ class Product_model extends CI_Model {
             $this->db->set('category', $data['pro_category'])
                     ->set('sub_category', $data['sub_category']);
         }
+        $deal_of_the_day = isset($data['deal_of_the_day']) ? 1 : 0;
         $this->db->set('special', $special)
                 ->set('description', $data['description'])
                 ->set('product_amount', $data['product_amount'] / $currency_ratio)
@@ -277,6 +281,7 @@ class Product_model extends CI_Model {
                 ->set('inv_cat', $inv_cat)
                 ->set('investment_amount', $investment_amount)
                 ->set('expiry_date', $expiry_date)
+                ->set('deal_of_the_day', $deal_of_the_day)
                 ->set('images', serialize($files))
                 ->where('id', $data['update_product'])
                 ->update('products');
@@ -506,6 +511,7 @@ class Product_model extends CI_Model {
     }
     function addCategory($data, $cat_image) {
         $cat_nav = isset($data['slider']) ? 1 : 0;
+        $popular_category = isset($data['popular_category']) ? 1 : 0;
         $this->db->set('category', $data['category'])
                 ->set('description', $data['description'])
                 ->set('parent', $data['parent'])
@@ -513,6 +519,7 @@ class Product_model extends CI_Model {
                 ->set('image', serialize($cat_image))
                 ->set('cat_nav',$cat_nav)
                 ->set('keyword', $data['keyword'])
+                ->set('popular_category', $popular_category)
                 ->set('creation_date', date("Y-m-d H:i:s"))
                 ->insert('category');
 
@@ -526,7 +533,7 @@ class Product_model extends CI_Model {
 
     function getCatDetails($id) {
         $data = array();
-        $res = $this->db->select("category,description,parent,sort_order,image,keyword,cat_nav")
+        $res = $this->db->select("category,description,parent,sort_order,image,keyword,cat_nav,popular_category")
                 ->from("category")
                 ->where('id', $id)
                 ->limit(1)
@@ -539,6 +546,7 @@ class Product_model extends CI_Model {
             $data['cat_nav'] = $row->cat_nav;
             $data['image'] = $row->image;
             $data['keyword'] = $row->keyword;
+            $data['popular_category'] = $row->popular_category;
         }
         return $data;
     }
@@ -546,6 +554,7 @@ class Product_model extends CI_Model {
     function updateCategory($data, $cat_image) {
         $cat_nav = isset($data['slider']) ? 1 : 0;
         $featured = isset($data['featured']) ? 1 : 0;
+        $popular_category = isset($data['popular_category']) ? 1 : 0;
         $this->db->set('category', $data['category'])
                 ->set('description', $data['description'])
                 ->set('parent', $data['parent'])
@@ -553,6 +562,7 @@ class Product_model extends CI_Model {
                 ->set('cat_nav',$cat_nav)
                 ->set('image', serialize($cat_image))
                 ->set('keyword', $data['keyword'])
+                ->set('popular_category', $popular_category)
                 ->set('creation_date', date("Y-m-d H:i:s"))
                 ->where('id', $data['update_cat'])
                 ->update('category');
@@ -872,5 +882,49 @@ class Product_model extends CI_Model {
         }
         return $data;
     }
+    
+    
+    
+     function getAllDealOftheDayProducts() {
+        $data = array();
+        $res = $this->db->select("id,status,product_name,product_amount,product_pv,product_code,product_type,description, images")
+                ->from("products")
+                ->where("deal_of_the_day", 1)
+                ->get();
+        $i = 0;
+        foreach ($res->result() as $row) {
+            $data[$i]['sl_no'] = $i + 1;
+            $data[$i]['id'] = $row->id;
+            $data[$i]['product_name'] = $row->product_name;
+            $data[$i]['product_amount'] = $row->product_amount;
+            $data[$i]['product_pv'] = $row->product_pv;
+            $data[$i]['product_code'] = $row->product_code;
+            $data[$i]['product_type'] = $row->product_type;
+            $data[$i]['status'] = $row->status;
+            $data[$i]['description'] = $row->description;
+            $data[$i]['files'] = $this->getAllFiles($row->images);
+            $data[$i]['first_image'] = $data[$i]['files'][0]['file_name'];
+            $i++;
+        }
+        return $data;
+    }
+    
+    
+       function getAllPopularCategories() {
+        $data = array();
+        $res = $this->db->select("id,category,image")
+                ->from("category")
+                ->where('popular_category',1)
+                ->get();
+        $i = 0;
+        foreach ($res->result() as $row) {
+            $data[$i]['id'] = $row->id;
+            $data[$i]['category'] = $row->category;
+            $data[$i]['files'] = $this->getAllFiles($row->image);
+            $i ++;
+        }
+        return $data;
+    }
+    
 
 }

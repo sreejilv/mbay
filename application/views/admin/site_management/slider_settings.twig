@@ -20,122 +20,177 @@
     <span id="title_req_js">{{lang('title_req_js')}}</span>   
     <span id="subtitle_req_js">{{lang('subtitle_req_js')}}</span>   
     <span id="image_req_js">{{lang('image_req_js')}}</span>   
-    
+
     <span id="user_photo_ext_js">{{lang('user_photo_ext_js')}}</span>  
 </div>
 
 {% include('admin/partials/body.twig')%}
 <!-- <body data-layout="horizontal"> -->
 
-    <!-- Begin page -->
-    <div id="layout-wrapper">
+<!-- Begin page -->
+<div id="layout-wrapper">
 
-        {% include('admin/partials/menu.twig')%}
-        <!-- ============================================================== -->
-        <!-- Start right Content here -->
-        <!-- ============================================================== -->
-        <div class="main-content">
+    {% include('admin/partials/menu.twig')%}
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="main-content">
 
-            <div class="page-content">
-                {%include('admin/layout/notification.twig')%}
-                <div class="container-fluid">
+        <div class="page-content">
+            {%include('admin/layout/notification.twig')%}
+            <div class="container-fluid">
 
-                    <!-- start page title -->
-                    <?= $page_title ?>
-                    <h4 class="panel-title">
-                        <span class="text-bold">
-                            {% if edit_flag %} 
+                <!-- start page title -->
+                <?= $page_title ?>
+                <h4 class="panel-title">
+                    <span class="text-bold">
+                        {% if edit_flag %} 
                             {{lang('update_slider_settings')}}
-                            {% else %}
+                        {% else %}
                             {{lang('add_slider_settings')}} 
-                            {% endif %}
-                        </span>
-                    </h4>
-                    
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div>
-                                        {{ form_open_multipart('', 'class="update_form" id="update_form" name="update_form"')|raw }}
-                                        <input type="hidden" />
-                                        <div class="row">
-                                            {# <div class="col-lg-12 ms-lg-auto"> #}
-                                                <div class="col-xl-6 col-md-6">
-                                                    <div class="form-group mb-3">
-                                                        <label>Title<span class="text-danger"> *</span> </label>
-                                                        <input type="text"  class="form-control" id="title" name="title" value="{{ slider.title }}"/>
-                                                    </div>
-                                                </div>
-                                            {# </div>
+                        {% endif %}
+                    </span>
+                </h4>
 
-                                            <div class="col-lg-12 ms-lg-auto"> #}
-                                                <div class="col-xl-6 col-md-6">
-                                                    <div class="form-group mb-3">
-                                                        <label>Sub Title <span class="text-danger"> *</span> </label>
-                                                        <input type="text"  class="form-control" id="subtitle" name="subtitle" value="{{ slider.subtitle }}"/>
-                                                    </div>
-                                                </div>
-                                            {# </div>
-                                            <div class="col-lg-12 ms-lg-auto"> #}
-                                                <div class="mt-4 mt-lg-0">
-                                                    <div class="col-lg-12">
-                                                        <label>Image <span class="text-danger"> *</span> </label>
-                                                        <div class="dropify-wrapper mb-4 form-group col-lg-6">
-                                                            <div class="dropify-errors-container">
-                                                                <ul></ul>
-                                                            </div>
-                                                            {% if slider.image %} 
-                                                            <input type="file" class="form-control dropify" data-default-file="assets/shop/images/slider/{{slider.image}}" name="image" id="image" />
-                                                            {% else %}
-                                                            <input type="file" class="form-control dropify" name="image" id="image" />
-                                                            {% endif %}                                                             
-                                                            <button class="dropify-clear" type="button">Remove</button>
-                                                            <span class="dropify-render"></span>
-                                                            <p class="dropify-filename">
-                                                                <span class="file-icon" ></span>
-                                                                <span class="dropify-filename-inner"></span></p>
-                                                                <p class="dropify-infos-message">Drag and drop or click to replace</p>
-                                                            </div>
-                                                        </div>
-                                                    </div> 
-                                                {# </div> #}
-                                                <div class="form-group">
-                                                    {% if edit_flag %}                               
-                                                    <button type="submit"class="btn btn-primary" value="{{ slider_id }}" name="update_slider" id="update_slider">
-                                                        {{lang('update')}}  <i class="fa fa-arrow-circle-right"></i>
-                                                    </button>
-                                                    {% else %}
-                                                    <button type="submit"class="btn btn-primary" value="add_slider" name="add_slider">
-                                                        {{lang('submit')}}  <i class="fa fa-arrow-circle-right"></i>
-                                                    </button>
-                                                    {% endif %}
-                                                </div>
-                                                {{ form_close()|raw }}
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div>
+                                    {{ form_open_multipart('', 'class="update_form" id="update_form" name="update_form"')|raw }}
+                                    <input type="hidden" />
+                                    <div class="row">
+                                        {# <div class="col-lg-12 ms-lg-auto"> #}
+                                        <div class="col-xl-6 col-md-6">
+                                            <div class="form-group mb-3">
+                                                <label>Title<span class="text-danger"> *</span> </label>
+                                                <input type="text"  class="form-control" id="title" name="title" value="{{ slider.title }}"/>
                                             </div>
                                         </div>
+                                        {# </div>
+
+                                        <div class="col-lg-12 ms-lg-auto"> #}
+                                        
+                                         <div class="col-xl-6 col-md-6">
+                                            <div class="form-group mb-3">
+                                                <label>Sub Title <span class="text-danger"> *</span> </label>
+                                                <input type="text"  class="form-control" id="subtitle" name="subtitle" value="{{ slider.subtitle }}"/>
+                                            </div>
+                                        </div>  
+
+
+                                        <div class="col-xl-6 col-md-6">
+                                            <div class="form-group mb-3">
+                                                <label>Type<span class="text-danger"> *</span> </label>
+
+                                                <select name="type" id="type" class="form-control search-select" tabindex='5'>
+                                                    <option value="">Select Type</option>
+                                                    <option value="product" {% if slider.type=='product' %} selected {% endif %}>Product</option>
+                                                    <option value="category" {% if slider.type=='category' %} selected {% endif %}>Category</option>
+                                                </select> 
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-xl-6 col-md-6">
+                                            <div class="form-group mb-3">
+                                                <label>Link<span class="text-danger"> *</span> </label>
+                                                <input type="text"  class="form-control" id="link" name="link" value="{{ slider.link }}"/>
+                                            </div>
+                                        </div>
+
+                                        <div id="type_product_div" {% if slider.type!="product" %} style="display:none"{% endif %}>                                        
+                                            <div class="col-xl-6 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>Products<span class="text-danger"> *</span> </label>
+
+                                                    <select name="product" id="product" class="form-control search-select" tabindex='5'>
+                                                        <option value="">Select Product</option>
+                                                        {% for pro in products %}
+                                                            <option value="{{pro.id}}" {% if slider.pro_id==pro.id %} selected {% endif %}>{{pro.product_name}}</option>
+                                                        {% endfor %}
+                                                    </select> 
+
+                                                </div>
+                                            </div>
+                                        </div>   
+                                        <div id="type_category_div" {% if slider.type!="category" %} style="display:none"{% endif %}>                                  
+
+                                            <div class="col-xl-6 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>Categories<span class="text-danger"> *</span> </label>
+
+                                                    <select name="category" id="category" class="form-control search-select" tabindex='5'>
+                                                        <option value="">Select Categories</option>
+                                                        {% for cat in categories %}
+                                                            <option value="{{cat.id}}" {% if slider.cat_id==cat.id %} selected {% endif %}>{{cat.category}}</option>
+                                                        {% endfor %}
+                                                    </select> 
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {# </div>
+                                        <div class="col-lg-12 ms-lg-auto"> #}
+                                        <div class="mt-4 mt-lg-0">
+                                            <div class="col-lg-12">
+                                                <label>Image <span class="text-danger"> *</span> </label>
+                                                <div class="dropify-wrapper mb-4 form-group col-lg-6">
+                                                    <div class="dropify-errors-container">
+                                                        <ul></ul>
+                                                    </div>
+                                                    {% if slider.image %} 
+                                                        <input type="file" class="form-control dropify" data-default-file="assets/shop/images/slider/{{slider.image}}" name="image" id="image" />
+                                                    {% else %}
+                                                        <input type="file" class="form-control dropify" name="image" id="image" />
+                                                    {% endif %}                                                             
+                                                    <button class="dropify-clear" type="button">Remove</button>
+                                                    <span class="dropify-render"></span>
+                                                    <p class="dropify-filename">
+                                                        <span class="file-icon" ></span>
+                                                        <span class="dropify-filename-inner"></span></p>
+                                                    <p class="dropify-infos-message">Drag and drop or click to replace</p>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        {# </div> #}
+                                        <div class="form-group">
+                                            {% if edit_flag %}                               
+                                                <button type="submit"class="btn btn-primary" value="{{ slider_id }}" name="update_slider" id="update_slider">
+                                                    {{lang('update')}}  <i class="fa fa-arrow-circle-right"></i>
+                                                </button>
+                                            {% else %}
+                                                <button type="submit"class="btn btn-primary" value="add_slider" name="add_slider">
+                                                    {{lang('submit')}}  <i class="fa fa-arrow-circle-right"></i>
+                                                </button>
+                                            {% endif %}
+                                        </div>
+                                        {{ form_close()|raw }}
                                     </div>
                                 </div>
-                            </div> <!-- container-fluid -->
-                            {% if not edit_flag %} 
-                            
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <table id="datatable" class="table table-bordered dt-responsive  nowrap w-100">
-                                                <thead>
-                                                    <tr>
-                                                        <th>#</th>
-                                                        <th>{{lang('title')}}</th>
-                                                        <th>{{lang('subtitle')}}</th>
-                                                        <th>{{lang('image')}}</th>
-                                                        <th>{{lang('date')}}</th>
-                                                        <th>{{lang('action')}}</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {% for row in data %}  
+                            </div>
+                        </div>
+                    </div> <!-- container-fluid -->
+                    {% if not edit_flag %} 
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <table id="datatable" class="table table-bordered dt-responsive  nowrap w-100">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>{{lang('title')}}</th>
+                                                    <th>{{lang('subtitle')}}</th>
+                                                    <th>{{lang('image')}}</th>
+                                                    <th>{{lang('date')}}</th>
+                                                    <th>{{lang('action')}}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for row in data %}  
                                                     <tr>
                                                         <td>{{loop.index}}</td>
                                                         <td>{{row.title}}</td>
@@ -144,152 +199,178 @@
                                                         <td>{{row.created_date}}</td>
                                                         <td><a href="{{BASE_URL}}admin/slider_settings/slider_edit/{{row.id}}" button type="submit"class="btn btn-primary"><i class="fas fa-pencil-alt"></i></a> <a href="{{BASE_URL}}admin/slider_settings/slider_delete/{{row.id}}" button type="submit"class="btn btn-danger"><i class="fa fa-trash fa fa-white"></i></a></td>
                                                     </tr>
-                                                    {% endfor %}
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
                                     </div>
-                                </div> 
-                            </div>
-                            {% endif %}
+                                </div>
+                            </div> 
                         </div>
-                        <!-- End Page-content -->
-
-                        {% include('admin/partials/footer.twig')%}
-                    </div>
-                    
-                    <!-- end main content-->
+                    {% endif %}
                 </div>
+                <!-- End Page-content -->
+
+                {% include('admin/partials/footer.twig')%}
             </div>
-            <!-- END layout-wrapper -->
+
+            <!-- end main content-->
+        </div>
+    </div>
+    <!-- END layout-wrapper -->
 
 
-            {% include('admin/partials/right-sidebar.twig')%}
-            <!-- JAVASCRIPT -->
-            {% include('admin/partials/vendor-scripts.twig')%}
-            <script src="assets/js/app.js"></script>
-            <script src="assets/libs/flatpickr/flatpickr.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-            <script src="assets/libs/dropify/dropify.min.js"></script>
-            <!-- Required datatable js -->
-            <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
-            <script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-            <!-- Buttons examples -->
-            <script src="assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-            <script src="assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
-            <script src="assets/libs/jszip/jszip.min.js"></script>
-            <script src="assets/libs/pdfmake/build/pdfmake.min.js"></script>
-            <script src="assets/libs/pdfmake/build/vfs_fonts.js"></script>
-            <script src="assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
-            <script src="assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
-            <script src="assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
-            <!-- Responsive examples -->
-            <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-            <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
-            <!-- pristine js -->
-            {# <script src="assets/libs/pristinejs/pristine.min.js"></script> #}
-            <!-- form validation -->
-            {# <script src="assets/js/pages/form-validation.init.js"></script> #}
-            <!-- Datatable init js -->
-            <script src="assets/js/pages/datatables.init.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    {% include('admin/partials/right-sidebar.twig')%}
+    <!-- JAVASCRIPT -->
+    {% include('admin/partials/vendor-scripts.twig')%}
+    <script src="assets/js/app.js"></script>
+    <script src="assets/libs/flatpickr/flatpickr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="assets/libs/dropify/dropify.min.js"></script>
+    <!-- Required datatable js -->
+    <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <!-- Buttons examples -->
+    <script src="assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+    <script src="assets/libs/jszip/jszip.min.js"></script>
+    <script src="assets/libs/pdfmake/build/pdfmake.min.js"></script>
+    <script src="assets/libs/pdfmake/build/vfs_fonts.js"></script>
+    <script src="assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+    <!-- Responsive examples -->
+    <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+    <!-- pristine js -->
+    {# <script src="assets/libs/pristinejs/pristine.min.js"></script> #}
+    <!-- form validation -->
+    {# <script src="assets/js/pages/form-validation.init.js"></script> #}
+    <!-- Datatable init js -->
+    <script src="assets/js/pages/datatables.init.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-            <script>
+    <script>
 
-                var imgUpload = $('.dropify').dropify({
-                    imgFileExtensions: ["png", "jpg", "jpeg", "gif", "bmp","svg"]
-                });
-
-            </script>
-
-            <script>
-                $(document).ready(function () {
-                    validate_slider_settings();
-                });
-            </script>
-            <script>
-var validate_slider_settings = function () {
-    var form = $('#update_form');
-    var errorHandler1 = $('.errorHandler', form);
-    var successHandler1 = $('.successHandler', form);
-    $(form).validate({
-         ignore: [],
-        errorElement: "div", // contain the error msg in a span tag
-        errorClass: 'invalid-feedback',
-            errorPlacement: function (error, element) { // render error placement for each input type
-                console.log(element);
-                if (element.hasClass("ck-editor")) {
-                    error.insertBefore(element);
-                }if (element.hasClass("dropify")) {
-                    error.insertBefore(element);
-                }else if (element.attr("name") == "description") {
-                    $("#errordescription").append(error);
-                } else{
-                    error.appendTo($(element).closest('.form-group'));
-                }  
-            },
-              
-            rules: {
-             
-                title: {
-                    required: true,
-                },
-                subtitle: {
-                    required: true,
-                },
-                image:{
-                    required: true, 
-                }
-            },
-            messages: {
-              
-                title: {
-                    required: 'Title is Required',
-                }, 
-                subtitle: {
-                    required: 'Sub Title is Required',
-                },
-                image: {
-                    required: 'Image is Required',
-                }
-            },
-        invalidHandler: function(event, validator) { 
-
-            successHandler1.hide();
-            errorHandler1.show();
-        },
-        highlight: function(element) {
-            $(element).closest('.form-control').removeClass('is-invalid');
-            //display Checkbox invalid Data
-            $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
-            // display OK icon
-            $(element).closest('.form-control').removeClass('is-valid').addClass('is-invalid').find('.symbol').removeClass('ok').addClass('required');
-            // add the Bootstrap error class to the control group
-        },
-        unhighlight: function(element) { // revert the change done by hightlight
-            //display Checkbox invalid Data
-
-            $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
-            $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
-            // set error class to the control group
-        },
-        success: function(label, element) {
-            //display Checkbox invalid Data
-            $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
-            $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
-            // mark the current input as valid and display OK icon
-        },
-        submitHandler: function(form) {
-            successHandler1.show();
-            errorHandler1.hide();
-            form.submit();
-        }
+        var imgUpload = $('.dropify').dropify({
+            imgFileExtensions: ["png", "jpg", "jpeg", "gif", "bmp", "svg"]
         });
-    };
-</script>
+
+    </script>
+
+    <script>
+
+        $('#type').on('change', function (e) {
+            var optionSelected = $("option:selected", this);
+            var valueSelected = this.value;
+            $('#type_product_div').hide();
+            $('#type_category_div').hide();
+            if (valueSelected == "product") {
+                $('#type_product_div').show();
+            } else if (valueSelected == "category") {
+                $('#type_category_div').show();
+            }
+        });
+
+        $(document).ready(function () {
+            validate_slider_settings();
+        });
+    </script>
+    <script>
+        var validate_slider_settings = function () {
+            var form = $('#update_form');
+            var errorHandler1 = $('.errorHandler', form);
+            var successHandler1 = $('.successHandler', form);
+            $(form).validate({
+                ignore: "hidden",
+                errorElement: "div", // contain the error msg in a span tag
+                errorClass: 'invalid-feedback',
+                errorPlacement: function (error, element) { // render error placement for each input type
+                    console.log(element);
+                    if (element.hasClass("ck-editor")) {
+                        error.insertBefore(element);
+                    }
+                    if (element.hasClass("dropify")) {
+                        error.insertBefore(element);
+                    } else if (element.attr("name") == "description") {
+                        $("#errordescription").append(error);
+                    } else {
+                        error.appendTo($(element).closest('.form-group'));
+                    }
+                },
+
+                rules: {
+
+                    title: {
+                        required: true,
+                    },
+                    subtitle: {
+                        required: true,
+                    },
+                    image: {
+                        required: true,
+                    },
+                    type: {
+                        required: true,
+                    },
+                    link: {
+                        required: true,
+                    },
+                },
+                messages: {
+
+                    title: {
+                        required: 'Title is Required',
+                    },
+                    subtitle: {
+                        required: 'Sub Title is Required',
+                    },
+                    image: {
+                        required: 'Image is Required',
+                    },
+                    type: {
+                        required: 'Type Is Required',
+                    },
+                    link: {
+                        required: 'Link Is Required',
+                    },
+                },
+                invalidHandler: function (event, validator) {
+
+                    successHandler1.hide();
+                    errorHandler1.show();
+                },
+                highlight: function (element) {
+                    $(element).closest('.form-control').removeClass('is-invalid');
+                    //display Checkbox invalid Data
+                    $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+                    // display OK icon
+                    $(element).closest('.form-control').removeClass('is-valid').addClass('is-invalid').find('.symbol').removeClass('ok').addClass('required');
+                    // add the Bootstrap error class to the control group
+                },
+                unhighlight: function (element) { // revert the change done by hightlight
+                    //display Checkbox invalid Data
+
+                    $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+                    $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
+                    // set error class to the control group
+                },
+                success: function (label, element) {
+                    //display Checkbox invalid Data
+                    $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+                    $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
+                    // mark the current input as valid and display OK icon
+                },
+                submitHandler: function (form) {
+                    successHandler1.show();
+                    errorHandler1.hide();
+                    form.submit();
+                }
+            });
+        };
+    </script>
     <style>
         span.file-icon{display:none}
     </style>
-    </body>
+</body>
 
 </html>
