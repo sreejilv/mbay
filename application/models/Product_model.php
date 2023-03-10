@@ -137,9 +137,10 @@ class Product_model extends CI_Model {
      */
     function getAllProducts() {
         $data = array();
-        $res = $this->db->select("id,status,product_name,product_amount,product_pv,product_code,recurring_type,product_type,description")
+        $res = $this->db->select("id,status,product_name,product_amount,product_pv,product_code,recurring_type,product_type,description,images")
                 ->from("products")
                 ->get();
+               // echo $this->db->last_query();die;
         $i = 0;
         foreach ($res->result() as $row) {
             $data[$i]['sl_no'] = $i + 1;
@@ -152,7 +153,9 @@ class Product_model extends CI_Model {
             $data[$i]['product_type'] = $row->product_type;
             $data[$i]['status'] = $row->status;
             $data[$i]['description'] = $row->description;
+            $data[$i]['files'] = $this->getAllFiles($row->images);
             $i++;
+
         }
         return $data;
     }
@@ -232,13 +235,16 @@ class Product_model extends CI_Model {
         $image = unserialize($images);
         $files = array();
         $i = 0;
-        foreach ($image as $key => $img) {
-            $files[$i]['id'] = $key;
-            $files[$i]['file_name'] = $img['file_name'];
-            $i++;
+        if(is_array($image) || is_object($image)) {
+            foreach($image as $key => $img) {
+                $files[$i]['id'] = $key;
+                $files[$i]['file_name'] = $img['file_name'];
+                $i++;
+            }
         }
         return $files;
     }
+
 
     /**
      * For update the product details
@@ -924,6 +930,18 @@ class Product_model extends CI_Model {
             $i ++;
         }
         return $data;
+    }
+
+    public function getCatName($cat_id) {
+        $name = '';
+        $query = $this->db->select('category')
+                ->where('id', $cat_id)
+                ->limit(1)
+                ->get('category');
+        if ($query->num_rows() > 0) {
+            $name = $query->row()->category;
+        }
+        return $name;
     }
     
 

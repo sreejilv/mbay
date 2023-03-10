@@ -1,7 +1,5 @@
 {% include('shop/layout/header.twig')%}
-<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css" rel="stylesheet"/>
-
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css" rel="stylesheet"/>
         <!-- Breadcrumb-area -->
         <div class="breadcrumb-area bg-gray">
             <div class="container">
@@ -23,7 +21,9 @@
                 <div class="row">
                     <div class="col-lg-8 col-md-12 col-sm-12 col-12">
                         <form action="#">
-                            <div class="table-content table-responsive cart-table-content">
+
+                            <div class="table-content table-responsive cart-table-content" >
+                                
                                 <table>
                                     <thead>
                                         <tr>
@@ -37,6 +37,7 @@
                                     <tbody>
 
                                         <!--loop item -->
+                                        <div id="product_list_view">
                                         {% for car in cart %}
                                         <tr>
                                             <td class="product-thumbnail">
@@ -51,20 +52,22 @@
                                                 </td>
                                             <td class="product-price-cart"><span class="amount">{{car.price}}</span></td>
                                             <td class="product-quantity pro-details-quality">
-                                                <div class="cart-plus-minus" prod-id="{{car.rowid}}">
-                                                    <input class="cart-plus-minus-box" type="text" name="qtybutton"
-                                                        value={{car.qty}} >
+                                                <div class="cart-plus-minus"id="cart-plus-minus" prod-id="{{car.rowid}}">
+                                                    <input class="cart-plus-minus-box" type="text" name="qtybutton_{{loop.index }}" id="qtybutton" 
+                                                        value={{car.qty}} onchange='quantityChange("{{car.rowid}}", this)'>
                                                 </div>
                                             
                                                 <a class="d-block" onclick="clearProduct('{{car.rowid}}')">Remove</a>
                                             </td>
                                             <!-- <td class="product-price-cart"><span class="amount">{{car.price}}</span></td> -->
-                                            <td class="product-subtotal">{{car.subtotal}}</td>
+                                            <td class="product-subtotal" id="product_amount_total_{{car.rowid}}">{{car.subtotal}}</td>
                                         </tr>
                                         <!--end loop item -->
                                         {% endfor %}
+                                        </div>
                                     </tbody>
                                 </table>
+                               
                             </div>
 
                         </form>
@@ -76,7 +79,7 @@
 
                     </div>
                     <div class="col-lg-4 col-md-12">
-                        <div class="grand-totall">
+                        <div class="grand-totall" id="grand-totall">
                             <div class="title-wrap">
                                 <h4 class="cart-bottom-title section-bg-gary-cart">Cart Total</h4>
                             </div>
@@ -110,22 +113,24 @@ $(".qtybutton").click(function(){
     incrementProduct(prod.attr("prod-id"));
   } else if(btnval== "-") {
     decrementProduct(prod.attr("prod-id"));
-  }
+  } 
   
 });
 
 update_cart_view();
 
 function incrementProduct(key) {
+    update_cart_view();
     $.ajax({
         url: "cart/add_product_count",
         data: {key: key},
         success: function (res) {
-            if (res.trim() == "yes")
+            var obj=$.parseJSON(res);
+            if (obj.status == "yes")
             {
-                toastr.success('Successfully Increment Product')
-                update_cart_view();
-                // location.reload();
+                toastr.success('Success');
+
+                $("#product_amount_total_"+key).html(obj.value);
             }
             else
             {
@@ -142,11 +147,17 @@ function decrementProduct(key) {
         url: "cart/ded_product_count",
         data: {key: key},
         success: function (res) {
-            if (res.trim() == "yes")
+            var obj=$.parseJSON(res);
+            if (obj.status== "yes")
             {
-                toastr.success('Successfully Decrement Product')
+                toastr.success('Success');
+                $("#product_amount_total_"+key).html(obj.value);
+
+                if(obj.value==0){
+                    window.location.href='./';
+                }
                 update_cart_view();
-                // location.reload();
+                
             }
             else
             {
@@ -165,8 +176,7 @@ function clearProduct(key) {
         success: function (res) {
             if (res.trim() == "yes")
             {
-                toastr.success('Successfully Removed Product')
-                // show_notification(flag, title, msg);
+                toastr.success('Success')
                 update_cart_view();
 
                 setTimeout(function() {
@@ -194,44 +204,32 @@ var refresh_cart = function (chat_data) {
     for (var key in chat_data) {
         
 
-     html += '<li id="key_' + key + '" class="messages-item">';
-     html += '<div class="row">'
+     // html += '<li id="key_' + key + '" class="messages-item">';
+     // html += '<div class="row">'
 
-     html += '<div class="col-md-2 col-sm-2 col-xs-2"  style="height: 90px;line-height: 90px; text-align: center;">'
-     html += '<img alt="image" src="assets/images/products/' + chat_data[key]['image'] + '" width="95%;" height="auto">'
-     html += '</div>'
+     // html += '<div class="col-md-2 col-sm-2 col-xs-2"  style="height: 90px;line-height: 90px; text-align: center;">'
+     // html += '<img alt="image" src="assets/shop/images/product/' + chat_data[key]['image'] + '" width="95%;" height="auto">'
+     // html += '</div>'
 
-     html += '<div class="col-md-5 col-sm-5 col-xs-5"> ';
-     html += '<span class="text-bold"> ' + chat_data[key]['name'] + ' </span><br/>';
-     html += '<span><small>' + price + ' : ' + chat_data[key]['conv_price'] + '</small></span><br/>';
-     html += '<span ><small>' + quantity + ' : ' + chat_data[key]['qty'] + '</small></span><br/>';
-     html += '<span ><small>' + desc + ' : ' + chat_data[key]['description'] + '</small></span>'
-     html += '</div>';
+     // html += '<div class="col-md-5 col-sm-5 col-xs-5"> ';
+     // html += '<span class="text-bold"> ' + chat_data[key]['name'] + ' </span><br/>';
+     // html += '<span><small>' + price + ' : ' + chat_data[key]['conv_price'] + '</small></span><br/>';
+     // html += '<span ><small>' + quantity + ' : ' + chat_data[key]['qty'] + '</small></span><br/>';
+     // html += '<span ><small>' + desc + ' : ' + chat_data[key]['description'] + '</small></span>'
+     // html += '</div>';
 
-     html += '<div class="col-md-3 col-sm-3 col-xs-3" style="height: 90px;line-height: 90px; text-align: center;">';
-     html += '<button class="btn btn-default btn-xs" style="border-radius: 45%!important;" onclick="decrementProduct(' + "'" + key + "'" + ')"> – </button>';
-     html += ' <span id="quantity_' + key + '"> <b>' + chat_data[key]['qty'] + ' </b></span> ';
-     html += '<button class="btn btn-default btn-xs" style="border-radius: 45%!important;" onclick="incrementProduct(' + "'" + key + "'" + ')"> + </button>';
-     html += '</div>';
+     // html += '<div class="col-md-3 col-sm-3 col-xs-3" style="height: 90px;line-height: 90px; text-align: center;">';
+     // html += '<button class="cart-plus-minus" style="border-radius: 45%!important;" onclick="decrementProduct(' + "'" + key + "'" + ')"> – </button>';
+     // html += ' <span id="quantity_' + key + '"> <b>' + chat_data[key]['qty'] + ' </b></span> ';
+     // html += '<button class="cart-plus-minus" style="border-radius: 45%!important;" onclick="incrementProduct(' + "'" + key + "'" + ')"> + </button>';
+     // html += '</div>';
 
-     html += '<div class="col-md-2 col-sm-2 col-xs-2"  style="height: 90px;line-height: 90px; text-align: center;">'
-     html += '<button class="btn btn-red  btn-xs" onclick="clearProduct(' + "'" + key + "'" + ')"> <i class="fa fa-times fa fa-white"></i> </button>';
-     html += '</div>';
+     // html += '<div class="col-md-2 col-sm-2 col-xs-2"  style="height: 90px;line-height: 90px; text-align: center;">'
+     // html += '<button class="btn btn-red  btn-xs" onclick="clearProduct(' + "'" + key + "'" + ')"> <i class="fa fa-times fa fa-white"></i> </button>';
+     // html += '</div>';
 
-     html += '</div>';
-     html += '</li>';
-
-    //     html += '<li id="key_' + key + '" class="messages-item">';
-    //     html += '<div class="row"><div class="col-md-2"><img alt="image" src="assets/images/products/' + chat_data[key]['image'] + '" width="100px;" height="100px;"></div><div class="col-md-6"> ';
-    //     html += '<span class="text-bold"> <h4>' + chat_data[key]['name'] + '</h4></span>';
-    //     html += '<span class="desc">' + price + ' : ' + chat_data[key]['conv_price'] + '</span><br>';
-    //     html += '<span class="desc">' + quantity + ' : ' + chat_data[key]['qty'] + '</span><br>';
-    //     html += '<span class="desc">' + desc + ' : ' + chat_data[key]['description'] + '</span><br></div>';
-    //     html += '<div class="col-md-4"><button class="btn" onclick="decrementProduct(' + "'" + key + "'" + ')"> – </button>';
-    //     html += '<span id="quantity_' + key + '"> ' + chat_data[key]['qty'] + '</span> \n\
-    // <button class="btn" onclick="incrementProduct(' + "'" + key + "'" + ')"> + </button><p>';
-    //     html += '<div onclick="clearProduct(' + "'" + key + "'" + ')"><img src="assets/images/delete.png" width="15" height="15">' + remove + '</div>'
-    //     html += '</div></div><hr></li>';
+     // html += '</div>';
+     // html += '</li>';
 
 
         flag = 0;
@@ -240,7 +238,7 @@ var refresh_cart = function (chat_data) {
     if (flag == 1) {
         var html = '<div>' + no_products + '</div>';
     }
-    $("#product_list").html(html);
+    $("#product_list_view").html(html);
 }
 
 
@@ -258,10 +256,14 @@ var refresh_price = function (chat_data) {
 function update_cart_view() {
     $.getJSON('cart/refresh_cart', function (data) {
         refresh_cart(data);
+
     });
 
     $.getJSON('cart/refresh_price', function (data) {
         refresh_price(data);
+        $("#grand-totall").load(" #grand-totall> *");
+        // $(".cart-table-content").load(" .cart-table-content> *");
+
     });
 
 }
@@ -269,4 +271,26 @@ function update_cart_view() {
 // setInterval(function () {
 //     update_cart_view();
 // }, 3000);
+
+
+function quantityChange(key) {
+
+    $.ajax({
+        url: "cart/quantity_change",
+        data: {key: key, quantity: $("#qtybutton").val()},
+        success: function (res) {
+            if (res.trim() == "yes")
+            {
+                update_cart_view();
+                toastr.success('Success')
+                // location.reload();
+            }
+            else
+            {
+                var msg = res;//$('#failed_to_add_js').html();
+                toastr.error(msg)
+            }
+        }
+    });
+}
 </script>

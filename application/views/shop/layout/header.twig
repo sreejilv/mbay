@@ -18,8 +18,10 @@
 
 
             <!-- Favicon -->
-            <link rel="icon" type="image/png" sizes="32x32" href="assets/images/{{COMPANY_FAV_ICON}}">
-            <link rel="icon" type="image/png" sizes="16x16" href="assets/images/{{COMPANY_FAV_ICON}}">
+            <link rel="icon" type="image/png" sizes="32x32" href="assets/images/logos/{{COMPANY_FAV_ICON}}">
+            <link rel="icon" type="image/png" sizes="16x16" href="assets/images/logos/{{COMPANY_FAV_ICON}}">
+    
+            
 
             <!-- BASE CSS -->
             {%if MLM_LANG_CODE =='en' %}   
@@ -57,7 +59,7 @@
                                 <div class="col-xl-2 col-lg-2">
                                     <div class="logo">
                                         <a href="{{BASE_URL}}index">
-                                            <img src="assets/images/{{COMPANY_LOGO}}" alt="" height="52">
+                                            <img src="assets/images/logos/{{COMPANY_LOGO}}" alt="" height="52">
                                         </a>
                                     </div>
                                 </div>
@@ -99,15 +101,20 @@
                                             </div> 
                                         {%endif%}
                                         <!--end language--> 
-
-                                        <div class="header-cart-2">
+                                        {% if items %}
+                                        <div class="header-cart-2" id="header_cart">
                                             <a class="cart-active" href="{{BASE_URL}}cart">
                                                 <i class="icon-basket-loaded"></i>
                                                 <span class="black">{{pro_count}}</span>
                                             </a>
                                         </div>
-                                    </div> 
-
+                                        {% else %}
+                                        <div class="header-cart-2" id="header_cart">
+                                            <a class="cart-active" href="{{BASE_URL}}index"><i class="icon-basket-loaded"></i> <span
+                                                class="black">{{pro_count}}</span></a>
+                                        </div>
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -130,6 +137,9 @@
                         </div>
 
                     </div>
+                    <div class="header-small-device small-device-ptb-1">
+                                                
+                <div class="header-small-device small-device-ptb-1">
                     <!-- END PC HEADER -->
 
                     <!-- MOBILE HHEADER -->
@@ -179,12 +189,9 @@
                             </div>
                         </div>
                     </div>
-                    <!-- END MOBILE HHEADER -->
-
-                </div>
-            </header>
-            <!-- END HEADER -->
-
+                </header>
+                <!-- END HEADER -->                                                    
+            
             <!-- MOBILE MENU -->
             <div class="mobile-header-active mobile-header-wrapper-style">
                 <div class="clickalbe-sidebar-wrap">

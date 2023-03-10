@@ -35,7 +35,7 @@ class Site_management extends Base_Controller {
 
             // if ($_FILES['company_logo']['error'] == 0) {
             if (isset($_FILES['company_logo']) && $_FILES['company_logo']['error'] == 0){
-                $config['upload_path'] = FCPATH . 'assets/images/';
+                $config['upload_path'] = FCPATH . 'assets/images/logos/';
                 // $config['upload_path'] = FCPATH . 'assets/images/logos/';
                 $config['allowed_types'] = 'jpg|png|jpeg|svg';
                 $new_name = 'logo_' . time();
@@ -52,7 +52,7 @@ class Site_management extends Base_Controller {
             
             if ($_FILES['company_fav_icon']['error'] == 0) {
                 // $config1['upload_path'] = FCPATH . 'assets/images/logos/';
-                $config1['upload_path'] = FCPATH . 'assets/images/';
+                $config1['upload_path'] = FCPATH . 'assets/images/logos/';
                 $config1['allowed_types'] = 'jpg|png|jpeg|svg';
                 $new_name = 'fav_' . time();
                 $config1['file_name'] = $new_name;

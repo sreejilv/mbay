@@ -5,19 +5,19 @@
             <div class="navbar-brand-box">
                 <a href="index" class="logo logo-dark">
                     <span class="logo-sm">
-                        <img src="assets/images/logo-sm.svg" alt="" height="24">
+                        <img src="assets/images/logos/{{COMPANY_LOGO}}" alt="" height="24">
                     </span>
                     <span class="logo-lg">
-                        <img src="assets/images/logo-sm.svg" alt="" height="24"> <span class="logo-txt">Mbay</span>
+                        <img src="assets/images/logos/{{COMPANY_LOGO}}" alt="" height="24"> <span class="logo-txt">Mbay</span>
                     </span>
                 </a>
 
                 <a href="index" class="logo logo-light">
                     <span class="logo-sm">
-                        <img src="assets/images/logo-sm.svg" alt="" height="24">
+                        <img src="assets/images/logos/{{COMPANY_LOGO}}" alt="" height="24">
                     </span>
                     <span class="logo-lg">
-                        <img src="assets/images/logo-sm.svg" alt="" height="24"> <span class="logo-txt">Mbay</span>
+                        <img src="assets/images/logos/{{COMPANY_LOGO}}" alt="" height="24"> <span class="logo-txt">Mbay</span>
                     </span>
                 </a>
             </div>

@@ -1756,7 +1756,8 @@ class Member_model extends CI_Model {
         if ($query->num_rows() > 0) {
             $ord['invoice_id'] = '#' . $ord_id;
             $ord['order_id'] = '#' . (1000 + $ord_id);
-            $ord['invoice_date'] = Carbon::parse($query->row()->confirm_date)->formatLocalized('%a,%b-%d-%Y');
+            // $ord['invoice_date'] = Carbon::parse($query->row()->confirm_date)->formatLocalized('%a,%b-%d-%Y');
+            $ord['invoice_date'] = date_format(date_create($query->row()->confirm_date),"F d, Y");
             $ord['username'] = $this->helper_model->IdToUserName($query->row()->user_id);
             $ord['address'] = $query->row()->address;
             $ord['user_id'] = $query->row()->user_id;

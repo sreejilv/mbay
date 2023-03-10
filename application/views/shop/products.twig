@@ -1,3 +1,5 @@
+
+
 <div id="js_messages" style="display: none;"> 
     <span id="add_to_cart_js">{{lang('add_to_cart_js')}}</span>    
     <span id="success_js">{{lang('success_js')}}</span>
@@ -54,23 +56,6 @@
             </div>
         </div>
         <!-- END SIDEBAR CART -->
-
-        <!-- Breadcrumb-area -->
-        <div class="breadcrumb-area bg-gray">
-            <div class="container">
-                <div class="breadcrumb-content text-center">
-                    <ul>
-                        <li>
-                            <a href="{{BASE_URL}}index">Home</a>
-                        </li>
-                        <li class="active">{{cat_name}}</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <!-- End Breadcrumb-area -->
-
-
 
         <!-- SHOP PAGE -->
         <section class="shop-area pt-120 pb-120 section-padding-2">
@@ -441,8 +426,9 @@
                 toastr.success('Added to cart')
                 $("html,body").animate({scrollTop: 0}, "slow");
 
-                       $("#header_cart").load(" #header_cart> *");
-
+                setTimeout(function() {
+                    location.reload();
+                }, 1000);
             }
             else
             {

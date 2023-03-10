@@ -1,5 +1,5 @@
 {% include('shop/layout/header.twig')%}
-
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css" rel="stylesheet"/>
 <!-- SLIDER AREA -->
 <section class="slider-area bg-gray-10">
     <div class="container">
@@ -98,7 +98,7 @@
     <div class="container">
         <div class="section-title-btn-wrap mb-25 justify-content-end">
             <div class="btn-style-9">
-                <a href="#">View All Products</a>
+                <a href="{{BASE_URL}}products">View All Products</a>
             </div>
         </div>
         <div class="section-wrap-1">
@@ -121,7 +121,7 @@
                                 <span class="pro-badge left bg-red">Label</span>
                                 <div class="product-action-wrap">
                                     <div class="product-action-left">
-                                        <button><i class="icon-basket-loaded"></i>Add to Cart</button>
+                                        <button onclick='addToCart({{deal.id}})'><i class="icon-basket-loaded"></i>Add to Cart</button>
                                     </div>
 
                                 </div>
@@ -135,7 +135,7 @@
                                     </div>
                                     <!--end gb-->
                                     <div class="product-price">
-                                        <span class="new-price">{{ deal.product_amount }}</span>
+                                        <span class="new-price">OMR &nbsp;{{ deal.product_amount }}</span>
 {#                                        <span class="old-price">OMR 66.75</span>
 #}                                    </div>
                                 </div>
@@ -154,3 +154,31 @@
 
 
         {% include('shop/layout/footer.twig')%}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<script>
+
+    function addToCart(product_id) { 
+    $.ajax({
+        url: "cart/add_to_cart",
+        data: {product_id: product_id},
+        success: function (res) {
+            if (res.trim() == "yes")
+            {
+                toastr.success('Added to cart')
+                $("html,body").animate({scrollTop: 0}, "slow");
+
+                setTimeout(function() {
+                    location.reload();
+                }, 1000);
+            }
+            else
+            {
+                var msg = res;//$('#failed_to_add_js').html();
+                toastr.error(msg)
+            }
+        }
+    });
+
+    }
+
+</script>

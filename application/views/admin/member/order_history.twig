@@ -55,6 +55,7 @@
                                                 <th>{{lang('order_date')}}</th>
                                                 <th>{{lang('total_amount')}}</th>
                                                 <th>{{lang('status')}}</th>
+                                                <th>{{lang('invoice_detail')}}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -83,6 +84,10 @@
                                                                     {% endfor %}
                                                         </select>
                                                     </td>
+                                                <td><a href="admin/invoice-details/{{orders.order_id}}" class="btn fileupload-exists btn-red"
+                                                   data-dismiss="fileupload" title="view">
+                                                    <i class="bx bx-show-alt"></i>
+                                                </a></td>
                                             </tr>
                                             {% endfor %}
                                            </tbody>

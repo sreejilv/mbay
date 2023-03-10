@@ -461,7 +461,9 @@ class Cart extends Base_Controller {
                 if ($this->cart_model->checkProductQuantity($cart[$key]['id'], $cart[$key]['qty'] + 1)) {
                     $res = $this->cart->update($data);
                     if ($res) {
-                        echo 'yes';
+                        $qty =$cart[$key]['qty']+1;
+                echo json_encode(['status'=>'yes','value'=>($cart[$key]['price']*$qty)]);
+                    
                         exit();
                     }
                 } else {
@@ -493,7 +495,9 @@ class Cart extends Base_Controller {
 
                 $res = $this->cart->update($data);
                 if ($res) {
-                    echo 'yes';
+                    $qty =$cart[$key]['qty']-1;
+                echo json_encode(['status'=>'yes','value'=>($cart[$key]['price']*$qty)]);
+                    
                     exit();
                 }
             }
@@ -932,6 +936,30 @@ class Cart extends Base_Controller {
             die("Could not find order info for order: " . $order_id);
         }
         return true;
+    }
+
+
+    public function quantity_change() {
+        if ($this->input->get('key')) {
+            $key = $this->input->get('key');
+            $quantity = $this->input->get('quantity');
+            $cart = $this->cart->contents();
+            if (isset($cart[$key]['qty'])) {
+                $data = array(
+                    'rowid' => $key,
+                    'qty' => $quantity
+                );
+                
+                $res = $this->cart->update($data);
+                    if ($res) {
+                        echo 'yes';
+                        exit();
+                    }
+
+            }
+            echo lang('failed_to_add_js');
+            exit();
+        }
     }
 
 }

@@ -1346,5 +1346,17 @@ class Member extends Base_Controller {
          exit;
     }
 
+
+    function invoice_details($ord_id) {
+        $invoice_details = $this->member_model->getInvoiceDetails($ord_id);
+        // print_r($invoice_details);die;
+        if (!$invoice_details) {
+            $this->loadPage(lang('invalid_link'), 'order-history', 'warning');
+        }
+        $this->setData('invoice_details', $invoice_details);
+        $this->setData('title', lang('menu_name_202'));
+        $this->loadView();
+    }
+
        
 }

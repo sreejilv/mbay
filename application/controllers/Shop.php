@@ -71,10 +71,13 @@ class Shop extends Base_Controller {
 
         $this->load->model('product_model');
         $nav_category = $this->product_model->getNavCategoryLists();
+        
         $products = '';
         if($cat_id){
             $products = $this->product_model->getProducts($cat_id);
         }
+        $cat_name = $this->product_model->getCatName($cat_id);
+        $this->setData('cat_name', $cat_name);
         $this->setData('nav_category', $nav_category);
         $this->setData('products', $products);
         $this->setData('items', $this->cart->total_items());
@@ -107,6 +110,10 @@ class Shop extends Base_Controller {
         // $this->cart->insert($data);
 
         $cart = $this->cart->contents();
+        $items = $this->cart->total_items();
+        if($items == 0){
+            $this->loadPage(lang('Cart Is Empty'), '../' ,'warning');
+        }
         $cart_amount = $this->cart->total();
         $pro_count = count($cart);
         $this->setData('pro_count', $pro_count);
@@ -114,7 +121,7 @@ class Shop extends Base_Controller {
         $this->setData('cart_amount', $cart_amount);
         $this->setData('nav_category', $nav_category);
         $this->setData('products', $products);
-        $this->setData('items', $this->cart->total_items());
+        $this->setData('items', $items);
         $this->setData('total_items_amount', $this->cart->total());
         $this->loadView();
     }
@@ -273,5 +280,26 @@ function update_notify($phone) {
     echo 'no';
     exit;
 }
+
+    public function products() {
+        $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
+        $this->setData('user_name', $user_name);  
+
+        $this->load->model('product_model');
+        $nav_category = $this->product_model->getNavCategoryLists();
+        $products = $this->product_model->getAllProducts();
+        // print_r($products);die;
+        $cart = $this->cart->contents();
+        $cart_amount = $this->cart->total();
+        
+
+        $this->setData('cart', $cart);
+        $this->setData('items', $this->cart->total_items());
+        $this->setData('cart_amount', $cart_amount);
+        $this->setData('nav_category', $nav_category);
+        $this->setData('products', $products);
+      
+        $this->loadView();
+    }
 
 }

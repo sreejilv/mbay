@@ -313,6 +313,8 @@ $route['remove-ip'] = 'auto_register/reset_blacklist_ip';
 $route['admin/ip-blacklist'] = 'admin/settings/ip_blacklist'; 
 $route['admin/ip-blacklist/(:any)/(:num)'] = 'admin/settings/ip_blacklist/$1/$2'; 
 $route['(:any)/order-history'] = '$1/member/order_history';
+$route['(:any)/invoice-details'] = '$1/member/invoice_details';
+$route['(:any)/invoice-details/(:num)'] = '$1/member/invoice_details/$2';
 
 
 $route['auto-register/(:any)/(:any)/(:any)'] = 'auto_register/register/$1/$2/$3';
@@ -381,6 +383,7 @@ $route['app'] = 'shop/app';
 $route['shop-details'] = 'shop/shop_details';
 $route['shop-details/(:any)'] = 'shop/shop_details/$1';
 $route['checkout'] = 'shop/checkout';
+$route['products'] = 'shop/products';
 $route['update-notify'] = 'shop/update_notify';
 
 $route['account/(:any)'] = 'shop/account/$1';

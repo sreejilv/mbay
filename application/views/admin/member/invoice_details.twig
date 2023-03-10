@@ -1,0 +1,193 @@
+{% include('admin/partials/head-main.twig')%}
+<head>
+    <base href="{{ base_url() }}" />
+    <?= $title_meta ?>
+
+    {% include('admin/partials/head-css.twig')%}
+    <link href="assets/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css">
+    <!-- DataTables -->
+    <link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+    <!-- Responsive datatable examples -->
+    <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+    <link href="assets/libs/dropify/dropify.min.css" rel="stylesheet" type="text/css" />
+
+</head>
+<div id="js_messages" style="display: none;"> 
+    <span id="status_change_successfully_js">{{lang('status_change_successfully_js')}}</span>   
+    
+</div>
+
+{% include('admin/partials/body.twig')%}
+<!-- <body data-layout="horizontal"> -->
+
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+
+        {% include('admin/partials/menu.twig')%}
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+
+                <!-- start page title -->
+                <?= $page_title ?>
+                <!-- end page title -->
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="invoice-title">
+                                    <div class="d-flex align-items-start">
+                                        <div class="flex-grow-1">
+                                            <div class="mb-4">
+                                                <img src="assets/images/logos/{{COMPANY_LOGO}}" alt="" height="24"><span class="logo-txt">{{COMPANY_NAME}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="flex-shrink-0">
+                                            <div class="mb-4">
+                                                <h4 class="float-end font-size-16">{{ invoice_details.invoice_id }}</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <p class="mb-1">{{ COMPANY_ADDRESS|striptags }}</p>
+                                    <p class="mb-1"><i class="mdi mdi-email align-middle me-1"></i> {{lang('email')}} : {{ COMPANY_EMAIL }}</p>
+                                    <p><i class="mdi mdi-phone align-middle me-1"></i> {{lang('phone_number')}} : {{ COMPANY_PHONE }}</p>
+                                </div>
+                                <hr class="my-4">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <h5 class="font-size-15 mb-3">Billed To:</h5>
+                                            <h5 class="font-size-14 mb-2">{{ invoice_details.username }}</h5>
+                                            <p class="mb-1">{{ invoice_details.address }}<br>
+                                            {{ invoice_details.city }},{{ invoice_details.country }},{{ invoice_details.state }}<br>
+                                            {{ invoice_details.zip_code }}</p>
+                                            <!-- <p class="mb-1">RichardSaul@rhyta.com</p> -->
+                                            <!-- <p>337-256-9134</p> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <div>
+                                                <h5 class="font-size-15">Order Date:</h5>
+                                                <p>{{ invoice_details.invoice_date }}</p>
+                                            </div>
+
+                                            <div class="mt-4">
+                                                <h5 class="font-size-15">Payment Method:</h5>
+                                                <p class="mb-1">Visa ending **** 4242</p>
+                                                <p>richards@email.com</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="py-2 mt-3">
+                                    <h5 class="font-size-15">Order summary</h5>
+                                </div>
+                                <div class="p-4 border rounded">
+                                    <div class="table-responsive">
+                                        <table class="table table-nowrap align-middle mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 70px;">No.</th>
+                                                    <th>Item</th>
+                                                    <!-- <th>Quantity</th> -->
+                                                    <th class="text-end" style="width: 120px;">Price</th>
+                                                    <!-- <th class="text-end" style="width: 120px;">Quantity</th> -->
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for ord_pro in invoice_details.products %}
+                                                <tr>
+                                                    <th scope="row">{{ loop.index }}</th>
+                                                    <td>
+                                                        <h5 class="font-size-15 mb-1">{{ ord_pro.product_name }}</h5>
+                                                        <!-- <p class="font-size-13 text-muted mb-0">Bootstrap 5 Admin Dashboard </p> -->
+                                                    </td>
+                                                    <!-- <td>
+                                                        <h5 class="font-size-13 mb-1">{{ ord_pro.quantity }}</h5>
+                                                    </td> -->
+                                                    <td class="text-end">{{ ord_pro.amount }}</td>
+                                                </tr>
+                                                {% endfor %}
+
+                                                <!-- <tr>
+                                                    <th scope="row">02</th>
+                                                    <td>
+                                                        <h5 class="font-size-15 mb-1">Skote</h5>
+                                                        <p class="font-size-13 text-muted mb-0">Bootstrap 5 Admin Dashboard </p>
+                                                    </td>
+                                                    <td class="text-end">$499.00</td>
+                                                </tr> -->
+
+                                                <tr>
+                                                    <th scope="row" colspan="2" class="text-end">Sub Total</th>
+                                                    <td class="text-end">{{ invoice_details.total }}</td>
+                                                </tr>
+                                                {% if invoice_details.delivery_charge_only > 0 %}
+                                                <tr>
+                                                    <th scope="row" colspan="2" class="text-end">Delivery Charge</th>
+                                                    <td class="text-end">{{ invoice_details.delivery_charge_only }}</td>
+                                                </tr>
+                                                {% endif %}
+                                                {% if invoice_details.shipping_charge_only > 0 %}
+                                                <tr>
+                                                    <th scope="row" colspan="2" class="text-end">Shipping Charge</th>
+                                                    <td class="text-end">{{ invoice_details.shipping_charge_only }}</td>
+                                                </tr>
+                                                {% endif %}
+                                                {% if invoice_details.tax_only > 0 %}
+                                                <tr>
+                                                    <th scope="row" colspan="2" class="text-end">Tax</th>
+                                                    <td class="text-end">{{ invoice_details.tax_only }}</td>
+                                                </tr>
+                                                {% endif %}
+                                                <!-- <tr>
+                                                    <th scope="row" colspan="2" class="border-0 text-end">
+                                                        Tax</th>
+                                                    <td class="border-0 text-end">$12.00</td>
+                                                </tr> -->
+                                                <tr>
+                                                    <th scope="row" colspan="2" class="border-0 text-end">Total</th>
+                                                    <td class="border-0 text-end">
+                                                        <h4 class="m-0">{{ invoice_details.total_amount }}</h4>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="d-print-none mt-3">
+                                    <div class="float-end">
+                                        <a href="javascript:window.print()" class="btn btn-success waves-effect waves-light me-1"><i class="fa fa-print"></i></a>
+                                        <!-- <a href="#" class="btn btn-primary w-md waves-effect waves-light">Send</a> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div> <!-- container-fluid -->
+        </div>
+        <!-- End Page-content -->
+
+
+        <?= $this->include('partials/footer') ?>
+    </div>
+
+    {% include('admin/partials/footer.twig')%}
+
+    </body>
+
+</html>
