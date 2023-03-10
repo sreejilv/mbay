@@ -103,7 +103,7 @@ class Shop extends Base_Controller {
         //         'name'    => 'T-Shirt',
         //         'options' => array('Size' => 'L', 'Color' => 'Red')
         // );
-    
+        
         // $this->cart->insert($data);
 
         $cart = $this->cart->contents();
@@ -166,7 +166,6 @@ class Shop extends Base_Controller {
             // $this->loadPage(lang('invalid_party'), 'shop-details', 'danger');
         }
 
-
         $this->setData('party_id', $party_id);
         $this->setData('nav_category', $nav_category);
         $this->setData('products', $products);
@@ -208,51 +207,71 @@ class Shop extends Base_Controller {
                 if($res){
                     $this->loadPage('update success', 'account/'.$active, 'success');
                 }
-           }else{
-                 $this->loadPage('Current password does not match', 'account/'.$active, 'danger');
-           }
-        }
-        if ($this->input->post('account_details') && $this->validate_general_update()) {
-            $active = 4;
-            $this->load->helper('security');
-            $post = $this->security->xss_clean($this->input->post());
-            $res = $this->report_model->updategeneral($post ,$user_id);
-            if($res){
-                $this->loadPage('update success', 'account/'.$active, 'success');
             }else{
-                 $this->loadPage('something went wrong', 'account/'.$active, 'danger');
-            }
+               $this->loadPage('Current password does not match', 'account/'.$active, 'danger');
+           }
+       }
+       if ($this->input->post('account_details') && $this->validate_general_update()) {
+        $active = 4;
+        $this->load->helper('security');
+        $post = $this->security->xss_clean($this->input->post());
+        $res = $this->report_model->updategeneral($post ,$user_id);
+        if($res){
+            $this->loadPage('update success', 'account/'.$active, 'success');
+        }else{
+           $this->loadPage('something went wrong', 'account/'.$active, 'danger');
+       }
+   }
+   $user_detail = $this->db->select('first_name,last_name,phone_number')
+   ->from('user_details')
+   ->where('mlm_user_id', $user_id)
+   ->get();
+   foreach ($user_detail->result() as $row) {
+      $detail = $row;
+  }
+  $this->setData('active', $active);  
+  $this->setData('user_name', $user_name);  
+  $this->setData('user_mail', $user->email);  
+  $this->setData('user_details', $detail); 
+  $this->setData('login_error', $this->form_validation->error_array());
+  $this->loadView();
+}
+public function validate_general_password() {
+    $this->form_validation->set_rules('current_password', lang('password'), 'trim|required');
+    $this->form_validation->set_rules('password', lang('password'), 'trim|required|matches[confirm_password]|min_length[6]');
+    $this->form_validation->set_rules('confirm_password', lang('confirm_password'), 'trim|required|min_length[6]');
+    $this->form_validation->set_error_delimiters('<li>', '</li>');
+    $validation = $this->form_validation->run();
+    return $validation;
+}
+public function validate_general_update() {
+    $this->form_validation->set_rules('email', lang('email'), 'required');
+    $this->form_validation->set_rules('first_name', lang('first_name'), 'required');
+    $this->form_validation->set_rules('last_name', lang('last_name'), 'required');
+    $this->form_validation->set_rules('phone_number', lang('phone_number'), 'required||regex_match[/^[0-9]{10}$/]');
+    $this->form_validation->set_error_delimiters('<li>', '</li>');
+    $validation = $this->form_validation->run();
+    return $validation;
+}
+
+function update_notify($phone) {
+    $logged_user = $this->aauth->getId($this->aauth->getUserType() == 'employee') ? $this->base_model->getAdminUserId() : $this->aauth->getId();
+    $this->load->helper('security');
+    $post = $this->security->xss_clean($this->input->get());
+    if ($post['phone']) {
+        $phone = $post['phone'];
+        $pro_id = $post['pro_id'];
+        $res = $this->shop_model->insertNotificationDetails($phone,$pro_id,$logged_user);
+        if ($res) {
+            $log_user = ($this->aauth->getUserType() == 'employee') ? $this->base_model->getAdminUserId() : $this->aauth->getId();
+            $this->helper_model->insertActivity($log_user, 'update_notify', $post);
+            echo 'yes';
+            exit;
         }
-       $user_detail = $this->db->select('first_name,last_name,phone_number')
-        ->from('user_details')
-        ->where('mlm_user_id', $user_id)
-        ->get();
-        foreach ($user_detail->result() as $row) {
-          $detail = $row;
-        }
-        $this->setData('active', $active);  
-        $this->setData('user_name', $user_name);  
-        $this->setData('user_mail', $user->email);  
-        $this->setData('user_details', $detail); 
-        $this->setData('login_error', $this->form_validation->error_array());
-        $this->loadView();
+
     }
-    public function validate_general_password() {
-        $this->form_validation->set_rules('current_password', lang('password'), 'trim|required');
-        $this->form_validation->set_rules('password', lang('password'), 'trim|required|matches[confirm_password]|min_length[6]');
-        $this->form_validation->set_rules('confirm_password', lang('confirm_password'), 'trim|required|min_length[6]');
-        $this->form_validation->set_error_delimiters('<li>', '</li>');
-        $validation = $this->form_validation->run();
-        return $validation;
-    }
-    public function validate_general_update() {
-        $this->form_validation->set_rules('email', lang('email'), 'required');
-        $this->form_validation->set_rules('first_name', lang('first_name'), 'required');
-        $this->form_validation->set_rules('last_name', lang('last_name'), 'required');
-        $this->form_validation->set_rules('phone_number', lang('phone_number'), 'required||regex_match[/^[0-9]{10}$/]');
-        $this->form_validation->set_error_delimiters('<li>', '</li>');
-        $validation = $this->form_validation->run();
-        return $validation;
-    }
+    echo 'no';
+    exit;
+}
 
 }

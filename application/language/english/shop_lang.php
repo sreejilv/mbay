@@ -124,3 +124,8 @@ $lang['my_account'] = 'My Account';
 $lang['login'] = 'Login';
 $lang['your_shopping_cart_is_empty'] = 'Your Shopping Cart is Empty.';
 $lang['continue_shooping'] = 'Continue Shooping';
+$lang['you_will_notify_js'] = 'You will be notified by WhatsApp when this item is back in stock ';
+$lang['enter_phone_js'] = 'Enter Your Phone Number';
+$lang['phone_req_js'] = 'Enter Your Phone Number';
+
+

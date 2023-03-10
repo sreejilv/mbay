@@ -603,3 +603,5 @@ $lang['menu_name_195'] = 'Categories';
 $lang['menu_name_196'] = 'Sign Out';
 $lang['update_customer_success'] ='Successfully updated customer';
 $lang['menu_name_198'] = 'Brand Settings';
+$lang['menu_name_201'] = 'Notification Settings';
+

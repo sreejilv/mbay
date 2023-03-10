@@ -136,6 +136,9 @@ $route['admin/mail-manage'] = 'admin/site_management/mail_settings';
 // For Brand Settings
 $route['admin/brand-settings'] = 'admin/site_management/brand_settings';
 $route['admin/brand-settings/(:any)/(:num)'] = 'admin/site_management/brand_settings/$1/$2';
+$route['admin/whatsapp-notification'] = 'admin/site_management/whatsapp_notification';
+
+
 
 //For Testimonials
 $route['admin/testimonial-view'] = 'admin/testimonial/view_testimonial';
@@ -378,6 +381,7 @@ $route['app'] = 'shop/app';
 $route['shop-details'] = 'shop/shop_details';
 $route['shop-details/(:any)'] = 'shop/shop_details/$1';
 $route['checkout'] = 'shop/checkout';
+$route['update-notify'] = 'shop/update_notify';
 
 $route['account/(:any)'] = 'shop/account/$1';
 // $route['tab_actives"'] = 'shop/tab_actives';

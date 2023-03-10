@@ -115,7 +115,7 @@ $lang['company_logo_req_js'] = "Company Logo Is Required";
 $lang['company_fav_icon_req_js'] = "Company Fav Icon Is Required";
 $lang['site_updated_complete'] = "Successfully updated Site Settings";
 $lang['site_updated_failed'] = "Failed To Update Site Settings";
-
-
-
-
+$lang['whatsapp_notification'] = "Notification Settings";
+$lang['email'] = "Email";
+$lang['pro_name'] = "Product";
+$lang['phone'] = "Phone";

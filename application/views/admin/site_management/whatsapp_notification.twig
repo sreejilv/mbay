@@ -1,0 +1,131 @@
+{% include('admin/partials/head-main.twig')%}
+<head>
+    <base href="{{ base_url() }}" />
+    <?= $title_meta ?>
+
+    {% include('admin/partials/head-css.twig')%}
+    <link href="assets/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css">
+    <!-- DataTables -->
+    <link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+    <!-- Responsive datatable examples -->
+    <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+    <link href="assets/libs/dropify/dropify.min.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<div id="js_messages" style="display: none;"> 
+    <span id="title_req_js">{{lang('title_req_js')}}</span>   
+    <span id="subtitle_req_js">{{lang('subtitle_req_js')}}</span>   
+    <span id="image_req_js">{{lang('image_req_js')}}</span>   
+
+    <span id="user_photo_ext_js">{{lang('user_photo_ext_js')}}</span>  
+</div>
+
+{% include('admin/partials/body.twig')%}
+<!-- <body data-layout="horizontal"> -->
+
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+
+        {% include('admin/partials/menu.twig')%}
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+
+            <div class="page-content">
+                {%include('admin/layout/notification.twig')%}
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    <?= $page_title ?>
+                    <h4 class="panel-title">
+                        <span class="text-bold">
+
+                            {{lang('whatsapp_notification')}} 
+
+                        </span>
+                    </h4>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <table id="notification" class="table table-bordered dt-responsive  nowrap w-100">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>{{lang('phone')}}</th>
+                                                <th>{{lang('pro_name')}}</th>
+                                                <th>{{lang('username')}}</th>
+                                                <th>{{lang('email')}}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for row in notification %}  
+                                            <tr>
+                                                <td>{{loop.index}}</td>
+                                                <td>{{row.phone}}</td>
+                                                <td>{{row.product_name}}</td>
+                                                <td>{{row.username}}</td>
+                                                <td>{{row.email}}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div> 
+                    </div> <!-- container-fluid -->
+
+                </div>
+                <!-- End Page-content -->
+
+                {% include('admin/partials/footer.twig')%}
+            </div>
+
+            <!-- end main content-->
+        </div>
+    </div>
+    <!-- END layout-wrapper -->
+
+
+    {% include('admin/partials/right-sidebar.twig')%}
+    <!-- JAVASCRIPT -->
+    {% include('admin/partials/vendor-scripts.twig')%}
+    <script src="assets/js/app.js"></script>
+    <script src="assets/libs/flatpickr/flatpickr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="assets/libs/dropify/dropify.min.js"></script>
+    <!-- Required datatable js -->
+    <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <!-- Buttons examples -->
+    <script src="assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+    <script src="assets/libs/jszip/jszip.min.js"></script>
+    <script src="assets/libs/pdfmake/build/pdfmake.min.js"></script>
+    <script src="assets/libs/pdfmake/build/vfs_fonts.js"></script>
+    <script src="assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+    <!-- Responsive examples -->
+    <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+    <!-- pristine js -->
+    {# <script src="assets/libs/pristinejs/pristine.min.js"></script> #}
+    <!-- form validation -->
+    {# <script src="assets/js/pages/form-validation.init.js"></script> #}
+    <!-- Datatable init js -->
+    <script src="assets/js/pages/datatables.init.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <style>
+        span.file-icon{display:none}
+    </style>
+</body>
+
+</html>

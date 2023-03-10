@@ -590,6 +590,17 @@ class Site_management extends Base_Controller {
         $this->loadView();
     }
 
+    public function whatsapp_notification() {
+        $this->load->model('shop_model');
+        $notification = $this->shop_model->getAllNotification();
+        $this->setData('notification', $notification);
+        $this->setData('title', lang('menu_name_201'));
+        $this->loadView();
+        
+    }
+
+    
+
 
 
 }
