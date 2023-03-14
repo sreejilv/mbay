@@ -53,8 +53,7 @@
                                             <td class="product-price-cart"><span class="amount">{{car.price}}</span></td>
                                             <td class="product-quantity pro-details-quality">
                                                 <div class="cart-plus-minus"id="cart-plus-minus" prod-id="{{car.rowid}}">
-                                                    <input class="cart-plus-minus-box" type="text" name="qtybutton_{{loop.index }}" id="qtybutton" 
-                                                        value={{car.qty}} onchange='quantityChange("{{car.rowid}}", this)'>
+                                                    <input class="cart-plus-minus-box" type="text" name="qtybutton_{{loop.index }}" id="qtybutton_{{loop.index }}" min="1" value={{car.qty}} onchange='quantityChange("{{car.rowid}}","{{loop.index}}")'>
                                                 </div>
                                             
                                                 <a class="d-block" onclick="clearProduct('{{car.rowid}}')">Remove</a>
@@ -73,11 +72,12 @@
                         </form>
 
                         <!-- EMPTY CART -->
-                            <img src="assets/shop/images/empty-cart.svg" class="empty-cart">
-                            <h1 class="empty-cart-title">A shopping basket devoid of any items is a desolate shopping basket. Let's remedy that and fill it up!</h1>
+                            <!-- <img src="assets/shop/images/empty-cart.svg" class="empty-cart">
+                            <h1 class="empty-cart-title">A shopping basket devoid of any items is a desolate shopping basket. Let's remedy that and fill it up!</h1> -->
                         <!-- END EMPTY CART -->
 
                     </div>
+                    <input type="hidden" value="{{items_count}}" id="items_count"/>
                     <div class="col-lg-4 col-md-12">
                         <div class="grand-totall" id="grand-totall">
                             <div class="title-wrap">
@@ -120,17 +120,18 @@ $(".qtybutton").click(function(){
 update_cart_view();
 
 function incrementProduct(key) {
-    update_cart_view();
     $.ajax({
         url: "cart/add_product_count",
         data: {key: key},
         success: function (res) {
             var obj=$.parseJSON(res);
-            if (obj.status == "yes")
+            if (obj.status== "yes")
             {
                 toastr.success('Success');
-
                 $("#product_amount_total_"+key).html(obj.value);
+
+                update_cart_view();
+                
             }
             else
             {
@@ -143,6 +144,9 @@ function incrementProduct(key) {
 
 
 function decrementProduct(key) {
+
+    var items = $("#items_count").val();
+
     $.ajax({
         url: "cart/ded_product_count",
         data: {key: key},
@@ -153,8 +157,14 @@ function decrementProduct(key) {
                 toastr.success('Success');
                 $("#product_amount_total_"+key).html(obj.value);
 
-                if(obj.value==0){
+                if(obj.value==0 && items==0){
                     window.location.href='./';
+
+                }
+                else{
+                    setTimeout(function() {
+                    location.reload();
+                }, 1000);
                 }
                 update_cart_view();
                 
@@ -273,17 +283,27 @@ function update_cart_view() {
 // }, 3000);
 
 
-function quantityChange(key) {
-
+function quantityChange(key,index) {
+    var items = $("#items_count").val();
     $.ajax({
         url: "cart/quantity_change",
-        data: {key: key, quantity: $("#qtybutton").val()},
+        data: {key: key, quantity: $("#qtybutton_"+index).val()},
         success: function (res) {
-            if (res.trim() == "yes")
+            var obj=$.parseJSON(res);
+            if (obj.status.trim() == "yes")
             {
                 update_cart_view();
                 toastr.success('Success')
-                // location.reload();
+                $("#product_amount_total_"+key).html(obj.value);
+                if(obj.value<=0 && items==0){
+                    window.location.href='./';
+
+                }
+                else{
+                    setTimeout(function() {
+                    location.reload();
+                }, 500);
+                }
             }
             else
             {

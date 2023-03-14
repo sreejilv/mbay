@@ -33,14 +33,14 @@ class Profile extends Base_Controller {
             $update_user_data = $this->security->xss_clean($this->input->post());
 
             $res = $this->report_model->updategeneral($update_user_data,$logged_user_id);
-            $this->loadPage(lang('update_customer_success'),'profile-view', 'success');
+            $this->loadPage(lang('update_profile_success'),'profile-view', 'success');
         }
         if ($this->input->post('update_password') && $this->validate_general_password()){
             $flag = 1;
             $this->load->helper('security');
             $update_user_data = $this->security->xss_clean($this->input->post());
             $res =  $this->report_model->updatepassword($update_user_data,$logged_user_id);
-           $this->loadPage(lang('update_password_success'),'profile-view', 'success');
+           $this->loadPage(lang('update_profile_success'),'profile-view', 'success');
 
         }
 
@@ -48,7 +48,7 @@ class Profile extends Base_Controller {
           $flag = 1;
           $address_post = $this->security->xss_clean($this->input->post());
           $res = $this->report_model->updateAddress($address_post, $logged_user_id);
-          $this->loadPage(lang('update_address_success'),'profile-view', 'success');
+          $this->loadPage(lang('update_profile_success'),'profile-view', 'success');
         }
 
         
@@ -289,6 +289,17 @@ class Profile extends Base_Controller {
         }
         echo json_encode($response);
         exit();
+    }
+
+    public function check_current_password() {
+        $this->load->helper('security');
+        $post = $this->security->xss_clean($this->input->get());
+        $user_id = $this->aauth->getId();
+        if ($this->profile_model->checkUserCurrentPasswod($user_id, $post['current_password'])) {
+            echo 'yes';
+            exit;
+        }
+        echo 'no';
     }
 
 }

@@ -112,7 +112,11 @@ class Shop extends Base_Controller {
         $cart = $this->cart->contents();
         $items = $this->cart->total_items();
         if($items == 0){
-            $this->loadPage(lang('Cart Is Empty'), '../' ,'warning');
+            if($user_id){
+                $this->loadPage(lang('Cart Is Empty'), '../' ,'warning');
+            } else {
+                $this->loadPage(lang('Cart Is Empty'), './' ,'warning');
+            }
         }
         $cart_amount = $this->cart->total();
         $pro_count = count($cart);
@@ -122,6 +126,7 @@ class Shop extends Base_Controller {
         $this->setData('nav_category', $nav_category);
         $this->setData('products', $products);
         $this->setData('items', $items);
+        $this->setData('items_count', $items);
         $this->setData('total_items_amount', $this->cart->total());
         $this->loadView();
     }

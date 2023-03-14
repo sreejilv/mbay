@@ -563,7 +563,7 @@ class Product_model extends CI_Model {
                 ->get();
         foreach ($res->result() as $row) {
             $data['category'] = $row->category;
-            $data['description'] = $row->description;
+            $data['description'] = strip_tags($row->description);
             $data['parent'] = $row->parent;
             $data['sort_order'] = $row->sort_order;
             $data['cat_nav'] = $row->cat_nav;
@@ -791,7 +791,7 @@ class Product_model extends CI_Model {
         foreach ($res->result() as $row) {
             $data[$i]['id'] = $row->id;
             $data[$i]['category'] = $row->category;
-            $data[$i]['description'] = $row->description;
+            $data[$i]['description'] = strip_tags($row->description);
             $data[$i]['sort_order'] = $row->sort_order;
             $data[$i]['creation_date'] = $row->creation_date;
             $i++;
@@ -844,6 +844,7 @@ class Product_model extends CI_Model {
         $res = $this->db->select("id, category, description, sort_order, creation_date")
                 ->from("category")
                 ->where('cat_nav', 1)
+                ->order_by("sort_order", "desc")
                 ->get();
         $i = 0;
         foreach ($res->result() as $row) {
@@ -926,7 +927,12 @@ class Product_model extends CI_Model {
             $data[$i]['status'] = $row->status;
             $data[$i]['description'] = $row->description;
             $data[$i]['files'] = $this->getAllFiles($row->images);
-            $data[$i]['first_image'] = $data[$i]['files'][0]['file_name'];
+            // $data[$i]['first_image'] = $data[$i]['files'][0]['file_name'];
+            if (!empty($data[$i]['files']) && $data[$i]['files'][0]) {
+                $data[$i]['first_image'] = $data[$i]['files'][0]['file_name'];
+            } else {
+                $data[$i]['first_image'] = null;
+            }
             $i++;
         }
         return $data;

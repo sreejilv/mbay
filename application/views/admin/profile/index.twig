@@ -562,6 +562,21 @@
 </script>
 
 <script>
+    $.validator.addMethod("validPass", function () {
+    var isSuccess = false;
+    $.ajax({url: "admin/profile/check_current_password",
+        data: {current_password: $("#current_password").val()},
+        async: false,
+        success:
+                function (msg) {
+                    isSuccess = msg === "yes" ? true : false
+                }
+    });
+    return isSuccess;
+}, "Sorry, Username Not Available");
+</script>
+
+<script>
     var validate_password_form = function () {
         var form = $('#password_form');
         var errorHandler1 = $('.errorHandler', form);
@@ -576,6 +591,8 @@
             rules: {
                 current_password: {
                     required: true,
+                    validPass: true
+
                 },
                 password: {
                     required: true,

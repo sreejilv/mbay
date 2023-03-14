@@ -66,12 +66,12 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-xl-6 col-md-6">
+                                            <!-- <div class="col-xl-6 col-md-6">
                                                 <div class="form-group mb-3">
                                                     <label>Parent Category</label>
                                                     <input type="text"  class="form-control" name="parent" id="parent" value="{{ category.parent }}"/>
                                                 </div>
-                                            </div>
+                                            </div> -->
 
                                             {# <div class="row"> #}
                                                   {# <div class="col-xl-4 col-md-6"> #}
@@ -333,9 +333,9 @@ var validate_user_profile = function () {
                 category: {
                     required: true,
                 },
-                parent: {
-                    required: true,
-                },
+                // parent: {
+                //     required: true,
+                // },
                 description: {
                     ckeditor_required: true,
                 },
@@ -352,9 +352,9 @@ var validate_user_profile = function () {
                 category: {
                     required: 'Required',
                 }, 
-                parent: {
-                    required: 'Required',
-                },
+                // parent: {
+                //     required: 'Required',
+                // },
                 description: {
                      ckeditor_required: 'This field is required',
                 }, 

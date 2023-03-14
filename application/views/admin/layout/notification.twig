@@ -4,7 +4,7 @@
 	{% if FLASH_MESSAGE_TYPE == 'success'  %}
 
 			<div class="alert alert-success alert-dismissible alert-label-icon label-arrow fade show"  id="message_box" role="alert">
-				<i class="mdi mdi-check-all label-icon"></i><strong>Success</strong> :	{{ FLASH_MESSAGE_DETAILS }}
+				<i class="mdi mdi-check-all label-icon"></i>{{ FLASH_MESSAGE_DETAILS }}
 				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 			</div>
 {% elseif FLASH_MESSAGE_TYPE == 'danger'  %}
@@ -14,12 +14,12 @@
 			</div>
 {% elseif FLASH_MESSAGE_TYPE == 'warning'  %}
 			<div class="alert alert-warning alert-dismissible alert-label-icon label-arrow fade show"  id="message_box" role="alert">
-				<i class="mdi mdi-alert-outline label-icon"></i><strong>Warning</strong> 	:{{ FLASH_MESSAGE_DETAILS }}
+				<i class="mdi mdi-alert-outline label-icon"></i>{{ FLASH_MESSAGE_DETAILS }}
 				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 			</div>
 {% elseif FLASH_MESSAGE_TYPE == 'info'  %}
 			<div class="alert alert-info alert-dismissible alert-label-icon label-arrow fade show mb-0"  id="message_box" role="alert">
-				<i class="mdi mdi-alert-circle-outline label-icon"></i><strong>Info</strong> :	{{ FLASH_MESSAGE_DETAILS }}
+				<i class="mdi mdi-alert-circle-outline label-icon"></i>{{ FLASH_MESSAGE_DETAILS }}
 				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 			</div>
 

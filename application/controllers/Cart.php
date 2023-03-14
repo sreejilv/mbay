@@ -938,7 +938,6 @@ class Cart extends Base_Controller {
         return true;
     }
 
-
     public function quantity_change() {
         if ($this->input->get('key')) {
             $key = $this->input->get('key');
@@ -949,15 +948,18 @@ class Cart extends Base_Controller {
                     'rowid' => $key,
                     'qty' => $quantity
                 );
-                
-                $res = $this->cart->update($data);
-                    if ($res) {
-                        echo 'yes';
-                        exit();
-                    }
 
+                $res = $this->cart->update($data);
+                if ($res) {
+                    $qty =$quantity;
+                    if($qty <= 0){
+                        $this->cart->remove($this->input->get('key'));
+                    }
+                 echo json_encode(['status'=>'yes','value'=>($cart[$key]['price']*$qty)]);
+                    exit();
+                }
             }
-            echo lang('failed_to_add_js');
+            echo 'no';
             exit();
         }
     }
