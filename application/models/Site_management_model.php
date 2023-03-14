@@ -742,4 +742,34 @@ class Site_management_model extends CI_Model {
         return false;
     }
 
+    function checkBrandId($brand_id) {
+        // dd($brand_id);
+        $data='';
+        
+        $query=$this->db->select('id')
+                ->where('brand', $brand_id)
+                ->limit(1)
+                ->get('products');
+
+            if ($query->num_rows() > 0) {
+            // $data = $query->row()->id;
+                return true;
+        }
+              return false;
+
+                
+    }
+
+
+
+     function deleteBrandSettings($id) {
+
+        $this->db->where('id', $id)
+                ->delete('brand_settings');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return false;
+    }
+
 }

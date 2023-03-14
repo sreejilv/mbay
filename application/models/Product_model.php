@@ -76,6 +76,7 @@ class Product_model extends CI_Model {
                 ->set('product_amount', $data['product_amount'])
                 ->set('quantity', $data['quantity'])
                 ->set('category', $data['category'])
+                ->set('brand', $data['brand'])
                 ->set('sort_order', $data['sort_order'])
                 ->set('images', serialize($images))
                 ->set('keyword', $data['keyword'])
@@ -171,7 +172,7 @@ class Product_model extends CI_Model {
      */
     function getProductDetails($prod_id) {
         $data = array();
-        $res = $this->db->select("id,status,product_name,description,images,product_amount,product_pv,product_code,recurring_type,product_type,inv_cat,investment_amount,expiry_date,quantity,special,category,sub_category, sort_order, keyword,deal_of_the_day")
+        $res = $this->db->select("id,status,product_name,brand,description,images,product_amount,product_pv,product_code,recurring_type,product_type,inv_cat,investment_amount,expiry_date,quantity,special,category,sub_category, sort_order, keyword,deal_of_the_day")
                 ->from("products")
                 ->where('id', $prod_id)
                 ->limit(1)
@@ -193,6 +194,7 @@ class Product_model extends CI_Model {
             $data['quantity'] = $row->quantity;
             $data['special'] = $row->special;
             $data['category'] = $row->category;
+            $data['brand'] = $row->brand;
             $data['sub_category'] = $row->sub_category;
             $data['sort_order'] = $row->sort_order;
             $data['keyword'] = $row->keyword;
@@ -280,6 +282,7 @@ class Product_model extends CI_Model {
         $deal_of_the_day = isset($data['deal_of_the_day']) ? 1 : 0;
         $this->db->set('special', $special)
                 ->set('description', $data['description'])
+                ->set('brand', $data['brand'])
                 ->set('product_amount', $data['product_amount'] / $currency_ratio)
                 ->set('product_pv', $data['product_pv'])
                 ->set('recurring_type', $data['recurring_type'])
@@ -453,6 +456,20 @@ class Product_model extends CI_Model {
         foreach ($res->result() as $row) {
             $data[$i]['id'] = $row->id;
             $data[$i]['category'] = $row->category;
+            $i++;
+        }
+        return $data;
+    }
+
+    function getAllBrands() {
+        $data = array();
+        $res = $this->db->select("id,brand_name")
+                ->from("brand_settings")
+                ->get();
+        $i = 0;
+        foreach ($res->result() as $row) {
+            $data[$i]['id'] = $row->id;
+            $data[$i]['brand_name'] = $row->brand_name;
             $i++;
         }
         return $data;

@@ -172,11 +172,13 @@ class Product extends Base_Controller {
 
         $data = $this->product_model->getProductLists();
         $categories = $this->product_model->getAllCaegories();
+        $brands = $this->product_model->getAllBrands();
         $category_id = isset($product['category']) ? $product['category'] : 0;
         $sub_categories = $this->product_model->getAllSubCategories($category_id);
 
         $this->setData('basic_cart', $this->dbvars->BASIC_CART_STATUS);
         $this->setData('categories', $categories);
+        $this->setData('brands', $brands);
         $this->setData('sub_categories', $sub_categories);
         $this->setData('crypto_curr_status', $crypto_curr_status);
         $this->setData('investment_status', $investment_status);

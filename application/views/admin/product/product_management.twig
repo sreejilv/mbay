@@ -58,7 +58,6 @@
                                                 <label>Product Name</label>
                                                 <input type="text" class="form-control" id="product_name"
                                                        name="product_name" value="{{ product.product_name }}" />
-
                                                 <input type="hidden" name="submit" value="edit" />
                                             </div>
                                         </div>
@@ -87,6 +86,20 @@
                                                     {% for cts in categories %}
                                                         <option value="{{cts.id}}" {% if product.category==cts.id %}
                                                                 selected {% endif %}>{{cts.category}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xl-6 col-md-6">
+                                            <div class="form-group mb-3">
+                                                <label>Brand</label>
+                                                <select class="form-control search-select" id="brand" name="brand"
+                                                        tabindex='9'>
+                                                    <option value="">{{ lang('select_a_brand')}}</option>
+                                                    {% for brand in brands %}
+                                                        <option value="{{brand.id}}" {% if product.brand==brand.id %}
+                                                                selected {% endif %}>{{brand.brand_name}}</option>
                                                     {% endfor %}
                                                 </select>
                                             </div>
@@ -318,6 +331,9 @@ crossorigin="anonymous" referrerpolicy="no-referrer"></script>
                 category: {
                     required: true,
                 },
+                brand: {
+                    required: true,
+                },
                 sort_order: {
                     required: true,
                 },
@@ -343,6 +359,9 @@ crossorigin="anonymous" referrerpolicy="no-referrer"></script>
                     digits: 'Only Number Format',
                 },
                 category: {
+                    required: 'Required',
+                },
+                brand: {
                     required: 'Required',
                 },
                 sort_order: {

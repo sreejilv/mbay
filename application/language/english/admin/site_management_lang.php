@@ -97,6 +97,8 @@ $lang['slider_adding_failed'] = "Slider Added Failed";
 $lang['slider_updated_successfully'] = "Slider Updated Successfully";
 $lang['slider_updation_failed'] = "Slider Updated Failed";
 $lang['brand_added_successfully'] = "Brand Settings Added Successfully";
+$lang['brand_deleted_complete'] = "Brand Settings Deleted Successfully";
+$lang['brand_deleted_failed'] = "Brand Settings Deleted Failed";
 $lang['brand_adding_failed'] = "Failes to Add Brand Settings";
 $lang['brand_updated_successfully'] = "Brand Settings Updated Successfully";
 $lang['brand_updation_failed'] = "Failes to Add Brand Settings";
@@ -119,3 +121,5 @@ $lang['whatsapp_notification'] = "Notification Settings";
 $lang['email'] = "Email";
 $lang['pro_name'] = "Product";
 $lang['phone'] = "Phone";
+$lang['brand_assigned'] = "Brand is Used to Product";
+

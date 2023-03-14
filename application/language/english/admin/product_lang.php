@@ -67,6 +67,7 @@ $lang['cat_updation_failed'] = 'Failed To Update Category';
 $lang['cat_deleted_complete'] = 'Category Deleted Sucessfully';
 $lang['cat_deleted_failed'] = 'Failed To Delete Category';
 $lang['select_a_category'] = 'Select a category';
+$lang['select_a_brand'] = 'Select a brand';
 $lang['category'] = 'Category';
 $lang['sub_cat_added_successfully'] = 'Sub-Category Created Sucessfully';
 $lang['sub_cat_adding_failed'] = 'Failed To Create Sub-Category';

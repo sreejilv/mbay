@@ -359,11 +359,33 @@ class Site_management extends Base_Controller {
         if ($action && $brand_id) {
 
             if ($action == "brand_edit") {
+
                 $edit_flag = TRUE;
                 $brand_details = $this->site_management_model->getBrandSettings($brand_id);
-            } else {
+            }elseif ($action == "brand_del"){
+                $data=$this->site_management_model->checkBrandId($brand_id);
+                // dd($data);die;
+                if($data){
+                    $this->loadPage(lang('brand_assigned'), 'brand-settings', 'danger');
+                    
+
+                }else{
+                    $res = $this->site_management_model->deleteBrandSettings($brand_id);
+                
+                    if ($res) {
+                        $data['brand_id'] = $brand_id;
+                        $this->helper_model->insertActivity($loged_user_id, 'brand_deleted', $data);
+                        $this->loadPage(lang('brand_deleted_complete'), 'brand-settings','success');
+                    } else {
+                        $this->loadPage(lang('brand_deleted_failed'), 'brand-settings', 'danger');
+                    }
+                     
+                }
+            }else {
                 $this->loadPage(lang('invalid_action'), 'brand-settings', 'danger');
             }
+
+            
         }
         
         if ($this->input->post('add_brand')) {
