@@ -63,7 +63,7 @@ class Cart_model extends CI_Model {
      */
     function getProductDetails($product_id, $quantity = '0') {
         $data = array();
-        $res = $this->db->select('product_name,product_amount,product_pv,product_code,images,recurring_type,description,product_type')
+        $res = $this->db->select('product_name,product_amount,product_pv,product_code,images,recurring_type,description,product_type,quantity')
                 ->from('products')
                 ->where('id', $product_id);
         if ($quantity > 0) {
@@ -81,6 +81,7 @@ class Cart_model extends CI_Model {
             $data['recurring_type'] = $row->recurring_type;
             $data['description'] = $row->description;
             $data['product_type'] = $row->product_type;
+            $data['quantity'] = $row->quantity;
         }
         return $data;
     }

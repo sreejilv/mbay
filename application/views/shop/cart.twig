@@ -47,7 +47,9 @@
                                             <td class="product-name">
                                                 <a href="#">{{car.name}}</a>
                                                     <!-- if -5 quantity label -->
-                                                    <span class="d-block text-success"> Only 2 left in stock, order now.</span>
+                                                    {%  if (car.quantity < 10) and (car.quantity > 0) %}
+                                                    <span class="d-block text-success"> Only  &nbsp;{{car.quantity}} left in stock, order now.</span>
+                                                    {% endif %}
                                                     <!-- end if -5 quantity label -->
                                                 </td>
                                             <td class="product-price-cart"><span class="amount">{{car.price}}</span></td>

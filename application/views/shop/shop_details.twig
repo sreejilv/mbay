@@ -124,13 +124,20 @@
                     <!--end price-->
                     
                     <!--stock left message-->
-                    <p class="text-danger my-1">
+                   <!--  <p class="text-danger my-1">
                         Hurry, Only 6 left!
-                    </p>
+                    </p> -->
+
+                    {%  if (pro.quantity < 10) and (pro.quantity > 0) %}
+                        <p class="text-danger my-1">
+                        Hurry, Only &nbsp; {{ pro.quantity}} left!
+                    </p> 
+                    {% endif %}
                     <!--end stock left message-->
 
                     <!--outofstock-->
                     <div class="d-block mt-2 mb-3">
+                        {%  if pro.quantity < 1 %}
                         <p class="text-danger mb-1">
                             This item is currently out of stock
                         </p>
@@ -148,6 +155,7 @@
                        <!--  <div class="valid-feedback d-block">
                             You will be notified by WhatsApp when this item is back in stock
                         </div> -->
+                        {% endif %}
                     </div>
                     <!--end outofstock-->
                     
