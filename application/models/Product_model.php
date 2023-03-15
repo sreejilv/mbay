@@ -927,12 +927,7 @@ class Product_model extends CI_Model {
             $data[$i]['status'] = $row->status;
             $data[$i]['description'] = $row->description;
             $data[$i]['files'] = $this->getAllFiles($row->images);
-            // $data[$i]['first_image'] = $data[$i]['files'][0]['file_name'];
-            if (!empty($data[$i]['files']) && $data[$i]['files'][0]) {
-                $data[$i]['first_image'] = $data[$i]['files'][0]['file_name'];
-            } else {
-                $data[$i]['first_image'] = null;
-            }
+            $data[$i]['first_image'] = $data[$i]['files'][0]['file_name']??'';
             $i++;
         }
         return $data;

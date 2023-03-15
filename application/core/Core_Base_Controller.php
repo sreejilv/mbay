@@ -331,7 +331,7 @@ Class Core_Base_Controller extends CI_Controller {
      * @param bool $redirect_status
      * @return bool
      */
-    function loadPage($msg = '', $page, $message_type = false, $redirect_status = false) {
+    function loadPage($msg , $page, $message_type = false, $redirect_status = false) {
 
         if ($msg && !$message_type && !$redirect_status) {
             $this->session->set_userdata('redirect_msg', $msg);
