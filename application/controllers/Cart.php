@@ -953,7 +953,7 @@ class Cart extends Base_Controller {
                 if ($res) {
                     $qty =$quantity;
                     if($qty <= 0){
-                        $this->cart->remove($this->input->get('key'));
+                        $this->cart->remove($key);
                     }
                  echo json_encode(['status'=>'yes','value'=>($cart[$key]['price']*$qty)]);
                     exit();
