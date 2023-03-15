@@ -25,24 +25,23 @@
 
             <!-- BASE CSS -->
             {%if MLM_LANG_CODE =='en' %}   
-                <link rel="stylesheet" href="assets/shop/css/vendor/bootstrap.min.css" media="all">
-                <link rel="stylesheet" href="assets/shop/css/style.css" media="all">
-                <link rel="stylesheet" href="assets/shop/css/custom_style.css">
+            <link rel="stylesheet" href="assets/shop/css/vendor/bootstrap.min.css">
             {%elseif MLM_LANG_CODE =='ar' %}
-                <link rel="stylesheet" href="assets/shop/css/vendor/bootstrap.rtl.min.css">
-                <link rel="stylesheet" href="assets/shop/css/style_rtl.css">
-                <link rel="stylesheet" href="assets/shop/css/custom_style_rtl.css">
+            <link rel="stylesheet" href="assets/shop/css/vendor/bootstrap.rtl.min.css">
+            <link rel="stylesheet" href="assets/shop/css/theme_rtl.css">
             {% endif %}
-            <link rel="stylesheet" href="assets/shop/css/vendor/simple-line-icons.css" media="all">
+            
+            <link rel="stylesheet" href="assets/shop/css/style.css">
+            <link rel="stylesheet" href="assets/shop/css/custom_style.css">
+            <link rel="stylesheet" href="assets/shop/css/vendor/simple-line-icons.css">
             <link rel="stylesheet" href="assets/shop/css/vendor/elegant.css">
 
 
             <!-- PAGE CSS -->
-            <link rel="stylesheet" href="assets/shop/css/plugins/slick.css" media="all">
-            <link rel="stylesheet" href="assets/shop/css/plugins/animate.css" media="all">
-            <link rel="stylesheet" href="assets/shop/css/plugins/jquery-ui.css" media="all">
-        <input type = "hidden" name = "path_root" id="path_root" value="{{BASE_URL}}"/>
-
+            <link rel="stylesheet" href="assets/shop/css/plugins/slick.css">
+            <link rel="stylesheet" href="assets/shop/css/plugins/animate.css">
+            <link rel="stylesheet" href="assets/shop/css/plugins/jquery-ui.css">
+            <input type = "hidden" name = "path_root" id="path_root" value="{{BASE_URL}}"/>
     </head>
 
     <body>
@@ -135,11 +134,8 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
-                    <div class="header-small-device small-device-ptb-1">
-                                                
-                <div class="header-small-device small-device-ptb-1">
+                    
                     <!-- END PC HEADER -->
 
                     <!-- MOBILE HHEADER -->
