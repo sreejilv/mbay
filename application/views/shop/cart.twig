@@ -129,19 +129,16 @@ function incrementProduct(key) {
             {
                 toastr.success('Success');
                 $("#product_amount_total_"+key).html(obj.value);
-
                 update_cart_view();
-                
             }
             else
             {
-                var msg = res;//$('#failed_to_add_js').html();
+                var msg = res;
                 toastr.error(msg)
             }
         }
     });
 }
-
 
 function decrementProduct(key) {
 

@@ -462,7 +462,7 @@ class Cart extends Base_Controller {
                     $res = $this->cart->update($data);
                     if ($res) {
                         $qty =$cart[$key]['qty']+1;
-                echo json_encode(['status'=>'yes','value'=>($cart[$key]['price']*$qty)]);
+                        echo json_encode(['status'=>'yes','value'=>($cart[$key]['price']*$qty)]);
                     
                         exit();
                     }
@@ -948,14 +948,18 @@ class Cart extends Base_Controller {
                     'rowid' => $key,
                     'qty' => $quantity
                 );
-
-                $res = $this->cart->update($data);
-                if ($res) {
-                    $qty =$quantity;
-                    if($qty <= 0){
-                        $this->cart->remove($key);
+                if ($this->cart_model->checkProductQuantity($cart[$key]['id'], $quantity)) {
+                    $res = $this->cart->update($data);
+                    if ($res) {
+                        $qty =$quantity;
+                        if($qty <= 0){
+                            $this->cart->remove($key);
+                        }
+                     echo json_encode(['status'=>'yes','value'=>($cart[$key]['price']*$qty)]);
+                        exit();
                     }
-                 echo json_encode(['status'=>'yes','value'=>($cart[$key]['price']*$qty)]);
+                }else{
+                    echo lang('product_quantity_exceeded_stock');
                     exit();
                 }
             }
@@ -963,5 +967,5 @@ class Cart extends Base_Controller {
             exit();
         }
     }
-
+    
 }
