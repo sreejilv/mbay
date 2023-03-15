@@ -347,6 +347,8 @@ class Cart extends Base_Controller {
 
             $product_id = $get['product_id'];
             $product_details = $this->cart_model->getProductDetails($product_id, 1);
+            // print_r($product_details);die;
+
             if ($product_details) {
                 $img = 'our-products.png';
                 if (isset($product_details['images'][0]['file_name'])) {
@@ -374,6 +376,7 @@ class Cart extends Base_Controller {
                     'recurring_type' => $product_details['recurring_type'],
                     'description' => $product_details['description'],
                     'product_type' => $product_details['product_type'],
+                    'quantity' =>$product_details['quantity'],
                     // 'party_id' => $party_id
                 );
 
