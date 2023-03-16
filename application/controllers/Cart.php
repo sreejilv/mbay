@@ -470,7 +470,8 @@ class Cart extends Base_Controller {
                         exit();
                     }
                 } else {
-                    echo lang('product_quantity_exceeded_stock');
+                    // echo lang('product_quantity_exceeded_stock');
+                    echo json_encode(['status'=>'Product Stock Exceeded','value'=>0]);
                     exit();
                 }
             }
@@ -962,7 +963,7 @@ class Cart extends Base_Controller {
                         exit();
                     }
                 }else{
-                    echo lang('product_quantity_exceeded_stock');
+                    echo json_encode(['status'=>'Product Stock Exceeded','value'=>0]);
                     exit();
                 }
             }

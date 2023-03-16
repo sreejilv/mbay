@@ -57,10 +57,12 @@
                                         </div>
                                     </div>
 
-
-                                    <p class="mb-1">{{ COMPANY_ADDRESS|striptags }}</p>
-                                    <p class="mb-1"><i class="mdi mdi-email align-middle me-1"></i> {{lang('email')}} : {{ COMPANY_EMAIL }}</p>
-                                    <p><i class="mdi mdi-phone align-middle me-1"></i> {{lang('phone_number')}} : {{ COMPANY_PHONE }}</p>
+                                    {% set company_data = COMPANY_ADDRESS|split(',')%}
+                                        <p>{{ company_data[0]}}</p>
+                                        <p>{{ company_data[1]}}</p>
+                                        <p>{{ company_data[2]}}</p>
+                                        <p><i class="mdi mdi-email align-middle me-1"></i>{{COMPANY_EMAIL}} </p>
+                                        <p><i class="mdi mdi-phone align-middle me-1"></i>{{COMPANY_PHONE}} </p>
                                 </div>
                                 <hr class="my-4">
                                 <div class="row">

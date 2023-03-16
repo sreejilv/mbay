@@ -21,9 +21,7 @@
                 <div class="row">
                     <div class="col-lg-8 col-md-12 col-sm-12 col-12">
                         <form action="#">
-
                             <div class="table-content table-responsive cart-table-content" >
-                                
                                 <table>
                                     <thead>
                                         <tr>
@@ -35,7 +33,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-
                                         <!--loop item -->
                                         <div id="product_list_view">
                                         {% for car in cart %}
@@ -57,7 +54,6 @@
                                                 <div class="cart-plus-minus"id="cart-plus-minus" prod-id="{{car.rowid}}">
                                                     <input class="cart-plus-minus-box" type="text" name="qtybutton_{{loop.index }}" id="qtybutton_{{loop.index }}" min="1" value={{car.qty}} onchange='quantityChange("{{car.rowid}}","{{loop.index}}")'>
                                                 </div>
-                                            
                                                 <a class="d-block" onclick="clearProduct('{{car.rowid}}')">Remove</a>
                                             </td>
                                             <!-- <td class="product-price-cart"><span class="amount">{{car.price}}</span></td> -->
@@ -68,16 +64,12 @@
                                         </div>
                                     </tbody>
                                 </table>
-                               
                             </div>
-
                         </form>
-
                         <!-- EMPTY CART -->
                             <!-- <img src="assets/shop/images/empty-cart.svg" class="empty-cart">
                             <h1 class="empty-cart-title">A shopping basket devoid of any items is a desolate shopping basket. Let's remedy that and fill it up!</h1> -->
                         <!-- END EMPTY CART -->
-
                     </div>
                     <input type="hidden" value="{{items_count}}" id="items_count"/>
                     <div class="col-lg-4 col-md-12">
@@ -102,7 +94,6 @@
             </div>
         </section>
         <!-- END CART -->
-
 
 {% include('shop/layout/footer.twig')%}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
@@ -129,23 +120,21 @@ function incrementProduct(key) {
             var obj=$.parseJSON(res);
             if (obj.status== "yes")
             {
-                toastr.success('Success');
                 $("#product_amount_total_"+key).html(obj.value);
+                toastr.success('Success');
                 update_cart_view();
             }
             else
             {
-                var msg = res;
-                toastr.error(msg)
+                var msg = obj.status;
+                toastr.error(msg);
             }
         }
     });
 }
 
 function decrementProduct(key) {
-
     var items = $("#items_count").val();
-
     $.ajax({
         url: "cart/ded_product_count",
         data: {key: key},
@@ -153,20 +142,15 @@ function decrementProduct(key) {
             var obj=$.parseJSON(res);
             if (obj.status== "yes")
             {
-                toastr.success('Success');
                 $("#product_amount_total_"+key).html(obj.value);
-
                 if(obj.value==0 && items==0){
                     window.location.href='./';
-
                 }
-                else{
-                    setTimeout(function() {
+                else if(obj.value==0){
                     location.reload();
-                }, 1000);
                 }
                 update_cart_view();
-                
+                toastr.success('Success');
             }
             else
             {
@@ -177,7 +161,6 @@ function decrementProduct(key) {
     });
 }
 
-
 function clearProduct(key) {
     $.ajax({
         url: "cart/remove_product",
@@ -187,10 +170,9 @@ function clearProduct(key) {
             {
                 toastr.success('Success')
                 update_cart_view();
-
                 setTimeout(function() {
                     location.reload();
-                }, 1000);
+                }, 300);
             }
             else
             {
@@ -296,17 +278,14 @@ function quantityChange(key,index) {
                 $("#product_amount_total_"+key).html(obj.value);
                 if(obj.value<=0 && items==0){
                     window.location.href='./';
-
                 }
-                else{
-                    setTimeout(function() {
+                else if(obj.value<=0){
                     location.reload();
-                }, 500);
                 }
             }
             else
             {
-                var msg = res;//$('#failed_to_add_js').html();
+                var msg = obj.status;
                 toastr.error(msg)
             }
         }

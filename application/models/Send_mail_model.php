@@ -30,9 +30,9 @@ class Send_mail_model extends CI_Model {
         if (!$this->dbvars->MAIL_STATUS) {
             return FALSE;
         }
-        if ($_SERVER['HTTP_HOST'] == 'localhost' || !$this->checkMailStatus($mail_type)) {
-            return FALSE;
-        }
+        // if ($_SERVER['HTTP_HOST'] == 'localhost' || !$this->checkMailStatus($mail_type)) {
+        //     return FALSE;
+        // }
 
         if ($email) {
             $to_mail = $email;

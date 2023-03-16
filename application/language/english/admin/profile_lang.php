@@ -90,4 +90,5 @@ $lang['confirm_password_req_js'] ='Confirm Password Is Required';
 $lang['update_customer_success'] ='Successfully Updated Customer';
 $lang['update_password_success'] ='Successfully Changed Password';
 $lang['update_address_success'] ='Successfully Updated Address';
+$lang['password_mismatch_js'] ='Password Mismatches';
 

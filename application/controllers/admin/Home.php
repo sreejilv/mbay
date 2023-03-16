@@ -205,7 +205,7 @@ class Home extends Base_Controller {
         foreach($res as $result){
             $data[$i]['country'] = $this->db->where("id", $result['country'])->get('countries')->row()->country_name;
             $percent = ($result['countorder'] / $totalorders) * 100;
-            $data[$i]['order_count'] = $percent;
+            $data[$i]['order_count'] = number_format($percent,1);
             $i++;
         }
 
