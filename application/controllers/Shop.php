@@ -189,6 +189,36 @@ class Shop extends Base_Controller {
         $this->loadView();
     }
 
+        public function product_details($pro_id=''){
+            $party_id = 0;
+        $this->load->model('product_model');
+        $nav_category = $this->product_model->getNavCategoryLists();
+        $products = '';
+        if($pro_id){
+            $products = $this->product_model->getProductDetailsView($pro_id);
+             // print_r($products);die;
+            $party_cart = $this->cart->contents();
+            // foreach ($party_cart as $key => $c) {
+            //     if (!in_array($c['id'], $products)) {
+            //         $this->cart->remove($key);
+            //     }
+            // }
+        } else {
+            // $this->loadPage(lang('invalid_party'), 'shop-details', 'danger');
+        }
+        $this->setData('party_id', $party_id);
+        $this->setData('nav_category', $nav_category);
+        $this->setData('products', $products);
+        $this->setData('items', $this->cart->total_items());
+        $this->setData('party_cart', $party_cart);
+        $this->setData('total_items_amount', $this->cart->total());
+        $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
+        $this->setData('user_name', $user_name);  
+        $this->loadView();
+
+        }
+
+
     public function checkout(){
         $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
         $this->setData('user_name', $user_name);  
@@ -266,8 +296,11 @@ public function validate_general_update() {
     return $validation;
 }
 
-function update_notify($phone) {
+function update_notify() {
     $logged_user = $this->aauth->getId($this->aauth->getUserType() == 'employee') ? $this->base_model->getAdminUserId() : $this->aauth->getId();
+    if($logged_user==''){
+        $logged_user=$this->base_model->getAdminUserId();
+    }
     $this->load->helper('security');
     $post = $this->security->xss_clean($this->input->get());
     if ($post['phone']) {

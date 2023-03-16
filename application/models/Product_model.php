@@ -884,9 +884,10 @@ class Product_model extends CI_Model {
     }
     function getProductDtls($pro_id) {
         $data = array();
-        $res = $this->db->select("pro.id, product_name, pro.category, pro.description, product_amount, product_pv, quantity, pro.sort_order, pro.keyword, images")
+        $res = $this->db->select("pro.id, product_name, pro.category, pro.description, product_amount, product_pv, quantity, pro.sort_order, pro.keyword, images, bnd.image")
                 ->from("products as pro")
                 ->join("category as cat", 'cat.id = pro.category', 'inner')
+                ->join("brand_settings as bnd", 'bnd.id = pro.brand', 'inner')
                 ->where("cat.cat_nav", 1)
                 ->where("pro.id", $pro_id)
                 ->get();
@@ -901,10 +902,41 @@ class Product_model extends CI_Model {
             $data[$i]['quantity'] = $row->quantity;
             $data[$i]['sort_order'] = $row->sort_order;
             $data[$i]['keyword'] = $row->keyword;
+            $data[$i]['brand_image'] = $row->image;
             $data[$i]['files'] = $this->getAllFiles($row->images);
             $i ++;
         }
         return $data;
+    }
+
+    function getProductDetailsView($pro_id) {
+
+
+        $data = array();
+        
+        $res = $this->db->select("pro.id, pro.product_name,pro.category,pro.description, pro.product_amount, pro.product_pv, pro.quantity, pro.sort_order,pro.keyword,images,bnd.image")
+                ->from("products as pro")
+                ->join("brand_settings as bnd", 'bnd.id = pro.brand', 'inner')
+                ->where("pro.id", $pro_id)
+                ->get();
+     
+        if ($res->num_rows() >0) {
+
+
+            $data['id'] = $res->row()->id;
+            $data['product_name'] = $res->row()->product_name;
+            $data['description'] = $res->row()->description;
+            $data['product_amount'] = $res->row()->product_amount;
+            $data['product_pv'] = $res->row()->product_pv;
+            $data['quantity'] = $res->row()->quantity;
+            $data['sort_order'] = $res->row()->sort_order;
+            $data['keyword'] = $res->row()->keyword;
+            $data['brand_image']= $res->row()->image;
+            $data['files'] = $this->getAllFiles($res->row()->images);
+ 
+        }
+        return $data;
+
     }
     
     

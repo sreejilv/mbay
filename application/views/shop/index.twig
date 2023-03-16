@@ -115,7 +115,8 @@
                     <div class="product-plr-1">
                         <div class="single-product-wrap mb-35">
                             <div class="product-img product-img-zoom mb-20">
-                                <a href="{{BASE_URL}}products">
+                                <!-- <a href="{{BASE_URL}}products"> -->
+                                <a href="{{BASE_URL}}product-details/{{deal.id}}" title="{{ deal.product_name }}">
                                     <img src="assets/shop/images/product/{{ deal.first_image }}" title="{{ deal.product_name }}" alt="{{ deal.product_name }}">
                                 </a>
                                 <span class="pro-badge left bg-red">Label</span>
@@ -128,7 +129,7 @@
                             </div>
                             <div class="product-content-wrap">
                                 <div class="product-content-left">
-                                    <h4><a href="#" title="{{ deal.product_name }}">{{ deal.product_name }}</a></h4>
+                                    <h4><a href="{{BASE_URL}}product-details/{{deal.id}}" title="{{ deal.product_name }}">{{ deal.product_name }}</a></h4>
                                     <!--gb-->
                                     <div class="text-muted">
                                         4GB RAM

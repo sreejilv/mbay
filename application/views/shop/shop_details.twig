@@ -164,7 +164,8 @@
                     <!--warrenty-->
                     <div class="product-warrenty">
                         <div class="c-logo">
-                            <img src="assets/shop/images/warranty/samsung.jpg">
+                            <!-- <img src="assets/shop/images/warranty/samsung.jpg"> -->
+                            <img src="assets/shop/images/brand/{{pro.brand_image}}">
                         </div>
                         <div class="c-info">
                             Brand Warranty of 1 Year
@@ -402,6 +403,7 @@
                     url: "update-notify",
                     data: {phone: $("#phone").val(),pro_id:$("#product_id").val()},
                     success: function (result) {
+                        // alert(result.trim);
                         if (result == "yes") {
                             var msg = $('#you_will_notify_js').html();
                             var flag = "success";
