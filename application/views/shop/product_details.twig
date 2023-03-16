@@ -1,0 +1,419 @@
+{% include('shop/layout/header.twig')%}
+
+<!-- SIDEBAR CART -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css" rel="stylesheet"/>
+<div id="js_messages" style="display: none;"> 
+    <span id="add_to_cart_js">{{lang('add_to_cart_js')}}</span>    
+    <span id="success_js">{{lang('success_js')}}</span>
+    <span id="failed_to_add_js">{{lang('failed_to_add_js')}}</span>
+    <span id="failed_js">{{lang('failed_js')}}</span>                
+    <span id="added_to_cart_js">{{lang('added_to_cart_js')}}</span>
+    <span id="you_will_notify_js">{{lang('you_will_notify_js')}}</span>
+    <span id="enter_phone_js">{{lang('enter_phone_js')}}</span>
+    <span id="phone_req_js">{{lang('phone_req_js')}}</span>  
+    
+</div>
+
+<div class="sidebar-cart-active">
+    <div class="sidebar-cart-all">
+        <a class="cart-close" href="#"><i class="icon_close"></i></a>
+        <div class="cart-content">
+            <h3>Shopping Cart</h3>
+            <ul>
+                <li class="single-product-cart">
+                    <div class="cart-img">
+                        <a href="#"><img src="assets/shop/images/cart/cart-1.jpg" alt=""></a>
+                    </div>
+                    <div class="cart-title">
+                        <h4><a href="#">Simple Black T-Shirt</a></h4>
+                        <span> 1 × $49.00 </span>
+                    </div>
+                    <div class="cart-delete">
+                        <a href="#">×</a>
+                    </div>
+                </li>
+                <li class="single-product-cart">
+                    <div class="cart-img">
+                        <a href="#"><img src="assets/shop/images/cart/cart-2.jpg" alt=""></a>
+                    </div>
+                    <div class="cart-title">
+                        <h4><a href="#">Norda Backpack</a></h4>
+                        <span> 1 × $49.00 </span>
+                    </div>
+                    <div class="cart-delete">
+                        <a href="#">×</a>
+                    </div>
+                </li>
+            </ul>
+            <div class="cart-total">
+                <h4>Subtotal: <span>$170.00</span></h4>
+            </div>
+            <div class="cart-checkout-btn">
+                <a class="btn-hover cart-btn-style" href="{{BASE_URL}}cart">view cart</a>
+                <a class="no-mrg btn-hover cart-btn-style" href="{{BASE_URL}}checkout">checkout</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END SIDEBAR CART -->
+
+<!-- Breadcrumb-area -->
+
+<div class="breadcrumb-area bg-gray">
+    <div class="container">
+        <div class="breadcrumb-content text-center">
+            <ul>
+                <li><a href="{{BASE_URL}}index">Home</a></li>
+                <li><a href="{{BASE_URL}}products">Product</a></li>
+                <li class="active">{{products.product_name}}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- End Breadcrumb-area -->
+
+
+
+<!-- PRODUCT DEATILS -->
+<section class="product-details-area pt-120 pb-115">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5 col-md-5">
+                <div class="product-details-tab">
+
+                    <!-- BIG SLIDER -->
+                    <div class="pro-dec-big-img-slider nav-style-3">
+
+                        <!--loop image-->
+                        <div class="item">
+                            <img {% for file in products.files %} src="assets/shop/images/product/{{ file.file_name }}" {% endfor %}
+                            title="{{product_name}}" class="img-fluid"
+                            alt="{{product.product_name}}">
+                            
+                        </div>
+                        <!--end loop image-->
+                        <!--loop image-->
+                        <!-- <div class="item">
+                            <img {% for file in products.files %} src="assets/shop/images/product/{{ file.file_name }}" {% endfor %}
+                            title="{{product_name}}" class="img-fluid"
+                            alt="{{product_name}}">
+                        </div> -->
+                        <!--end loop image-->
+
+                    </div>
+                    <!-- END BIG SLIDER -->
+
+                </div>
+            </div>
+
+            <div class="col-lg-7 col-md-7">
+
+                <div class="product-details-content pro-details-content-mrg">
+                    <h2>{{products.product_name}}</h2>
+                    
+                    <!--price-->
+                    <div class="pro-details-price">
+                        <span class="new-price">
+                            <r>OMR</r> &nbsp;{{products.product_amount}}
+                        </span>
+                        <!-- <span class="old-price">
+                            <r>OMR</r> 95.72
+                        </span> -->
+                    </div>
+                    <!--end price-->
+                    
+                    <!--stock left message-->
+                   <!--  <p class="text-danger my-1">
+                        Hurry, Only 6 left!
+                    </p> -->
+
+                    {%  if (products.quantity < 10) and (products.quantity > 0) %}
+                        <p class="text-danger my-1">
+                        Hurry, Only &nbsp; {{ products.quantity}} left!
+                    </p> 
+                    {% endif %}
+                    <!--end stock left message-->
+
+                    <!--outofstock-->
+                    <div class="d-block mt-2 mb-3">
+                        {%  if products.quantity < 1 %}
+                        <p class="text-danger mb-1">
+                            This item is currently out of stock
+                        </p>
+
+                        {{form_open('','methd="post" name="notify_whatsapp_form" id="notify_whatsapp_form"')|raw}}
+                        <div class="input-group d-inline-flex w-auto">
+                            <input type="hidden" id="product_id" value="{{products.id}}">
+                            <input type="text" name="phone" id="phone" class="form-control shadow-none" placeholder="Your WhatsApp Number"
+                            aria-label="Recipient's username" aria-describedby="button-addon2">
+                            <button class="btn btn-primary" type="submit" id="button_addon">Notify Me</button>
+                        </div>
+                        {{form_close()|raw}}
+
+
+                       <!--  <div class="valid-feedback d-block">
+                            You will be notified by WhatsApp when this item is back in stock
+                        </div> -->
+                        {% endif %}
+                    </div>
+                    <!--end outofstock-->
+                    
+                    <h4>{{ products.description|striptags }}</h4>
+                    <!--warrenty-->
+                    <div class="product-warrenty">
+                        <div class="c-logo">
+                            <img src="assets/shop/images/brand/{{products.brand_image}}">
+                        </div>
+                        <div class="c-info">
+                            Brand Warranty of 1 Year
+                        </div>
+                    </div>
+                    <!--end warrenty-->
+
+                    <!--color-->
+                    <div class="product-color mt-3">
+                        <div class="color-title">Color</div>
+                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
+                            <label class="btn btn-sm btn-outline-primary" for="btnradio1"><span class="color"
+                                style="background-color: #000;"></span>Black</label>
+
+                                <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                                <label class="btn btn-sm btn-outline-primary" for="btnradio2"><span class="color"
+                                    style="background-color: rgb(0, 122, 221);"></span>Blue</label>
+
+                                    <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+                                    <label class="btn btn-sm btn-outline-primary" for="btnradio3"><span class="color"
+                                        style="background-color: rgb(85, 85, 85);"></span>Grey</label>
+                                    </div>
+                                </div>
+                                <!--end color-->
+
+                                <!--ram-->
+                                <div class="product-color ram mt-3">
+                                    <div class="color-title">RAM</div>
+                                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio11" autocomplete="off">
+                                        <label class="btn btn-sm btn-outline-primary" for="btnradio11">2 GB</label>
+
+                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio22" autocomplete="off">
+                                        <label class="btn btn-sm btn-outline-primary" for="btnradio22">3 GB</label>
+                                    </div>
+                                </div>
+                                <!--end ram-->
+
+                                <!--gb-->
+                                <div class="product-color ram mt-3">
+                                    <div class="color-title">ROM</div>
+                                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio11" autocomplete="off">
+                                        <label class="btn btn-sm btn-outline-primary" for="btnradio11">256 GB</label>
+
+                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio22" autocomplete="off">
+                                        <label class="btn btn-sm btn-outline-primary" for="btnradio22">128 GB</label>
+                                    </div>
+                                </div>
+                                <!--end gb-->
+
+                                <!--highlights-->
+                                <div class="product-highlights mt-3">
+                                    <div class="h-title">
+                                        Highlights
+                                    </div>
+                                    <div class="hightlights-single">
+                                        <ul>
+                                            <li>4 GB RAM | 64 GB ROM | Expandable Upto 1 TB</li>
+                                            <li>16.76 cm (6.6 inch) Full HD+ Display</li>
+                                            <li>50MP + 5MP + 2MP | 8MP Front Camera</li>
+                                            <li>6000 mAh Lithium Ion Battery</li>
+                                            <li>Exynos 850 Processor</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!--end highlights-->
+
+                                <!--addtocart-buynow-->
+                                <div class="action-button">
+                                    <a class="btn btn-primary me-1" role="button" onclick='addToCart({{products.id}})'>Add to Cart</a>
+
+                                    <a class="btn btn-secondary" href="cart" role="button">Buy Now</a>
+                                </div>
+                                <!--end addtocart-buynow-->
+
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+            <!-- END PRODUCT DEATILS -->
+
+
+            <!-- RELATED PRODUCT -->
+            {#<div class="related-product pb-115 p-detail-page-related-product">
+                <div class="container">
+                    <div class="section-title mb-45 text-center">
+                        <h2>Similar Products</h2>
+                    </div>
+                    <div class="related-product-active">
+
+                        <!--single loop item-->
+                        <div class="product-plr-1">
+                            <div class="single-product-wrap">
+                                <div class="product-img product-img-zoom mb-15">
+                                    <a href="#">
+                                        <img src="assets/shop/images/product/product-sample.jpg" alt="">
+                                    </a>
+                                </div>
+                                <div class="product-content-wrap-2 text-center">
+                                    <h3><a href="product-details.html">SAMSUNG Galaxy A03s (Black, 32 GB)</a></h3>
+                                    <div class="text-muted">
+                                        4GB RAM
+                                    </div>
+                                    <div class="product-price-2">
+                                        <span class="new-price">OMR 35.45</span>
+                                        <span class="old-price">OMR 45.80</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!--end single loop item-->
+                        <!--single loop item-->
+                        <div class="product-plr-1">
+                            <div class="single-product-wrap">
+                                <div class="product-img product-img-zoom mb-15">
+                                    <a href="#">
+                                        <img src="assets/shop/images/product/product-sample.jpg" alt="">
+                                    </a>
+                                </div>
+                                <div class="product-content-wrap-2 text-center">
+                                    <h3><a href="product-details.html">SAMSUNG Galaxy A03s (Black, 32 GB)</a></h3>
+                                    <div class="text-muted">
+                                        4GB RAM
+                                    </div>
+                                    <div class="product-price-2">
+                                        <span class="new-price">OMR 35.45</span>
+                                        <span class="old-price">OMR 45.80</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!--end single loop item-->
+
+                    </div>
+                </div>
+            </div>#}
+            <!-- END RELATED PRODUCT -->
+            
+            {% include('shop/layout/footer.twig')%}
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+            <link href="assets/plugins/sweetalert/lib/sweet-alert.css" rel="stylesheet" />
+            <!-- pristine js -->
+            <script src="assets/libs/pristinejs/pristine.min.js"></script>
+            <!-- form validation -->
+            <script src="assets/js/pages/form-validation.init.js"></script>
+
+            <script src="assets/js/file_extension.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <script>
+
+                function addToCart(product_id) {
+                    $.ajax({
+                        url: "cart/add_to_cart",
+                        data: {product_id: product_id},
+                        success: function (res) {
+                            if (res.trim() == "yes")
+                            {
+                //update_cart();
+                                toastr.success('Added to cart')
+                                $("html,body").animate({scrollTop: 0}, "slow");
+                                setTimeout(function() {
+                                    location.reload();
+                                }, 1000);
+                            }
+                            else
+                            {
+                var msg = res;//$('#failed_to_add_js').html();
+                toastr.error(msg)
+            }
+        }
+    });
+
+                }
+            </script>
+
+            <script>
+                $(document).ready(function () {
+                    validate_notify_form();
+                });
+
+                var validate_notify_form = function () {
+                    var form22 = $('#notify_whatsapp_form');
+                    var errorHandler2 = $('.errorHandler', form22);
+                    var successHandler2 = $('.successHandler', form22);
+                    form22.validate({
+            errorElement: "span", // contain the error msg in a small tag
+            errorClass: 'help-block',
+            errorPlacement: function (error, element) { // render error placement for each input type
+                error.insertAfter($(element).closest('#notify_whatsapp_form'));
+            },
+            ignore: "hidden",
+            rules: {
+                phone: {
+                    required: true,
+                    digits: true
+                }            
+            },
+            messages: {
+                phone: {
+                    required: $('#phone_req_js').html(),
+                }           
+
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit
+                successHandler2.hide();
+                errorHandler2.show();
+            },
+            highlight: function (element) {
+                $(element).closest('.help-block').removeClass('valid');// display OK icon
+                $(element).closest('.form-group').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
+                // add the Bootstrap error class to the control group
+            },
+            unhighlight: function (element) { // revert the change done by hightlight
+                $(element).closest('.form-group').removeClass('has-error');
+                // set error class to the control group
+            },
+            success: function (label, element) {
+                label.addClass('help-block valid');
+                // mark the current input as valid and display OK icon
+                $(element).closest('.form-group').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
+            },
+            submitHandler: function (form) {
+                successHandler2.show();
+                errorHandler2.hide();
+                $.ajax({
+                    url: "update-notify",
+                    data: {phone: $("#phone").val(),pro_id:$("#product_id").val()},
+                    success: function (result) {
+                        if (result == "yes") {
+                            var msg = $('#you_will_notify_js').html();
+                            var flag = "success";
+                            var title = 'Success';
+                            show_notification(flag, title, msg);
+
+                        } else {
+                            var flag = "error";
+                            var msg = $('#enter_phone_js').html();
+                            var title = 'Failed';
+                            show_notification(flag, title, msg);
+                        }
+                    }
+                });
+            }
+        });
+                }
+            </script>

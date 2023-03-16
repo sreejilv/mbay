@@ -17,7 +17,8 @@ class Shop_model extends CI_Model {
     }
 
 
-    function insertNotificationDetails($phone,$pro_id,$user_id="") {
+    function insertNotificationDetails($phone,$pro_id,$user_id=0) {
+    
         $this->db->set('user_id', $user_id)
         ->set('phone', $phone)
         ->set('pro_id', $pro_id)
