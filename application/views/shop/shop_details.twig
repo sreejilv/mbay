@@ -143,11 +143,13 @@
                         </p>
 
                         {{form_open('','methd="post" name="notify_whatsapp_form" id="notify_whatsapp_form"')|raw}}
-                        <div class="input-group d-inline-flex w-auto">
-                            <input type="hidden" id="product_id" value="{{pro.id}}">
-                            <input type="text" name="phone" id="phone" class="form-control shadow-none" placeholder="Your WhatsApp Number"
-                            aria-label="Recipient's username" aria-describedby="button-addon2">
-                            <button class="btn btn-primary" type="submit" id="button_addon">Notify Me</button>
+                        <div class="form-group">
+                            <div class="input-group d-inline-flex w-auto ">
+                                <input type="hidden" id="product_id" value="{{pro.id}}">
+                                <input type="text" name="phone" id="phone" class="form-control shadow-none" placeholder="Your WhatsApp Number"
+                                aria-label="Recipient's username" aria-describedby="button-addon2">
+                                <button class="btn btn-primary" type="submit" id="button_addon">Notify Me</button>
+                            </div>
                         </div>
                         {{form_close()|raw}}
 
@@ -360,10 +362,11 @@
                     var errorHandler2 = $('.errorHandler', form22);
                     var successHandler2 = $('.successHandler', form22);
                     form22.validate({
-            errorElement: "span", // contain the error msg in a small tag
-            errorClass: 'help-block',
+            errorElement: "div", // contain the error msg in a span tag
+            errorClass: 'invalid-feedback',
             errorPlacement: function (error, element) { // render error placement for each input type
-                error.insertAfter($(element).closest('#notify_whatsapp_form'));
+                
+                error.appendTo($(element).closest('.form-group'));
             },
             ignore: "hidden",
             rules: {
@@ -383,18 +386,25 @@
                 errorHandler2.show();
             },
             highlight: function (element) {
-                $(element).closest('.help-block').removeClass('valid');// display OK icon
-                $(element).closest('.form-group').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
+                $(element).closest('.form-control').removeClass('is-invalid');
+                //display Checkbox invalid Data
+                $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+                // display OK icon
+                $(element).closest('.form-control').removeClass('is-valid').addClass('is-invalid').find('.symbol').removeClass('ok').addClass('required');
                 // add the Bootstrap error class to the control group
             },
             unhighlight: function (element) { // revert the change done by hightlight
-                $(element).closest('.form-group').removeClass('has-error');
+                //display Checkbox invalid Data
+
+                $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+                $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
                 // set error class to the control group
             },
             success: function (label, element) {
-                label.addClass('help-block valid');
+                //display Checkbox invalid Data
+                $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+                $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
                 // mark the current input as valid and display OK icon
-                $(element).closest('.form-group').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
             },
             submitHandler: function (form) {
                 successHandler2.show();
