@@ -790,6 +790,10 @@ body {}
     margin-left: 20px;
     margin-right: inherit !important;
 }
+.login-register-wrapper .login-register-tab-list a::before {
+    left: -2px;
+    right: inherit !important;
+}
 /*=====================================================================================================================
                                                 RESPONSIVE AREA
 =======================================================================================================================*/
