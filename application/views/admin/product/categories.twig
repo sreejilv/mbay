@@ -18,6 +18,15 @@
 {% include('admin/partials/head-css.twig')%}
 </head>
 
+<div id="js_messages" style="display: none;"> 
+    <span id="are_you_sure_js">{{lang('are_you_sure_js')}}</span>
+    <span id="cancel_it_js">{{lang('cancel_it_js')}}</span>
+    <span id="canceled_js">{{lang('canceled_js')}}</span>
+    <span id="category_safe_js">{{lang('category_safe_js')}}</span>
+    <span id="delete_this_category_js">{{lang('delete_this_category_js')}}</span>
+    <span id="delete_it_js">{{lang('delete_it_js')}}</span>
+</div>
+
 {% include('admin/partials/body.twig')%}
 <!-- <body data-layout="horizontal"> -->
 
@@ -226,7 +235,8 @@
                                             <td>{{row.sort_order}}</td>
                                             <td>{{row.key}}</td>
                                             <td>{{row.creation_date}}</td>
-                                            <td><a href="{{BASE_URL}}admin/categories/cat_edit/{{row.id}}" button type="submit"class="btn btn-primary"><i class="fas fa-pencil-alt"></i></a> <a href="{{BASE_URL}}admin/categories/cat_delete/{{row.id}}" button type="submit"class="btn btn-danger"><i class="fa fa-trash fa fa-white"></i></a></td>
+                                            <td><a href="{{BASE_URL}}admin/categories/cat_edit/{{row.id}}" button type="submit"class="btn btn-primary"><i class="fas fa-pencil-alt"></i></a><a href="javascript:cat_delete({{row.id}})" button type="submit" class="btn btn-danger"><i class="fa fa-trash fa fa-white"></i></a> </td>
+
                                         </tr>
                                     {% endfor %}
                                     </tbody>
@@ -289,11 +299,8 @@
 <script src="assets/js/app.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.ckeditor.com/4.5.6/standard/ckeditor.js"></script>
-
-<script>
-
-
-</script>
+<link href="assets/plugins/sweetalert/lib/sweet-alert.css" rel="stylesheet" />
+<script src="assets/plugins/sweetalert/lib/sweet-alert.min.js"></script>
 
 <script>
 
@@ -435,6 +442,37 @@ $('.delete-image').on('click', function(){
     });
 
 })
+</script>
+<script>
+    function cat_delete(id) {
+        var are_you_sure_js = $('#are_you_sure_js').html();
+        var cancel_it_js = $('#cancel_it_js').html();
+        var canceled_js = $('#canceled_js').html();  
+
+        var category_safe_js = $('#category_safe_js').html();
+
+        var delete_this_category_js = $('#delete_this_category_js').html();
+        var delete_it_js = $('#delete_it_js').html();
+
+        swal({
+            title: are_you_sure_js,
+            text: delete_this_category_js,
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: delete_it_js,
+            cancelButtonText: cancel_it_js,
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+        function (isConfirm) {
+            if (isConfirm) {
+                document.location.href = 'admin/categories/cat_delete/' + id;
+            } else {
+                swal(canceled_js, category_safe_js, "error");
+            }
+        }); 
+    } 
 </script>
 
 </body>

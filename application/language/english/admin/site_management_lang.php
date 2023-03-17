@@ -123,3 +123,15 @@ $lang['pro_name'] = "Product";
 $lang['phone'] = "Phone";
 $lang['brand_assigned'] = "Brand is Used to Product";
 
+$lang['are_you_sure_js'] = "Are You Sure";
+$lang['cancel_it_js'] = "Cancel";
+$lang['canceled_js'] = "Cancelled";
+$lang['slider_safe_js'] = "Slider Safe";
+$lang['delete_this_slider_js'] = "Delete This Slider";
+$lang['delete_it_js'] = "Delete It";
+$lang['brand_safe_js'] = "Brand Safe";
+$lang['delete_this_brand_js'] = "Delete This Brand";
+
+
+
+

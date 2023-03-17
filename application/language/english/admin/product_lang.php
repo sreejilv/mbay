@@ -117,3 +117,12 @@ $lang['delete_this_sub_category'] = 'Delete This Sub-Category';
 $lang['banner_image'] = 'Banner Image';
 $lang['user_photo_ext_js'] = 'Please Select An Image (jpg|jpeg|png)';
 $lang['seo_keyword'] = 'Seo keyword';
+
+$lang['are_you_sure_js'] = 'Are You Sure';
+$lang['cancel_it_js'] = 'Cancel It';
+$lang['canceled_js'] = 'Cancelled';
+$lang['category_safe_js'] = 'Category Safe';
+$lang['delete_this_category_js'] = 'Delete This Category';
+$lang['delete_it_js'] = 'Delete It';
+$lang['product_safe_js'] = 'Product Safe';
+$lang['delete_this_product_js'] = 'Delete This Product';

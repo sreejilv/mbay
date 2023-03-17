@@ -15,6 +15,14 @@
     <?= $this->include('partials/head-css') ?>
     {% include('admin/partials/head-css.twig')%}
 </head>
+<div id="js_messages" style="display: none;"> 
+    <span id="are_you_sure_js">{{lang('are_you_sure_js')}}</span>
+    <span id="cancel_it_js">{{lang('cancel_it_js')}}</span>
+    <span id="canceled_js">{{lang('canceled_js')}}</span>
+    <span id="product_safe_js">{{lang('product_safe_js')}}</span>
+    <span id="delete_this_product_js">{{lang('delete_this_product_js')}}</span>
+    <span id="delete_it_js">{{lang('delete_it_js')}}</span>
+</div>
 {% include('admin/partials/body.twig')%}
 <!-- <body data-layout="horizontal"> -->
 
@@ -229,10 +237,8 @@
                                                     <td>{{row.quantity}}</td>
                                                     <td><a href="{{BASE_URL}}admin/product-manage/edit/{{row.id}}" button
                                                            type="submit" class="btn btn-primary"><i
-                                                                class="fas fa-pencil-alt"></i></a> <a
-                                                            href="{{BASE_URL}}admin/product-manage/delete/{{row.id}}" button
-                                                            type="submit" class="btn btn-danger"><i
-                                                                class="fa fa-trash fa fa-white"></i></a></td>
+                                                                class="fas fa-pencil-alt"></i></a><a href="javascript:product_delete({{row.id}})" button type="submit" class="btn btn-danger"><i class="fa fa-trash fa fa-white"></i></a>sss
+                                                            </td>
                                                 </tr>
                                             {% endfor %}
                                         </tbody>
@@ -289,6 +295,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
         integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
 crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link href="assets/plugins/sweetalert/lib/sweet-alert.css" rel="stylesheet" />
+<script src="assets/plugins/sweetalert/lib/sweet-alert.min.js"></script>
 
 {# <script src="assets/js/app.js"></script> #}
 <script>
@@ -451,6 +459,37 @@ crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         });
 
     })
+</script>
+<script>
+    function product_delete(id) {
+        var are_you_sure_js = $('#are_you_sure_js').html();
+        var cancel_it_js = $('#cancel_it_js').html();
+        var canceled_js = $('#canceled_js').html();  
+
+        var product_safe_js = $('#product_safe_js').html();
+
+        var delete_this_product_js = $('#delete_this_product_js').html();
+        var delete_it_js = $('#delete_it_js').html();
+
+        swal({
+            title: are_you_sure_js,
+            text: delete_this_product_js,
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: delete_it_js,
+            cancelButtonText: cancel_it_js,
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+        function (isConfirm) {
+            if (isConfirm) {
+                document.location.href = 'admin/product-manage/delete/' + id;
+            } else {
+                swal(canceled_js, product_safe_js, "error");
+            }
+        }); 
+    } 
 </script>
 </body>
 
