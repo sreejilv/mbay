@@ -49,7 +49,31 @@ class Shop_model extends CI_Model {
         return $data;
     }
 
+function getAllProductNames($query) {
+        $data = array();
+        if ($query != '') {
+            $res = $this->db->select("id,product_name,product_amount,images")
+                    ->from('products')
+                    ->like('product_name', trim($query))
+                    ->get();
+        } else {
+            $res = $this->db->select("product_name")
+                    ->from('products')
+                    ->get();
+        }
+       $json=[];
+        foreach ($res->result_array() as $row) {
+            $prod_img =unserialize($row['images']);
+            $image = (count($prod_img)>0)?$prod_img[0]['file_name']:'no-image.jpg';
+            $data['image']= $image;
+            $data['name'] = $row['product_name'];
+            $data['product_amount'] = $row['product_amount'];
+            $data['url'] = base_url().'/product-details/'.$row['id'];
 
+            $json[]=$data;
+        }
+        return json_encode($json);        
+    }
 
 }
 

@@ -116,6 +116,81 @@
 
         <!-- BASE JS -->
         <script src="assets/shop/js/vendor/jquery-v3.6.0.min.js"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" rel="stylesheet"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+        <script src="assets/js/typeahead.js"></script>
+        <script>
+
+     
+            $(document).ready(function() {
+            $(function() {
+              $('#search_box').typeahead({
+                source: function(request, response) {
+                    var url = "{{BASE_URL}}search-product";
+                  $.ajax({
+                    url: url,
+                    dataType: 'JSON',
+                    data: 'query=' + request,
+                    success: function(data) {
+                      response($.map(data, function(item) {
+                        return {
+                            url: item.url,
+                            value: item.name,
+                            image:item.image,
+                            amount:item.product_amount
+                        }
+                      }))
+                    }
+                  })
+                },
+                displayText: function(item) {
+                    return item.value
+                },
+                 
+                updater: function (item) {
+                            window.location.href = item.url
+                            return item.value
+
+                },
+                 highlighter: function(item,data) {
+            html = '<div class="image-section"><img class="img-responsive"src="assets/shop/images/product/'+data.image+'" /></div><div class="info"><h1>'+data.value+'<h1></div><div class="info"><h1>'+data.amount+'<h1></div>';
+
+// html = '<div class="image-section"><img class="img-responsive"src="assets/shop/images/product/'+data.image+'" /></div><div class="info"><div class="img-main-sec"><h1>'+data.value+'<h1></div><div class="info"><h1>'+data.amount+'<h1></div></div>';
+          
+
+            return html;
+        },
+      
+});
+
+              });
+            });
+
+
+        </script>
+<style>
+
+.image-section{
+width:10%;
+float:left;
+display: table;
+}
+.image-section img{
+width:70px;
+height:70px;
+border:1px solid #000;
+display: table-cell;
+vertical-align: middle;
+margin:6px 0px 5px -9px;
+}
+.img-main-sec{
+    display: flex;
+}
+
+</style>
+      
+
         <script src="assets/shop/js/vendor/popper.min.js"></script>
         <script src="assets/shop/js/vendor/bootstrap.min.js"></script>
 

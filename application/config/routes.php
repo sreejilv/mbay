@@ -387,6 +387,9 @@ $route['product-details/(:any)'] = 'shop/product_details/$1';
 $route['checkout'] = 'shop/checkout';
 $route['products'] = 'shop/products';
 $route['update-notify'] = 'shop/update_notify';
+$route['update-notify'] = 'shop/update_notify';
+$route['search-product'] = 'shop/get_products';
+
 
 $route['account/(:any)'] = 'shop/account/$1';
 // $route['tab_actives"'] = 'shop/tab_actives';

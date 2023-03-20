@@ -65,6 +65,7 @@ class Shop extends Base_Controller {
     }
 
     public function shop($cat_id=""){
+        echo 1111;die;
         $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
         $this->setData('user_name', $user_name);  
         $user_type = $this->aauth->getUserType();
@@ -190,6 +191,7 @@ class Shop extends Base_Controller {
     }
 
         public function product_details($pro_id=''){
+            // echo "jkddcj";die;
             $party_id = 0;
         $this->load->model('product_model');
         $nav_category = $this->product_model->getNavCategoryLists();
@@ -217,6 +219,7 @@ class Shop extends Base_Controller {
         $this->loadView();
 
         }
+
 
 
     public function checkout(){
@@ -338,6 +341,15 @@ function update_notify() {
         $this->setData('products', $products);
       
         $this->loadView();
+    }
+
+    function get_products() {
+
+
+        $query = $this->input->get('query');
+        $result = $this->shop_model->getAllProductNames($query);
+        echo $result;
+        exit();
     }
 
 }
