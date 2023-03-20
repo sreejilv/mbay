@@ -69,7 +69,7 @@ function getAllProductNames($query) {
             $data['name'] = $row['product_name'];
             $data['product_amount'] = $row['product_amount'];
             $data['url'] = base_url().'/product-details/'.$row['id'];
-
+            
             $json[]=$data;
         }
         return json_encode($json);        
