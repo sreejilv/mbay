@@ -65,7 +65,7 @@ class Shop extends Base_Controller {
     }
 
     public function shop($cat_id=""){
-        echo 1111;die;
+        // echo 1111;die;
         $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
         $this->setData('user_name', $user_name);  
         $user_type = $this->aauth->getUserType();
