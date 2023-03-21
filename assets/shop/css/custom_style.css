@@ -812,9 +812,25 @@
     text-align: center;
     margin: 25px auto;
 }
+.mobile-view-search .dropdown-menu {
+    width: inherit;
+}
+.mobile-view-search .dropdown-menu .dropdown-item .flex-shrink-0 img {
+    max-width: 50px;
+}
+.mobile-view-search .dropdown-menu .dropdown-item .flex-grow-1 img {
+    max-width: 50px;
+}
+.mobile-view-search .dropdown-menu .dropdown-item .flex-grow-1 h5 {
+    margin: 0;
+}
+.mobile-view-search .dropdown-menu .dropdown-item .flex-grow-1 p {
+    margin: 0;
+}
 
-
-
+.mobile-view-search .dropdown-menu .dropdown-item:active {
+    background-color: transparent;
+}
 
 
 
