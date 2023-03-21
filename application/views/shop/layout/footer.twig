@@ -150,7 +150,7 @@
                     return item.value
                 },
                 highlighter: function(item,data) {
-                    html = '<div class="image-section"><img class="img-responsive"src="assets/shop/images/product/'+data.image+'" /> </div> <div class="drp-txt-sec"><div class="info"><h3>'+data.value+'<h3></div> <div class="info"><h3>'+data.amount+'<h3></div></div>';
+                    html = '<div class="d-flex"><div class="flex-shrink-0"><img src="assets/shop/images/product/'+data.image+'" alt="..."></div><div class="flex-grow-1 ms-3"><h5>'+data.value+'</h5><p>'+data.amount+'</p></div></div>';
                     return html;
                 },
 
@@ -189,7 +189,7 @@
                     return item.value
                 },
                 highlighter: function(item,data) {
-                    html = '<div class="image-section"><img class="img-responsive"src="assets/shop/images/product/'+data.image+'" /> </div> <div class="drp-txt-sec"><div class="info"><h3>'+data.value+'<h3></div> <div class="info"><h3>'+data.amount+'<h3></div></div>';
+                    html = '<div class="d-flex"><div class="flex-shrink-0"><img src="assets/shop/images/product/'+data.image+'" alt="..."></div><div class="flex-grow-1 ms-3"><h5>'+data.value+'</h5><p>'+data.amount+'</p></div></div>';
 
                     return html;
                 },
@@ -198,28 +198,7 @@
           });
         });
         </script>
-<style>
 
-.image-section{
-width:10%;
-float:left;
-display: table;
-}
-.image-section img{
-width:60px;
-height:60px;
-border:1px solid #000;
-display: table-cell;
-vertical-align: middle;
-margin:6px 0px 5px -9px;
-}
-
-.drp-txt-sec{
-    display: flex;
-    justify-content: space-around;
-    padding: 20px 5px;
-}
-</style>
       
 
         <script src="assets/shop/js/vendor/popper.min.js"></script>
