@@ -121,53 +121,82 @@
 
         <script src="assets/js/typeahead.js"></script>
         <script>
-
-     
-             $(document).ready(function() {
+           $(document).ready(function() {
             $(function() {
               $('#search_box').typeahead({
                 source: function(request, response) {
                     var url = "{{BASE_URL}}search-product";
-                  $.ajax({
-                    url: url,
-                    dataType: 'JSON',
-                    data: 'query=' + request,
-                    success: function(data) {
-                      response($.map(data, function(item) {
-                        return {
-                            url: item.url,
-                            value: item.name,
-                            image:item.image,
-                            amount:item.product_amount
-                        }
-                      }))
-                    }
+                    $.ajax({
+                        url: url,
+                        dataType: 'JSON',
+                        data: 'query=' + request,
+                        success: function(data) {
+                          response($.map(data, function(item) {
+                            return {
+                                url: item.url,
+                                value: item.name,
+                                image:item.image,
+                                amount:item.product_amount
+                            }
+                        }))
+                      }
                   })
                 },
                 displayText: function(item) {
                     return item.value
                 },
-                 
                 updater: function (item) {
-                            window.location.href = item.url
-                            return item.value
-
+                    window.location.href = item.url
+                    return item.value
                 },
-                 highlighter: function(item,data) {
-            html = '<div class="image-section"><img class="img-responsive"src="assets/shop/images/product/'+data.image+'" /></div><div class="info"><h1>'+data.value+'<h1></div><div class="info"><h1>'+data.amount+'<h1></div>';
+                highlighter: function(item,data) {
+                    html = '<div class="image-section"><img class="img-responsive"src="assets/shop/images/product/'+data.image+'" /> </div> <div class="drp-txt-sec"><div class="info"><h3>'+data.value+'<h3></div> <div class="info"><h3>'+data.amount+'<h3></div></div>';
+                    return html;
+                },
 
-// html = '<div class="image-section"><img class="img-responsive"src="assets/shop/images/product/'+data.image+'" /></div><div class="info"><div class="img-main-sec"><h1>'+data.value+'<h1></div><div class="info"><h1>'+data.amount+'<h1></div></div>';
-          
-
-            return html;
-        },
-      
-});
-
-              });
             });
 
+          });
+        });
+        </script>
+        <script>
+           $(document).ready(function() {
+            $(function() {
+              $('#search_box_m').typeahead({
+                source: function(request, response) {
+                    var url = "{{BASE_URL}}search-product";
+                    $.ajax({
+                        url: url,
+                        dataType: 'JSON',
+                        data: 'query=' + request,
+                        success: function(data) {
+                          response($.map(data, function(item) {
+                            return {
+                                url: item.url,
+                                value: item.name,
+                                image:item.image,
+                                amount:item.product_amount
+                            }
+                        }))
+                      }
+                  })
+                },
+                displayText: function(item) {
+                    return item.value
+                },
+                updater: function (item) {
+                    window.location.href = item.url
+                    return item.value
+                },
+                highlighter: function(item,data) {
+                    html = '<div class="image-section"><img class="img-responsive"src="assets/shop/images/product/'+data.image+'" /> </div> <div class="drp-txt-sec"><div class="info"><h3>'+data.value+'<h3></div> <div class="info"><h3>'+data.amount+'<h3></div></div>';
 
+                    return html;
+                },
+            });
+
+          });
+        });
         </script>
 <style>
 
@@ -177,17 +206,19 @@ float:left;
 display: table;
 }
 .image-section img{
-width:70px;
-height:70px;
+width:60px;
+height:60px;
 border:1px solid #000;
 display: table-cell;
 vertical-align: middle;
 margin:6px 0px 5px -9px;
 }
-.img-main-sec{
-    display: flex;
-}
 
+.drp-txt-sec{
+    display: flex;
+    justify-content: space-around;
+    padding: 20px 5px;
+}
 </style>
       
 
