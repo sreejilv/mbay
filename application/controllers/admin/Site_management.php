@@ -612,16 +612,87 @@ class Site_management extends Base_Controller {
         $this->loadView();
     }
 
-    public function whatsapp_notification() {
+    public function whatsapp_notification($action='', $notification_id='') {
+        $loged_user_id = ($this->aauth->getUserType() == 'employee') ? $this->base_model->getAdminUserId() : $this->aauth->getId();
         $this->load->model('shop_model');
         $notification = $this->shop_model->getAllNotification();
+
+        if ($action && $notification_id) {
+
+            if ($action == "noti_delete") {
+                
+                $res = $this->shop_model->deleteNotification($notification_id);
+                if ($res) {
+                    $data['notification_id'] = $notification_id;
+                    $this->helper_model->insertActivity($loged_user_id, 'notification_deleted', $data);
+                    $this->loadPage(lang('noti_deleted_complete'), 'whatsapp-notification','success');
+                } else {
+                    $this->loadPage(lang('noti_deleted_failed'), 'whatsapp-notification', 'danger');
+                }
+             }
+        }
         $this->setData('notification', $notification);
         $this->setData('title', lang('menu_name_201'));
         $this->loadView();
         
     }
+    public function seo_url($action='', $seo_id='') {
 
-    
+        $loged_user_id = ($this->aauth->getUserType() == 'employee') ? $this->base_model->getAdminUserId() : $this->aauth->getId();
+        // $this->load->model('shop_model');
+        $seo_url = $this->site_management_model->getAllSeoUrl();
+        $edit_flag = FALSE;
+        $seo_details =[];
+        if ($action && $seo_id) {
+              $edit_flag = TRUE;
+              $seo_details = $this->site_management_model->getSeoDetails($seo_id);
+        }
+
+        if ($this->input->post('add_seo_url')) {
+            if ($this->input->post() && $this->validate_seo_url()) {
+                $post = $this->security->xss_clean($this->input->post());
+                  $res = $this->site_management_model->addSeoUrl($post);
+                if ($res) {
+                    $this->helper_model->insertActivity($loged_user_id, 'seo_added', $post);
+
+                    $this->loadPage(lang('seo_url_added_successfully'), 'seo-url', 'success');
+                } else {
+                    $this->loadPage(lang('seo_url_adding_failed'), 'seo-url', 'danger');
+                }
+            }
+        }
+         if ($this->input->post('update_seo')) {
+
+                   
+            $this->load->helper('security');
+            $post = $this->security->xss_clean($this->input->post());
+
+            
+            $res = $this->site_management_model->updateSeo_url($post);
+            if ($res) {
+                $this->helper_model->insertActivity($loged_user_id, 'cat_updated', $post);
+                $this->loadPage(lang('seo_updated_successfully'), 'seo-url','success');
+            } else {
+                $this->loadPage(lang('nothing_to_edit'), 'seo-url', 'danger');
+            }
+        }
+        $this->setData('seo_details', $seo_details);
+        $this->setData('seo_url', $seo_url);
+         $this->setData('seo_id', $seo_id);
+        $this->setData('edit_flag', $edit_flag);
+
+        $this->setData('title', lang('menu_name_203'));
+        $this->loadView();
+    }
+
+
+    function validate_seo_url() {
+        $this->form_validation->set_rules('seo_keyword', lang('seo_keyword'), 'required');
+        $this->form_validation->set_rules('seo_key', lang('seo_key'), 'required');
+        $this->form_validation->set_rules('seo_value', lang('seo_value'), 'required');
+        $form_result = $this->form_validation->run();
+        return $form_result;
+    }
 
 
 
