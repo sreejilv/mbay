@@ -137,6 +137,7 @@ $route['admin/mail-manage'] = 'admin/site_management/mail_settings';
 $route['admin/brand-settings'] = 'admin/site_management/brand_settings';
 $route['admin/brand-settings/(:any)/(:num)'] = 'admin/site_management/brand_settings/$1/$2';
 $route['admin/whatsapp-notification'] = 'admin/site_management/whatsapp_notification';
+$route['admin/whatsapp-notification/(:any)/(:num)'] = 'admin/site_management/whatsapp_notification/$1/$2';
 
 
 
@@ -391,16 +392,10 @@ $route['update-notify'] = 'shop/update_notify';
 $route['search-product'] = 'shop/get_products';
 
 
-
 $route['account/(:any)'] = 'shop/account/$1';
-$route['account/(:any)/(:any)/(:any)'] = 'shop/account/$1/$2/$3';
 // $route['tab_actives"'] = 'shop/tab_actives';
 $route['(:any)/join-report'] = '$1/report/user_join';
 $route['(:any)/join-report/(:num)'] = '$1/report/user_join/$2';
-$route['account/user-invoice'] = 'shop/user_invoice';
-$route['account/user-invoice/(:num)'] = 'shop/user_invoice/$1';
-
-
 
 $route['admin/categories'] = 'admin/product/categories';
 $route['admin/categories/(:any)/(:num)'] = 'admin/product/categories/$1/$2';
@@ -413,6 +408,4 @@ $route['admin/slider_settings/(:any)/(:num)'] = 'admin/site_management/slider_se
 
 $route['admin/seo-url'] = 'admin/site_management/seo_url';
 $route['admin/seo-url/(:any)/(:num)'] = 'admin/site_management/seo_url/$1/$2';
-
-
 
