@@ -274,7 +274,6 @@ class Shop extends Base_Controller {
             $active = 3;
             $this->load->helper('security');
             $post = $this->security->xss_clean($this->input->post());
-            // print_r($post);die;
             $res = $this->shop_model->addUserAddress($post, $user_id);
             $country_id = $post['country_id'];
             $countries = $this->helper_model->getAllCountries();
@@ -283,7 +282,6 @@ class Shop extends Base_Controller {
 
             $this->setData('states', $states);
             $this->setData('countries', $countries);
-
             $this->loadPage('Address Added Successfully','account/'.$active, 'success');
          
         }
@@ -349,51 +347,46 @@ class Shop extends Base_Controller {
     }
 
 
-
-
-
-
-
-public function validate_general_password() {
-    $this->form_validation->set_rules('current_password', lang('password'), 'trim|required');
-    $this->form_validation->set_rules('password', lang('password'), 'trim|required|matches[confirm_password]|min_length[6]');
-    $this->form_validation->set_rules('confirm_password', lang('confirm_password'), 'trim|required|min_length[6]');
-    $this->form_validation->set_error_delimiters('<li>', '</li>');
-    $validation = $this->form_validation->run();
-    return $validation;
-}
-public function validate_general_update() {
-    $this->form_validation->set_rules('email', lang('email'), 'required');
-    $this->form_validation->set_rules('first_name', lang('first_name'), 'required');
-    $this->form_validation->set_rules('last_name', lang('last_name'), 'required');
-    $this->form_validation->set_rules('phone_number', lang('phone_number'), 'required||regex_match[/^[0-9]{10}$/]');
-    $this->form_validation->set_error_delimiters('<li>', '</li>');
-    $validation = $this->form_validation->run();
-    return $validation;
-}
-
-function update_notify() {
-    $logged_user = $this->aauth->getId($this->aauth->getUserType() == 'employee') ? $this->base_model->getAdminUserId() : $this->aauth->getId();
-    if($logged_user==''){
-        $logged_user=$this->base_model->getAdminUserId();
+    public function validate_general_password() {
+        $this->form_validation->set_rules('current_password', lang('password'), 'trim|required');
+        $this->form_validation->set_rules('password', lang('password'), 'trim|required|matches[confirm_password]|min_length[6]');
+        $this->form_validation->set_rules('confirm_password', lang('confirm_password'), 'trim|required|min_length[6]');
+        $this->form_validation->set_error_delimiters('<li>', '</li>');
+        $validation = $this->form_validation->run();
+        return $validation;
     }
-    $this->load->helper('security');
-    $post = $this->security->xss_clean($this->input->get());
-    if ($post['phone']) {
-        $phone = $post['phone'];
-        $pro_id = $post['pro_id'];
-        $res = $this->shop_model->insertNotificationDetails($phone,$pro_id,$logged_user);
-        if ($res) {
-            $log_user = ($this->aauth->getUserType() == 'employee') ? $this->base_model->getAdminUserId() : $this->aauth->getId();
-            $this->helper_model->insertActivity($log_user, 'update_notify', $post);
-            echo 'yes';
-            exit;
+    public function validate_general_update() {
+        $this->form_validation->set_rules('email', lang('email'), 'required');
+        $this->form_validation->set_rules('first_name', lang('first_name'), 'required');
+        $this->form_validation->set_rules('last_name', lang('last_name'), 'required');
+        $this->form_validation->set_rules('phone_number', lang('phone_number'), 'required||regex_match[/^[0-9]{10}$/]');
+        $this->form_validation->set_error_delimiters('<li>', '</li>');
+        $validation = $this->form_validation->run();
+        return $validation;
+    }
+
+    function update_notify() {
+        $logged_user = $this->aauth->getId($this->aauth->getUserType() == 'employee') ? $this->base_model->getAdminUserId() : $this->aauth->getId();
+        if($logged_user==''){
+            $logged_user=$this->base_model->getAdminUserId();
         }
+        $this->load->helper('security');
+        $post = $this->security->xss_clean($this->input->get());
+        if ($post['phone']) {
+            $phone = $post['phone'];
+            $pro_id = $post['pro_id'];
+            $res = $this->shop_model->insertNotificationDetails($phone,$pro_id,$logged_user);
+            if ($res) {
+                $log_user = ($this->aauth->getUserType() == 'employee') ? $this->base_model->getAdminUserId() : $this->aauth->getId();
+                $this->helper_model->insertActivity($log_user, 'update_notify', $post);
+                echo 'yes';
+                exit;
+            }
 
+        }
+        echo 'no';
+        exit;
     }
-    echo 'no';
-    exit;
-}
 
     public function products() {
         $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
