@@ -759,9 +759,6 @@ class Site_management_model extends CI_Model {
 
                 
     }
-
-
-
      function deleteBrandSettings($id) {
 
         $this->db->where('id', $id)
@@ -771,5 +768,69 @@ class Site_management_model extends CI_Model {
         }
         return false;
     }
+
+    function addSeoUrl($data) {
+        
+        // print_r($data);die;
+        $this->db->set('seo_keyword', $data['seo_keyword'])
+                ->set('seo_key', $data['seo_key'])
+                ->set('seo_value', $data['seo_value'])
+                ->insert('seo_url');
+
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+
+    function getAllSeoUrl(){        
+        $data = array();
+        $query = $this->db->select('id,seo_keyword,seo_key,seo_value')
+                          ->from('seo_url')
+                          ->get();
+        if ($query->num_rows() > 0) {
+            $i = 0;
+            foreach ($query->result_array() as $row) {
+                $data[$i]['id'] = $row['id'];
+                $data[$i]['seo_keyword'] = $row['seo_keyword'];
+                $data[$i]['seo_key'] = $row['seo_key'];
+                $data[$i]['seo_value'] = $row['seo_value'];
+                
+                $i++;
+            }
+        }
+        return $data;
+    }
+
+    function getSeoDetails($id) {
+        $data = array();
+        $res = $this->db->select("id,seo_keyword,seo_key,seo_value,")
+                ->from("seo_url")
+                ->where('id', $id)
+                ->limit(1)
+                ->get();
+        foreach ($res->result() as $row) {
+            $data['seo_keyword'] = $row->seo_keyword;
+            $data['seo_key'] = $row->seo_key;
+            $data['seo_value'] = $row->seo_value;
+            
+        }
+        return $data;
+    }
+
+    function updateSeo_url($data) {
+        
+        $this->db->set('seo_keyword', $data['seo_keyword'])
+                ->set('seo_key', $data['seo_key'])
+                ->set('seo_value', $data['seo_value'])
+                ->where('id', $data['update_seo'])
+                ->update('seo_url');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return true;
+    }
+
 
 }
