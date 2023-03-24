@@ -131,7 +131,27 @@ $lang['delete_this_slider_js'] = "Delete This Slider";
 $lang['delete_it_js'] = "Delete It";
 $lang['brand_safe_js'] = "Brand Safe";
 $lang['delete_this_brand_js'] = "Delete This Brand";
+$lang['noti_deleted_complete'] = 'Notification Deleted Sucessfully';
+$lang['noti_deleted_failed'] = 'Failed To Delete Notification';
 
+$lang['are_you_sure_js'] = 'Are You Sure';
+$lang['cancel_it_js'] = 'Cancel It';
+$lang['canceled_js'] = 'Cancelled';
+$lang['notification_safe_js'] = 'Notification Safe';
+$lang['delete_this_notification_js'] = 'Delete This Notification';
+$lang['delete_it_js'] = 'Delete It';
 
-
+$lang['seo_url'] = 'SEO URL';
+$lang['add_seo_url'] = 'Add SEO URL';
+$lang['update_seo_url'] = 'Update SEO URL';
+$lang['seo_keyword'] = 'SEO Keyword';
+$lang['seo_key'] = 'SEO Key';
+$lang['seo_value'] = 'SEO Value';
+$lang['seo_url_added_successfully'] = 'SEO URL Added Successfully';
+$lang['seo_url_adding_failed'] = 'Failed to Add SEO URL';
+$lang['seo_updated_successfully'] = 'SEO URL Successfully Updated';
+$lang['nothing_to_edit'] = 'Nothing to Edit';
+$lang['seo_keyword_req_js'] = 'Required';
+$lang['seo_key_req_js'] = 'Required';
+$lang['seo_value_req_js'] = 'Required';
 
