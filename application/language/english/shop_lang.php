@@ -127,5 +127,6 @@ $lang['continue_shooping'] = 'Continue Shooping';
 $lang['you_will_notify_js'] = 'You will be notified by WhatsApp when this item is back in stock ';
 $lang['enter_phone_js'] = 'Enter Your Phone Number';
 $lang['phone_req_js'] = 'Enter Your Phone Number';
-
-
+$lang['add_address'] = 'Add Address';
+$lang['update_address'] = 'Update Address';
+$lang['address_1_req_js'] = 'Addressline 1 Is Required';

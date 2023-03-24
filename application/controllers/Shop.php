@@ -235,14 +235,15 @@ class Shop extends Base_Controller {
         $this->loadView();
     }
     
-    public function account($active =''){
+    public function account($active ='', $action = '', $add_id = ''){
         $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
         $active = $active;
         $this->load->model('report_model');
         $user= $this->aauth->get_user();
         $user_id = $this->aauth->getId();
 
-        if ($this->input->post('change_password') && $this->validate_general_password()) {
+
+        if ($this->input->post('change_password') && $this->validate_general_password()){
             $active = 5;
             $this->load->helper('security');
             $post = $this->security->xss_clean($this->input->post());
@@ -255,32 +256,104 @@ class Shop extends Base_Controller {
             }else{
                $this->loadPage('Current password does not match', 'account/'.$active, 'danger');
            }
-       }
-       if ($this->input->post('account_details') && $this->validate_general_update()) {
-        $active = 4;
-        $this->load->helper('security');
-        $post = $this->security->xss_clean($this->input->post());
-        $res = $this->report_model->updategeneral($post ,$user_id);
-        if($res){
-            $this->loadPage('update success', 'account/'.$active, 'success');
-        }else{
-           $this->loadPage('something went wrong', 'account/'.$active, 'danger');
-       }
-   }
-   $user_detail = $this->db->select('first_name,last_name,phone_number')
-   ->from('user_details')
-   ->where('mlm_user_id', $user_id)
-   ->get();
-   foreach ($user_detail->result() as $row) {
-      $detail = $row;
-  }
-  $this->setData('active', $active);  
-  $this->setData('user_name', $user_name);  
-  $this->setData('user_mail', $user->email);  
-  $this->setData('user_details', $detail); 
-  $this->setData('login_error', $this->form_validation->error_array());
-  $this->loadView();
-}
+        }
+        if ($this->input->post('account_details') && $this->validate_general_update()) {
+            $active = 4;
+            $this->load->helper('security');
+            $post = $this->security->xss_clean($this->input->post());
+            $res = $this->report_model->updategeneral($post ,$user_id);
+            if($res){
+                $this->loadPage('update success', 'account/'.$active, 'success');
+            }else{
+               $this->loadPage('something went wrong', 'account/'.$active, 'danger');
+            }
+        }
+
+        $edit_flag = FALSE;
+        if($this->input->post('add_address')){
+            $active = 3;
+            $this->load->helper('security');
+            $post = $this->security->xss_clean($this->input->post());
+            // print_r($post);die;
+            $res = $this->shop_model->addUserAddress($post, $user_id);
+            $country_id = $post['country_id'];
+            $countries = $this->helper_model->getAllCountries();
+            $states = $this->helper_model->getAllStates($country_id);
+
+
+            $this->setData('states', $states);
+            $this->setData('countries', $countries);
+
+            $this->loadPage('Address Added Successfully','account/'.$active, 'success');
+         
+        }
+
+        
+        if ($action && $add_id) {
+            $active = 3;
+            if ($action == "edit") {
+                $edit_flag = TRUE;
+                $usr_addr = $this->shop_model->getUserAddress($add_id);
+                $country_id = $usr_addr['country_id'];
+                $countries = $this->helper_model->getAllCountries();
+                $states = $this->helper_model->getAllStates($country_id);
+
+                $this->setData('states', $states);
+                $this->setData('countries', $countries);
+                $this->setData('usr_addr', $usr_addr);
+            } 
+            else {
+                $this->loadPage(lang('invalid_action'), 'account/'.$active, 'danger');
+            }
+            
+        }
+
+        if($this->input->post('update_address')){
+            $active = 3;
+            $this->load->helper('security');
+            $post = $this->security->xss_clean($this->input->post());
+            $res = $this->shop_model->UpdateUserAddress($post, $user_id);
+            $country_id = $usr_addr['country_id'];
+            $countries = $this->helper_model->getAllCountries();
+            $states = $this->helper_model->getAllStates($country_id);
+
+            $this->setData('countries', $countries);
+            $this->setData('usr_addr', $usr_addr);
+            $this->loadPage('Update Address Successfully','account/'.$active, 'success');
+        }
+
+        $user_detail = $this->db->select('first_name,last_name,phone_number')
+           ->from('user_details')
+           ->where('mlm_user_id', $user_id)
+           ->get();
+        foreach ($user_detail->result() as $row) {
+            $detail = $row;
+        }
+        $address = $this->shop_model->getAllAddress($user_id);
+        $usr_addr = $this->shop_model->getUserAddress($add_id);
+        $countries = $this->helper_model->getAllCountries();
+        $user_orders = $this->shop_model->getUserOrdersData($user_id);
+        $this->setData('user_orders', $user_orders);
+        $this->setData('countries', $countries);
+        $this->setData('usr_addr', $usr_addr);
+        $this->setData('edit_flag', $edit_flag);
+        $this->setData('add_id', $add_id);
+        $this->setData('address', $address);
+        $this->setData('login_error', $this->form_validation->error_array());
+        $this->setData('active', $active);  
+        $this->setData('user_name', $user_name);  
+        $this->setData('user_mail', $user->email);  
+        $this->setData('user_details', $detail); 
+        $this->setData('login_error', $this->form_validation->error_array());
+        $this->loadView();
+    }
+
+
+
+
+
+
+
 public function validate_general_password() {
     $this->form_validation->set_rules('current_password', lang('password'), 'trim|required');
     $this->form_validation->set_rules('password', lang('password'), 'trim|required|matches[confirm_password]|min_length[6]');
@@ -350,6 +423,18 @@ function update_notify() {
         $result = $this->shop_model->getAllProductNames($query);
         echo $result;
         exit();
+    }
+
+    function user_invoice($ord_id) {
+        $active = 2;
+        $this->load->model('member_model');
+        $invoice_details = $this->member_model->getInvoiceDetails($ord_id);
+        if (!$invoice_details) {
+            $this->loadPage(lang('invalid_link'), 'account/'.$active, 'warning');
+        }
+        $this->setData('invoice_details', $invoice_details);
+        $this->setData('active', $active);
+        $this->loadView();
     }
 
 }

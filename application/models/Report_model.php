@@ -2335,7 +2335,7 @@ if ($where) {
                         ->set('city', $useraddAddress['city'])
                         ->set('zip_code', $useraddAddress['zip_code'])
                         ->set('country_id', $address_post['country_id'])
-                        ->set('state_id', $address_post['state_id'])
+                        // ->set('state_id', $address_post['state_id'])
                         ->insert('user_address');
                     }
                 }

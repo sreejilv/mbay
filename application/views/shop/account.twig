@@ -3,42 +3,60 @@
 
 <head>
     <meta charset="utf-8">
+    <base href="{{BASE_URL}}" />
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Mbay Online Shopping</title>
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="../assets/shop/images/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/shop/images/favicon.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css" rel="stylesheet"/>
 
     <!-- All CSS is here
 	============================================ -->
 
-    <link rel="stylesheet" href="../assets/shop/css/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/shop/css/vendor/bootstrap.min.css">
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.rtl.min.css"> -->
-    <link rel="stylesheet" href="../assets/shop/css/vendor/signericafat.css">
-    <link rel="stylesheet" href="../assets/shop/css/vendor/cerebrisans.css">
-    <link rel="stylesheet" href="../assets/shop/css/vendor/simple-line-icons.css">
-    <link rel="stylesheet" href="../assets/shop/css/vendor/elegant.css">
-    <link rel="stylesheet" href="../assets/shop/css/vendor/linear-icon.css">
+    <link rel="stylesheet" href="assets/shop/css/vendor/signericafat.css">
+    <link rel="stylesheet" href="assets/shop/css/vendor/cerebrisans.css">
+    <link rel="stylesheet" href="assets/shop/css/vendor/simple-line-icons.css">
+    <link rel="stylesheet" href="assets/shop/css/vendor/elegant.css">
+    <link rel="stylesheet" href="assets/shop/css/vendor/linear-icon.css">
 
-    <link rel="stylesheet" href="../assets/shop/css/plugins/animate.css">
+    <link rel="stylesheet" href="assets/shop/css/plugins/animate.css">
 
-    <link rel="stylesheet" href="../assets/shop/css/style.css">
-    <!-- <link rel="stylesheet" href="../assets/shop/css/style_rtl.css"> -->
+    <link rel="stylesheet" href="assets/shop/css/style.css">
+    <!-- <link rel="stylesheet" href="assets/shop/css/style_rtl.css"> -->
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../assets/css/custom_style.css">
-    <!-- <link rel="stylesheet" href="../assets/shop/css/custom_style_rtl.css"> -->
+    <link rel="stylesheet" href="assets/css/custom_style.css">
+    <!-- <link rel="stylesheet" href="assets/shop/css/custom_style_rtl.css"> -->
 
 </head>
+<div id="js_messages" style="display: none;"> 
+    <span id="first_name_req_js">{{lang('first_name_req_js')}}</span>   
+    <span id="last_name_req_js">{{lang('last_name_req_js')}}</span>   
+    <span id="email_req_js">{{lang('email_req_js')}}</span>   
+    <span id="phone_number_req_js">{{lang('phone_number_req_js')}}</span>   
+    <span id="address_1_req_js">{{lang('address_1_req_js')}}</span>   
+    <span id="city_req_js">{{lang('city_req_js')}}</span>   
+    <span id="country_req_js">{{lang('country_req_js')}}</span>   
+    <span id="zip_code_req_js">{{lang('zip_code_req_js')}}</span>   
+    <span id="current_password_req_js">{{lang('current_password_req_js')}}</span>   
+    <span id="new_password_req_js">{{lang('new_password_req_js')}}</span>   
+    <span id="confirm_password_req_js">{{lang('confirm_password_req_js')}}</span>   
+    <span id="password_mismatch_js">{{lang('password_mismatch_js')}}</span>   
+    
+</div>
 
 <body>
 
     <div class="main-wrapper bg-gray-9">
 
         <!-- HEADER -->
-    {% include('shop/layout/header.twig')%}
+        {% include('shop/layout/header.twig')%}
+        {%include('admin/layout/notification.twig')%}
         <!-- END HEADER -->
 
         <!-- MOBILE MENU -->
@@ -105,28 +123,27 @@
                     <div class="col-xl-3 col-lg-12">
                         <div class="aside-menu">
                             <div class="nav nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                              <button class="nav-link {% if active == 1 %} active {% endif %}"  id="v-pills-dashboard-tab" data-bs-toggle="pill" data-bs-target="#v-pills-dashboard" type="button" role="tab" aria-controls="v-pills-dashboard" aria-selected="false">
-                                <i class="icon-equalizer rotate-90"></i>Dashboard
-                            </button>
-                              <button class="nav-link" id="v-pills-orders-tab" data-bs-toggle="pill" data-bs-target="#v-pills-orders" type="button" role="tab" aria-controls="v-pills-orders" aria-selected="false">
-                                <i class="icon-handbag"></i>Orders
-                            </button>
-                              <button class="nav-link" id="v-pills-address-tab" data-bs-toggle="pill" data-bs-target="#v-pills-address" type="button" role="tab" aria-controls="v-pills-address" aria-selected="false">
-                                <i class="icon-home"></i>My Address
-                            </button>
+                                <button class="nav-link {% if active == 1 %} active {% endif %}"  id="v-pills-dashboard-tab" data-bs-toggle="pill" data-bs-target="#v-pills-dashboard" type="button" role="tab" aria-controls="v-pills-dashboard" aria-selected="false">
+                                    <i class="icon-equalizer rotate-90"></i>Dashboard
+                                </button>
+                                <button class="nav-link {% if active == 2 %} active {% endif %}" id="v-pills-orders-tab" data-bs-toggle="pill" data-bs-target="#v-pills-orders" type="button" role="tab" aria-controls="v-pills-orders" aria-selected="false">
+                                    <i class="icon-handbag"></i>Orders
+                                </button>
+                                <button class="nav-link {% if active == 3 %} active {% endif %}" id="v-pills-address-tab" data-bs-toggle="pill" data-bs-target="#v-pills-address" type="button" role="tab" aria-controls="v-pills-address" aria-selected="false">
+                                    <i class="icon-home"></i>My Address
+                                </button>
 
-                              <button class="nav-link {% if active == 4 %} active {% endif %}" id="v-pills-account-tab" data-bs-toggle="pill" data-bs-target="#v-pills-account" type="button" role="tab" aria-controls="v-pills-account" aria-selected="false">
-                                <i class="icon-user"></i>Account Details
-                            </button>
-                            <button class="nav-link {% if active == 5 %} active {% endif %} " id="v-pills-password-tab" data-bs-toggle="pill" data-bs-target="#v-pills-password" type="button" role="tab" aria-controls="v-pills-password" aria-selected="true">
-                                <i class="icon-lock"></i>Change Password
-                            </button>
-                              <a href="#logout" class="nav-link">
-                                <i class="icon-logout"></i>Logout
-                            </a>
+                                <button class="nav-link {% if active == 4 %} active {% endif %}" id="v-pills-account-tab" data-bs-toggle="pill" data-bs-target="#v-pills-account" type="button" role="tab" aria-controls="v-pills-account" aria-selected="false">
+                                    <i class="icon-user"></i>Account Details
+                                </button>
+                                <button class="nav-link {% if active == 5 %} active {% endif %} " id="v-pills-password-tab" data-bs-toggle="pill" data-bs-target="#v-pills-password" type="button" role="tab" aria-controls="v-pills-password" aria-selected="true">
+                                    <i class="icon-lock"></i>Change Password
+                                </button>
+                                <a href="#logout" class="nav-link">
+                                    <i class="icon-logout"></i>Logout
+                                </a>
                             </div>
-                            
-                          </div>
+                        </div>
                     </div>
                     <div class="col-lg-9">
                         <div class="tab-content" id="v-pills-tabContent">
@@ -134,24 +151,24 @@
                                 <!--dashboard-->
                                 <div class="card">
                                     <div class="card-header">
-                                      <h3 class="mb-0">Hello &nbsp;{{user_name}}</h3>
-                                      </div>
-                                      <div class="card-body">
+                                        <h3 class="mb-0">Hello &nbsp;{{user_name}}</h3>
+                                    </div>
+                                    <div class="card-body">
                                         <p class="card-text">
                                             From your account dashboard. you can easily check & view your recent orders,
                                             manage your shipping and billing addresses and edit your password and account details.
                                         </p>
-                                      </div>
-                                  </div>
+                                    </div>
+                                </div>
                                 <!--end dashboard-->
                             </div>
-                            <div class="tab-pane fade" id="v-pills-orders" role="tabpanel" aria-labelledby="v-pills-orders-tab" tabindex="0">
+                            <div class="tab-pane fade {% if active == 2 %} show active {% endif %}" id="v-pills-orders" role="tabpanel" aria-labelledby="v-pills-orders-tab" tabindex="0">
                                 <!--orders-->
                                 <div class="card orders">
                                     <div class="card-header">
-                                      <h3 class="mb-0">Your Orders</h3>
-                                      </div>
-                                      <div class="card-body">
+                                        <h3 class="mb-0">Your Orders</h3>
+                                    </div>
+                                    <div class="card-body">
                                         <div class="table-responsive text-nowrap">
                                             <table class="table mb-0">
                                                 <thead>
@@ -164,90 +181,178 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    {% for order in user_orders %}
                                                     <tr>
-                                                        <td>#1357</td>
-                                                        <td>March 45, 2020</td>
-                                                        <td>Processing</td>
-                                                        <td>$125.00 for 2 item</td>
-                                                        <td><a href="#" class="btn-small d-block text-primary">Download</a></td>
+                                                        <td>#MBOO{{order.order_id}}</td>
+                                                        <td>{{order.order_date}}</td>
+                                                        <td>{{order.order_status}}</td>
+                                                        <td>{{order.total_amount}} for&nbsp;{{order.product_count}} item</td>
+                                                        <td><a target="_blank" href="account/user-invoice/{{order.order_id}}" class="btn-small d-block text-primary">Download</a></td>
                                                     </tr>
-                                                    <tr>
-                                                        <td>#2468</td>
-                                                        <td>June 29, 2020</td>
-                                                        <td>Completed</td>
-                                                        <td>$364.00 for 5 item</td>
-                                                        <td><a href="#" class="btn-small d-block text-primary">Download</a></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>#2366</td>
-                                                        <td>August 02, 2020</td>
-                                                        <td>Completed</td>
-                                                        <td>$280.00 for 3 item</td>
-                                                        <td><a href="#" class="btn-small d-block text-primary">Download</a></td>
-                                                    </tr>
+                                                    {% endfor %}
                                                 </tbody>
                                             </table>
-                                          </div>
-                                      </div>
-                                  </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 
                                 <!--end orders-->
                             </div>
-                            <div class="tab-pane fade" id="v-pills-address" role="tabpanel" aria-labelledby="v-pills-address-tab" tabindex="0">
+
+
+
+
+
+
+
+                            <div class="tab-pane fade  {% if active == 3 %} show active {% endif %}" id="v-pills-address" role="tabpanel3" aria-labelledby="v-pills-address-tab" tabindex="0">
                                 <!--address-->
                                 <div class="card address">
                                     <div class="card-header">
-                                      <h3 class="mb-0">Shipping Address</h3>
-                                      </div>
-                                      <div class="card-body">
+                                        <h3 class="mb-0">Shipping Address</h3>
+                                    </div>
+                                    <div class="card-body">
                                         <span class="badge text-bg-light">Home</span>
                                         <address>
-                                            3522 Interstate<br>
-                                            75 Business Spur,<br>
-                                            Sault Ste. <br>Marie, MI 49783
+                                            {% for add in address %}
+                                            <p>{{add.address_1}}<br>
+                                            {{add.address_2}}<br>
+                                            {{add.city}}<br>
+                                            {{add.country_id}}<br>
+                                            {{add.zip_code}}</p>
+                                            <a href="{{BASE_URL}}account/3/edit/{{add.id}}" class="btn-small text-primary acct-address-edit mb-2 d-inline-block">Edit</a>
+                                            {% endfor %}
                                         </address>
-                                        <a href="#" class="btn-small text-primary acct-address-edit mb-2 d-inline-block">Edit</a>
-                                        <!--edit-->
-                                        <div class="address-edit1">
-                                            <form>
-                                                <div class="mb-3">
-                                                    <label class="form-label">Building Name/House No, Floor, Apartment No. <abbr class="required" title="required">*</abbr></label>
-                                                    <input type="text" class="form-control">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label class="form-label">Street Name/No, P.O. Box No.  <abbr class="required" title="required">*</abbr></label>
-                                                    <input type="text" class="form-control">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label class="form-label">Address Type (optional).</label>
-                                                    <div>
-                                                        <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                                                            <label class="form-check-label" for="flexRadioDefault1">
-                                                              Home
-                                                            </label>
-                                                          </div>
-                                                          <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
-                                                            <label class="form-check-label" for="flexRadioDefault2">
-                                                              Office
-                                                            </label>
-                                                          </div>
+                                    </div>
+                                </div>
+                                <!--end address-->
+
+                                {{ form_open('', 'class="address_form" id="address_form" name="address_form"')|raw }}
+                                <div class="card-body p-4"> 
+                                    <div class="card-header">
+                                        <h4 class="panel-title">
+                                            <span class="text-bold">
+                                                {% if edit_flag %}
+                                                    {{lang('update_address')}}
+                                                {% else %}
+                                                    {{lang('add_address')}}
+                                                {% endif %}
+                                            </span>
+                                        </h4>
+                                    </div>
+                                    <br>
+                                    <div class="row" class="form-control">
+                                        <div class="col-lg-12 ms-lg-auto">
+                                            <div class="mt-4 mt-lg-0">
+                                                <div class="row mb-4">
+                                                    <label for="horizontal-email-input" class="col-sm-3 col-form-label">Addressline 1</label>
+                                                    <div class="form-group col-sm-9">
+                                                        <input type="text" class="form-control" id="address_1" name="address_1" value="{{usr_addr.address_1}}" >
                                                     </div>
                                                 </div>
-                                                <button type="submit" class="btn btn-primary">Save Address</button> 
-                                            </form>        
+                                                <div class="row mb-4">
+                                                    <label for="horizontal-email-input" class="col-sm-3 col-form-label">Addressline 2</label>
+                                                    <div class="form-group col-sm-9">
+                                                        <input type="text" class="form-control" id="address_2" name="address_2" value="{{usr_addr.address_2}}">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4">
+                                                    <label for="horizontal-email-input" class="col-sm-3 col-form-label">City</label>
+                                                    <div class="form-group col-sm-9">
+                                                        <input type="text" class="form-control" id="city"  name="city" value="{{usr_addr.city}}">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4">
+                                                    <label for="horizontal-email-input" class="col-sm-3 col-form-label">Country</label>
+                                                    <div class="form-group col-sm-9">
+                                                        <select name="country_id" id="country_id" class="form-control search-select" tabindex='4'>
+                                                            <option value="">Select Country</option>
+                                                            {% for cntrs in countries %}
+                                                                <!-- <option>{{ cntrs.name|raw }}</option> -->
+                                                                <option value="{{ cntrs.id }}" {% if usr_addr.country_id==cntrs.id %} selected {% endif %}>{{ cntrs.name|raw }}</option>
+                                                                
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4">
+                                                    <label for="horizontal-email-input" class="col-sm-3 col-form-label">State</label>
+                                                    <div class="form-group col-sm-9">
+                                                        <span class="input-icon" id="state_span">
+                                                            <select name="state" id="state_id" class="form-control search-select" tabindex='4'>
+                                                                <option value="">{{ lang('select_a_state') }}</option>
+                                                                    {% for sts in states %}
+                                                                    <option value="{{ sts.id }}" {% if usr_addr.state_id==sts.id %} selected {% endif %}>{{ sts.name|raw }}</option>
+                                                                    {% endfor %}
+                                                            </select>
+                                                        </span>
+                                                    </div>
+                                                </div> 
+
+                                                <div class="row mb-4">
+                                                    <label for="horizontal-email-input" class="col-sm-3 col-form-label">Zip code</label>
+                                                    <div class="form-group col-sm-9">
+                                                        <input type="text" class="form-control" id="zip_code"  name="zip_code" value="{{usr_addr.zip_code}}">
+                                                    </div>
+                                                </div>
+                                                    <input type="hidden"  id="address_type" name="address_type">
+                                                <div class="row mb-4">
+                                                    <label class="form-label">Address Type (optional).</label>
+                                                    <div>
+                                                        <div class="form-group form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="address_type" id="address_type" value="Home"{% if usr_addr.address_type=='Home' %} checked {% endif %}>
+                                                                <label class="form-check-label" for="flexRadioDefault1">
+                                                                    Home
+                                                                </label>
+                                                        </div>
+                                                        <div class="form-group form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="address_type" id="address_type" value="Office" {% if usr_addr.address_type=='Office' %} checked {% endif %}>
+                                                                <label class="form-check-label" for="flexRadioDefault2">
+                                                                    Office
+                                                                </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                    
+                                                    <input type="hidden" id="status" name="status">
+                                                <div class="row mb-4">
+                                                    <div class="form-group form-check-right mb-3 ">
+                                                        <input class="form-check-input" type="radio" name="status"  unchecked id="status" value="1" {% if usr_addr.status==1 %} checked {% endif %}>
+                                                            <label class="form-check-label" for="flexRadioDefault1">
+                                                                Default
+                                                            </label>
+                                                    </div>
+                                                </div>
+                                            </div> 
                                         </div>
-                                        <!--end edit-->
-                                      </div>
-                                  </div>
-                                <!--end address-->
+                                    </div>
+                                    <div class="row justify-content-end">
+                                        <div class="col-sm-9">
+                                            <div>
+                                            {% if edit_flag %}
+                                                <button type="submit" class="btn btn-primary" value="{{ add_id }}" name="update_address" id="update_address">
+                                                    {{lang('update')}} <i class="fa fa-arrow-circle-right"></i>
+                                                </button>
+                                            {% else %}
+                                                <button type="submit" class="btn btn-primary" value="add_address" name="add_address"> 
+                                                    {{lang('submit')}} <i class="fa fa-arrow-circle-right"></i>
+                                                </button>
+                                            {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{form_close()|raw}}
                             </div>
+                                    
+
+
+
+
+
                             <div class="tab-pane fade {% if active == 4 %} show active {% endif %} " id="v-pills-account" role="tabpanel" aria-labelledby="v-pills-account-tab" tabindex="0">
                                 <!--account-details-->
                                 <div class="card">
-                                            
-
                                     <div class="card-header">
                                       <h3 class="mb-0">Account Details</h3>
                                       </div>
@@ -334,23 +439,26 @@
     <!-- All JS is here
 ============================================ -->
 
-    <script src="../assets/shop/js/vendor/modernizr-3.11.7.min.js"></script>
-    <script src="../assets/shop/js/vendor/jquery-v3.6.0.min.js"></script>
-    <script src="../assets/shop/js/vendor/jquery-migrate-v3.3.2.min.js"></script>
-    <script src="../assets/shop/js/vendor/popper.min.js"></script>
-    <script src="../assets/shop/js/vendor/bootstrap.min.js"></script>
-    <script src="../assets/shop/js/plugins/slick.js"></script>
-    <script src="../assets/shop/js/plugins/jquery.syotimer.min.js"></script>
-    <script src="../assets/shop/js/plugins/jquery.nice-select.min.js"></script>
-    <script src="../assets/shop/js/plugins/wow.js"></script>
-    <script src="../assets/shop/js/plugins/jquery-ui.js"></script>
-    <script src="../assets/shop/js/plugins/magnific-popup.js"></script>
-    <script src="../assets/shop/js/plugins/sticky-sidebar.js"></script>
-    <script src="../assets/shop/js/plugins/easyzoom.js"></script>
-    <script src="../assets/shop/js/plugins/scrollup.js"></script>
-    <script src="../assets/shop/js/plugins/ajax-mail.js"></script>
+<!--     <script src="../assets/shop/js/vendor/modernizr-3.11.7.min.js"></script>
+    <script src="assets/shop/js/vendor/jquery-v3.6.0.min.js"></script>
+    <script src="assets/shop/js/vendor/jquery-migrate-v3.3.2.min.js"></script>
+    <script src="assets/shop/js/vendor/popper.min.js"></script>
+    <script src="assets/shop/js/vendor/bootstrap.min.js"></script>
+    <script src="assets/shop/js/plugins/slick.js"></script>
+    <script src="assets/shop/js/plugins/jquery.syotimer.min.js"></script>
+    <script src="assets/shop/js/plugins/jquery.nice-select.min.js"></script>
+    <script src="assets/shop/js/plugins/wow.js"></script>
+    <script src="assets/shop/js/plugins/jquery-ui.js"></script>
+    <script src="assets/shop/js/plugins/magnific-popup.js"></script>
+    <script src="assets/shop/js/plugins/sticky-sidebar.js"></script>
+    <script src="assets/shop/js/plugins/easyzoom.js"></script>
+    <script src="assets/shop/js/plugins/scrollup.js"></script>
+    <script src="assets/shop/js/plugins/ajax-mail.js"></script> -->
     <!-- Main JS -->
-    <script src="../assets/shop/js/main.js"></script>
+    <!-- <script src="assets/shop/js/main.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
     {# <script>
     function tabactive(tab_id){
         tab_id =tab_id;
@@ -367,7 +475,111 @@
 };
     </script> #}
 
+<script>
+    var validate_address_form = function () {
+        var form = $('#address_form');
+        var errorHandler2 = $('.errorHandler', form);
+        var successHandler2 = $('.successHandler', form);
+        form.validate({
+            errorElement: "div", // contain the error msg in a span tag
+            errorClass: 'invalid-feedback',
+            errorPlacement: function (error, element) { // render error placement for each input type
+                
+                error.appendTo($(element).closest('.form-group'));
+            },
+            ignore: ':hidden',
+            rules: {
+                address_1: {
+                    required: true,
+                },
+                city: {
+                    required: true,
+                },
+                country_id: {
+                    required: true,
+                },
+                zip_code: {
+                    required: true,
+                    digits: true,
+                },
+                
 
+            },
+            messages: {
+                address_1: {
+                    required: $('#address_1_req_js').html()
+                },
+                city: {
+                    required: $('#city_req_js').html()
+                },
+                country_id: {
+                    required: $('#country_req_js').html()
+                },
+                zip_code: {
+                    required: $('#zip_code_req_js').html()
+                },
+
+            },
+            invalidHandler: function (event, validator) {
+                successHandler2.hide();
+                errorHandler2.show();
+            },
+            highlight: function (element) {
+                $(element).closest('.form-control').removeClass('is-invalid');
+                //display Checkbox invalid Data
+                $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+                // display OK icon
+                $(element).closest('.form-control').removeClass('is-valid').addClass('is-invalid').find('.symbol').removeClass('ok').addClass('required');
+                // add the Bootstrap error class to the control group
+            },
+            unhighlight: function (element) { // revert the change done by hightlight
+                //display Checkbox invalid Data
+
+                $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+                $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
+                // set error class to the control group
+            },
+            success: function (label, element) {
+                //display Checkbox invalid Data
+                $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+                $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
+                // mark the current input as valid and display OK icon
+            },
+            submitHandler: function (form) {
+                successHandler2.show();
+                errorHandler2.hide();
+                form.submit();
+                toastr.success('Success')
+            }
+        });
+    };
+
+</script>
+<script>
+    $(document).ready(function () {
+        validate_address_form();
+    });
+</script>
+<script>
+    $('#country_id').on('change', function (e) {
+    var optionSelected = $("option:selected", this);
+    var valueSelected = this.value;
+
+    $.ajax({url: "register/get_states",
+        data: {country_id: valueSelected},
+        async: false,
+        success: function (msg) {
+            $('#state_span').html(msg);
+            $("#state").select2({
+                placeholder: "Select a State",
+                allowClear: false
+            });
+        }
+    });
+
+});
+
+</script>
 </body>
 
 </html>
