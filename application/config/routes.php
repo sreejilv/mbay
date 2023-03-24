@@ -409,5 +409,10 @@ $route['admin/website-image-upload'] = 'admin/site_management/website_image_uplo
 $route['admin/slider_settings'] = 'admin/site_management/slider_settings';
 $route['admin/slider_settings/(:any)/(:num)'] = 'admin/site_management/slider_settings/$1/$2';
 
+// SEO URL
+
+$route['admin/seo-url'] = 'admin/site_management/seo_url';
+$route['admin/seo-url/(:any)/(:num)'] = 'admin/site_management/seo_url/$1/$2';
+
 
 
