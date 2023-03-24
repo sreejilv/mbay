@@ -1,0 +1,288 @@
+{% include('admin/partials/head-main.twig')%}
+<head>
+    <base href="{{ base_url() }}" />
+    <?= $title_meta ?>
+
+    {% include('admin/partials/head-css.twig')%}
+    <link href="assets/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css">
+    <!-- DataTables -->
+    <link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+    <!-- Responsive datatable examples -->
+    <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+    <link href="assets/libs/dropify/dropify.min.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<div id="js_messages" style="display: none;"> 
+    <span id="seo_value_req_js">{{lang('seo_value_req_js')}}</span>   
+    <span id="seo_key_req_js">{{lang('seo_key_req_js')}}</span>   
+    <span id="seo_keyword_req_js">{{lang('seo_keyword_req_js')}}</span>           
+</div>
+
+{% include('admin/partials/body.twig')%}
+<!-- <body data-layout="horizontal"> -->
+
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+
+        {% include('admin/partials/menu.twig')%}
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+<div class="page-content">
+            <div class="container-fluid">
+            {% include('admin/layout/notification.twig') %}
+                <!-- start page title -->
+                <?= $page_title ?>
+                <h4 class="panel-title">
+                    <span class="text-bold">
+                        {% if edit_flag %} 
+                            {{lang('update_seo_url')}}
+                        {% else %}
+                            {{lang('add_seo_url')}} 
+                        {% endif %}
+                    </span>
+                </h4>
+
+
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div>
+                                    {{ form_open_multipart('', ' id="seo_form"')|raw }}
+                                  
+                                        <input type="hidden" />
+                                        <div class="row">
+
+                                             <div class="col-xl-6 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>SEO Keyword</label>
+                                                    <input type="text"  class="form-control" name="seo_keyword" id="seo_keyword" value="{{ seo_details.seo_keyword }}" />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xl-6 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>Key </label>
+                                                    <input type="text" class="form-control" name="seo_key" id="seo_key" value="{{ seo_details.seo_key }}"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xl-6 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>Value </label>
+                                                    <input type="text" class="form-control" name="seo_value" id="seo_value" value="{{ seo_details.seo_value }}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end row -->
+                                        <div class="form-group">
+                                            {% if edit_flag %}                               
+                                            <button type="submit"class="btn btn-primary" value="{{ seo_id }}" name="update_seo" id="update_seo">
+                                                {{lang('update')}}  <i class="fa fa-arrow-circle-right"></i>
+                                            </button>
+                                            {% else %}
+                                            <button type="submit"class="btn btn-primary" value="add_seo_url" name="add_seo_url" >
+                                                {{lang('submit')}}  <i class="fa fa-arrow-circle-right"></i>
+                                            </button>
+                                            {% endif %}
+                                        </div>
+                               
+                                    {{ form_close()|raw }}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end card -->
+                    </div>
+                    <!-- end col -->
+                </div>
+                {% if not edit_flag %} 
+    
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <table id="datatable" class="table table-bordered dt-responsive  nowrap w-100">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>{{lang('keyword')}}</th>
+                                            <th>{{lang('key')}}</th>
+                                            <th>{{lang('value')}}</th>
+                                            <th>{{lang('action')}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for row in seo_url %}  
+                                        <tr>
+                                            <td>{{loop.index}}</td>
+                                            <td>{{row.seo_keyword}}</td>
+                                            <td>{{row.seo_key}}</td>
+                                            <td>{{row.seo_value}}</td>
+                                            <td><a href="{{BASE_URL}}admin/seo-url/seo_edit/{{row.id}}" button type="submit"class="btn btn-primary"><i class="fas fa-pencil-alt"></i></td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>                                    
+                                </table>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+                {% endif %}
+            </div>
+        </div>
+                   <!-- end main content-->
+               </div>
+           </div>
+           <!-- END layout-wrapper -->
+            {% include('admin/partials/right-sidebar.twig')%}
+           <!-- JAVASCRIPT -->
+           {% include('admin/partials/vendor-scripts.twig')%}
+           <script src="assets/js/app.js"></script>
+           <script src="assets/libs/flatpickr/flatpickr.min.js"></script>
+           <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+           <script src="assets/libs/dropify/dropify.min.js"></script>
+           <!-- Required datatable js -->
+           <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+           <script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+           <!-- Buttons examples -->
+           <script src="assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+           <script src="assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+           <script src="assets/libs/jszip/jszip.min.js"></script>
+           <script src="assets/libs/pdfmake/build/pdfmake.min.js"></script>
+           <script src="assets/libs/pdfmake/build/vfs_fonts.js"></script>
+           <script src="assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+           <script src="assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+           <script src="assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+           <!-- Responsive examples -->
+           <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+           <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+           <!-- pristine js -->
+           <!-- form validation -->
+           <script src="assets/js/pages/form-validation.init.js"></script>
+           <!-- Datatable init js -->
+           <script src="assets/js/pages/datatables.init.js"></script>
+           <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+           <link href="assets/plugins/sweetalert/lib/sweet-alert.css" rel="stylesheet" />
+        <script src="assets/plugins/sweetalert/lib/sweet-alert.min.js"></script>
+<style>
+    .help-block
+    {
+        color:red;
+    }
+        span.file-icon{display:none}
+    
+    </style>
+
+    <script>
+    $(document).ready(function () {
+        validate_seo_management();
+    });
+
+    var validate_seo_management = function () {
+        var form = $('#seo_form');
+        var errorHandler2 = $('.errorHandler', form);
+        var successHandler2 = $('.successHandler', form);
+        form.validate({
+            errorElement: "span", // contain the error msg in a small tag
+            errorClass: 'help-block',
+            errorPlacement: function (error, element) { // render error placement for each input type
+                if (element.attr("type") == "radio" || element.attr("type") == "checkbox") { // for chosen elements, need to insert the error after the chosen container
+                    error.insertAfter($(element).closest('.form-group').children('div').children().last());
+                } else if (element.hasClass("ckeditor")) {
+                    error.appendTo($(element).closest('.form-group'));
+                } else if (element.attr("type") == "file") {
+                    error.insertAfter($(element).closest('div'));
+                } else {
+                    error.insertAfter(element)// for other inputs, just perform default behavior
+                }
+            },
+            ignore: ':hidden',
+            rules: {
+                seo_keyword: {
+                    required: true,
+                    
+                },
+                seo_key: {
+                    required: true,
+                    
+                },
+                seo_value: {
+                    required: true
+                }
+            },
+            messages: {
+                seo_keyword: {
+                    required: $('#seo_keyword_req_js').html()
+                },
+                seo_key: {
+                    required: $('#seo_key_req_js').html()
+                },
+                seo_value: {
+                    required: $('#seo_value_req_js').html()
+                }
+            },
+            invalidHandler: function (event, validator) { //display error alert on form submit
+                successHandler2.hide();
+                errorHandler2.show();
+            },
+            highlight: function (element) {
+                $(element).closest('.help-block').removeClass('valid');// display OK icon
+                $(element).closest('.form-group').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
+                // add the Bootstrap error class to the control group
+            },
+            unhighlight: function (element) { // revert the change done by hightlight
+                $(element).closest('.form-group').removeClass('has-error');
+                // set error class to the control group
+            },
+            success: function (label, element) {
+                label.addClass('help-block valid');
+                // mark the current input as valid and display OK icon
+                $(element).closest('.form-group').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
+            },
+            submitHandler: function (form) {
+                successHandler2.show();
+                errorHandler2.hide();
+
+                form.submit();
+
+            }
+        });
+    };
+
+    function edit_seo(id)
+    {
+        var title = $('#are_you_sure').html();
+        var msg = $('#edit_this_cat_js').html();
+        swal({
+            title: title,
+            text: msg,
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: $('#yes_edit_it').html(),
+            cancelButtonText: $('#no_cancel_pls').html(),
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+        function (isConfirm) {
+            if (isConfirm) {
+                document.location.href = 'admin/seo-url/seo_edit/' + id;
+            } else {
+                swal($('#canceled').html(), $('#oprn_canceled').html(), "error");
+            }
+        });
+    }
+
+</script>
+
+
+    </body>
+
+</html>
