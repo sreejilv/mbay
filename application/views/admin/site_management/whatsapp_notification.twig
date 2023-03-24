@@ -21,7 +21,14 @@
     <span id="subtitle_req_js">{{lang('subtitle_req_js')}}</span>   
     <span id="image_req_js">{{lang('image_req_js')}}</span>   
 
-    <span id="user_photo_ext_js">{{lang('user_photo_ext_js')}}</span>     
+    <span id="user_photo_ext_js">{{lang('user_photo_ext_js')}}</span>    
+    <span id="are_you_sure_js">{{lang('are_you_sure_js')}} </span>
+    <span id="cancel_it_js">{{lang('cancel_it_js')}} </span>
+    <span id="canceled_js">{{lang('canceled_js')}} </span>
+    <span id="notification_safe_js">{{lang('notification_safe_js')}} </span>
+    <span id="delete_this_notification_js">{{lang('delete_this_notification_js')}} </span>
+    <span id="delete_it_js">{{lang('delete_it_js')}} </span>
+        
 </div>
 
 {% include('admin/partials/body.twig')%}
@@ -75,9 +82,9 @@
                                                 <td>{{row.product_name}}</td>
                                                 <td>{{row.username}}</td>
                                                 <td>{{row.email}}</td>
-                                                <td><a href="https://api.whatsapp.com/send?phone={{row.phone}}&text=Hi %20{{row.username}} %0a %0a We have great news! 🤩 The %20{{row.product_name}} you were interested in is now back in stock. We know you've been eagerly waiting for it, and we're excited to let you know that you can now purchase it. %0a %0a Don't wait too long, as stock is limited and we cannot guarantee how long it will remain available. Head over to our website to place your 🛒 order now! %0a %0a Thank you 😊 for your continued interest in our products, and please don't hesitate to reach out if you have any questions. %0a %0a Best regards,%0a {{COMPANY_NAME}}" class="btn btn-success" title="">
-                                                       sent message
-                                                    </a></td>
+                                                <td><a href="https://web.whatsapp.com/send?phone={{row.phone}}&text=Hi %20{{row.username}} %0a %0a We have great news! 🤩 The %20{{row.product_name}} you were interested in is now back in stock. We know you've been eagerly waiting for it, and we're excited to let you know that you can now purchase it. %0a %0a Don't wait too long, as stock is limited and we cannot guarantee how long it will remain available. Head over to our website to place your 🛒 order now! %0a %0a Thank you 😊 for your continued interest in our products, and please don't hesitate to reach out if you have any questions. %0a %0a Best regards,%0a {{COMPANY_NAME}}" class="btn btn-success" title="">
+                                                       Sent Message &nbsp;<i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                                    </a>&nbsp;&nbsp;<a href="javascript:noti_delete({{row.id}})" button type="submit" class="btn btn-danger"><i class="fa fa-trash fa fa-white"></i></a></td>
                                             </tr>
                                             {% endfor %}
                                            </tbody>
@@ -121,9 +128,51 @@
            <!-- Datatable init js -->
            <script src="assets/js/pages/datatables.init.js"></script>
            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+           <link href="assets/plugins/sweetalert/lib/sweet-alert.css" rel="stylesheet" />
+<script src="assets/plugins/sweetalert/lib/sweet-alert.min.js"></script>
 <style>
         span.file-icon{display:none}
     </style>
+
+    <script>
+    function noti_delete(id) {
+
+
+        var are_you_sure_js = $('#are_you_sure_js').html();
+        var cancel_it_js = $('#cancel_it_js').html();
+        var canceled_js = $('#canceled_js').html();  
+
+
+        var notification_safe_js = $('#notification_safe_js').html();
+
+        var delete_this_notification_js = $('#delete_this_notification_js').html();
+        var delete_it_js = $('#delete_it_js').html();
+        
+
+
+        swal({
+
+            title: are_you_sure_js,
+            text: delete_this_notification_js,
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: delete_it_js,
+            cancelButtonText: cancel_it_js,
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+
+        function (isConfirm) {
+            
+            if (isConfirm) {
+                document.location.href = 'admin/whatsapp-notification/noti_delete/' + id;
+            } else {
+                swal(canceled_js, category_safe_js, "error");
+            }
+        }); 
+    } 
+</script>
 
     </body>
 
