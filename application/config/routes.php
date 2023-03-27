@@ -392,7 +392,7 @@ $route['update-notify'] = 'shop/update_notify';
 $route['search-product'] = 'shop/get_products';
 
 
-$route['account/(:any)'] = 'shop/account/$1';
+$route['account/(:any)/(:any)/(:num)'] = 'shop/account/$1/$2/$3';
 // $route['tab_actives"'] = 'shop/tab_actives';
 $route['(:any)/join-report'] = '$1/report/user_join';
 $route['(:any)/join-report/(:num)'] = '$1/report/user_join/$2';
@@ -409,3 +409,5 @@ $route['admin/slider_settings/(:any)/(:num)'] = 'admin/site_management/slider_se
 $route['admin/seo-url'] = 'admin/site_management/seo_url';
 $route['admin/seo-url/(:any)/(:num)'] = 'admin/site_management/seo_url/$1/$2';
 
+
+$route['account/user-invoice/(:any)'] = 'shop/user_invoice/$1';
