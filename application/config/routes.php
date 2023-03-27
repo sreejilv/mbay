@@ -391,7 +391,7 @@ $route['update-notify'] = 'shop/update_notify';
 $route['update-notify'] = 'shop/update_notify';
 $route['search-product'] = 'shop/get_products';
 
-
+$route['account/(:any)'] = 'shop/account/$1';
 $route['account/(:any)/(:any)/(:num)'] = 'shop/account/$1/$2/$3';
 // $route['tab_actives"'] = 'shop/tab_actives';
 $route['(:any)/join-report'] = '$1/report/user_join';
