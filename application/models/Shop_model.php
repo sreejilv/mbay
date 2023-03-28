@@ -64,7 +64,7 @@ function getAllProductNames($query) {
        $json=[];
         foreach ($res->result_array() as $row) {
             $prod_img =unserialize($row['images']);
-            $image = (count($prod_img)>0)?$prod_img[0]['file_name']:'no-image.jpg';
+            $image = (!empty($prod_img)&& is_array($prod_img))?$prod_img[0]['file_name']:'no-image.jpg';
             $data['image']= $image;
             $data['name'] = $row['product_name'];
             $data['product_amount'] = $row['product_amount'];
@@ -74,6 +74,25 @@ function getAllProductNames($query) {
         }
         return json_encode($json);        
     }
+
+
+
+ function checkSeoKeyExists($seo_key){
+    $data=[];
+    $res = $this->db->select("*")
+                    ->from('seo_url')
+                    ->where('seo_keyword',$seo_key)
+                    ->get();
+                    if($res->num_rows() > 0){
+                        $data['status']=true;
+                        $data['seo_key']=$res->row()->seo_key;
+                        $data['seo_value']=$res->row()->seo_value;
+                        $data['seo_url']=base_url().$res->row()->seo_key.'/'.$res->row()->seo_value;
+                    }
+
+                    return $data;
+ }
+
 
     // User My Address
 
@@ -205,6 +224,7 @@ function getAllProductNames($query) {
         }
         return $data;
     }
+
 
 
 }
