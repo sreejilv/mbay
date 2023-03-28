@@ -997,17 +997,4 @@ class Product_model extends CI_Model {
         }
         return $name;
     }
-
-    public function get_data($limit, $offset) {
-        $query = $this->db->get('products', $limit, $offset);
-        $data = $query->result_array();
-        $total_rows = $this->db->count_all('products');
-        
-        return array(
-            'data' => $data,
-            'total_rows' => $total_rows
-        );
-    }
-    
-
 }
