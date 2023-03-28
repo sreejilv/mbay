@@ -6,7 +6,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'shop';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
-
 $route['(\w{2})/(.*)'] = '$2';
 $route['(\w{2})'] = $route['default_controller'];
 $route['employee-login'] = 'login/login_employee';
@@ -374,8 +373,8 @@ $route['(:any)/new-theme'] = '$1/home/theme';
 // Shop
 
 
-$route['index'] = 'shop/index';
-$route['(:any)'] = 'shop/index/$1';
+// // $route['index'] = 'shop/index';
+// $route['(:any)'] = 'shop/index/$1';
 
 $route['login-register'] = 'shop/login_register';
 $route['shop'] = 'shop/shop';
