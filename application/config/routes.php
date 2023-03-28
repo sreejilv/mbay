@@ -373,7 +373,10 @@ $route['(:any)/new-theme'] = '$1/home/theme';
 
 // Shop
 
+
 $route['index'] = 'shop/index';
+$route['(:any)'] = 'shop/index/$1';
+
 $route['login-register'] = 'shop/login_register';
 $route['shop'] = 'shop/shop';
 $route['shop/(:any)'] = 'shop/shop/$1';
@@ -389,8 +392,8 @@ $route['checkout'] = 'shop/checkout';
 $route['products'] = 'shop/products';
 $route['products/(:num)'] = 'shop/products/$1';
 $route['update-notify'] = 'shop/update_notify';
-$route['update-notify'] = 'shop/update_notify';
 $route['search-product'] = 'shop/get_products';
+
 
 $route['account/(:any)'] = 'shop/account/$1';
 $route['account/(:any)/(:any)/(:num)'] = 'shop/account/$1/$2/$3';
@@ -411,4 +414,7 @@ $route['admin/seo-url'] = 'admin/site_management/seo_url';
 $route['admin/seo-url/(:any)/(:num)'] = 'admin/site_management/seo_url/$1/$2';
 
 
+
+
 $route['account/user-invoice/(:any)'] = 'shop/user_invoice/$1';
+
