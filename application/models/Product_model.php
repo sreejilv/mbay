@@ -136,11 +136,15 @@ class Product_model extends CI_Model {
 
      * @return type
      */
-    function getAllProducts() {
+    function getAllProducts($limit='',$offset='') {
         $data = array();
-        $res = $this->db->select("id,status,product_name,product_amount,product_pv,product_code,recurring_type,product_type,description,images")
-                ->from("products")
-                ->get();
+         $this->db->select("id,status,product_name,product_amount,product_pv,product_code,recurring_type,product_type,description,images");
+                $this->db->from("products");
+                if($limit!=''&& $offset!='')
+                {
+                  $this->db->limit($limit,$offset);
+                }
+                $res =$this->db->get();
                // echo $this->db->last_query();die;
         $i = 0;
         foreach ($res->result() as $row) {
@@ -992,6 +996,17 @@ class Product_model extends CI_Model {
             $name = $query->row()->category;
         }
         return $name;
+    }
+
+    public function get_data($limit, $offset) {
+        $query = $this->db->get('products', $limit, $offset);
+        $data = $query->result_array();
+        $total_rows = $this->db->count_all('products');
+        
+        return array(
+            'data' => $data,
+            'total_rows' => $total_rows
+        );
     }
     
 

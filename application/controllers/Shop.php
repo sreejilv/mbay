@@ -251,23 +251,25 @@ class Shop extends Base_Controller {
             if($this->aauth->verify_password($user->password,$hash_pass)){
                 $res = $this->report_model->updatepassword($post,$user_id);
                 if($res){
-                    $this->loadPage('update success', 'account/'.$active, 'success');
+                    $this->loadPage('Update success', 'account/'.$active, 'success');
                 }
             }else{
                $this->loadPage('Current password does not match', 'account/'.$active, 'danger');
            }
         }
+
         if ($this->input->post('account_details') && $this->validate_general_update()) {
             $active = 4;
             $this->load->helper('security');
             $post = $this->security->xss_clean($this->input->post());
             $res = $this->report_model->updategeneral($post ,$user_id);
             if($res){
-                $this->loadPage('update success', 'account/'.$active, 'success');
+                $this->loadPage('Update success', 'account/'.$active, 'success');
             }else{
-               $this->loadPage('something went wrong', 'account/'.$active, 'danger');
+               $this->loadPage('Something went wrong', 'account/'.$active, 'danger');
             }
         }
+
 
         $edit_flag = FALSE;
         if($this->input->post('add_address')){
@@ -301,7 +303,7 @@ class Shop extends Base_Controller {
                 $this->setData('usr_addr', $usr_addr);
             } 
             else {
-                $this->loadPage(lang('invalid_action'), 'account/'.$active, 'danger');
+                $this->loadPage('invalid_action', 'account/'.$active, 'danger');
             }
             
         }
@@ -359,7 +361,7 @@ class Shop extends Base_Controller {
         $this->form_validation->set_rules('email', lang('email'), 'required');
         $this->form_validation->set_rules('first_name', lang('first_name'), 'required');
         $this->form_validation->set_rules('last_name', lang('last_name'), 'required');
-        $this->form_validation->set_rules('phone_number', lang('phone_number'), 'required||regex_match[/^[0-9]{10}$/]');
+        $this->form_validation->set_rules('phone_number', lang('phone_number'), 'trim|required|numeric');
         $this->form_validation->set_error_delimiters('<li>', '</li>');
         $validation = $this->form_validation->run();
         return $validation;
@@ -395,16 +397,31 @@ class Shop extends Base_Controller {
         $this->load->model('product_model');
         $nav_category = $this->product_model->getNavCategoryLists();
         $products = $this->product_model->getAllProducts();
-        // print_r($products);die;
         $cart = $this->cart->contents();
         $cart_amount = $this->cart->total();
-        
 
+
+        $this->load->library('pagination');
+        $config = array();
+        $config['base_url'] = base_url() . "products";
+        $config['total_rows'] = count($products);
+        $config['per_page'] = 15;
+        $config['num_links'] = 10;
+        $config["uri_segment"] = 2;
+
+        $this->pagination->initialize($config);
+
+        $page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
+        $pagination["links"] = $this->pagination->create_links();
+
+        $products = $this->product_model->getAllProducts($config['per_page'],$page);
+
+        $this->setData('link', $pagination['links']);
         $this->setData('cart', $cart);
         $this->setData('items', $this->cart->total_items());
         $this->setData('cart_amount', $cart_amount);
         $this->setData('nav_category', $nav_category);
-        $this->setData('products', $products);
+        $this->setData('products',  $products);
       
         $this->loadView();
     }

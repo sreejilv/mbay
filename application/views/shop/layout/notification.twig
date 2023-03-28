@@ -1,0 +1,36 @@
+{% if FLASH_MESSAGE_DETAILS %}	
+<div class="col-xl-12 col-lg-12" style="margin: 50px; display: flex; justify-content: center; align-items: right; text-align: right;">
+	{% if FLASH_MESSAGE_TYPE == 'success'  %}
+
+			<div class="alert alert-success alert-dismissible alert-label-icon label-arrow fade show"  id="message_box" role="alert">
+				<i class="mdi mdi-check-all label-icon"></i>{{ FLASH_MESSAGE_DETAILS }}
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+{% elseif FLASH_MESSAGE_TYPE == 'danger'  %}
+			<div class="alert alert-danger alert-dismissible alert-label-icon label-arrow fade show"  id="message_box"  role="alert">
+				<i class="mdi mdi-block-helper label-icon"></i><strong></strong> 	{{ FLASH_MESSAGE_DETAILS }}
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+{% elseif FLASH_MESSAGE_TYPE == 'warning'  %}
+			<div class="alert alert-warning alert-dismissible alert-label-icon label-arrow fade show"  id="message_box" role="alert">
+				<i class="mdi mdi-alert-outline label-icon"></i>{{ FLASH_MESSAGE_DETAILS }}
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+{% elseif FLASH_MESSAGE_TYPE == 'info'  %}
+			<div class="alert alert-info alert-dismissible alert-label-icon label-arrow fade show mb-0"  id="message_box" role="alert">
+				<i class="mdi mdi-alert-circle-outline label-icon"></i>{{ FLASH_MESSAGE_DETAILS }}
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+
+		{% endif  %}
+</div><!-- end col -->
+{% endif %}
+
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function () {
+  $('#message_box').fadeIn('fast').delay(2000).fadeOut('slow');
+}, false);
+
+</script>

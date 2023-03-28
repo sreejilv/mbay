@@ -1,14 +1,11 @@
-
-
-<div id="js_messages" style="display: none;"> 
+{% include('shop/layout/header.twig')%}
+   <div id="js_messages" style="display: none;"> 
     <span id="add_to_cart_js">{{lang('add_to_cart_js')}}</span>    
     <span id="success_js">{{lang('success_js')}}</span>
     <span id="failed_to_add_js">{{lang('failed_to_add_js')}}</span>
     <span id="failed_js">{{lang('failed_js')}}</span>                
     <span id="added_to_cart_js">{{lang('added_to_cart_js')}}</span>  
 </div>
-   {% include('shop/layout/header.twig')%}
-
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css" rel="stylesheet"/>
 
@@ -120,6 +117,8 @@
                             </div>
                             <!--end single loop item-->
                             {% endfor %}
+
+                             <div class="swiper-pagination"></div>
                           
                         </div>
                         <!-- <div class="pro-pagination-style text-center mt-10">
@@ -131,6 +130,11 @@
                             </ul>
                         </div> -->
 
+                        <div class="pro-pagination-style text-center mt-10">
+                            <ul class="pagination-style pagination-lg justify-content-center">
+                                <li class="page-item">{{link|raw}}</li>
+                            </ul>
+                        </div>
                     </div>
 
                     <!-- SIDE BAR -->
@@ -441,3 +445,4 @@
     }
 
 </script>
+
