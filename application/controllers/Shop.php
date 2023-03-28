@@ -14,7 +14,25 @@ class Shop extends Base_Controller {
      * loading index page.
      * @author Techffodils Technologies LLP
      */
-    public function index() {
+    public function index($product_seo_key='') {
+      
+        $prod_view_flag=0;
+        $products = [];
+
+         if($product_seo_key!=''){
+            $check_seo_key = $this->shop_model->checkSeoKeyExists($product_seo_key);
+                if(is_array($check_seo_key)&& isset($check_seo_key['seo_value'])){
+                      $pro_id = $check_seo_key['seo_value'];
+                      $prod_view_flag=1;
+
+                      $this->load->model('product_model');
+                       if($pro_id){
+                        $products = $this->product_model->getProductDetailsView($pro_id);
+
+                         }   
+                    }
+         }
+
         $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
         $this->setData('user_name', $user_name);  
 
@@ -51,8 +69,15 @@ class Shop extends Base_Controller {
         $this->setData('cart_amount', $cart_amount);
         $this->setData('nav_category', $nav_category);
         $this->setData('slider_images', $slider_images);
+        $this->setData('prod_view_flag', $prod_view_flag);
+         $this->setData('products', $products);
         $this->loadView();
     }
+
+    // public function get_products($name){
+
+    // }
+
 
     public function login_register(){
         $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
@@ -65,7 +90,7 @@ class Shop extends Base_Controller {
     }
 
     public function shop($cat_id=""){
-        // echo 1111;die;
+        
         $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
         $this->setData('user_name', $user_name);  
         $user_type = $this->aauth->getUserType();
@@ -77,6 +102,8 @@ class Shop extends Base_Controller {
         if($cat_id){
             $products = $this->product_model->getProducts($cat_id);
         }
+
+       
         $cat_name = $this->product_model->getCatName($cat_id);
         $this->setData('cat_name', $cat_name);
         $this->setData('nav_category', $nav_category);
@@ -191,7 +218,7 @@ class Shop extends Base_Controller {
     }
 
         public function product_details($pro_id=''){
-            // echo "jkddcj";die;
+
             $party_id = 0;
         $this->load->model('product_model');
         $nav_category = $this->product_model->getNavCategoryLists();
