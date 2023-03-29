@@ -1,395 +1,399 @@
 {% include('shop/layout/header.twig')%}
-   <div id="js_messages" style="display: none;"> 
-    <span id="add_to_cart_js">{{lang('add_to_cart_js')}}</span>    
+<div id="js_messages" style="display: none;">
+    <span id="add_to_cart_js">{{lang('add_to_cart_js')}}</span>
     <span id="success_js">{{lang('success_js')}}</span>
     <span id="failed_to_add_js">{{lang('failed_to_add_js')}}</span>
-    <span id="failed_js">{{lang('failed_js')}}</span>                
-    <span id="added_to_cart_js">{{lang('added_to_cart_js')}}</span>  
+    <span id="failed_js">{{lang('failed_js')}}</span>
+    <span id="added_to_cart_js">{{lang('added_to_cart_js')}}</span>
 </div>
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css" rel="stylesheet"/>
+<!-- SHOP PAGE -->
+<section class="shop-area pt-120 pb-120 section-padding-2">
+    <div class="container-fluid">
+        <div class="row flex-row-reverse">
 
+            <div class="col-lg-9">
 
-        <!-- SHOP PAGE -->
-        <section class="shop-area pt-120 pb-120 section-padding-2">
-            <div class="container-fluid">
-                <div class="row flex-row-reverse">
+                <!-- FILTER MOBILE VIEW -->
+                <div class="shop-topbar-wrapper d-block d-md-block d-lg-none">
+                    <div class="shop-topbar-left">
+                        <div class="view-mode nav">
+                            <a class="transform-90deg" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
+                                aria-controls="offcanvasExample"><i class="icon-equalizer"></i></a>
+                        </div>
+                        <div class="product-sorting-wrapper">
+                            <div class="product-show shorting-style">
+                                <label>Sort by :</label>
+                                <select>
+                                    <option value="">Default</option>
+                                    <option value=""> Name</option>
+                                    <option value=""> price</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END FILTER MOBILE VIEW -->
 
-                    <div class="col-lg-9">
+                <div class="row">
+                    {% for pro in products%}
+                    <!--single loop item-->
+                    <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-6">
+                        <div class="single-product-wrap mb-35">
+                            <div class="product-img product-img-zoom mb-20">
 
-                        <!-- FILTER MOBILE VIEW -->
-                        <div class="shop-topbar-wrapper d-block d-md-block d-lg-none">
-                            <div class="shop-topbar-left">
-                                <div class="view-mode nav">
-                                    <a class="transform-90deg" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample"><i class="icon-equalizer"></i></a>
-                                </div>
-                                <div class="product-sorting-wrapper">
-                                    <div class="product-show shorting-style">
-                                        <label>Sort by :</label>
-                                        <select>
-                                            <option value="">Default</option>
-                                            <option value=""> Name</option>
-                                            <option value=""> price</option>
-                                        </select>
+                                <a href="{{BASE_URL}}shop-details/{{pro.id}}">
+                                    <img {% for file in pro.files %}
+                                        src="assets/shop/images/product/{{ file.file_name }}" {% endfor %}
+                                        title="{{pro.product_name}}">
+                                </a>
+
+                                <span class="pro-badge left bg-red">Label</span>
+                                <div class="product-action-wrap">
+                                    <div class="product-action-left">
+                                        <button onclick='addToCart({{pro.id}})'><i class="icon-basket-loaded"></i>Add to
+                                            Cart</button>
+
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- END FILTER MOBILE VIEW -->
-
-                        <div class="row">
-                            {% for pro in products%}
-                            <!--single loop item-->
-                            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-6">
-                                <div class="single-product-wrap mb-35">
-                                    <div class="product-img product-img-zoom mb-20">
-                                        
-                                        <a href="{{BASE_URL}}shop-details/{{pro.id}}">
-                                            <img {% for file in pro.files %} src="assets/shop/images/product/{{ file.file_name }}"{% endfor %} title="{{pro.product_name}}">
-                                        </a>
-                                        
-                                        <span class="pro-badge left bg-red">Label</span>
-                                        <div class="product-action-wrap">
-                                            <div class="product-action-left">
-                                                <button onclick='addToCart({{pro.id}})'><i class="icon-basket-loaded"></i>Add to Cart</button>
-                                                
-                                            </div>
-                                        </div>
+                            <div class="product-content-wrap">
+                                <div class="product-content-left">
+                                    <h4><b><a href="#" title="{{pro.product_name}}">{{pro.product_name}}</a></b></h4>
+                                    <div class="gb">
+                                        4 GB RAM
                                     </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-content-left">
-                                             <h4><b><a href="#" title="{{pro.product_name}}">{{pro.product_name}}</a></b></h4>
-                                             <div class="gb">
-                                                4 GB RAM
-                                             </div>
-                                            <div class="product-price">
-                                                <span class="new-price">OMR&nbsp;{{pro.product_amount}}</span>
-                                                <!-- <span class="new-price">OMR 46.00</span>
+                                    <div class="product-price">
+                                        <span class="new-price">OMR&nbsp;{{pro.product_amount}}</span>
+                                        <!-- <span class="new-price">OMR 46.00</span>
                                                 <span class="old-price">OMR 66.75</span> -->
-                                            </div>
-                                        </div>
-                                    </div> 
+                                    </div>
                                 </div>
                             </div>
-                            <!--end single loop item-->
-                            {% endfor %}
-
-                             <div class="swiper-pagination"></div>
-                          
-                        </div>
-
-
-                        <div class="text-center mt-10">
-                            {{link|raw}}
                         </div>
                     </div>
+                    <!--end single loop item-->
+                    {% endfor %}
 
-                    <!-- SIDE BAR -->
-                    <div class="col-lg-3">
-                        <div class="sidebar-wrapper sidebar-wrapper-mrg-right d-none d-md-none d-lg-block">
-                            <!-- ACCORDION -->
-                            <div class="accordion" id="accordionPanelsStayOpenExample">
+                    <div class="swiper-pagination"></div>
 
-                                <!-- PRICE -->
-                                <div class="accordion-item price">
-                                    <h2 class="accordion-header" id="panelsStayOpen-headingOne1">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#panelsStayOpen-collapseOne1" aria-expanded="true"
-                                            aria-controls="panelsStayOpen-collapseOne1">
-                                            Price
-                                        </button>
-                                    </h2>
-                                    <div id="panelsStayOpen-collapseOne1" class="accordion-collapse collapse show"
-                                        aria-labelledby="panelsStayOpen-headingOne1">
-                                        <div class="accordion-body">
-                                            <div class="input-group mb-3">
-                                                <span class="input-group-text" id="basic-addon1">OMR</span>
-                                                <input type="text" class="form-control form-control-sm" placeholder="50" aria-label="Username">
-                                                <span class="input-group-text">OMR</span>
-                                                <input type="text" class="form-control form-control-sm" placeholder="100" aria-label="Server">
-                                                <button type="button" class="btn btn-sm btn-primary"><i class="icon-cursor"></i></button>
-                                              </div>
-                                        </div>
+                </div>
+
+
+                <div class="text-center mt-10">
+                    {{link|raw}}
+                </div>
+            </div>
+
+            <!-- SIDE BAR -->
+            <div class="col-lg-3">
+                <div class="sidebar-wrapper sidebar-wrapper-mrg-right d-none d-md-none d-lg-block">
+                    <!-- ACCORDION -->
+                    <div class="accordion" id="accordionPanelsStayOpenExample">
+
+                        <!-- PRICE -->
+                        <div class="accordion-item price">
+                            <h2 class="accordion-header" id="panelsStayOpen-headingOne1">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#panelsStayOpen-collapseOne1" aria-expanded="true"
+                                    aria-controls="panelsStayOpen-collapseOne1">
+                                    Price
+                                </button>
+                            </h2>
+                            <div id="panelsStayOpen-collapseOne1" class="accordion-collapse collapse show"
+                                aria-labelledby="panelsStayOpen-headingOne1">
+                                <div class="accordion-body">
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1">OMR</span>
+                                        <input type="text" class="form-control form-control-sm" placeholder="50"
+                                            aria-label="Username">
+                                        <span class="input-group-text">OMR</span>
+                                        <input type="text" class="form-control form-control-sm" placeholder="100"
+                                            aria-label="Server">
+                                        <button type="button" class="btn btn-sm btn-primary"><i
+                                                class="icon-cursor"></i></button>
                                     </div>
                                 </div>
-                                <!-- END PRICE -->
-                            
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
-                                            aria-controls="panelsStayOpen-collapseOne">
-                                            Category
-                                        </button>
-                                    </h2>
-                                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
-                                        aria-labelledby="panelsStayOpen-headingOne">
-                                        <div class="accordion-body">
-                                            <div class="sidebar-widget shop-sidebar-border">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value=""
-                                                        id="flexCheckDefault1">
-                                                    <label class="form-check-label" for="flexCheckDefault1">
-                                                        Smartphone
-                                                    </label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value=""
-                                                        id="flexCheckDefault2">
-                                                    <label class="form-check-label" for="flexCheckDefault2">
-                                                        Tablets
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-                                        <button class="accordion-button" type="button"
-                                            data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo"
-                                            aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
-                                            Brand
-                                        </button>
-                                    </h2>
-                                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show"
-                                        aria-labelledby="panelsStayOpen-headingTwo">
-                                        <div class="accordion-body">
-                                            <div class="sidebar-widget shop-sidebar-border">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value=""
-                                                        id="flexCheckDefault1">
-                                                    <label class="form-check-label" for="flexCheckDefault1">
-                                                        Apple
-                                                    </label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value=""
-                                                        id="flexCheckDefault2">
-                                                    <label class="form-check-label" for="flexCheckDefault2">
-                                                        Samsung
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
-                                        <button class="accordion-button" type="button"
-                                            data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree"
-                                            aria-expanded="true" aria-controls="panelsStayOpen-collapseThree">
-                                            Color
-                                        </button>
-                                    </h2>
-                                    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse show"
-                                        aria-labelledby="panelsStayOpen-headingThree">
-                                        <div class="accordion-body">
-                                            <div class="sidebar-widget shop-sidebar-border">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value=""
-                                                        id="flexCheckDefault1">
-                                                    <label class="form-check-label" for="flexCheckDefault1">
-                                                        Black
-                                                    </label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value=""
-                                                        id="flexCheckDefault2">
-                                                    <label class="form-check-label" for="flexCheckDefault2">
-                                                        Blue
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            
-                            
                             </div>
-                            <!-- END ACCORDION -->
-
-
                         </div>
+                        <!-- END PRICE -->
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                                    aria-controls="panelsStayOpen-collapseOne">
+                                    Category
+                                </button>
+                            </h2>
+                            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+                                aria-labelledby="panelsStayOpen-headingOne">
+                                <div class="accordion-body">
+                                    <div class="sidebar-widget shop-sidebar-border">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value=""
+                                                id="flexCheckDefault1">
+                                            <label class="form-check-label" for="flexCheckDefault1">
+                                                Smartphone
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value=""
+                                                id="flexCheckDefault2">
+                                            <label class="form-check-label" for="flexCheckDefault2">
+                                                Tablets
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true"
+                                    aria-controls="panelsStayOpen-collapseTwo">
+                                    Brand
+                                </button>
+                            </h2>
+                            <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show"
+                                aria-labelledby="panelsStayOpen-headingTwo">
+                                <div class="accordion-body">
+                                    <div class="sidebar-widget shop-sidebar-border">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value=""
+                                                id="flexCheckDefault1">
+                                            <label class="form-check-label" for="flexCheckDefault1">
+                                                Apple
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value=""
+                                                id="flexCheckDefault2">
+                                            <label class="form-check-label" for="flexCheckDefault2">
+                                                Samsung
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="true"
+                                    aria-controls="panelsStayOpen-collapseThree">
+                                    Color
+                                </button>
+                            </h2>
+                            <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse show"
+                                aria-labelledby="panelsStayOpen-headingThree">
+                                <div class="accordion-body">
+                                    <div class="sidebar-widget shop-sidebar-border">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value=""
+                                                id="flexCheckDefault1">
+                                            <label class="form-check-label" for="flexCheckDefault1">
+                                                Black
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value=""
+                                                id="flexCheckDefault2">
+                                            <label class="form-check-label" for="flexCheckDefault2">
+                                                Blue
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
                     </div>
-                    <!-- END SIDE BAR -->
+                    <!-- END ACCORDION -->
 
-
-                    <!-- MOBILE FILTER OFFCANVAS -->
-                      <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-                        <div class="offcanvas-header">
-                          <h5 class="offcanvas-title" id="offcanvasExampleLabel">Filter</h5>
-                          <button type="button" class="btn btn-primary" data-bs-dismiss="offcanvas" aria-label="Close">Done</button>
-                        </div>
-                        <div class="offcanvas-body">
-                            <div class="sidebar-wrapper sidebar-wrapper-mrg-right mt-0">
-
-                                <!-- ACCORDION -->
-                                <div class="accordion" id="accordionPanelsStayOpenExample">
-    
-                                    <!-- PRICE -->
-                                    <div class="accordion-item price">
-                                        <h2 class="accordion-header" id="panelsStayOpen-headingOne1">
-                                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                                data-bs-target="#panelsStayOpen-collapseOne1" aria-expanded="true"
-                                                aria-controls="panelsStayOpen-collapseOne1">
-                                                Price
-                                            </button>
-                                        </h2>
-                                        <div id="panelsStayOpen-collapseOne1" class="accordion-collapse collapse show"
-                                            aria-labelledby="panelsStayOpen-headingOne1">
-                                            <div class="accordion-body">
-                                                <div class="input-group mb-3">
-                                                    <span class="input-group-text" id="basic-addon1">OMR</span>
-                                                    <input type="text" class="form-control form-control-sm" placeholder="50" aria-label="Username">
-                                                    <span class="input-group-text">OMR</span>
-                                                    <input type="text" class="form-control form-control-sm" placeholder="100" aria-label="Server">
-                                                    <button type="button" class="btn btn-sm btn-primary"><i class="icon-cursor"></i></button>
-                                                  </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- END PRICE -->
-    
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                                data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
-                                                aria-controls="panelsStayOpen-collapseOne">
-                                                Category
-                                            </button>
-                                        </h2>
-                                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
-                                            aria-labelledby="panelsStayOpen-headingOne">
-                                            <div class="accordion-body">
-                                                <div class="sidebar-widget shop-sidebar-border">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value=""
-                                                            id="flexCheckDefault1">
-                                                        <label class="form-check-label" for="flexCheckDefault1">
-                                                            Smartphone
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value=""
-                                                            id="flexCheckDefault2">
-                                                        <label class="form-check-label" for="flexCheckDefault2">
-                                                            Tablets
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-    
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-                                            <button class="accordion-button" type="button"
-                                                data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo"
-                                                aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                                                Brand
-                                            </button>
-                                        </h2>
-                                        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show"
-                                            aria-labelledby="panelsStayOpen-headingTwo">
-                                            <div class="accordion-body">
-                                                <div class="sidebar-widget shop-sidebar-border">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value=""
-                                                            id="flexCheckDefault1">
-                                                        <label class="form-check-label" for="flexCheckDefault1">
-                                                            Apple
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value=""
-                                                            id="flexCheckDefault2">
-                                                        <label class="form-check-label" for="flexCheckDefault2">
-                                                            Samsung
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-    
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="panelsStayOpen-headingThree">
-                                            <button class="accordion-button" type="button"
-                                                data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree"
-                                                aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                                                Color
-                                            </button>
-                                        </h2>
-                                        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse show"
-                                            aria-labelledby="panelsStayOpen-headingThree">
-                                            <div class="accordion-body">
-                                                <div class="sidebar-widget shop-sidebar-border">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value=""
-                                                            id="flexCheckDefault1">
-                                                        <label class="form-check-label" for="flexCheckDefault1">
-                                                            Black
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value=""
-                                                            id="flexCheckDefault2">
-                                                        <label class="form-check-label" for="flexCheckDefault2">
-                                                            Blue
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-    
-    
-                                </div>
-                                <!-- END ACCORDION -->
-    
-    
-                            </div>
-                        </div>
-                      </div>
-                    <!-- END MOBILE FILTER OFFCANVAS -->
 
                 </div>
             </div>
-        </section>
-        <!-- END SHOP PAGE -->
+            <!-- END SIDE BAR -->
 
-        {% include('shop/layout/footer.twig')%}
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+            <!-- MOBILE FILTER OFFCANVAS -->
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample"
+                aria-labelledby="offcanvasExampleLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Filter</h5>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="offcanvas"
+                        aria-label="Close">Done</button>
+                </div>
+                <div class="offcanvas-body">
+                    <div class="sidebar-wrapper sidebar-wrapper-mrg-right mt-0">
+
+                        <!-- ACCORDION -->
+                        <div class="accordion" id="accordionPanelsStayOpenExample">
+
+                            <!-- PRICE -->
+                            <div class="accordion-item price">
+                                <h2 class="accordion-header" id="panelsStayOpen-headingOne1">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#panelsStayOpen-collapseOne1" aria-expanded="true"
+                                        aria-controls="panelsStayOpen-collapseOne1">
+                                        Price
+                                    </button>
+                                </h2>
+                                <div id="panelsStayOpen-collapseOne1" class="accordion-collapse collapse show"
+                                    aria-labelledby="panelsStayOpen-headingOne1">
+                                    <div class="accordion-body">
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text" id="basic-addon1">OMR</span>
+                                            <input type="text" class="form-control form-control-sm" placeholder="50"
+                                                aria-label="Username">
+                                            <span class="input-group-text">OMR</span>
+                                            <input type="text" class="form-control form-control-sm" placeholder="100"
+                                                aria-label="Server">
+                                            <button type="button" class="btn btn-sm btn-primary"><i
+                                                    class="icon-cursor"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- END PRICE -->
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                                        aria-controls="panelsStayOpen-collapseOne">
+                                        Category
+                                    </button>
+                                </h2>
+                                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+                                    aria-labelledby="panelsStayOpen-headingOne">
+                                    <div class="accordion-body">
+                                        <div class="sidebar-widget shop-sidebar-border">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value=""
+                                                    id="flexCheckDefault1">
+                                                <label class="form-check-label" for="flexCheckDefault1">
+                                                    Smartphone
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value=""
+                                                    id="flexCheckDefault2">
+                                                <label class="form-check-label" for="flexCheckDefault2">
+                                                    Tablets
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+                                        aria-controls="panelsStayOpen-collapseTwo">
+                                        Brand
+                                    </button>
+                                </h2>
+                                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show"
+                                    aria-labelledby="panelsStayOpen-headingTwo">
+                                    <div class="accordion-body">
+                                        <div class="sidebar-widget shop-sidebar-border">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value=""
+                                                    id="flexCheckDefault1">
+                                                <label class="form-check-label" for="flexCheckDefault1">
+                                                    Apple
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value=""
+                                                    id="flexCheckDefault2">
+                                                <label class="form-check-label" for="flexCheckDefault2">
+                                                    Samsung
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+                                        aria-controls="panelsStayOpen-collapseThree">
+                                        Color
+                                    </button>
+                                </h2>
+                                <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse show"
+                                    aria-labelledby="panelsStayOpen-headingThree">
+                                    <div class="accordion-body">
+                                        <div class="sidebar-widget shop-sidebar-border">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value=""
+                                                    id="flexCheckDefault1">
+                                                <label class="form-check-label" for="flexCheckDefault1">
+                                                    Black
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value=""
+                                                    id="flexCheckDefault2">
+                                                <label class="form-check-label" for="flexCheckDefault2">
+                                                    Blue
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <!-- END ACCORDION -->
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- END MOBILE FILTER OFFCANVAS -->
+
+        </div>
+    </div>
+</section>
+<!-- END SHOP PAGE -->
+
+{% include('shop/layout/footer.twig')%}
 <script>
+    function addToCart(product_id) {
+        $.ajax({
+            url: "cart/add_to_cart",
+            data: {
+                product_id: product_id
+            },
+            success: function (res) {
+                if (res.trim() == "yes") {
+                    toastr.success('Added to cart')
+                    $("html,body").animate({
+                        scrollTop: 0
+                    }, "slow");
 
-
-    function addToCart(product_id) { 
-    $.ajax({
-        url: "cart/add_to_cart",
-        data: {product_id: product_id},
-        success: function (res) {
-            if (res.trim() == "yes")
-            {
-                toastr.success('Added to cart')
-                $("html,body").animate({scrollTop: 0}, "slow");
-
-                setTimeout(function() {
-                    location.reload();
-                }, 1000);
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1000);
+                } else {
+                    var msg = res; //$('#failed_to_add_js').html();
+                    toastr.error(msg)
+                }
             }
-            else
-            {
-                var msg = res;//$('#failed_to_add_js').html();
-                toastr.error(msg)
-            }
-        }
-    });
+        });
 
     }
-
 </script>
-

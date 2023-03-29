@@ -1,17 +1,15 @@
 {% include('shop/layout/header.twig')%}
 
-<!-- SIDEBAR CART -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css" rel="stylesheet"/>
-<div id="js_messages" style="display: none;"> 
-    <span id="add_to_cart_js">{{lang('add_to_cart_js')}}</span>    
+<div id="js_messages" style="display: none;">
+    <span id="add_to_cart_js">{{lang('add_to_cart_js')}}</span>
     <span id="success_js">{{lang('success_js')}}</span>
     <span id="failed_to_add_js">{{lang('failed_to_add_js')}}</span>
-    <span id="failed_js">{{lang('failed_js')}}</span>                
+    <span id="failed_js">{{lang('failed_js')}}</span>
     <span id="added_to_cart_js">{{lang('added_to_cart_js')}}</span>
     <span id="you_will_notify_js">{{lang('you_will_notify_js')}}</span>
     <span id="enter_phone_js">{{lang('enter_phone_js')}}</span>
-    <span id="phone_req_js">{{lang('phone_req_js')}}</span>  
-    
+    <span id="phone_req_js">{{lang('phone_req_js')}}</span>
+
 </div>
 
 {% for pro in products %}
@@ -87,17 +85,15 @@
 
                         <!--loop image-->
                         <div class="item">
-                            <img {% for file in pro.files %} src="assets/shop/images/product/{{ file.file_name }}" {% endfor %}
-                            title="{{pro.product_name}}" class="img-fluid"
-                            alt="{{pro.product_name}}">
-                            
+                            <img {% for file in pro.files %} src="assets/shop/images/product/{{ file.file_name }}"
+                                {% endfor %} title="{{pro.product_name}}" class="img-fluid" alt="{{pro.product_name}}">
+
                         </div>
                         <!--end loop image-->
                         <!--loop image-->
                         <div class="item">
-                            <img {% for file in pro.files %} src="assets/shop/images/product/{{ file.file_name }}" {% endfor %}
-                            title="{{pro.product_name}}" class="img-fluid"
-                            alt="{{pro.product_name}}">
+                            <img {% for file in pro.files %} src="assets/shop/images/product/{{ file.file_name }}"
+                                {% endfor %} title="{{pro.product_name}}" class="img-fluid" alt="{{pro.product_name}}">
                         </div>
                         <!--end loop image-->
 
@@ -111,7 +107,7 @@
 
                 <div class="product-details-content pro-details-content-mrg">
                     <h2>{{pro.product_name}}</h2>
-                    
+
                     <!--price-->
                     <div class="pro-details-price">
                         <span class="new-price">
@@ -122,16 +118,16 @@
                         </span> -->
                     </div>
                     <!--end price-->
-                    
+
                     <!--stock left message-->
-                   <!--  <p class="text-danger my-1">
+                    <!--  <p class="text-danger my-1">
                         Hurry, Only 6 left!
                     </p> -->
 
                     {%  if (pro.quantity < 10) and (pro.quantity > 0) %}
-                        <p class="text-danger my-1">
+                    <p class="text-danger my-1">
                         Hurry, Only &nbsp; {{ pro.quantity}} left!
-                    </p> 
+                    </p>
                     {% endif %}
                     <!--end stock left message-->
 
@@ -146,23 +142,24 @@
                         <div class="form-group">
                             <div class="input-group d-inline-flex w-auto ">
                                 <input type="hidden" id="product_id" value="{{pro.id}}">
-                                <input type="text" name="phone" id="phone" class="form-control shadow-none" placeholder="Your WhatsApp Number"
-                                aria-label="Recipient's username" aria-describedby="button-addon2">
+                                <input type="text" name="phone" id="phone" class="form-control shadow-none"
+                                    placeholder="Your WhatsApp Number" aria-label="Recipient's username"
+                                    aria-describedby="button-addon2">
                                 <button class="btn btn-primary" type="submit" id="button_addon">Notify Me</button>
                             </div>
                         </div>
                         {{form_close()|raw}}
 
 
-                       <!--  <div class="valid-feedback d-block">
+                        <!--  <div class="valid-feedback d-block">
                             You will be notified by WhatsApp when this item is back in stock
                         </div> -->
                         {% endif %}
                     </div>
                     <!--end outofstock-->
-                    
+
                     <h4>{{ pro.description|striptags }}</h4>
-                    
+
                     <!--warrenty-->
                     <div class="product-warrenty">
                         <div class="c-logo">
@@ -181,83 +178,83 @@
                         <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                             <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
                             <label class="btn btn-sm btn-outline-primary" for="btnradio1"><span class="color"
-                                style="background-color: #000;"></span>Black</label>
+                                    style="background-color: #000;"></span>Black</label>
 
-                                <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-                                <label class="btn btn-sm btn-outline-primary" for="btnradio2"><span class="color"
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                            <label class="btn btn-sm btn-outline-primary" for="btnradio2"><span class="color"
                                     style="background-color: rgb(0, 122, 221);"></span>Blue</label>
 
-                                    <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
-                                    <label class="btn btn-sm btn-outline-primary" for="btnradio3"><span class="color"
-                                        style="background-color: rgb(85, 85, 85);"></span>Grey</label>
-                                    </div>
-                                </div>
-                                <!--end color-->
-
-                                <!--ram-->
-                                <div class="product-color ram mt-3">
-                                    <div class="color-title">RAM</div>
-                                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio11" autocomplete="off">
-                                        <label class="btn btn-sm btn-outline-primary" for="btnradio11">2 GB</label>
-
-                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio22" autocomplete="off">
-                                        <label class="btn btn-sm btn-outline-primary" for="btnradio22">3 GB</label>
-                                    </div>
-                                </div>
-                                <!--end ram-->
-
-                                <!--gb-->
-                                <div class="product-color ram mt-3">
-                                    <div class="color-title">ROM</div>
-                                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio11" autocomplete="off">
-                                        <label class="btn btn-sm btn-outline-primary" for="btnradio11">256 GB</label>
-
-                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio22" autocomplete="off">
-                                        <label class="btn btn-sm btn-outline-primary" for="btnradio22">128 GB</label>
-                                    </div>
-                                </div>
-                                <!--end gb-->
-
-                                <!--highlights-->
-                                <div class="product-highlights mt-3">
-                                    <div class="h-title">
-                                        Highlights
-                                    </div>
-                                    <div class="hightlights-single">
-                                        <ul>
-                                            <li>4 GB RAM | 64 GB ROM | Expandable Upto 1 TB</li>
-                                            <li>16.76 cm (6.6 inch) Full HD+ Display</li>
-                                            <li>50MP + 5MP + 2MP | 8MP Front Camera</li>
-                                            <li>6000 mAh Lithium Ion Battery</li>
-                                            <li>Exynos 850 Processor</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <!--end highlights-->
-
-                                <!--addtocart-buynow-->
-                                <div class="action-button">
-                                    <a class="btn btn-primary me-1" role="button" onclick='addToCart({{pro.id}})'>Add to Cart</a>
-
-                                    <a class="btn btn-secondary" href="cart" role="button">Buy Now</a>
-                                </div>
-                                <!--end addtocart-buynow-->
-
-
-
-                            </div>
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+                            <label class="btn btn-sm btn-outline-primary" for="btnradio3"><span class="color"
+                                    style="background-color: rgb(85, 85, 85);"></span>Grey</label>
                         </div>
-
                     </div>
+                    <!--end color-->
+
+                    <!--ram-->
+                    <div class="product-color ram mt-3">
+                        <div class="color-title">RAM</div>
+                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio11" autocomplete="off">
+                            <label class="btn btn-sm btn-outline-primary" for="btnradio11">2 GB</label>
+
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio22" autocomplete="off">
+                            <label class="btn btn-sm btn-outline-primary" for="btnradio22">3 GB</label>
+                        </div>
+                    </div>
+                    <!--end ram-->
+
+                    <!--gb-->
+                    <div class="product-color ram mt-3">
+                        <div class="color-title">ROM</div>
+                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio11" autocomplete="off">
+                            <label class="btn btn-sm btn-outline-primary" for="btnradio11">256 GB</label>
+
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio22" autocomplete="off">
+                            <label class="btn btn-sm btn-outline-primary" for="btnradio22">128 GB</label>
+                        </div>
+                    </div>
+                    <!--end gb-->
+
+                    <!--highlights-->
+                    <div class="product-highlights mt-3">
+                        <div class="h-title">
+                            Highlights
+                        </div>
+                        <div class="hightlights-single">
+                            <ul>
+                                <li>4 GB RAM | 64 GB ROM | Expandable Upto 1 TB</li>
+                                <li>16.76 cm (6.6 inch) Full HD+ Display</li>
+                                <li>50MP + 5MP + 2MP | 8MP Front Camera</li>
+                                <li>6000 mAh Lithium Ion Battery</li>
+                                <li>Exynos 850 Processor</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--end highlights-->
+
+                    <!--addtocart-buynow-->
+                    <div class="action-button">
+                        <a class="btn btn-primary me-1" role="button" onclick='addToCart({{pro.id}})'>Add to Cart</a>
+
+                        <a class="btn btn-secondary" href="cart" role="button">Buy Now</a>
+                    </div>
+                    <!--end addtocart-buynow-->
+
+
+
                 </div>
-            </section>
-            <!-- END PRODUCT DEATILS -->
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- END PRODUCT DEATILS -->
 
 
-            <!-- RELATED PRODUCT -->
-            {#<div class="related-product pb-115 p-detail-page-related-product">
+<!-- RELATED PRODUCT -->
+{#<div class="related-product pb-115 p-detail-page-related-product">
                 <div class="container">
                     <div class="section-title mb-45 text-center">
                         <h2>Similar Products</h2>
@@ -312,60 +309,62 @@
                     </div>
                 </div>
             </div>#}
-            <!-- END RELATED PRODUCT -->
-            {% endfor %}
+<!-- END RELATED PRODUCT -->
+{% endfor %}
 
-            {% include('shop/layout/footer.twig')%}
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-            <link href="assets/plugins/sweetalert/lib/sweet-alert.css" rel="stylesheet" />
-            <!-- pristine js -->
-            <script src="assets/libs/pristinejs/pristine.min.js"></script>
-            <!-- form validation -->
-            <script src="assets/js/pages/form-validation.init.js"></script>
+{% include('shop/layout/footer.twig')%}
 
-            <script src="assets/js/file_extension.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-            <script>
+<link href="assets/plugins/sweetalert/lib/sweet-alert.css" rel="stylesheet" />
+<!-- pristine js -->
+<script src="assets/libs/pristinejs/pristine.min.js"></script>
+<!-- form validation -->
+<script src="assets/js/pages/form-validation.init.js"></script>
 
-                function addToCart(product_id) {
-                    $.ajax({
-                        url: "cart/add_to_cart",
-                        data: {product_id: product_id},
-                        success: function (res) {
-                            if (res.trim() == "yes")
-                            {
-                //update_cart();
-                                toastr.success('Added to cart')
-                                $("html,body").animate({scrollTop: 0}, "slow");
-                                setTimeout(function() {
-                                    location.reload();
-                                }, 1000);
-                            }
-                            else
-                            {
-                var msg = res;//$('#failed_to_add_js').html();
-                toastr.error(msg)
+<script src="assets/js/file_extension.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
+    integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    function addToCart(product_id) {
+        $.ajax({
+            url: "cart/add_to_cart",
+            data: {
+                product_id: product_id
+            },
+            success: function (res) {
+                if (res.trim() == "yes") {
+                    //update_cart();
+                    toastr.success('Added to cart')
+                    $("html,body").animate({
+                        scrollTop: 0
+                    }, "slow");
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1000);
+                } else {
+                    var msg = res; //$('#failed_to_add_js').html();
+                    toastr.error(msg)
+                }
             }
-        }
+        });
+
+    }
+</script>
+
+<script>
+    $(document).ready(function () {
+        validate_notify_form();
     });
 
-                }
-            </script>
-
-            <script>
-                $(document).ready(function () {
-                    validate_notify_form();
-                });
-
-                var validate_notify_form = function () {
-                    var form22 = $('#notify_whatsapp_form');
-                    var errorHandler2 = $('.errorHandler', form22);
-                    var successHandler2 = $('.successHandler', form22);
-                    form22.validate({
+    var validate_notify_form = function () {
+        var form22 = $('#notify_whatsapp_form');
+        var errorHandler2 = $('.errorHandler', form22);
+        var successHandler2 = $('.successHandler', form22);
+        form22.validate({
             errorElement: "div", // contain the error msg in a span tag
             errorClass: 'invalid-feedback',
             errorPlacement: function (error, element) { // render error placement for each input type
-                
+
                 error.appendTo($(element).closest('.form-group'));
             },
             ignore: "hidden",
@@ -373,12 +372,12 @@
                 phone: {
                     required: true,
                     digits: true
-                }            
+                }
             },
             messages: {
                 phone: {
                     required: $('#phone_req_js').html(),
-                }           
+                }
 
             },
             invalidHandler: function (event, validator) { //display error alert on form submit
@@ -390,20 +389,23 @@
                 //display Checkbox invalid Data
                 $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
                 // display OK icon
-                $(element).closest('.form-control').removeClass('is-valid').addClass('is-invalid').find('.symbol').removeClass('ok').addClass('required');
+                $(element).closest('.form-control').removeClass('is-valid').addClass('is-invalid').find(
+                    '.symbol').removeClass('ok').addClass('required');
                 // add the Bootstrap error class to the control group
             },
             unhighlight: function (element) { // revert the change done by hightlight
                 //display Checkbox invalid Data
 
                 $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
-                $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
+                $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find(
+                    '.symbol').removeClass('ok').addClass('required');
                 // set error class to the control group
             },
             success: function (label, element) {
                 //display Checkbox invalid Data
                 $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
-                $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
+                $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find(
+                    '.symbol').removeClass('ok').addClass('required');
                 // mark the current input as valid and display OK icon
             },
             submitHandler: function (form) {
@@ -411,7 +413,10 @@
                 errorHandler2.hide();
                 $.ajax({
                     url: "update-notify",
-                    data: {phone: $("#phone").val(),pro_id:$("#product_id").val()},
+                    data: {
+                        phone: $("#phone").val(),
+                        pro_id: $("#product_id").val()
+                    },
                     success: function (result) {
                         if (result == "yes") {
                             var msg = $('#you_will_notify_js').html();
@@ -429,5 +434,5 @@
                 });
             }
         });
-                }
-            </script>
+    }
+</script>

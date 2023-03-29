@@ -1,7 +1,6 @@
 {% include('shop/layout/header.twig')%}
 
-<!-- SIDEBAR CART -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css" rel="stylesheet"/>
+
 <div id="js_messages" style="display: none;"> 
     <span id="add_to_cart_js">{{lang('add_to_cart_js')}}</span>    
     <span id="success_js">{{lang('success_js')}}</span>
@@ -13,49 +12,6 @@
     <span id="phone_req_js">{{lang('phone_req_js')}}</span>  
     
 </div>
-
-<div class="sidebar-cart-active">
-    <div class="sidebar-cart-all">
-        <a class="cart-close" href="#"><i class="icon_close"></i></a>
-        <div class="cart-content">
-            <h3>Shopping Cart</h3>
-            <ul>
-                <li class="single-product-cart">
-                    <div class="cart-img">
-                        <a href="#"><img src="assets/shop/images/cart/cart-1.jpg" alt=""></a>
-                    </div>
-                    <div class="cart-title">
-                        <h4><a href="#">Simple Black T-Shirt</a></h4>
-                        <span> 1 × $49.00 </span>
-                    </div>
-                    <div class="cart-delete">
-                        <a href="#">×</a>
-                    </div>
-                </li>
-                <li class="single-product-cart">
-                    <div class="cart-img">
-                        <a href="#"><img src="assets/shop/images/cart/cart-2.jpg" alt=""></a>
-                    </div>
-                    <div class="cart-title">
-                        <h4><a href="#">Norda Backpack</a></h4>
-                        <span> 1 × $49.00 </span>
-                    </div>
-                    <div class="cart-delete">
-                        <a href="#">×</a>
-                    </div>
-                </li>
-            </ul>
-            <div class="cart-total">
-                <h4>Subtotal: <span>$170.00</span></h4>
-            </div>
-            <div class="cart-checkout-btn">
-                <a class="btn-hover cart-btn-style" href="{{BASE_URL}}cart">view cart</a>
-                <a class="no-mrg btn-hover cart-btn-style" href="{{BASE_URL}}checkout">checkout</a>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- END SIDEBAR CART -->
 
 <!-- Breadcrumb-area -->
 
@@ -312,7 +268,6 @@
             <!-- END RELATED PRODUCT -->
             
             {% include('shop/layout/footer.twig')%}
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
             <link href="assets/plugins/sweetalert/lib/sweet-alert.css" rel="stylesheet" />
             <!-- pristine js -->
             <script src="assets/libs/pristinejs/pristine.min.js"></script>
