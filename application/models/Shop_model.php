@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
 
 /**
  * 
@@ -16,13 +19,12 @@ class Shop_model extends CI_Model {
         parent::__construct();
     }
 
+    function insertNotificationDetails($phone, $pro_id, $user_id = 0) {
 
-    function insertNotificationDetails($phone,$pro_id,$user_id=0) {
-    
         $this->db->set('user_id', $user_id)
-        ->set('phone', $phone)
-        ->set('pro_id', $pro_id)
-        ->insert('update_notify`');
+                ->set('phone', $phone)
+                ->set('pro_id', $pro_id)
+                ->insert('update_notify`');
 
         if ($this->db->affected_rows() > 0) {
             return true;
@@ -30,12 +32,12 @@ class Shop_model extends CI_Model {
         return false;
     }
 
-    function getAllNotification(){        
+    function getAllNotification() {
         $data = array();
         $query = $this->db->select('update_notify.user_id,update_notify.user_id, update_notify.phone,update_notify.pro_id,user_name,email,product_name')
-        ->join('user','user.mlm_user_id = update_notify.user_id', 'left')
-        ->join('products','products.id = update_notify.pro_id', 'inner')
-        ->get('update_notify');
+                ->join('user', 'user.mlm_user_id = update_notify.user_id', 'left')
+                ->join('products', 'products.id = update_notify.pro_id', 'inner')
+                ->get('update_notify');
         if ($query->num_rows() > 0) {
             $i = 0;
             foreach ($query->result_array() as $row) {
@@ -47,6 +49,81 @@ class Shop_model extends CI_Model {
             }
         }
         return $data;
+    }
+
+    function getUserAddressData($user_id) {
+        $data = array();
+        $query = $this->db->select('user_address.address_1,user_address.address_2,user_address.city,user_address.country_id,user_address.state_id,user_address.zip_code,address_type,first_name,last_name,phone_number')
+                ->join('user_details', 'user_details.mlm_user_id = user_address.mlm_user_id', 'left')
+                ->where('user_address.mlm_user_id',$user_id)
+                ->get('user_address');
+        if ($query->num_rows() > 0) {
+            foreach ($query->result_array() as $row) {
+                $data['address_1'] = $row['address_1'];
+                $data['address_2'] = $row['address_2'];
+                $data['city'] = $row['city'];
+                $data['country'] = $row['country_id'];
+                $data['zip_code'] = $row['zip_code'];
+                $data['address_type'] = $row['address_type'];
+                $data['fullname'] = $row['first_name'].''.$row['last_name'];
+                $data['phone_number'] = $row['phone_number'];
+                $data['state'] = $row['state_id'];
+            }
+        }
+        return $data;
+    }
+    
+    
+      function insertOrder($user_id, $post, $cart, $total_items, $total_amount, $total_pv, $order_status) {
+        $order_id = 0;
+     
+        $res = $this->db->set('user_id ', $user_id)
+                ->set('total_amount', $total_amount)
+                ->set('total_pv ', $total_pv)
+                ->set('product_count', $total_items)
+                ->set('payment_type', 'free')
+                ->set('order_date', date("Y-m-d H:i:s"))
+                ->set('confirm_date ', date("Y-m-d H:i:s"))
+                ->set('address ', $post['address_1'])
+                ->set('country ', $post['country'])
+                ->set('state ', $post['state'])
+                ->set('city ', $post['city'])
+                ->set('zip_code ', $post['zip_code'])
+                ->set('order_status ', 1)
+                ->set('delivery_charge ', 0)
+                ->set('shipping_charge ', 0)
+                ->set('tax ', 0)
+                ->insert('orders');
+        if ($res) {
+            $order_id = $this->db->insert_id();
+            foreach ($cart as $c) {
+                $expiry_date = date("Y-m-d H:i:s");
+               
+                $this->db->set('order_id ', $order_id)
+                        ->set('product_id', $c['id'])
+                       // ->set('party_id', $c['party_id'])
+                        ->set('quantity ', $c['qty'])
+                        ->set('amount', $c['price'])
+                        ->set('pv', $c['pv'])
+                        ->set('image', $c['image'])
+                        ->set('date ', date("Y-m-d H:i:s"))
+                        //->set('category_id', $category_id)
+                       // ->set('expiry_date', $expiry_date)
+                        ->insert('order_products');
+            }
+                 if (isset($post['address_1'])) {
+                $this->db->set('address_1', $post['address_1'])
+                        ->set('city', $post['city'])
+                        ->set('zip_code', $post['zip_code'])
+                        ->set('country_id', $post['country'])
+                        ->set('state_id', $post['state'])
+                        ->set('address_type', $post['inlineRadioOptions'])
+                        ->where('mlm_user_id', $user_id)
+                        ->update('user_address');
+            }
+
+        }
+        return $order_id;
     }
 
 function getAllProductNames($query) {
@@ -93,8 +170,6 @@ function getAllProductNames($query) {
                     return $data;
  }
 
-
-    // User My Address
 
 
     function addUserAddress($data, $user_id) {

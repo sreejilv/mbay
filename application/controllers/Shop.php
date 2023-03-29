@@ -14,27 +14,26 @@ class Shop extends Base_Controller {
      * loading index page.
      * @author Techffodils Technologies LLP
      */
-    public function index($product_seo_key='') {
-      
-        $prod_view_flag=0;
+    public function index($product_seo_key = '') {
+
+        $prod_view_flag = 0;
         $products = [];
 
-         if($product_seo_key!=''){
+        if ($product_seo_key != '') {
             $check_seo_key = $this->shop_model->checkSeoKeyExists($product_seo_key);
-                if(is_array($check_seo_key)&& isset($check_seo_key['seo_value'])){
-                      $pro_id = $check_seo_key['seo_value'];
-                      $prod_view_flag=1;
+            if (is_array($check_seo_key) && isset($check_seo_key['seo_value'])) {
+                $pro_id = $check_seo_key['seo_value'];
+                $prod_view_flag = 1;
 
-                      $this->load->model('product_model');
-                       if($pro_id){
-                        $products = $this->product_model->getProductDetailsView($pro_id);
-
-                         }   
-                    }
-         }
+                $this->load->model('product_model');
+                if ($pro_id) {
+                    $products = $this->product_model->getProductDetailsView($pro_id);
+                }
+            }
+        }
 
         $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
-        $this->setData('user_name', $user_name);  
+        $this->setData('user_name', $user_name);
 
         $this->load->model('site_management_model');
         $slider_images = $this->site_management_model->getSliderLists();
@@ -45,7 +44,6 @@ class Shop extends Base_Controller {
         //     $this->helper_model->insertActivity(($this->aauth->getUserType() == 'employee') ? $this->base_model->getAdminUserId() : $this->aauth->getId(), 'user_login');
         //     $this->loadPage('', 'dashboard');
         // }
-
         // if ($this->dbvars->CAPTCHA_STATUS > 0 || $this->aauth->get_login_attempts() > $this->dbvars->CAPTCHA_LOGIN)
         //     $this->setData('CAPTCHA_STATUS', 1);
         // $this->setData('key', $key);
@@ -59,7 +57,7 @@ class Shop extends Base_Controller {
         $nav_category = $this->product_model->getNavCategoryLists();
         $cart = $this->cart->contents();
         $cart_amount = $this->cart->total();
-        
+
         $deals_of_the_day = $this->product_model->getAllDealOftheDayProducts();
         $popular_categories = $this->product_model->getAllPopularCategories();
         $this->setData('deals_of_the_day', $deals_of_the_day);
@@ -70,40 +68,39 @@ class Shop extends Base_Controller {
         $this->setData('nav_category', $nav_category);
         $this->setData('slider_images', $slider_images);
         $this->setData('prod_view_flag', $prod_view_flag);
-         $this->setData('products', $products);
+        $this->setData('products', $products);
         $this->loadView();
     }
 
     // public function get_products($name){
-
     // }
 
 
-    public function login_register(){
+    public function login_register() {
         $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
-        $this->setData('user_name', $user_name);  
+        $this->setData('user_name', $user_name);
         $this->load->model('product_model');
         $nav_category = $this->product_model->getNavCategoryLists();
-        
+
         $this->setData('nav_category', $nav_category);
         $this->loadView();
     }
 
-    public function shop($cat_id=""){
-        
+    public function shop($cat_id = "") {
+
         $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
-        $this->setData('user_name', $user_name);  
+        $this->setData('user_name', $user_name);
         $user_type = $this->aauth->getUserType();
 
         $this->load->model('product_model');
         $nav_category = $this->product_model->getNavCategoryLists();
-        
+
         $products = '';
-        if($cat_id){
+        if ($cat_id) {
             $products = $this->product_model->getProducts($cat_id);
         }
 
-       
+
         $cat_name = $this->product_model->getCatName($cat_id);
         $this->setData('cat_name', $cat_name);
         $this->setData('nav_category', $nav_category);
@@ -113,9 +110,9 @@ class Shop extends Base_Controller {
         $this->loadView();
     }
 
-    public function cart(){
+    public function cart() {
         $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
-        $this->setData('user_name', $user_name);  
+        $this->setData('user_name', $user_name);
         $this->load->model('product_model');
         $this->load->model('cart_model');
         $nav_category = $this->product_model->getNavCategoryLists();
@@ -134,20 +131,20 @@ class Shop extends Base_Controller {
         //         'name'    => 'T-Shirt',
         //         'options' => array('Size' => 'L', 'Color' => 'Red')
         // );
-        
         // $this->cart->insert($data);
 
         $cart = $this->cart->contents();
         $items = $this->cart->total_items();
-        if($items == 0){
-            if($user_id){
-                $this->loadPage(lang('Cart Is Empty'), '../' ,'warning');
+        if ($items == 0) {
+            if ($user_id) {
+                $this->loadPage(lang('Cart Is Empty'), '../', 'warning');
             } else {
-                $this->loadPage(lang('Cart Is Empty'), './' ,'warning');
+                $this->loadPage(lang('Cart Is Empty'), './', 'warning');
             }
         }
         $cart_amount = $this->cart->total();
         $pro_count = count($cart);
+        $this->setData('user_id', $user_id);
         $this->setData('pro_count', $pro_count);
         $this->setData('cart', $cart);
         $this->setData('cart_amount', $cart_amount);
@@ -159,42 +156,42 @@ class Shop extends Base_Controller {
         $this->loadView();
     }
 
-    public function about_us(){
+    public function about_us() {
         $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
-        $this->setData('user_name', $user_name);  
+        $this->setData('user_name', $user_name);
         $this->load->model('product_model');
         $nav_category = $this->product_model->getNavCategoryLists();
-        
+
         $this->setData('nav_category', $nav_category);
         $this->loadView();
     }
 
-    public function contact(){
+    public function contact() {
         $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
-        $this->setData('user_name', $user_name);  
+        $this->setData('user_name', $user_name);
         $this->load->model('product_model');
         $nav_category = $this->product_model->getNavCategoryLists();
-        
+
         $this->setData('nav_category', $nav_category);
         $this->loadView();
     }
 
-    public function app(){
+    public function app() {
         $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
-        $this->setData('user_name', $user_name);  
+        $this->setData('user_name', $user_name);
         $this->load->model('product_model');
         $nav_category = $this->product_model->getNavCategoryLists();
-        
+
         $this->setData('nav_category', $nav_category);
         $this->loadView();
     }
 
-    public function shop_details($pro_id=""){
+    public function shop_details($pro_id = "") {
         $party_id = 0;
         $this->load->model('product_model');
         $nav_category = $this->product_model->getNavCategoryLists();
         $products = '';
-        if($pro_id){
+        if ($pro_id) {
             $products = $this->product_model->getProductDtls($pro_id);
             $party_cart = $this->cart->contents();
             // foreach ($party_cart as $key => $c) {
@@ -213,19 +210,19 @@ class Shop extends Base_Controller {
         $this->setData('party_cart', $party_cart);
         $this->setData('total_items_amount', $this->cart->total());
         $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
-        $this->setData('user_name', $user_name);  
+        $this->setData('user_name', $user_name);
         $this->loadView();
     }
 
-        public function product_details($pro_id=''){
+    public function product_details($pro_id = '') {
 
-            $party_id = 0;
+        $party_id = 0;
         $this->load->model('product_model');
         $nav_category = $this->product_model->getNavCategoryLists();
         $products = '';
-        if($pro_id){
+        if ($pro_id) {
             $products = $this->product_model->getProductDetailsView($pro_id);
-             // print_r($products);die;
+            // print_r($products);die;
             $party_cart = $this->cart->contents();
             // foreach ($party_cart as $key => $c) {
             //     if (!in_array($c['id'], $products)) {
@@ -242,64 +239,85 @@ class Shop extends Base_Controller {
         $this->setData('party_cart', $party_cart);
         $this->setData('total_items_amount', $this->cart->total());
         $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
-        $this->setData('user_name', $user_name);  
+        $this->setData('user_name', $user_name);
         $this->loadView();
+    }
 
-        }
-
-
-
-    public function checkout(){
+    public function checkout() {
         $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
-        $this->setData('user_name', $user_name);  
+        $this->setData('user_name', $user_name);
         $this->load->model('product_model');
         $nav_category = $this->product_model->getNavCategoryLists();
         $cart = $this->cart->contents();
-        // print_r($cart);die;
+        $total_items = $this->cart->total_items();
+        $total_amount = $this->cart->total();
+        $total_pv = $this->cart->total_pv();
 
+        if ($this->input->post('shop_checkout')) {
+            $this->load->helper('security');
+            $checkout_data = $this->security->xss_clean($this->input->post());
+            $order_id = $this->shop_model->insertOrder($this->aauth->getId(), $checkout_data, $cart, $total_items, $total_amount, $total_pv, 1);
+            if ($order_id) {
+                $this->loadPage('Order success', 'checkout', 'success');
+            } else {
+                $this->loadPage('Something went wrong', 'checkout', 'danger');
+            }
+        }
+
+        $user_address_data = $this->shop_model->getUserAddressData($this->aauth->getId());
+        $country = '';
+        if (isset($user_address_data['country'])) {
+            $country = $user_address_data['country'];
+        }
+        $states = $this->helper_model->getAllStates($country);
+        $countries = $this->helper_model->getAllCountries();
+        $this->setData('countries', $countries);
+        $this->setData('states', $states);
+        $this->setData('user_name', $user_name);
+        $this->setData('user_details', $user_address_data);
         $this->setData('nav_category', $nav_category);
         $this->setData('cart', $cart);
         $this->loadView();
     }
-    
-    public function account($active ='', $action = '', $add_id = ''){
+
+    public function account($active = '', $action = '', $add_id = '') {
         $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
         $active = $active;
         $this->load->model('report_model');
-        $user= $this->aauth->get_user();
+        $user = $this->aauth->get_user();
         $user_id = $this->aauth->getId();
 
 
-        if ($this->input->post('change_password') && $this->validate_general_password()){
+        if ($this->input->post('change_password') && $this->validate_general_password()) {
             $active = 5;
             $this->load->helper('security');
             $post = $this->security->xss_clean($this->input->post());
             $hash_pass = $this->aauth->hash_password($post['current_password'], '');
-            if($this->aauth->verify_password($user->password,$hash_pass)){
-                $res = $this->report_model->updatepassword($post,$user_id);
-                if($res){
-                    $this->loadPage('Update success', 'account/'.$active, 'success');
+            if ($this->aauth->verify_password($user->password, $hash_pass)) {
+                $res = $this->report_model->updatepassword($post, $user_id);
+                if ($res) {
+                    $this->loadPage('Update success', 'account/' . $active, 'success');
                 }
-            }else{
-               $this->loadPage('Current password does not match', 'account/'.$active, 'danger');
-           }
+            } else {
+                $this->loadPage('Current password does not match', 'account/' . $active, 'danger');
+            }
         }
 
         if ($this->input->post('account_details') && $this->validate_general_update()) {
             $active = 4;
             $this->load->helper('security');
             $post = $this->security->xss_clean($this->input->post());
-            $res = $this->report_model->updategeneral($post ,$user_id);
-            if($res){
-                $this->loadPage('Update success', 'account/'.$active, 'success');
-            }else{
-               $this->loadPage('Something went wrong', 'account/'.$active, 'danger');
+            $res = $this->report_model->updategeneral($post, $user_id);
+            if ($res) {
+                $this->loadPage('Update success', 'account/' . $active, 'success');
+            } else {
+                $this->loadPage('Something went wrong', 'account/' . $active, 'danger');
             }
         }
 
 
         $edit_flag = FALSE;
-        if($this->input->post('add_address')){
+        if ($this->input->post('add_address')) {
             $active = 3;
             $this->load->helper('security');
             $post = $this->security->xss_clean($this->input->post());
@@ -311,11 +329,10 @@ class Shop extends Base_Controller {
 
             $this->setData('states', $states);
             $this->setData('countries', $countries);
-            $this->loadPage('Address Added Successfully','account/'.$active, 'success');
-         
+            $this->loadPage('Address Added Successfully', 'account/' . $active, 'success');
         }
 
-        
+
         if ($action && $add_id) {
             $active = 3;
             if ($action == "edit") {
@@ -328,14 +345,12 @@ class Shop extends Base_Controller {
                 $this->setData('states', $states);
                 $this->setData('countries', $countries);
                 $this->setData('usr_addr', $usr_addr);
-            } 
-            else {
-                $this->loadPage('invalid_action', 'account/'.$active, 'danger');
+            } else {
+                $this->loadPage('invalid_action', 'account/' . $active, 'danger');
             }
-            
         }
 
-        if($this->input->post('update_address')){
+        if ($this->input->post('update_address')) {
             $active = 3;
             $this->load->helper('security');
             $post = $this->security->xss_clean($this->input->post());
@@ -346,13 +361,13 @@ class Shop extends Base_Controller {
 
             $this->setData('countries', $countries);
             $this->setData('usr_addr', $usr_addr);
-            $this->loadPage('Update Address Successfully','account/'.$active, 'success');
+            $this->loadPage('Update Address Successfully', 'account/' . $active, 'success');
         }
 
         $user_detail = $this->db->select('first_name,last_name,phone_number')
-           ->from('user_details')
-           ->where('mlm_user_id', $user_id)
-           ->get();
+                ->from('user_details')
+                ->where('mlm_user_id', $user_id)
+                ->get();
         foreach ($user_detail->result() as $row) {
             $detail = $row;
         }
@@ -367,14 +382,13 @@ class Shop extends Base_Controller {
         $this->setData('add_id', $add_id);
         $this->setData('address', $address);
         $this->setData('login_error', $this->form_validation->error_array());
-        $this->setData('active', $active);  
-        $this->setData('user_name', $user_name);  
-        $this->setData('user_mail', $user->email);  
-        $this->setData('user_details', $detail); 
+        $this->setData('active', $active);
+        $this->setData('user_name', $user_name);
+        $this->setData('user_mail', $user->email);
+        $this->setData('user_details', $detail);
         $this->setData('login_error', $this->form_validation->error_array());
         $this->loadView();
     }
-
 
     public function validate_general_password() {
         $this->form_validation->set_rules('current_password', lang('password'), 'trim|required');
@@ -384,6 +398,7 @@ class Shop extends Base_Controller {
         $validation = $this->form_validation->run();
         return $validation;
     }
+
     public function validate_general_update() {
         $this->form_validation->set_rules('email', lang('email'), 'required');
         $this->form_validation->set_rules('first_name', lang('first_name'), 'required');
@@ -396,22 +411,21 @@ class Shop extends Base_Controller {
 
     function update_notify() {
         $logged_user = $this->aauth->getId($this->aauth->getUserType() == 'employee') ? $this->base_model->getAdminUserId() : $this->aauth->getId();
-        if($logged_user==''){
-            $logged_user=$this->base_model->getAdminUserId();
+        if ($logged_user == '') {
+            $logged_user = $this->base_model->getAdminUserId();
         }
         $this->load->helper('security');
         $post = $this->security->xss_clean($this->input->get());
         if ($post['phone']) {
             $phone = $post['phone'];
             $pro_id = $post['pro_id'];
-            $res = $this->shop_model->insertNotificationDetails($phone,$pro_id,$logged_user);
+            $res = $this->shop_model->insertNotificationDetails($phone, $pro_id, $logged_user);
             if ($res) {
                 $log_user = ($this->aauth->getUserType() == 'employee') ? $this->base_model->getAdminUserId() : $this->aauth->getId();
                 $this->helper_model->insertActivity($log_user, 'update_notify', $post);
                 echo 'yes';
                 exit;
             }
-
         }
         echo 'no';
         exit;
@@ -419,7 +433,7 @@ class Shop extends Base_Controller {
 
     public function products() {
         $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
-        $this->setData('user_name', $user_name);  
+        $this->setData('user_name', $user_name);
 
         $this->load->model('product_model');
         $nav_category = $this->product_model->getNavCategoryLists();
@@ -441,15 +455,15 @@ class Shop extends Base_Controller {
         $page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
         $pagination["links"] = $this->pagination->create_links();
 
-        $products = $this->product_model->getAllProducts($config['per_page'],$page);
+        $products = $this->product_model->getAllProducts($config['per_page'], $page);
 
         $this->setData('link', $pagination['links']);
         $this->setData('cart', $cart);
         $this->setData('items', $this->cart->total_items());
         $this->setData('cart_amount', $cart_amount);
         $this->setData('nav_category', $nav_category);
-        $this->setData('products',  $products);
-      
+        $this->setData('products', $products);
+
         $this->loadView();
     }
 
@@ -467,7 +481,7 @@ class Shop extends Base_Controller {
         $this->load->model('member_model');
         $invoice_details = $this->member_model->getInvoiceDetails($ord_id);
         if (!$invoice_details) {
-            $this->loadPage(lang('invalid_link'), 'account/'.$active, 'warning');
+            $this->loadPage(lang('invalid_link'), 'account/' . $active, 'warning');
         }
         $this->setData('invoice_details', $invoice_details);
         $this->setData('active', $active);
