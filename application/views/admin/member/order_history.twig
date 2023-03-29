@@ -54,6 +54,8 @@
                                                 <th>{{lang('customer')}}</th>
                                                 <th>{{lang('order_date')}}</th>
                                                 <th>{{lang('total_amount')}}</th>
+                                                <th>{{lang('payment_type')}}</th>
+                                                <th>{{lang('type')}}</th>
                                                 <th>{{lang('status')}}</th>
                                                 <th>{{lang('invoice_detail')}}</th>
                                             </tr>
@@ -67,6 +69,8 @@
                                                 <td>{{orders.customer}}</td>
                                                 <td>{{orders.order_date}}</td>
                                                 <td>{{orders.total_amount}}</td> 
+                                                <td>{{orders.payment_type}}</td>
+                                                <td>{{orders.type}}</td> 
 
                                                   {# {% if orders.order_status == "Complete" %}  
                                                     <td><span class="badge badge-soft-success">{{orders.order_status}}</span>
@@ -84,6 +88,7 @@
                                                                     {% endfor %}
                                                         </select>
                                                     </td>
+                                                   
                                                 <td>
                                                     <a target="_blank" href="admin/invoice-details/{{orders.order_id}}" class="btn btn-primary" title="View">
                                                        <i class="bx bx-show-alt"></i>

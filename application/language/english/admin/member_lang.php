@@ -235,7 +235,13 @@ $lang['order_date'] = 'Order Date';
 $lang['total_amount'] = 'Total Amount';
 $lang['select'] = 'Select';
 $lang['status_change_successfully_js'] = 'Status Changed Successfully';
-$lang['invoice_detail'] = 'Invoice Details';
+$lang['invoice_detail'] = 'Invoice';
+$lang['home_delivery'] = 'Home Delivery';
+$lang['click_collect'] = 'Click and Collect';
+$lang['paypal'] = 'PayPal';
+$lang['type'] = 'Type';
+$lang['payment_type'] = 'Payment Type';
+$lang['status'] = 'Order Status';
 
 
 

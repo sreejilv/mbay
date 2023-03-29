@@ -76,12 +76,17 @@ class Shop_model extends CI_Model {
     
       function insertOrder($user_id, $post, $cart, $total_items, $total_amount, $total_pv, $order_status) {
         $order_id = 0;
+        if($post['shop_checkout'] == 'shop_checkout_home'){
+            $type = 'home_delivery';
+        }else{
+            $type = 'click_collect';
+        }
      
         $res = $this->db->set('user_id ', $user_id)
                 ->set('total_amount', $total_amount)
                 ->set('total_pv ', $total_pv)
                 ->set('product_count', $total_items)
-                ->set('payment_type', 'free')
+                ->set('payment_type', $post['payment_type'])
                 ->set('order_date', date("Y-m-d H:i:s"))
                 ->set('confirm_date ', date("Y-m-d H:i:s"))
                 ->set('address ', $post['address_1'])
@@ -93,6 +98,7 @@ class Shop_model extends CI_Model {
                 ->set('delivery_charge ', 0)
                 ->set('shipping_charge ', 0)
                 ->set('tax ', 0)
+                ->set('type ', $type)
                 ->insert('orders');
         if ($res) {
             $order_id = $this->db->insert_id();

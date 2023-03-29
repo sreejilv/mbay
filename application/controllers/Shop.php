@@ -258,6 +258,7 @@ class Shop extends Base_Controller {
             $checkout_data = $this->security->xss_clean($this->input->post());
             $order_id = $this->shop_model->insertOrder($this->aauth->getId(), $checkout_data, $cart, $total_items, $total_amount, $total_pv, 1);
             if ($order_id) {
+                $this->cart->destroy();
                 $this->loadPage('Order success', 'checkout', 'success');
             } else {
                 $this->loadPage('Something went wrong', 'checkout', 'danger');

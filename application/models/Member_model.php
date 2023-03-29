@@ -1931,7 +1931,7 @@ class Member_model extends CI_Model {
 
     function getAllOrdersData(){        
         $data = array();
-        $query = $this->db->select('orders.id, orders.order_status,orders.total_amount,orders.order_date,user_name')
+        $query = $this->db->select('orders.id, orders.order_status,orders.total_amount,orders.order_date,user_name,orders.payment_type,orders.type')
         ->join('user', 'user.mlm_user_id = orders.user_id', 'inner')
         ->get('orders');
         if ($query->num_rows() > 0) {
@@ -1943,6 +1943,8 @@ class Member_model extends CI_Model {
                 $data[$i]['order_status'] = lang($this->getOrderStatus($row['order_status']));
                 $data[$i]['order_date'] = $row['order_date'];
                 $data[$i]['total_amount'] = $this->helper_model->currency_conversion(round($row['total_amount'], 8));
+                $data[$i]['payment_type'] = lang($row['payment_type']);
+                $data[$i]['type'] = lang($row['type']);
                 $i++;
             }
         }
