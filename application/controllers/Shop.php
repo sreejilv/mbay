@@ -447,7 +447,7 @@ class Shop extends Base_Controller {
         $config = array();
         $config['base_url'] = base_url() . "products";
         $config['total_rows'] = count($products);
-        $config['per_page'] = 15;
+        $config['per_page'] = 12;
         $config['num_links'] = 10;
         $config["uri_segment"] = 2;
 
