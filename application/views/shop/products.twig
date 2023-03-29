@@ -10,50 +10,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css" rel="stylesheet"/>
 
 
-        <!-- SIDEBAR CART -->
-        <div class="sidebar-cart-active">
-            <div class="sidebar-cart-all">
-                <a class="cart-close" href="#"><i class="icon_close"></i></a>
-                <div class="cart-content">
-                    <h3>Shopping Cart</h3>
-                    <ul>
-                        <li class="single-product-cart">
-                            <div class="cart-img">
-                                <a href="#"><img src="assets/shop/images/cart/cart-1.jpg" alt=""></a>
-                            </div>
-                            <div class="cart-title">
-                                <h4><a href="#">Simple Black T-Shirt</a></h4>
-                                <span> 1 × $49.00 </span>
-                            </div>
-                            <div class="cart-delete">
-                                <a href="#">×</a>
-                            </div>
-                        </li>
-                        <li class="single-product-cart">
-                            <div class="cart-img">
-                                <a href="#"><img src="assets/shop/images/cart/cart-2.jpg" alt=""></a>
-                            </div>
-                            <div class="cart-title">
-                                <h4><a href="#">Norda Backpack</a></h4>
-                                <span> 1 × $49.00 </span>
-                            </div>
-                            <div class="cart-delete">
-                                <a href="#">×</a>
-                            </div>
-                        </li>
-                    </ul>
-                    <div class="cart-total">
-                        <h4>Subtotal: <span>$170.00</span></h4>
-                    </div>
-                    <div class="cart-checkout-btn">
-                        <a class="btn-hover cart-btn-style" href="{{BASE_URL}}cart">view cart</a>
-                        <a class="no-mrg btn-hover cart-btn-style" href="{{BASE_URL}}checkout">checkout</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- END SIDEBAR CART -->
-
         <!-- SHOP PAGE -->
         <section class="shop-area pt-120 pb-120 section-padding-2">
             <div class="container-fluid">
@@ -121,19 +77,10 @@
                              <div class="swiper-pagination"></div>
                           
                         </div>
-                        <!-- <div class="pro-pagination-style text-center mt-10">
-                            <ul>
-                                <li><a class="prev" href="#"><i class="icon-arrow-left"></i></a></li>
-                                <li><a class="active" href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a class="next" href="#"><i class="icon-arrow-right"></i></a></li>
-                            </ul>
-                        </div> -->
 
-                        <div class="pro-pagination-style text-center mt-10">
-                            <ul class="pagination-style pagination-lg justify-content-center">
-                                <li class="page-item">{{link|raw}}</li>
-                            </ul>
+
+                        <div class="text-center mt-10">
+                            {{link|raw}}
                         </div>
                     </div>
 
