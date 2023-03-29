@@ -7,8 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'org\\bovigo\\vfs' => array($vendorDir . '/mikey179/vfsstream/src/main/php'),
-    'Omnipay\\Common\\' => array($vendorDir . '/omnipay/common/src'),
-    'Guzzle\\Tests' => array($vendorDir . '/guzzle/guzzle/tests'),
-    'Guzzle' => array($vendorDir . '/guzzle/guzzle/src'),
     'Composer\\Installer' => array($vendorDir . '/compwright/codeigniter-installers/src'),
 );

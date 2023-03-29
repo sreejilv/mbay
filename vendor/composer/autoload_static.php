@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitaf29eb404d13c002700745cc3999697e
+class ComposerStaticInitb55eb1e297de22da34ca9df1b879eaa5
 {
     public static $files = array (
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
@@ -40,7 +40,6 @@ class ComposerStaticInitaf29eb404d13c002700745cc3999697e
             'Symfony\\Polyfill\\Ctype\\' => 23,
             'Symfony\\Component\\Translation\\' => 30,
             'Symfony\\Component\\Process\\' => 26,
-            'Symfony\\Component\\HttpFoundation\\' => 33,
             'Symfony\\Component\\Finder\\' => 25,
             'Symfony\\Component\\Filesystem\\' => 29,
             'Symfony\\Component\\EventDispatcher\\' => 34,
@@ -57,10 +56,6 @@ class ComposerStaticInitaf29eb404d13c002700745cc3999697e
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Container\\' => 14,
             'PHPMailer\\PHPMailer\\' => 20,
-        ),
-        'O' => 
-        array (
-            'Omnipay\\PayPal\\' => 15,
         ),
         'J' => 
         array (
@@ -135,10 +130,6 @@ class ComposerStaticInitaf29eb404d13c002700745cc3999697e
         array (
             0 => __DIR__ . '/..' . '/symfony/process',
         ),
-        'Symfony\\Component\\HttpFoundation\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/http-foundation',
-        ),
         'Symfony\\Component\\Finder\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/finder',
@@ -190,10 +181,6 @@ class ComposerStaticInitaf29eb404d13c002700745cc3999697e
         'PHPMailer\\PHPMailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
-        ),
-        'Omnipay\\PayPal\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/omnipay/paypal/src',
         ),
         'JsonSchema\\' => 
         array (
@@ -281,24 +268,6 @@ class ComposerStaticInitaf29eb404d13c002700745cc3999697e
                 0 => __DIR__ . '/..' . '/mikey179/vfsstream/src/main/php',
             ),
         ),
-        'O' => 
-        array (
-            'Omnipay\\Common\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/omnipay/common/src',
-            ),
-        ),
-        'G' => 
-        array (
-            'Guzzle\\Tests' => 
-            array (
-                0 => __DIR__ . '/..' . '/guzzle/guzzle/tests',
-            ),
-            'Guzzle' => 
-            array (
-                0 => __DIR__ . '/..' . '/guzzle/guzzle/src',
-            ),
-        ),
         'C' => 
         array (
             'Composer\\Installer' => 
@@ -312,7 +281,6 @@ class ComposerStaticInitaf29eb404d13c002700745cc3999697e
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Normalizer' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/Resources/stubs/Normalizer.php',
-        'Omnipay\\Omnipay' => __DIR__ . '/..' . '/omnipay/common/src/Omnipay/Omnipay.php',
         'PHPUnit\\Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert.php',
         'PHPUnit\\Framework\\AssertionFailedError' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Exception/AssertionFailedError.php',
@@ -907,10 +875,10 @@ class ComposerStaticInitaf29eb404d13c002700745cc3999697e
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitaf29eb404d13c002700745cc3999697e::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitaf29eb404d13c002700745cc3999697e::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitaf29eb404d13c002700745cc3999697e::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitaf29eb404d13c002700745cc3999697e::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitb55eb1e297de22da34ca9df1b879eaa5::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitb55eb1e297de22da34ca9df1b879eaa5::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitb55eb1e297de22da34ca9df1b879eaa5::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitb55eb1e297de22da34ca9df1b879eaa5::$classMap;
 
         }, null, ClassLoader::class);
     }
