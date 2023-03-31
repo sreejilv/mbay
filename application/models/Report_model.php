@@ -2309,39 +2309,44 @@ if ($where) {
     }
     public function updateAddaddress($address_post){
         // print_r($address_post);die;
-          $user_id =$address_post['user_id'];
-          $default = $address_post['default'];
-          $i = 0;
+        $user_id =$address_post['user_id'];
+        $default = $address_post['default'];
+        $i = 0;
         foreach($address_post['address'] as $updateaddress){
-                if($i==$default){
-                    $useraddAddress = $updateaddress;
-                    $data = [
-                        'address_1' => $useraddAddress['address_1'],
-                        'address_2' => $useraddAddress['address_2'],
-                        'country_id' => $address_post['country_id'],
-                        'zip_code' =>$useraddAddress['zip_code'],
-                    ];
-                    $this->db->where('mlm_user_id', $user_id);
-                    $this->db->update('user_details', $data);
-                }else{
-                   
-                    $res = $this->deleteadduser_address($user_id);
-                    if($res){
-              
-                        $useraddAddress = $updateaddress;
-                        $this->db->set('address_1', $useraddAddress['address_1'])
-                        ->set('mlm_user_id', $user_id)
-                        ->set('address_2', $useraddAddress['address_2'])
-                        ->set('city', $useraddAddress['city'])
-                        ->set('zip_code', $useraddAddress['zip_code'])
-                        ->set('country_id', $address_post['country_id'])
-                        // ->set('state_id', $address_post['state_id'])
-                        ->insert('user_address');
-                    }
-                }
-                 $i++;
-          }
-          return true;
+            if($i==$default){
+                $useraddAddress = $updateaddress;
+                $data = [
+                    'address_1' => $useraddAddress['address_1'],
+                    'address_2' => $useraddAddress['address_2'],
+                    'city' => $useraddAddress['city'],
+                    'country_id' => $address_post['country_id'],
+                    'state_id' => $address_post['state'],
+                    'zip_code' =>$useraddAddress['zip_code'],
+                ];
+                $this->db->where('mlm_user_id', $user_id);
+                $this->db->update('user_details', $data);
+
+            }else{
+
+                    // $res = $this->deleteadduser_address($user_id);
+                    // if($res){
+
+                $useraddAddress = $updateaddress;
+                $this->db->set('address_1', $useraddAddress['address_1'])
+                ->set('mlm_user_id', $user_id)
+                ->set('address_2', $useraddAddress['address_2'])
+                ->set('city', $useraddAddress['city'])
+                ->set('zip_code', $useraddAddress['zip_code'])
+                ->set('country_id', $address_post['country_id'])
+                ->set('state_id', $address_post['state'])
+                ->insert('user_address');
+
+                    // }
+            }
+            $i++;
+        }
+        return true;
+
     }
 
     public function updateAddress($address_post, $user_id){
@@ -2408,7 +2413,7 @@ if ($where) {
     }
 
     public function edituserdetails($user_id){
-        $detail = $this->db->select('id,email,first_name,last_name,address_2,address_1,city,zip_code,phone_number,country_id')
+        $detail = $this->db->select('id,email,first_name,last_name,address_2,address_1,city,zip_code,phone_number,country_id,state_id')
         ->from('user')
         ->join('user_details', 'user.mlm_user_id = user_details.mlm_user_id', 'inner')
         ->where('user.mlm_user_id', $user_id)
@@ -2424,7 +2429,8 @@ if ($where) {
             $details['address_1'] = $row->address_1;
             $details['city'] = $row->city;
             $details['zip_code'] = $row->zip_code;
-            $details['country'] = $row->country_id;
+            $details['country_id'] = $row->country_id;
+            $details['state'] = $row->state_id;
             $details['phone_number'] = $row->phone_number;
             $details['user_id'] = $user_id;
             }

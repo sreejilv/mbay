@@ -81,3 +81,9 @@ $lang['user_right_carry'] = 'Right Point Carry';
 $lang['binary_pair'] = 'Binary Pair';
 $lang['capped_amount'] = 'Capped Amount';
 $lang['dist_amount'] = 'Amount';
+$lang['current_password_req_js'] ='Current Password Is Required';
+$lang['new_password_req_js'] ='New Password Is Required';
+$lang['confirm_password_req_js'] ='Confirm Password Is Required';
+$lang['password_mismatch_js'] ='Password Mismatches';
+$lang['select_a_state'] ='Select A State';
+

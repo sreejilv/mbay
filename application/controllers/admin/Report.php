@@ -15,6 +15,7 @@ class Report extends Base_Controller {
      * @date 2017-12-16
      */
     function user_join($user_id ='') {
+        $this->session->set_userdata('user_id', $user_id);
         if ($this->session->userdata('uj_user_id') == null)
         $this->session->set_userdata('uj_user_id', '');
         if ($this->session->userdata('uj_from_date') == null)
@@ -87,20 +88,27 @@ class Report extends Base_Controller {
             $this->loadPage(lang('Update Password Success'),'join-report', 'success');
         }
 
+        if($this->input->post('add_address')){
 
-        if($this->input->post('add_address')  ){
-
-          $address_post = $this->security->xss_clean($this->input->post());
-          $res = $this->report_model->updateAddaddress($address_post);
+            $address_post = $this->security->xss_clean($this->input->post());
+            // print_r($address_post);die;
+            $res = $this->report_model->updateAddaddress($address_post);
 
           $this->loadPage(lang('Update Address Success'),'join-report', 'success');
          
         }
+        $details = $this->report_model->edituserdetails($user_id);
         $countries = $this->helper_model->getAllCountries();
+        if($user_id){
+            $country_id = $details['country_id'];
+            $states = $this->helper_model->getAllStates($country_id);
+            $this->setData('states', $states);
+        }
+
+        $this->setData('details', $details);
         $this->setData('countries', $countries);
         $this->setData('flag', $flag);
         $this->setData('login_error', $this->form_validation->error_array());
-
         $this->setData('title', lang('menu_name_38'));
         $this->loadView();
     }
@@ -1139,6 +1147,20 @@ class Report extends Base_Controller {
         }
         echo 'yes';
         exit();
+    }
+
+    public function check_current_password() {
+        $this->load->helper('security');
+        $this->load->model('profile_model');
+        $post = $this->security->xss_clean($this->input->get());
+        $user_id = $this->session->userdata('user_id');
+
+        if ($this->profile_model->checkUserCurrentPasswod($user_id, $post['current_password'])) {
+            echo 'yes';
+            exit;
+        }
+        echo 'no';
+        $this->session->unset_userdata('user_id');
     }
 
 }
