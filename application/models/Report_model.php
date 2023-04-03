@@ -2308,7 +2308,6 @@ if ($where) {
         return $data;
     }
     public function updateAddaddress($address_post){
-        // print_r($address_post);die;
         $user_id =$address_post['user_id'];
         $default = $address_post['default'];
         $i = 0;

@@ -91,7 +91,6 @@ class Report extends Base_Controller {
         if($this->input->post('add_address')){
 
             $address_post = $this->security->xss_clean($this->input->post());
-            // print_r($address_post);die;
             $res = $this->report_model->updateAddaddress($address_post);
 
           $this->loadPage(lang('Update Address Success'),'join-report', 'success');

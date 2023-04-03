@@ -401,176 +401,53 @@
 <!-- Datatable init js -->
 <script src="assets/js/pages/datatables.init.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+<script src="assets/js/user_join.js"></script>
 <script>
+function myaddresss(){
+    var myDatfa = {{ countries|json_encode|raw }};
+    var myData = {{ states|json_encode|raw }};
+    var count = $('#total_chq').val();
+    var html ='<div class="card-body p-1">';
+    html +='<div class="card-header">';
+    html += '<h5 class="card-title"> Address'+ count +'</h5></div><br><div class="row">';
+    html += '<div class="col-lg-12 ms-lg-auto"><div class="mt-4 mt-lg-0"><div class="row mb-4">';
+    html += '<label for="horizontal-email-input" class="col-sm-3 col-form-label">Addressline 1</label><div class="col-sm-9"><input type="text" class="form-control" id="address_1" name="address['+ count +'][address_1]" ></div></div>';
+    html += '<div class="row mb-4"><label for="horizontal-email-input" class="col-sm-3 col-form-label">Addressline 2</label><div class="col-sm-9"> <input type="text" class="form-control" id="address_2" name="address['+ count +'][address_2]" ></div></div>';
+    html += '<div class="row mb-4"><label for="horizontal-email-input" class="col-sm-3 col-form-label">City</label><div class="col-sm-9"><input type="text" class="form-control" id="city"  name="address['+ count +'][city]"> </div></div>';
 
-    function myaddresss(){
-        var myDatfa = {{ countries|json_encode|raw }};
-        // var myData = {{ states|json_encode|raw }};
-        var count = $('#total_chq').val();
-        var html ='<div class="card-body p-1">';
-            html +='<div class="card-header">';
-            html += '<h5 class="card-title"> Address'+ count +'</h5></div><br><div class="row">';
-            html += '<div class="col-lg-12 ms-lg-auto"><div class="mt-4 mt-lg-0"><div class="row mb-4">';
-            html += '<label for="horizontal-email-input" class="col-sm-3 col-form-label">Addressline 1</label><div class="col-sm-9"><input type="text" class="form-control" id="address_1" name="address['+ count +'][address_1]" ></div></div>';
-            html += '<div class="row mb-4"><label for="horizontal-email-input" class="col-sm-3 col-form-label">Addressline 2</label><div class="col-sm-9"> <input type="text" class="form-control" id="address_2" name="address['+ count +'][address_2]" ></div></div>';
-            html += '<div class="row mb-4"><label for="horizontal-email-input" class="col-sm-3 col-form-label">City</label><div class="col-sm-9"><input type="text" class="form-control" id="city"  name="address['+ count +'][city]"> </div></div>';
-          
-            html += '<div class="row mb-4"><label for="horizontal-email-input" class="col-sm-3 col-form-label">Country</label>'; 
-            html += '<div class="col-sm-9" > ';
-            html += '<select id="country" name="address['+ count +'][country_id]" class="form-control">';
-            html +=  ' <option value="">Select A Country</option>';
-                $.each(myDatfa, function (key, value) {
-                    // alert(value);
-                html += '<option value="' + value.id + '">' + value.name + '</option>';
-                });
-            html += '</select>';
-            html +='</div> </div>';
-
-            var myData = {{ states|json_encode|raw }};
-                html += '<div class="row mb-4"><label for="horizontal-email-input" class="col-sm-3 col-form-label">State</label>';
-                html += '<div class="col-sm-9">';
-                // html += '<span class="input-icon" id="state_id_span">';
-                html += '<select id="state" name="address['+ count +'][state_id]" class="form-control">';
-                html += '<option value="">Select A State</option>';
-
-                $.each(myData, function (key, value) {
-                    html += '<option value="' + value.id + '">' + value.name + '</option>';
-                });
-
-                html += '</select>';
-                // html += '</span>';
-                html += '</div></div>';
-
-
-
-            html += '<div class="row mb-4"> <label for="horizontal-email-input" class="col-sm-3 col-form-label">Zip</label><div class="col-sm-9"> <input type="text" class="form-control" id="zip_code"  name="address['+ count +'][zip_code]"></div> </div>';
-            html += '<div class="form-check form-check-right mb-3 "><input class="form-check-input" type="radio" name="default" value="'+ count +'" id="formRadiosRight1" ><label class="form-check-label" for="formRadiosRight1"> Default</label> </div>';
-            count +=1;
-            $('#total_chq').val(count);
-            $('#add_address_view').append(html);
-    }
-</script>
-<!-- App js -->
-{# <script src="assets/js/app.js"></script> #}
-<script>
-    $.validator.addMethod("validPass", function () {
-    var isSuccess = false;
-    $.ajax({url: "admin/report/check_current_password",
-        data: {current_password: $("#current_password").val()},
-        async: false,
-        success:
-                function (msg) {
-                    isSuccess = msg === "yes" ? true : false
-                }
+    html += '<div class="row mb-4"><label for="horizontal-email-input" class="col-sm-3 col-form-label">Country</label>'; 
+    html += '<div class="col-sm-9" > ';
+            // html += '<select id="country_1" name="address['+ count +'][country_id]" class="form-control">';
+    html += '<select id="country_1" name="country_1" class="form-control">';
+    html +=  ' <option value="">Select A Country</option>';
+    $.each(myDatfa, function (key, value) {
+        html += '<option value="' + value.id + '">' + value.name + '</option>';
     });
-    return isSuccess;
-}, "Incorrect Password");
-</script>
-<script>
-    var validate_password_form = function () {
-        var form = $('#password_form');
-        var errorHandler1 = $('.errorHandler', form);
-        var successHandler1 = $('.successHandler', form);
-        form.validate({
-            errorElement: "div", // contain the error msg in a span tag
-            errorClass: 'invalid-feedback',
-            errorPlacement: function (error, element) { // render error placement for 
-                    error.appendTo($(element).closest('.form-group'));
-            },
-            ignore: ':hidden',
-            rules: {
-                current_password: {
-                    required: true,
-                    validPass: true
+    html += '</select>';
+    html +='</div> </div>';
 
-                },
-                password: {
-                    required: true,
-                    minlength: 6,
-                },
-                confirm_password: {
-                    required: true,
-                    minlength: 6,
-                    equalTo: "#password"
-                }
+    html += '<div class="row mb-4"><label for="horizontal-email-input" class="col-sm-3 col-form-label">State</label>';
+    html += '<div class="col-sm-9">';
+    html += '<span class="input-icon" id="state_span_1">';
+    html += '<select id="state" name="address['+ count +'][state]" class="form-control">';
+    html += '<option value="">Select A State</option>';
 
-            },
-            messages: {
-                current_password: {
-                    required: $('#current_password_req_js').html(),
-                    validPass: $('#inv_current_password_js').html()
-                },
-                password: {
-                    required: $('#new_password_req_js').html(),
-                },
-                confirm_password: {
-                    required: $('#confirm_password_req_js').html(),
-                    equalTo: $('#password_mismatch_js').html()
-                }
-
-            },
-            invalidHandler: function(event, validator) { 
-
-            successHandler1.hide();
-            errorHandler1.show();
-            },
-            highlight: function(element) {
-                $(element).closest('.form-control').removeClass('is-invalid');
-                //display Checkbox invalid Data
-                $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
-                // display OK icon
-                $(element).closest('.form-control').removeClass('is-valid').addClass('is-invalid').find('.symbol').removeClass('ok').addClass('required');
-                // add the Bootstrap error class to the control group
-            },
-            unhighlight: function(element) { // revert the change done by hightlight
-                //display Checkbox invalid Data
-
-                $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
-                $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
-                // set error class to the control group
-            },
-            success: function(label, element) {
-                //display Checkbox invalid Data
-                $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
-                $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
-                // mark the current input as valid and display OK icon
-            },
-            submitHandler: function(form) {
-                successHandler1.show();
-                errorHandler1.hide();
-                form.submit();
-            }
-        });
-    };
-
-</script>
-<script>
-    $(document).ready(function () {
-        validate_password_form();
-    });
-</script>
-<script>
-    $('#country_id').on('change', function (e) {
-    var optionSelected = $("option:selected", this);
-    var valueSelected = this.value;
-
-    $.ajax({url: "register/get_states",
-        data: {country_id: valueSelected},
-        async: false,
-        success: function (msg) {
-            $('#state_span').html(msg);
-            $("#state").select2({
-                placeholder: "Select a State",
-                allowClear: false
-            });
-        }
+    $.each(myData, function (key, value) {
+        html += '<option value="' + value.id + '">' + value.name + '</option>';
     });
 
-});
+    html += '</select>';
+    html += '</span>';
+    html += '</div></div>';
+
+    html += '<div class="row mb-4"> <label for="horizontal-email-input" class="col-sm-3 col-form-label">Zip</label><div class="col-sm-9"> <input type="text" class="form-control" id="zip_code"  name="address['+ count +'][zip_code]"></div> </div>';
+    html += '<div class="form-check form-check-right mb-3 "><input class="form-check-input" type="radio" name="default" value="'+ count +'" id="formRadiosRight1" ><label class="form-check-label" for="formRadiosRight1"> Default</label> </div>';
+    count +=1;
+    $('#total_chq').val(count);
+    $('#add_address_view').append(html);
+}
 
 </script>
-
 
 </body>
 
