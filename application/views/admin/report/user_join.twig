@@ -40,7 +40,11 @@
 
                 <!-- start page title -->
                 <?= $page_title ?>
-              
+                {% if flag == 1 %}
+                    <h4 class="panel-title">
+                        <span class="text-bold">Profile </span>
+                    </h4>
+                {% endif %}
                 {% if flag == 0 %}
                 <h4 class="panel-title">
                         <span class="text-bold">Join Report</span>
@@ -99,259 +103,261 @@
                 </div>
                {% else %}
                 <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title"> <i class="bx bxs-edit-alt"></i> Edit Customer</h4>
-                            </div>
-                            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link active" id="edit-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">General</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="address-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Addresses</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="password-tab" data-bs-toggle="tab" data-bs-target="#profile1" type="button" role="tab" aria-controls="profile1" aria-selected="false">Password</button>
-                                </li>
-                            </ul>
-                            <div class="tab-content" id="myTabContent">
-                                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                    <div class="card-body p-4">
-                                        <div class="row">
-                                            <div class="col-lg-12 ms-lg-auto">
-                                            {{ form_open('', 'class="update_form" id="update_form" name="update_form"')|raw }}
-                                                <div class="mt-4 mt-lg-0">
-                                                    <div class="row mb-4">
-                                                        <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">First name <span class="text-danger">*</span></label>
+                    <div class="card"> <br/>
+                        <div class="col-lg-12">
+                            <div class="card" style="border: transparent">
+                                <!-- <div class="card-header">
+                                    <h4 class="card-title"> <i class="bx bxs-edit-alt"></i> Edit Customer</h4>
+                                </div> -->
+                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="edit-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">General</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="address-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Addresses</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="password-tab" data-bs-toggle="tab" data-bs-target="#profile1" type="button" role="tab" aria-controls="profile1" aria-selected="false">Password</button>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                        <div class="card-body p-4">
+                                            <div class="row">
+                                                <div class="col-lg-12 ms-lg-auto">
+                                                {{ form_open('', 'class="update_form" id="update_form" name="update_form"')|raw }}
+                                                    <div class="mt-4 mt-lg-0">
+                                                        <div class="row mb-4">
+                                                            <label for="horizontal-firstname-input" class="col-sm-2 col-form-label">First name <span class="text-danger">*</span></label>
 
+                                                            <input type="hidden" value="{{details.user_id}}" id="user_id" name="user_id">
+                                                            <div class="col-sm-9">
+                                                                <input type="text" class="form-control" name="first_name" id="horizontal-firstname-input" value="{{details.first_name}}">
+                                                                {% if login_error.first_name is defined %}<code> {{ login_error.first_name}} </code> {% endif %}
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-4">
+                                                            <label for="horizontal-firstname-input" class="col-sm-2 col-form-label">Last name <span class="text-danger">*</span></label>
+                                                            <div class="col-sm-9">
+                                                                <input type="text" class="form-control"  name="last_name" id="horizontal-firstname-input" value="{{details.last_name}}">
+                                                                {% if login_error.last_name is defined %}<code> {{ login_error.last_name}} </code> {% endif %}
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-4">
+                                                            <label for="horizontal-email-input" class="col-sm-2 col-form-label">Email <span class="text-danger">*</span></label>
+                                                            <div class="col-sm-9">
+                                                                <input type="email" class="form-control" name="email" id="horizontal-email-input" readonly value="{{details.email}}">
+                                                                {% if login_error.email is defined %}<code> {{ login_error.email}} </code> {% endif %}
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row mb-4">
+                                                            <label for="horizontal-firstname-input" class="col-sm-2 col-form-label">Phone <span class="text-danger">*</span></label>
+                                                            <div class="col-sm-9">
+                                                                <input type="text" class="form-control"  name="phone_number" id="horizontal-firstname-input" value="{{details.phone_number}}">
+                                                                {% if login_error.phone_number is defined %}<code> {{ login_error.phone_number}} </code> {% endif %}
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="row justify-content-end">
+                                                            <div class="col-sm-9">
+                                                                <div>
+                                                                    <button type="submit" name="general" value="general" class="btn btn-primary w-md">Submit</button>
+                                                                    {% if login_error.email is defined %}<code> {{ login_error.email}} </code> {% endif %}
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                {{form_close()|raw}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="address-tab">
+                                       
+                                        {{ form_open('', 'class="address_form" id="address_form" name="address_form"')|raw }}
+                                        <div class="card-body p-4"> 
+                                            <div class="card-header">
+                                                <h5 class="card-title">Address</h5>
+                                            </div>
+                                            <br>
+                                            <div class="row">
+                                                <div class="col-lg-12 ms-lg-auto">
+                                                    <div class="mt-4 mt-lg-0">
+                                                        <div class="row mb-4">
+                                                            <label for="horizontal-email-input" class="col-sm-2 col-form-label">Addressline 1 <span class="text-danger">*</span></label>
+                                                            <div class="col-sm-9">
+                                                                <input type="text" class="form-control" id="address_1" name="address[0][address_1]" value="{{details.address_1}}">
+                                                            </div>
+                                                        </div>
                                                         <input type="hidden" value="{{details.user_id}}" id="user_id" name="user_id">
-                                                        <div class="col-sm-9">
-                                                            <input type="text" class="form-control" name="first_name" id="horizontal-firstname-input" value="{{details.first_name}}">
-                                                            {% if login_error.first_name is defined %}<code> {{ login_error.first_name}} </code> {% endif %}
 
+                                                        <div class="row mb-4">
+                                                            <label for="horizontal-email-input" class="col-sm-2 col-form-label">Addressline 2 <span class="text-danger">*</span></label>
+                                                            <div class="col-sm-9">
+                                                                <input type="text" class="form-control" id="address_2" name="address[0][address_2]"  value="{{details.address_2}}">
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="row mb-4">
-                                                        <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Last name <span class="text-danger">*</span></label>
-                                                        <div class="col-sm-9">
-                                                            <input type="text" class="form-control"  name="last_name" id="horizontal-firstname-input" value="{{details.last_name}}">
-                                                            {% if login_error.last_name is defined %}<code> {{ login_error.last_name}} </code> {% endif %}
-
+                                                        <div class="row mb-4">
+                                                            <label for="horizontal-email-input" class="col-sm-2 col-form-label">City <span class="text-danger">*</span></label>
+                                                            <div class="col-sm-9">
+                                                                <input type="text" class="form-control" id="city"  name="address[0][city]"  value="{{details.city}}">
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="row mb-4">
-                                                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Email <span class="text-danger">*</span></label>
-                                                        <div class="col-sm-9">
-                                                            <input type="email" class="form-control" name="email" id="horizontal-email-input" readonly value="{{details.email}}">
-                                                            {% if login_error.email is defined %}<code> {{ login_error.email}} </code> {% endif %}
 
+                                                        <div class="row mb-4">
+                                                            <label for="horizontal-email-input" class="col-sm-2 col-form-label">Country <span class="text-danger">*</span></label>
+                                                            <div class="col-sm-9">
+                                                                <select name="country_id" id="country_id" class="form-control search-select" tabindex='4'>
+                                                                    <option value="">Select Country</option>
+                                                                    {% for cntrs in countries %}
+                                                                    <option value="{{ cntrs.id }}" {% if details.country_id==cntrs.id %} selected {% endif %}>{{ cntrs.name|raw }}</option>
+
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
                                                         </div>
+                                                        <div class="row mb-4">
+                                                            <label for="horizontal-email-input" class="col-sm-2 col-form-label">State</label>
+                                                            <div class="col-sm-9">
+                                                                <span class="input-icon" id="state_span">
+                                                                    <select name="state" id="state" class="form-control search-select" tabindex='4'>
+                                                                    <option value="">{{ lang('select_a_state') }}</option>
+                                                                        {% for sts in states %}
+                                                                        <option value="{{ sts.id }}" {% if details.state==sts.id %} selected {% endif %}>{{ sts.name|raw }}</option>
+                                                                        {% endfor %}
+                                                                        </select>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-4">
+                                                            <label for="horizontal-email-input" class="col-sm-2 col-form-label">Zip <span class="text-danger">*</span></label>
+                                                            <div class="col-sm-9">
+                                                                <input type="text" class="form-control" id="zip_code"  name="address[0][zip_code]" value="{{details.zip_code}}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-check form-check-right mb-3 ">
+                                                            <input class="form-check-input" type="radio" name="default" value="0"  checked id="default" >
+                                                            <label class="form-check-label" for="default">
+                                                               Default
+                                                           </label>
+                                                       </div>
+                                                    </div> 
+                                                </div>
+                                            </div>
+                                            <!-- {% set j = 1 %}
+                                            {% if details.add_address  %}
+                                            {% for add_dress in details.add_address %}
+                                            <div class="card-header">
+                                              <h5 class="card-title">Address{{ j }}</h5>
+                                            </div>
+                                            <br>
+                                            <div class="row">
+                                                <div class="col-lg-12 ms-lg-auto">
+                                                    <div class="mt-4 mt-lg-0">
+
+                                                        <div class="row mb-4">
+                                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">Addressline 1</label>
+                                                            <div class="col-sm-9">
+                                                                <input type="text" class="form-control" id="address_1" name="address[{{j}}][address_1]" value="{{details.address_1}}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-4">
+                                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">Addressline 2</label>
+                                                            <div class="col-sm-9">
+                                                                <input type="text" class="form-control" id="address_2" name="address[{{j}}][address_2]"  value="{{details.address_2}}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-4">
+                                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">City</label>
+                                                            <div class="col-sm-9">
+                                                                <input type="text" class="form-control" id="city"  name="address[{{j}}][city]" value="{{details.city}}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-4">
+                                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">country</label>
+                                                            <div class="col-sm-9">
+                                                                <input type="text" class="form-control" id="country_id" name="address[{{j}}][country_id]"  value="{{details.country_id}}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-4">
+                                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">Zip</label>
+                                                            <div class="col-sm-9">
+                                                                <input type="text" class="form-control" id="zip_code"  name="address[{{j}}][zip_code]" value="{{details.zip_code}}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-check form-check-right mb-3 ">
+                                                            <input class="form-check-input" type="radio" name="default" value="{{j}}" id="formRadiosRight1" >
+                                                            <label class="form-check-label" for="formRadiosRight1">
+                                                               Default
+                                                           </label>
+                                                       </div>
+
                                                     </div>
-
+                                                </div>
+                                            </div>
+                                            {% set j = j + 1 %}
+                                            {% endfor %}  
+                                            {% endif  %} -->
+                                            <input type="hidden" value="{{j}}" id="total_chq">
+                                                <span id="add_address_view"></span>
                                                     <div class="row mb-4">
-                                                        <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">Phone <span class="text-danger">*</span></label>
-                                                        <div class="col-sm-9">
-                                                            <input type="text" class="form-control"  name="phone_number" id="horizontal-firstname-input" value="{{details.phone_number}}">
-                                                            {% if login_error.phone_number is defined %}<code> {{ login_error.phone_number}} </code> {% endif %}
-
+                                                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                                            <a class="btn btn-primary" onclick="myaddresss()"><i class="bx bx-plus"></i> Add Address</a>
                                                         </div>
                                                     </div>
                                                     <div class="row justify-content-end">
                                                         <div class="col-sm-9">
                                                             <div>
-                                                                <button type="submit" name="general" value="general" class="btn btn-primary w-md">Submit</button>
-                                                                {% if login_error.email is defined %}<code> {{ login_error.email}} </code> {% endif %}
-
+                                                                <button type="submit" name="add_address" value="add_address"id="add_address" class="btn btn-primary w-md">Submit</button>
                                                             </div>
                                                         </div>
                                                     </div>
-
-                                                </div>
-                                            {{form_close()|raw}}
-                                            </div>
                                         </div>
+                                        {{form_close()|raw}}
                                     </div>
-                                </div>
-                                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="address-tab">
-                                   
-                                    {{ form_open('', 'class="address_form" id="address_form" name="address_form"')|raw }}
-                                    <div class="card-body p-4"> 
-                                        <div class="card-header">
-                                            <h5 class="card-title">Address</h5>
-                                        </div>
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-lg-12 ms-lg-auto">
-                                                <div class="mt-4 mt-lg-0">
-                                                    <div class="row mb-4">
-                                                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Addressline 1 <span class="text-danger">*</span></label>
-                                                        <div class="col-sm-9">
-                                                            <input type="text" class="form-control" id="address_1" name="address[0][address_1]" value="{{details.address_1}}">
-                                                        </div>
-                                                    </div>
-                                                    <input type="hidden" value="{{details.user_id}}" id="user_id" name="user_id">
+                                    
+                                    <div class="tab-pane fade" id="profile1" role="tabpanel" aria-labelledby="password-tab">
 
-                                                    <div class="row mb-4">
-                                                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Addressline 2 <span class="text-danger">*</span></label>
-                                                        <div class="col-sm-9">
-                                                            <input type="text" class="form-control" id="address_2" name="address[0][address_2]"  value="{{details.address_2}}">
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mb-4">
-                                                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">City <span class="text-danger">*</span></label>
-                                                        <div class="col-sm-9">
-                                                            <input type="text" class="form-control" id="city"  name="address[0][city]"  value="{{details.city}}">
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row mb-4">
-                                                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Country <span class="text-danger">*</span></label>
-                                                        <div class="col-sm-9">
-                                                            <select name="country_id" id="country_id" class="form-control search-select" tabindex='4'>
-                                                                <option value="">Select Country</option>
-                                                                {% for cntrs in countries %}
-                                                                <option value="{{ cntrs.id }}" {% if details.country_id==cntrs.id %} selected {% endif %}>{{ cntrs.name|raw }}</option>
-
-                                                                {% endfor %}
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mb-4">
-                                                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">State</label>
-                                                        <div class="col-sm-9">
-                                                            <span class="input-icon" id="state_span">
-                                                                <select name="state" id="state" class="form-control search-select" tabindex='4'>
-                                                                <option value="">{{ lang('select_a_state') }}</option>
-                                                                    {% for sts in states %}
-                                                                    <option value="{{ sts.id }}" {% if details.state==sts.id %} selected {% endif %}>{{ sts.name|raw }}</option>
-                                                                    {% endfor %}
-                                                                    </select>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mb-4">
-                                                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Zip <span class="text-danger">*</span></label>
-                                                        <div class="col-sm-9">
-                                                            <input type="text" class="form-control" id="zip_code"  name="address[0][zip_code]" value="{{details.zip_code}}">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-check form-check-right mb-3 ">
-                                                        <input class="form-check-input" type="radio" name="default" value="0"  checked id="default" >
-                                                        <label class="form-check-label" for="default">
-                                                           Default
-                                                       </label>
-                                                   </div>
-                                                </div> 
-                                            </div>
-                                        </div>
-                                        <!-- {% set j = 1 %}
-                                        {% if details.add_address  %}
-                                        {% for add_dress in details.add_address %}
-                                        <div class="card-header">
-                                          <h5 class="card-title">Address{{ j }}</h5>
-                                        </div>
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-lg-12 ms-lg-auto">
-                                                <div class="mt-4 mt-lg-0">
-
-                                                    <div class="row mb-4">
-                                                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Addressline 1</label>
-                                                        <div class="col-sm-9">
-                                                            <input type="text" class="form-control" id="address_1" name="address[{{j}}][address_1]" value="{{details.address_1}}">
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mb-4">
-                                                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Addressline 2</label>
-                                                        <div class="col-sm-9">
-                                                            <input type="text" class="form-control" id="address_2" name="address[{{j}}][address_2]"  value="{{details.address_2}}">
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mb-4">
-                                                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">City</label>
-                                                        <div class="col-sm-9">
-                                                            <input type="text" class="form-control" id="city"  name="address[{{j}}][city]" value="{{details.city}}">
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mb-4">
-                                                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">country</label>
-                                                        <div class="col-sm-9">
-                                                            <input type="text" class="form-control" id="country_id" name="address[{{j}}][country_id]"  value="{{details.country_id}}">
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mb-4">
-                                                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Zip</label>
-                                                        <div class="col-sm-9">
-                                                            <input type="text" class="form-control" id="zip_code"  name="address[{{j}}][zip_code]" value="{{details.zip_code}}">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-check form-check-right mb-3 ">
-                                                        <input class="form-check-input" type="radio" name="default" value="{{j}}" id="formRadiosRight1" >
-                                                        <label class="form-check-label" for="formRadiosRight1">
-                                                           Default
-                                                       </label>
-                                                   </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {% set j = j + 1 %}
-                                        {% endfor %}  
-                                        {% endif  %} -->
-                                        <input type="hidden" value="{{j}}" id="total_chq">
-                                            <span id="add_address_view"></span>
+                                        {{ form_open('', 'class="password_form" id="password_form" name="password_form"')|raw }}
+                                        <div class="card-body p-4">
+                                            <div class="mt-4 mt-lg-0">
+                                                <input type="hidden" value="{{details.user_id}}" id="user_id" name="user_id">
                                                 <div class="row mb-4">
-                                                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                                        <a class="btn btn-primary" onclick="myaddresss()"><i class="bx bx-plus"></i> Add Address</a>
+                                                    <label for="horizontal-password-input" class="col-sm-2 col-form-label">Current Password <span class="text-danger">*</span></label>
+                                                    <div class="form-group col-sm-9">
+                                                        <input type="password" class="form-control" name="current_password" id="current_password">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4">
+                                                    <label for="horizontal-password-input" class="col-sm-2 col-form-label">New Password <span class="text-danger">*</span></label>
+                                                    <div class="form-group col-sm-9">
+                                                        <input type="password" class="form-control" name="password" id="password">
+                                                        
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4">
+                                                    <label for="horizontal-password-input" class="col-sm-2 col-form-label">Confirm Password <span class="text-danger">*</span></label>
+                                                    <div class="form-group col-sm-9">
+                                                        <input type="password" class="form-control" name="confirm_password" id="confirm_password">
                                                     </div>
                                                 </div>
                                                 <div class="row justify-content-end">
-                                                    <div class="col-sm-9">
+                                                    <div class="col-sm-12">
                                                         <div>
-                                                            <button type="submit" name="add_address" value="add_address"id="add_address" class="btn btn-primary w-md">Submit</button>
+                                                            <button type="submit" name="update_password" value="update_password" class="btn btn-primary w-md">Submit <i class="fa fa-arrow-circle-right"></i></button>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                    </div>
-                                    {{form_close()|raw}}
-                                </div>
-                                
-                                <div class="tab-pane fade" id="profile1" role="tabpanel" aria-labelledby="password-tab">
-
-                                    {{ form_open('', 'class="password_form" id="password_form" name="password_form"')|raw }}
-                                    <div class="card-body p-4">
-                                        <div class="mt-4 mt-lg-0">
-                                            <input type="hidden" value="{{details.user_id}}" id="user_id" name="user_id">
-                                            <div class="row mb-4">
-                                                <label for="horizontal-password-input" class="col-sm-3 col-form-label">Current Password <span class="text-danger">*</span></label>
-                                                <div class="form-group col-sm-9">
-                                                    <input type="password" class="form-control" name="current_password" id="current_password">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="horizontal-password-input" class="col-sm-3 col-form-label">New Password <span class="text-danger">*</span></label>
-                                                <div class="form-group col-sm-9">
-                                                    <input type="password" class="form-control" name="password" id="password">
-                                                    
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="horizontal-password-input" class="col-sm-3 col-form-label">Confirm Password <span class="text-danger">*</span></label>
-                                                <div class="form-group col-sm-9">
-                                                    <input type="password" class="form-control" name="confirm_password" id="confirm_password">
-                                                </div>
-                                            </div>
-                                            <div class="row justify-content-end">
-                                                <div class="col-sm-12">
-                                                    <div>
-                                                        <button type="submit" name="update_password" value="update_password" class="btn btn-primary w-md">Submit <i class="fa fa-arrow-circle-right"></i></button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        {{form_close()|raw}}
                                     </div>
-                                    {{form_close()|raw}}
                                 </div>
                             </div>
                         </div>
@@ -407,9 +413,18 @@ function myaddresss(){
     var myDatfa = {{ countries|json_encode|raw }};
     var myData = {{ states|json_encode|raw }};
     var count = $('#total_chq').val();
+
+    var sum = 0;
+
+    for (var i = 0; i < count.length; i++) {
+      sum += parseInt(count[i]);
+    }
+
+    console.log(sum);
+
     var html ='<div class="card-body p-1">';
     html +='<div class="card-header">';
-    html += '<h5 class="card-title"> Address'+ count +'</h5></div><br><div class="row">';
+    html += '<h5 class="card-title"> Address '+ sum +'</h5></div><br><div class="row">';
     html += '<div class="col-lg-12 ms-lg-auto"><div class="mt-4 mt-lg-0"><div class="row mb-4">';
     html += '<label for="horizontal-email-input" class="col-sm-3 col-form-label">Addressline 1</label><div class="col-sm-9"><input type="text" class="form-control" id="address_1" name="address['+ count +'][address_1]" ></div></div>';
     html += '<div class="row mb-4"><label for="horizontal-email-input" class="col-sm-3 col-form-label">Addressline 2</label><div class="col-sm-9"> <input type="text" class="form-control" id="address_2" name="address['+ count +'][address_2]" ></div></div>';
