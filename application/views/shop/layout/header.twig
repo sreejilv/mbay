@@ -180,11 +180,20 @@
                                     </div>
                                     <!--end language-->
                                     <!--cart-->
-                                    <div class="same-style-2 header-cart">
-                                        <a class="cart-active" href="#">
-                                            <i class="icon-basket-loaded"></i><span class="pro-count black">02</span>
-                                        </a>
-                                    </div>
+                                    {% if items %}
+                                        <div class="header-cart-2" id="header_cart">
+                                            <a class="cart-active" href="{{BASE_URL}}cart">
+                                                <i class="icon-basket-loaded"></i>
+                                                <span class="black">{{pro_count}}</span>
+                                            </a>
+                                        </div>
+                                    {% else %}
+                                        <div class="header-cart-2" id="header_cart">
+                                            <a class="cart-active" href="{{BASE_URL}}index"><i class="icon-basket-loaded"></i> <span
+                                                class="black">{{pro_count}}</span></a>
+                                        </div>
+                                    {% endif %}
+
                                     <!--end cart-->
                                     <div class="same-style-2 main-menu-icon">
                                         <a class="mobile-header-button-active" href="#"><i class="icon-menu"></i> </a>
