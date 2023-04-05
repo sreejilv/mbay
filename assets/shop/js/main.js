@@ -350,4 +350,18 @@
         $('.curr-dropdown-active').slideToggle(900);
     });
 
+    /// BANK ACCOUNT NUMBER COPY CODE
+    let copyText = document.querySelector(".bank-account-details");
+    copyText.querySelector("button").addEventListener("click", function () {
+	let input = copyText.querySelector("input.text");
+	input.select();
+	document.execCommand("copy");
+	copyText.classList.add("active");
+	window.getSelection().removeAllRanges();
+	setTimeout(function () {
+		copyText.classList.remove("active");
+	}, 2500);
+});
+
+
 })(jQuery);
