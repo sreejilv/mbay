@@ -3780,6 +3780,7 @@ textarea:focus {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  text-transform: capitalize;
 }
 
 .header-login-regi a i {
