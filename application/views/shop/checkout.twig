@@ -253,44 +253,63 @@
 
                                 <!--payment-->
                                 <div class="payment-method">
-                                    {# <div class="pay-top sin-payment">
-                                         <input id="payment_method_1" class="input-radio" type="radio" value="cheque"
-                                             checked="checked" name="payment_method">
-                                         <label for="payment_method_1"> Direct Bank Transfer </label>
+
+                                    <!-- cash on delivery -->
+                                    <div class="pay-top sin-payment">
+                                        <input id="payment_method_1" class="input-radio" type="radio" value="cash_on_delivery"
+                                               checked="checked" name="payment_type">
+                                        <label for="payment_method_1">Cash on delivery </label>
+                                        <div class="payment-box payment_method_bacs">
+                                            <p>Make your payment directly into our bank account. Please use your
+                                                Order ID as the payment reference.</p>
+                                        </div>
+                                    </div>
+                                    <!-- end cash on delivery -->
+
+                                    <!-- payment gateway -->
+                                    <div class="pay-top sin-payment sin-payment-3">
+                                        <input id="payment_method_2" class="input-radio" type="radio" value="bbb"
+                                               name="payment_type">
+                                        <label class="d-block" for="payment_method_2">Pay with Visa or Master Card Through Thawani Gate <img src="assets/shop/images/icon-img/payment.png" alt="">
+                                        <a href="https://thawani.om/about/" target="_blank">What is
+                                                Thawani?</a></label>
+                                        {# <div class="payment-box payment_method_bacs">
+                                            <p>
+                                            Make your payment directly into our bank account. Please use your
+                                                Order ID as the payment reference.
+                                                </p>
+                                        </div> #}
+                                    </div>
+                                    <!-- end payment gateway -->
+
+                                    <!-- direct bank transfer -->
+                                    <div class="pay-top sin-payment">
+                                         <input id="payment_method_3" class="input-radio" type="radio" value="aaa"
+                                              name="payment_method">
+                                         <label for="payment_method_3"> Direct Bank Transfer </label>
                                          <div class="payment-box payment_method_bacs">
-                                             <p>Make your payment directly into our bank account. Please use your
-                                                 Order ID as the payment reference.</p>
+                                             <p>
+                                             Make your payment directly into our bank account, and please use your Order ID as the payment reference. After uploading your payment screenshot, the admin will verify your order.
+                                             </p>
+                                             <div class="bank-account-details border rounded p-3 mt-2">
+                                                <address class="mb-0">
+                                                <strong>Bank Name</strong><br>
+                                                Bank Muscat<br>
+                                                <strong>Company Name</strong><br>
+                                                Al Osan Complete Enterprises LLC <br>
+                                                <strong>A/C NO  </strong><br>
+                                                0314055619700019<br>
+                                                </address>
+                                             </div>
+                                                 <div class="mt-2 clearfix">
+                                                    <label for="formFile" class="form-label m-0">Upload Payment Slip</label>
+                                                    <input class="form-control form-control-sm" type="file" id="formFile">
+                                                 </div>
                                          </div>
                                      </div>
-                                     <div class="pay-top sin-payment">
-                                         <input id="payment-method-2" class="input-radio" type="radio" value="cheque"
-                                             name="payment_method">
-                                         <label for="payment-method-2">Check payments</label>
-                                         <div class="payment-box payment_method_bacs">
-                                             <p>Make your payment directly into our bank account. Please use your
-                                                 Order ID as the payment reference.</p>
-                                         </div>
-                                     </div>#}
-                                    <div class="pay-top sin-payment">
-                                        <input id="payment_type" class="input-radio" type="radio" value="cash_on_delivery"
-                                               checked="checked" name="payment_type">
-                                        <label for="payment-method-3">Cash on delivery </label>
-                                        <div class="payment-box payment_method_bacs">
-                                            <p>Make your payment directly into our bank account. Please use your
-                                                Order ID as the payment reference.</p>
-                                        </div>
-                                    </div>
-                                    <div class="pay-top sin-payment sin-payment-3">
-                                        <input id="payment_type" class="input-radio" type="radio" value="paypal"
-                                               name="payment_type">
-                                        <label for="payment-method-4">PayPal <img alt=""
-                                                                                  src="assets/shop/images/icon-img/payment.png"><a href="#">What is
-                                                PayPal?</a></label>
-                                        <div class="payment-box payment_method_bacs">
-                                            <p>Make your payment directly into our bank account. Please use your
-                                                Order ID as the payment reference.</p>
-                                        </div>
-                                    </div>
+                                    <!-- end direct bank transfer -->
+
+                                    
                                 </div>
                                 <!--end payment-->
                             {% endfor %}
@@ -319,6 +338,7 @@
 <!-- END CHECKOUT -->
 
 {% include('shop/layout/footer.twig')%}
+
 <script>
     $("#shop_checkout_home").hide();
     $("#shop_checkout_click").show();
