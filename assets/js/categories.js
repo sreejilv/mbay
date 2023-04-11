@@ -26,9 +26,9 @@ var validate_user_profile = function () {
               },
               
               rules: {
-                     "images[]" : {
-                            required: true,
-                     },
+                     // "images[]" : {
+                     //        required: true,
+                     // },
                      category: {
                            required: true,
                      },
@@ -47,10 +47,10 @@ var validate_user_profile = function () {
                      }
               },
               messages: {
-                     "images[]": "Please select Image",
-                            category: {
-                            required: 'Required',
-                     }, 
+                     // "images[]": "Please select Image",
+                     //        category: {
+                     //        required: 'Required',
+                     // }, 
                      // parent: {
                      //     required: 'Required',
                      // },

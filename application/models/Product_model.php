@@ -537,6 +537,7 @@ class Product_model extends CI_Model {
         return $files;
     }
     function addCategory($data, $cat_image) {
+        // print_r($cat_image);die;
         $cat_nav = isset($data['slider']) ? 1 : 0;
         $popular_category = isset($data['popular_category']) ? 1 : 0;
         $this->db->set('category', $data['category'])

@@ -34,13 +34,14 @@ class Shop_model extends CI_Model {
 
     function getAllNotification() {
         $data = array();
-        $query = $this->db->select('update_notify.user_id,update_notify.user_id, update_notify.phone,update_notify.pro_id,user_name,email,product_name')
+        $query = $this->db->select('update_notify.id,update_notify.user_id,update_notify.user_id, update_notify.phone,update_notify.pro_id,user_name,email,product_name')
                 ->join('user', 'user.mlm_user_id = update_notify.user_id', 'left')
                 ->join('products', 'products.id = update_notify.pro_id', 'inner')
                 ->get('update_notify');
         if ($query->num_rows() > 0) {
             $i = 0;
             foreach ($query->result_array() as $row) {
+                 $data[$i]['id'] = $row['id'];
                 $data[$i]['username'] = $row['user_name'];
                 $data[$i]['email'] = $row['email'];
                 $data[$i]['product_name'] = $row['product_name'];
@@ -49,6 +50,15 @@ class Shop_model extends CI_Model {
             }
         }
         return $data;
+    }
+
+    function deleteNotification($notification_id) {
+        $this->db->where('id', $notification_id)
+                ->delete('update_notify');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return false;
     }
 
     function getUserAddressData($user_id) {
