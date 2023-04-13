@@ -441,7 +441,10 @@
                 toastr.success('Added to cart')
                 $("html,body").animate({scrollTop: 0}, "slow");
 
-                       $("#header_cart").load(" #header_cart> *");
+                       // $("#header_cart").load(" #header_cart> *");
+                setTimeout(function() {
+                    location.reload();
+                }, 1000);
 
             }
             else

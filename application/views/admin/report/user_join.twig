@@ -17,7 +17,17 @@
     <span id="current_password_req_js">{{lang('current_password_req_js')}}</span>   
     <span id="new_password_req_js">{{lang('new_password_req_js')}}</span>   
     <span id="confirm_password_req_js">{{lang('confirm_password_req_js')}}</span>   
-    <span id="password_mismatch_js">{{lang('password_mismatch_js')}}</span>   
+    <span id="password_mismatch_js">{{lang('password_mismatch_js')}}</span>  
+
+    <span id="first_name_req_js">{{lang('first_name_req_js')}}</span>   
+    <span id="last_name_req_js">{{lang('last_name_req_js')}}</span>   
+    <span id="email_req_js">{{lang('email_req_js')}}</span>   
+    <span id="phone_number_req_js">{{lang('phone_number_req_js')}}</span>   
+
+    <span id="address_1_req_js">{{lang('address_1_req_js')}}</span>   
+    <span id="city_req_js">{{lang('city_req_js')}}</span>   
+    <span id="country_req_js">{{lang('country_req_js')}}</span>   
+    <span id="zip_code_req_js">{{lang('zip_code_req_js')}}</span>   
     
 </div>
 
@@ -127,24 +137,26 @@
                                                 <div class="col-lg-12 ms-lg-auto">
                                                 {{ form_open('', 'class="update_form" id="update_form" name="update_form"')|raw }}
                                                     <div class="mt-4 mt-lg-0">
-                                                        <div class="row mb-4">
-                                                            <label for="horizontal-firstname-input" class="col-sm-2 col-form-label">First name <span class="text-danger">*</span></label>
-
-                                                            <input type="hidden" value="{{details.user_id}}" id="user_id" name="user_id">
-                                                            <div class="col-sm-9">
-                                                                <input type="text" class="form-control" name="first_name" id="horizontal-firstname-input" value="{{details.first_name}}">
-                                                                {% if login_error.first_name is defined %}<code> {{ login_error.first_name}} </code> {% endif %}
-
+                                                     
+                                                         <div class="row mb-4">
+                                                                <label for="horizontal-firstname-input" class="col-sm-2 col-form-label">First name <span class="text-danger">*</span></label>
+                                                                
+                                                                 <input type="hidden" value="{{details.user_id}}" id="user_id" name="user_id">
+                                                                <div class="form-group col-sm-9">
+                                                                    <input type="text" class="form-control" name="first_name" id="first_name" value="{{details.first_name}}">
+                                                                    {% if login_error.first_name is defined %}<code> {{ login_error.first_name}} </code> {% endif %}
+                                                                 
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="row mb-4">
-                                                            <label for="horizontal-firstname-input" class="col-sm-2 col-form-label">Last name <span class="text-danger">*</span></label>
-                                                            <div class="col-sm-9">
-                                                                <input type="text" class="form-control"  name="last_name" id="horizontal-firstname-input" value="{{details.last_name}}">
-                                                                {% if login_error.last_name is defined %}<code> {{ login_error.last_name}} </code> {% endif %}
-
+                                                             <div class="row mb-4">
+                                                                <label for="horizontal-firstname-input" class="col-sm-2 col-form-label">Last name <span class="text-danger">*</span></label>
+                                                                <div class="form-group col-sm-9">
+                                                                    <input type="text" class="form-control"  name="last_name" id="horizontal-firstname-input" value="{{details.last_name}}">
+                                                                 {% if login_error.last_name is defined %}<code> {{ login_error.last_name}} </code> {% endif %}
+                                                               
+                                                                </div>
                                                             </div>
-                                                        </div>
+                                                    
                                                         <div class="row mb-4">
                                                             <label for="horizontal-email-input" class="col-sm-2 col-form-label">Email <span class="text-danger">*</span></label>
                                                             <div class="col-sm-9">
@@ -154,14 +166,15 @@
                                                             </div>
                                                         </div>
 
+                                                      
                                                         <div class="row mb-4">
-                                                            <label for="horizontal-firstname-input" class="col-sm-2 col-form-label">Phone <span class="text-danger">*</span></label>
-                                                            <div class="col-sm-9">
-                                                                <input type="text" class="form-control"  name="phone_number" id="horizontal-firstname-input" value="{{details.phone_number}}">
-                                                                {% if login_error.phone_number is defined %}<code> {{ login_error.phone_number}} </code> {% endif %}
-
+                                                                <label for="horizontal-firstname-input" class="col-sm-2 col-form-label">Phone <span class="text-danger">*</span></label>
+                                                                <div class="form-group col-sm-9">
+                                                                    <input type="text" class="form-control"  name="phone_number" id="horizontal-phone-input" value="{{details.phone_number}}">
+                                                                 {% if login_error.phone_number is defined %}<code> {{ login_error.phone_number}} </code> {% endif %}
+                                                              
+                                                                </div>
                                                             </div>
-                                                        </div>
                                                         <div class="row justify-content-end">
                                                             <div class="col-sm-9">
                                                                 <div>
@@ -189,13 +202,14 @@
                                             <div class="row">
                                                 <div class="col-lg-12 ms-lg-auto">
                                                     <div class="mt-4 mt-lg-0">
+                                                     
                                                         <div class="row mb-4">
-                                                            <label for="horizontal-email-input" class="col-sm-2 col-form-label">Addressline 1 <span class="text-danger">*</span></label>
-                                                            <div class="col-sm-9">
-                                                                <input type="text" class="form-control" id="address_1" name="address[0][address_1]" value="{{details.address_1}}">
+                                                                <label for="horizontal-email-input" class="col-sm-2 col-form-label">Addressline 1 <span class="text-danger">*</span></label>
+                                                                <div class="form-group col-sm-9">
+                                                                    <input type="text" class="form-control" id="address_1" name="address_1" value="{{details.address_1}}">
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <input type="hidden" value="{{details.user_id}}" id="user_id" name="user_id">
+                                                                 <input type="hidden" value="{{details.user_id}}" id="user_id" name="user_id">
 
                                                         <div class="row mb-4">
                                                             <label for="horizontal-email-input" class="col-sm-2 col-form-label">Addressline 2 <span class="text-danger">*</span></label>
@@ -203,25 +217,26 @@
                                                                 <input type="text" class="form-control" id="address_2" name="address[0][address_2]"  value="{{details.address_2}}">
                                                             </div>
                                                         </div>
-                                                        <div class="row mb-4">
-                                                            <label for="horizontal-email-input" class="col-sm-2 col-form-label">City <span class="text-danger">*</span></label>
-                                                            <div class="col-sm-9">
-                                                                <input type="text" class="form-control" id="city"  name="address[0][city]"  value="{{details.city}}">
+                                                     
+                                                          <div class="row mb-4">
+                                                                <label for="horizontal-email-input" class="col-sm-2 col-form-label">City <span class="text-danger">*</span></label>
+                                                                <div class="form-group col-sm-9">
+                                                                    <input type="text" class="form-control" id="city"  name="city"  value="{{details.city}}">
+                                                                </div>
                                                             </div>
-                                                        </div>
 
-                                                        <div class="row mb-4">
-                                                            <label for="horizontal-email-input" class="col-sm-2 col-form-label">Country <span class="text-danger">*</span></label>
-                                                            <div class="col-sm-9">
-                                                                <select name="country_id" id="country_id" class="form-control search-select" tabindex='4'>
+                                                       
+                                                         <div class="row mb-4">
+                                                                <label for="horizontal-email-input" class="col-sm-2 col-form-label">Country <span class="text-danger">*</span></label>
+                                                                <div class="form-group col-sm-9">
+                                                                    <select name="country_id" id="country_id" class="form-control search-select" tabindex='4'>
                                                                     <option value="">Select Country</option>
                                                                     {% for cntrs in countries %}
-                                                                    <option value="{{ cntrs.id }}" {% if details.country_id==cntrs.id %} selected {% endif %}>{{ cntrs.name|raw }}</option>
-
+                                                                        <option value="{{ cntrs.id }}" {% if details.country_id==cntrs.id %} selected {% endif %}>{{ cntrs.name|raw }}</option>
                                                                     {% endfor %}
-                                                                </select>
+                                                                    </select>
+                                                                </div>
                                                             </div>
-                                                        </div>
                                                         <div class="row mb-4">
                                                             <label for="horizontal-email-input" class="col-sm-2 col-form-label">State</label>
                                                             <div class="col-sm-9">
@@ -235,12 +250,13 @@
                                                                 </span>
                                                             </div>
                                                         </div>
-                                                        <div class="row mb-4">
-                                                            <label for="horizontal-email-input" class="col-sm-2 col-form-label">Zip <span class="text-danger">*</span></label>
-                                                            <div class="col-sm-9">
-                                                                <input type="text" class="form-control" id="zip_code"  name="address[0][zip_code]" value="{{details.zip_code}}">
+                                                        
+                                                          <div class="row mb-4">
+                                                                <label for="horizontal-email-input" class="col-sm-2 col-form-label">Zip <span class="text-danger">*</span></label>
+                                                                <div class="form-group col-sm-9">
+                                                                    <input type="text" class="form-control" id="zip_code"  name="zip_code" value="{{details.zip_code}}">
+                                                                </div>
                                                             </div>
-                                                        </div>
                                                         <div class="form-check form-check-right mb-3 ">
                                                             <input class="form-check-input" type="radio" name="default" value="0"  checked id="default" >
                                                             <label class="form-check-label" for="default">

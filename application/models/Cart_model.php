@@ -13,7 +13,7 @@ if (!defined('BASEPATH'))
  * @author      Techffodils Technologies LLP
  * @link        https://techffodils.com
  */
-$this->obj_plan_model = '';
+// $this->obj_plan_model = '';
 
 class Cart_model extends CI_Model {
 

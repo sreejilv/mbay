@@ -87,3 +87,13 @@ $lang['confirm_password_req_js'] ='Confirm Password Is Required';
 $lang['password_mismatch_js'] ='Password Mismatches';
 $lang['select_a_state'] ='Select A State';
 
+$lang['first_name_req_js'] ='First Name Is Required';
+$lang['last_name_req_js'] ='Last Name Is Required';
+$lang['email_req_js'] ='Email Is Required';
+$lang['phone_number_req_js'] ='Phone Number Is Required';
+
+$lang['address_1_req_js'] ='Address Is Required';
+$lang['city_req_js'] ='City Is Required';
+$lang['country_req_js'] ='Country Is Required';
+$lang['zip_code_req_js'] ='Zip Code Is Required';
+

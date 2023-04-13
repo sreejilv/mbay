@@ -726,6 +726,7 @@ class Product extends Base_Controller {
             $upload_data = array();
             
             $files = $_FILES;
+            // print_r($files);die;
             $cpt = count($_FILES['images']['name']);
 
             for ($i = 0; $i < $cpt; $i++) {
@@ -760,11 +761,6 @@ class Product extends Base_Controller {
                             $this->image_lib->clear();
                         }
                     }
-                }
-                else{
-                $error = array('error' => $this->upload->display_errors());
-
-                print_r($error);die;
                 }
             }
               $res = $this->product_model->addCategory($post, $upload_data);

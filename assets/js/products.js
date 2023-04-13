@@ -26,9 +26,9 @@ var validate_product = function () {
             },
 
             rules: {
-                "images[]": {
-                    required: true,
-                },
+                // "images[]": {
+                //     required: true,
+                // },
                 product_name: {
                     required: true,
                 },
@@ -58,7 +58,7 @@ var validate_product = function () {
 
             },
             messages: {
-                "images[]": "Please select Image",
+                // "images[]": "Please select Image",
                 product_name: {
                     required: 'Required',
                 },

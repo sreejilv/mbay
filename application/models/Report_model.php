@@ -2308,19 +2308,21 @@ if ($where) {
         return $data;
     }
     public function updateAddaddress($address_post){
+        // print_r($address_post);die;
         $user_id =$address_post['user_id'];
         $default = $address_post['default'];
         $i = 0;
         foreach($address_post['address'] as $updateaddress){
             if($i==$default){
                 $useraddAddress = $updateaddress;
+                // print_r($useraddAddress);die;
                 $data = [
-                    'address_1' => $useraddAddress['address_1'],
+                    'address_1' => $address_post['address_1'],
                     'address_2' => $useraddAddress['address_2'],
-                    'city' => $useraddAddress['city'],
+                    'city' => $address_post['city'],
                     'country_id' => $address_post['country_id'],
                     'state_id' => $address_post['state'],
-                    'zip_code' =>$useraddAddress['zip_code'],
+                    'zip_code' =>$address_post['zip_code'],
                 ];
                 $this->db->where('mlm_user_id', $user_id);
                 $this->db->update('user_details', $data);
@@ -2331,11 +2333,11 @@ if ($where) {
                     // if($res){
 
                 $useraddAddress = $updateaddress;
-                $this->db->set('address_1', $useraddAddress['address_1'])
+                $this->db->set('address_1', $address_post['address_1'])
                 ->set('mlm_user_id', $user_id)
                 ->set('address_2', $useraddAddress['address_2'])
-                ->set('city', $useraddAddress['city'])
-                ->set('zip_code', $useraddAddress['zip_code'])
+                ->set('city', $address_post['city'])
+                ->set('zip_code', $address_post['zip_code'])
                 ->set('country_id', $address_post['country_id'])
                 ->set('state_id', $address_post['state'])
                 ->insert('user_address');
@@ -2349,7 +2351,7 @@ if ($where) {
     }
 
     public function updateAddress($address_post, $user_id){
-        // print_r($address_post);die;
+    // print_r($address_post);die;
 
           // $default = $address_post['default'];
           $i = 0;
@@ -2363,7 +2365,6 @@ if ($where) {
                         'state_id' => $address_post['state'],
                         'zip_code' =>$address_post['zip_code'],
                     ];
-                    // print_r($data);die;
                     $this->db->where('mlm_user_id', $user_id);
                     $this->db->update('user_details', $data);
                 // }else{
