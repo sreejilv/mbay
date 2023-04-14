@@ -84,17 +84,24 @@
                     <div class="pro-dec-big-img-slider nav-style-3">
 
                         <!--loop image-->
+                         {% for file in pro.files %}
                         <div class="item">
-                            <img {% for file in pro.files %} src="assets/shop/images/product/{{ file.file_name }}"
-                                {% endfor %} title="{{pro.product_name}}" class="img-fluid" alt="{{pro.product_name}}">
-
+                           
+                            <img  src="assets/shop/images/product/{{ file.file_name }}"
+                                 title="{{pro.product_name}}" class="img-fluid" alt="{{pro.product_name}}">
+                           
                         </div>
+                         {% endfor %}
                         <!--end loop image-->
                         <!--loop image-->
+                          {% for file in pro.files %}
                         <div class="item">
-                            <img {% for file in pro.files %} src="assets/shop/images/product/{{ file.file_name }}"
-                                {% endfor %} title="{{pro.product_name}}" class="img-fluid" alt="{{pro.product_name}}">
+                          
+                            <img  src="assets/shop/images/product/{{ file.file_name }}"
+                               title="{{pro.product_name}}" class="img-fluid" alt="{{pro.product_name}}">
+                               
                         </div>
+                         {% endfor %} 
                         <!--end loop image-->
 
                     </div>

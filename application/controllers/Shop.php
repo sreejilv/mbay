@@ -190,6 +190,7 @@ class Shop extends Base_Controller {
         $products = '';
         if ($pro_id) {
             $products = $this->product_model->getProductDtls($pro_id);
+            // dd($products['0']['files']);die;
             $party_cart = $this->cart->contents();
             // foreach ($party_cart as $key => $c) {
             //     if (!in_array($c['id'], $products)) {

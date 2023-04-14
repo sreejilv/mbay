@@ -190,7 +190,8 @@ class Product_model extends CI_Model {
             $data['recurring_type'] = $row->recurring_type;
             $data['product_type'] = $row->product_type;
             $data['status'] = $row->status;
-            $data['files'] = $this->getAllFiles($row->images);
+            // $data['files'] = $this->getAllFiles($row->images);
+            $data['files'] = $row->images;
             $data['inv_cat'] = $row->inv_cat;
             $data['investment_amount'] = $row->investment_amount;
             $data['expiry_date'] = $row->expiry_date;
@@ -206,6 +207,8 @@ class Product_model extends CI_Model {
         }
         return $data;
     }
+
+
 
     /**
      * For all existing files
@@ -262,6 +265,7 @@ class Product_model extends CI_Model {
      * @return type
      */
     function updateProduct($data, $files = array()) {
+        // print_r($files));die;
         $currency_ratio = 1;
         if ($this->dbvars->MULTI_CURRENCY_STATUS > 0) {
             $currency_ratio = $this->main->get_usersession('mlm_data_currency', 'currency_ratio');
@@ -288,9 +292,9 @@ class Product_model extends CI_Model {
                 ->set('description', $data['description'])
                 ->set('brand', $data['brand'])
                 ->set('product_amount', $data['product_amount'] / $currency_ratio)
-                ->set('product_pv', $data['product_pv'])
-                ->set('recurring_type', $data['recurring_type'])
-                ->set('product_type', $data['product_type'])
+                // ->set('product_pv', $data['product_pv'])
+                // ->set('recurring_type', $data['recurring_type'])
+                // ->set('product_type', $data['product_type'])
                 ->set('inv_cat', $inv_cat)
                 ->set('investment_amount', $investment_amount)
                 ->set('expiry_date', $expiry_date)
@@ -304,7 +308,7 @@ class Product_model extends CI_Model {
         if ($this->db->affected_rows() > 0) {
             return true;
         }
-        return false;
+        return true;
     }
 
     /**
@@ -540,7 +544,6 @@ class Product_model extends CI_Model {
         return $files;
     }
     function addCategory($data, $cat_image) {
-        // print_r($cat_image);die;
         $cat_nav = isset($data['slider']) ? 1 : 0;
         $popular_category = isset($data['popular_category']) ? 1 : 0;
         $this->db->set('category', $data['category'])

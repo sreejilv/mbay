@@ -339,7 +339,7 @@ var chart = new ApexCharts(document.querySelector("#market-overview"), options);
 chart.render();
 
 // MAp
-
+function mapdata(){
 var vectormapColors = getChartColorsArray("#sales-by-locations");
 $('#sales-by-locations').vectorMap({
     map: 'world_mill_en',
@@ -379,3 +379,4 @@ $('#sales-by-locations').vectorMap({
         name: 'Australia'
     }]
 });
+}
