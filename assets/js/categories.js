@@ -54,8 +54,11 @@ var validate_user_profile = function () {
                      // parent: {
                      //     required: 'Required',
                      // },
+                category: {
+                     required: 'Required',
+                     },
                      description: {
-                     ckeditor_required: 'This field is required',
+                     ckeditor_required: 'Required',
                      }, 
                      sort_order: {
                      required: 'Required',

@@ -67,7 +67,7 @@ var validate_product = function () {
                     digits: 'Only Number Format',
                 },
                 description: {
-                    ckeditor_required: 'This field is required',
+                    ckeditor_required: 'Required',
                 },
                 product_amount: {
                     required: 'Required',
