@@ -242,6 +242,9 @@ $lang['paypal'] = 'PayPal';
 $lang['type'] = 'Type';
 $lang['payment_type'] = 'Payment Type';
 $lang['status'] = 'Order Status';
+$lang['demo_register'] = 'Demo Register';
+$lang['cash_on_delivery'] = 'Cash On Delivery';
+
 
 
 
