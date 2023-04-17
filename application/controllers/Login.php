@@ -478,7 +478,7 @@ class Login extends Base_Controller {
      * @param string $msg
      * @param $page
      */
-    function redirect($msg = '', $page) {
+    function redirect($msg, $page) {
         if ($msg) {
             $msg = base64_decode($msg);
         }

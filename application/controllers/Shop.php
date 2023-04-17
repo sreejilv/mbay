@@ -149,7 +149,7 @@ class Shop extends Base_Controller {
         if ($items == 0) {
             $this->loadPage(lang('Cart Is Empty'), './', 'warning');
         }
-        
+
         $cart_amount = $this->cart->total();
         $pro_count = count($cart);
         $this->setData('user_id', $user_id);
@@ -254,6 +254,8 @@ class Shop extends Base_Controller {
 
     public function checkout() {
         $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
+        $user_id = $this->aauth->getId();
+
         $this->setData('user_name', $user_name);
         $this->load->model('product_model');
         $nav_category = $this->product_model->getNavCategoryLists();
@@ -265,12 +267,61 @@ class Shop extends Base_Controller {
         if ($this->input->post('shop_checkout')) {
             $this->load->helper('security');
             $checkout_data = $this->security->xss_clean($this->input->post());
-            $order_id = $this->shop_model->insertOrder($this->aauth->getId(), $checkout_data, $cart, $total_items, $total_amount, $total_pv, 1);
-            if ($order_id) {
-                $this->cart->destroy();
-                $this->loadPage('Order success', 'checkout', 'success');
-            } else {
-                $this->loadPage('Something went wrong', 'checkout', 'danger');
+
+            $fullname = $this->helper_model->getUserFullName($user_id);
+            $email = $this->helper_model->getUserEmailId($user_id);
+            $phone_number = $this->helper_model->getCompleteMobileNumber($user_id);
+
+            $payment_status = FALSE;
+            $order_status = 0;
+            $payment_method = $checkout_data['payment_type'];
+            if ($payment_method == 'Thawani') {
+                $order_status = 0;
+                $payment_status = TRUE;
+            } else if ($payment_method == "cash_on_delivery") {
+                $order_status = 1;
+                $payment_status = TRUE; 
+            } elseif ($payment_method == "bank_transfer") {
+                $order_status = 0;
+                $payment_status = TRUE;
+            }
+
+            if ($payment_status) {
+                $order_id = $this->shop_model->insertOrder($this->aauth->getId(), $checkout_data, $cart, $total_items, $total_amount, $total_pv, $order_status);
+                if ($order_id) {
+                    if ($order_status) {
+                        $this->cart->destroy();
+                        $this->loadPage('Order success', 'checkout', 'success');
+                    } else {
+                        $thawani = new \s4d\payment\thawani([
+                            'isTestMode' => 1, ## set it to 0 to use the class in production mode  
+                            'public_key' => 'HGvTMLDssJghr9tlN9gr4DVYt0qyBy',
+                            'private_key' => 'rRQ26GcsZzoEhbrP2HZvLYDbn9C9et',
+                        ]);
+
+                        $url = $thawani->generatePaymentUrl([
+                            'client_reference_id' => rand(1000, 9999) . $order_id,
+                            'products' => [
+                                ['name' => $user_name, 'unit_amount' => $total_amount, 'quantity' => $total_items],
+                            ],
+                            'success_url' => $thawani->currentPageUrl() . '?op=checkPayment',
+                            'cancel_url' => $thawani->currentPageUrl() . '?op=checkPayment',
+                            'metadata' => [
+                                'order_id' => $order_id,
+                                'customer_name' => $fullname,
+                                'customer_phone' => $email,
+                                'customer_email' => $phone_number
+                            ]
+                        ]);
+
+                        if (!empty($url) && $thawani->payment_id) {
+                            $_SESSION['session_id'] = $thawani->payment_id;
+                            header('Location:' . $url);
+                        }
+                    }
+                } else {
+                    $this->loadPage('Something went wrong', 'checkout', 'danger');
+                }
             }
         }
 
@@ -288,6 +339,18 @@ class Shop extends Base_Controller {
         $this->setData('nav_category', $nav_category);
         $this->setData('cart', $cart);
         $this->loadView();
+    }
+
+    function checkPaymentStatus() {
+        $check = $thawani->checkPaymentStatus($_SESSION['session_id']);
+        if ($thawani->payment_status == 1) {
+            //update order status
+            $this->loadPage(lang('checkout_success'), 'checkout');
+            ## successful payment  
+        } else {
+            ## failed payment  
+            $this->loadPage(lang('checkout_failed'), 'checkout', 'danger');
+        }
     }
 
     public function account($active = '', $action = '', $add_id = '') {
@@ -461,25 +524,25 @@ class Shop extends Base_Controller {
         $config["uri_segment"] = 2;
 
 
-        $config['next_link']        = 'Next';
-        $config['prev_link']        = 'Prev';
-        $config['first_link']       = false;
-        $config['last_link']        = false;
-        $config['full_tag_open']    = '<ul class="pagination justify-content-center">';
-        $config['full_tag_close']   = '</ul>';
-        $config['attributes']       = ['class' => 'page-link'];
-        $config['first_tag_open']   = '<li class="page-item">';
-        $config['first_tag_close']  = '</li>';
-        $config['prev_tag_open']    = '<li class="page-item">';
-        $config['prev_tag_close']   = '</li>';
-        $config['next_tag_open']    = '<li class="page-item">';
-        $config['next_tag_close']   = '</li>';
-        $config['last_tag_open']    = '<li class="page-item">';
-        $config['last_tag_close']   = '</li>';
-        $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
-        $config['cur_tag_close']    = '<span class="sr-only"></span></span></li>';
-        $config['num_tag_open']     = '<li class="page-item">';
-        $config['num_tag_close']    = '</li>';
+        $config['next_link'] = 'Next';
+        $config['prev_link'] = 'Prev';
+        $config['first_link'] = false;
+        $config['last_link'] = false;
+        $config['full_tag_open'] = '<ul class="pagination justify-content-center">';
+        $config['full_tag_close'] = '</ul>';
+        $config['attributes'] = ['class' => 'page-link'];
+        $config['first_tag_open'] = '<li class="page-item">';
+        $config['first_tag_close'] = '</li>';
+        $config['prev_tag_open'] = '<li class="page-item">';
+        $config['prev_tag_close'] = '</li>';
+        $config['next_tag_open'] = '<li class="page-item">';
+        $config['next_tag_close'] = '</li>';
+        $config['last_tag_open'] = '<li class="page-item">';
+        $config['last_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="page-item active"><span class="page-link">';
+        $config['cur_tag_close'] = '<span class="sr-only"></span></span></li>';
+        $config['num_tag_open'] = '<li class="page-item">';
+        $config['num_tag_close'] = '</li>';
 
         $this->pagination->initialize($config);
 
