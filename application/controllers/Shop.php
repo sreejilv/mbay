@@ -87,21 +87,32 @@ class Shop extends Base_Controller {
     }
 
     public function shop($cat_id = "") {
-
         $user_name = ($this->aauth->getUserType() == 'employee') ? $this->helper_model->getAdminUsername() : $this->aauth->getUserName();
         $this->setData('user_name', $user_name);
         $user_type = $this->aauth->getUserType();
 
         $this->load->model('product_model');
         $nav_category = $this->product_model->getNavCategoryLists();
+        $min_amt=$max_amt=$color ='';
+        $brand=[];
+        $brands = $this->product_model->getAllBrands();
+        if ($this->input->post('filter_btn')) {
+            
+            $this->load->helper('security');
+            $post = $this->security->xss_clean($this->input->post());
+ 
+            $brand=(isset($post['brand']))?$post['brand']:[];
+            $min_amt = $post['min_amt'];
+            $max_amt = $post['max_amt'];
+        }
 
         $products = '';
         if ($cat_id) {
-            $products = $this->product_model->getProducts($cat_id);
+            $products = $this->product_model->getProducts($cat_id,$min_amt,$max_amt,$brand);
         }
 
-
         $cat_name = $this->product_model->getCatName($cat_id);
+        $this->setData('brands', $brands);
         $this->setData('cat_name', $cat_name);
         $this->setData('nav_category', $nav_category);
         $this->setData('products', $products);
@@ -436,7 +447,7 @@ class Shop extends Base_Controller {
 
         $this->load->model('product_model');
         $nav_category = $this->product_model->getNavCategoryLists();
-        $products = $this->product_model->getAllProducts();
+        $products = $this->product_model->getAllPros();
         $cart = $this->cart->contents();
         $cart_amount = $this->cart->total();
 
@@ -475,14 +486,31 @@ class Shop extends Base_Controller {
         $page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
         $pagination["links"] = $this->pagination->create_links();
 
-        $products = $this->product_model->getAllProducts($config['per_page'], $page);
 
+        $min_amt=$max_amt=$color ='';
+        $brand=[];
+        $category=[];
+        if ($this->input->post('filter_btn')) {
+            
+            $this->load->helper('security');
+            $post = $this->security->xss_clean($this->input->post());
+            $brand=(isset($post['brand']))?$post['brand']:'';
+            $category=(isset($post['category']))?$post['category']:'';
+            $min_amt = $post['min_amt'];
+            $max_amt = $post['max_amt'];
+        }
+        // echo $min_amt.'==='.$max_amt;die;
+        $products = $this->product_model->getAllProducts($config['per_page'], $page, $min_amt,$max_amt,$brand,$category);
+        $brands = $this->product_model->getAllBrands();
+        $categories = $this->product_model->getAllCaegories();
         $this->setData('link', $pagination['links']);
         $this->setData('cart', $cart);
         $this->setData('items', $this->cart->total_items());
         $this->setData('cart_amount', $cart_amount);
         $this->setData('nav_category', $nav_category);
         $this->setData('products', $products);
+        $this->setData('brands', $brands);
+        $this->setData('categories', $categories);
 
         $this->loadView();
     }

@@ -136,14 +136,35 @@ class Product_model extends CI_Model {
 
      * @return type
      */
-    function getAllProducts($limit='',$offset='') {
+
+    function getAllProducts($limit='',$offset='',$min_amt='',$max_amt='',$brand=[],$category=[]) {
+
+        // echo "$limit'===='$offset'====='$min_amt'===='$max_amt'===='$brand'===='$category";die;
+       // print_r($category);die;
         $data = array();
-         $this->db->select("id,status,product_name,product_amount,product_pv,product_code,recurring_type,product_type,description,images");
+         $this->db->select("id,status,product_name,product_amount,product_pv,product_code,recurring_type,product_type,description,images,brand,category");
                 $this->db->from("products");
                 if($limit!=''&& $offset!='')
                 {
                   $this->db->limit($limit,$offset);
                 }
+
+                if($min_amt!='' && $max_amt!='' && is_array($brand) && is_array($category) && count($brand)>0 && count($category)>0){
+                    $this->db->where('product_amount  BETWEEN  "'. $min_amt .'" and "'. $max_amt.'"');
+                    $this->db->where_in("brand",$brand);
+                    $this->db->where_in("category",$category);
+                }elseif($min_amt==''&& $max_amt==''&& is_array($brand) && is_array($category)&& (count($brand)>0)&& (count($category)>0)){
+                    $this->db->where_in("brand",$brand);
+                    $this->db->where_in("category",$category);
+                }elseif($min_amt==''&& $max_amt==''&& is_array($brand) && (count($brand)>0)){
+                    $this->db->where_in("brand",$brand);
+                }elseif($min_amt==''&& $max_amt=='' && is_array($category)&& (count($category)>0)){
+                    $this->db->where_in("category",$category);
+                }elseif($min_amt!=''&& $max_amt!=''){
+                    $this->db->where('product_amount  BETWEEN  "'. $min_amt .'" and "'. $max_amt.'"');
+                }
+
+
                 $res =$this->db->get();
                // echo $this->db->last_query();die;
         $i = 0;
@@ -159,6 +180,8 @@ class Product_model extends CI_Model {
             $data[$i]['status'] = $row->status;
             $data[$i]['description'] = $row->description;
             $data[$i]['files'] = $this->getAllFiles($row->images);
+            $data[$i]['brand'] = $row->brand;
+            $data[$i]['category'] = $row->category;
             $i++;
 
         }
@@ -283,10 +306,10 @@ class Product_model extends CI_Model {
         $special = isset($data['special']) ? 1 : 0;
         $this->db->set('product_name', $data['product_name'])
                 ->set('quantity', $data['quantity']);
-        if ($this->dbvars->BASIC_CART_STATUS) {
-            $this->db->set('category', $data['pro_category'])
-                    ->set('sub_category', $data['sub_category']);
-        }
+        // if ($this->dbvars->BASIC_CART_STATUS) {
+        //     $this->db->set('category', $data['pro_category'])
+        //             ->set('sub_category', $data['sub_category']);
+        // }
         $deal_of_the_day = isset($data['deal_of_the_day']) ? 1 : 0;
         $this->db->set('special', $special)
                 ->set('description', $data['description'])
@@ -302,6 +325,9 @@ class Product_model extends CI_Model {
                 ->set('category', $data['category'])
                 ->set('sort_order', $data['sort_order'])
                 ->set('deal_of_the_day', $deal_of_the_day)
+                ->set('keyword', $data['keyword'])
+                ->set('sort_order', $data['sort_order'])
+                ->set('category', $data['category'])
                 ->set('images', serialize($files))
                 ->where('id', $data['update_product'])
                 ->update('products');
@@ -869,14 +895,26 @@ class Product_model extends CI_Model {
         return $data;
     }
 
-    function getProducts($cat_id) {
+    function getProducts($cat_id,$min_amt='',$max_amt='',$brand=[]) {
         $data = array();
-        $res = $this->db->select("pro.id, product_name, pro.category, pro.description, product_amount, product_pv, quantity, pro.sort_order, pro.keyword, images")
-                ->from("products as pro")
-                ->join("category as cat", 'cat.id = pro.category', 'inner')
-                ->where("cat.cat_nav", 1)
-                ->where("cat.id", $cat_id)
-                ->get();
+        // echo $min_amt.'===='.$max_amt;die;
+        $this->db->select("pro.id, product_name, pro.category, pro.description, product_amount, product_pv, quantity, pro.sort_order, pro.keyword, images, pro.brand");
+          
+        $this->db->from("products as pro");
+        $this->db->join("category as cat", 'cat.id = pro.category', 'inner');
+            if($min_amt!=''&& $max_amt!=''&& (count($brand)>0)){
+                $this->db->where('pro.product_amount  BETWEEN  "'. $min_amt .'" and "'. $max_amt.'"');
+                $this->db->where_in("pro.brand",$brand);
+            }elseif($min_amt==''&& $max_amt==''&& (count($brand)>0)){
+                $this->db->where_in("pro.brand",$brand);
+            }elseif($min_amt!=''&& $max_amt!=''){
+                $this->db->where('pro.product_amount  BETWEEN  "'. $min_amt .'" and "'. $max_amt.'"');
+            }
+
+            $this->db->where("cat.cat_nav", 1);
+            $this->db->where("cat.id", $cat_id);
+        $res = $this->db->get();
+        // echo $this->db->last_query();die;
         $i = 0;
         foreach ($res->result() as $row) {
             $data[$i]['id'] = $row->id;
@@ -889,6 +927,7 @@ class Product_model extends CI_Model {
             $data[$i]['sort_order'] = $row->sort_order;
             $data[$i]['keyword'] = $row->keyword;
             $data[$i]['files'] = $this->getAllFiles($row->images);
+            $data[$i]['brand'] = $this->getBrandName($row->brand);
             $i ++;
         }
         return $data;
@@ -1004,4 +1043,75 @@ class Product_model extends CI_Model {
         }
         return $name;
     }
+
+    function getBrandName($id) {
+        $name = '';
+        $query = $this->db->select("brand_name")
+                ->where('id', $id)
+                ->limit(1)
+                ->get("brand_settings");
+        if ($query->num_rows() > 0) {
+            $name = $query->row()->brand_name;
+        }
+        return $name;
+    }
+
+    function getFilterProducts($cat_id, $min_amt, $max_amt) {
+        // print_r($max_amt);
+        $data = array();
+        $res = $this->db->select("pro.id, product_name, pro.category, pro.description, pro.product_amount, product_pv, quantity, pro.sort_order, pro.keyword, images, pro.brand")
+                ->from("products as pro")
+                ->join("category as cat", 'cat.id = pro.category', 'inner')
+                ->where("cat.cat_nav", 1)
+                ->where("cat.id", $cat_id)
+                ->where("pro.product_amount", '>=', $min_amt)
+                ->where("pro.product_amount", '<=', $max_amt)
+                ->get();
+                // print_r($this->db->last_query());die;
+        $i = 0;
+        foreach ($res->result() as $row) {
+            $data[$i]['id'] = $row->id;
+            $data[$i]['product_name'] = $row->product_name;
+            $data[$i]['category'] = $row->category;
+            $data[$i]['description'] = $row->description;
+            $data[$i]['product_amount'] = $row->product_amount;
+            $data[$i]['product_pv'] = $row->product_pv;
+            $data[$i]['quantity'] = $row->quantity;
+            $data[$i]['sort_order'] = $row->sort_order;
+            $data[$i]['keyword'] = $row->keyword;
+            $data[$i]['files'] = $this->getAllFiles($row->images);
+            $data[$i]['brand'] = $this->getBrandName($row->brand);
+            $i ++;
+        }
+        return $data;
+    }
+
+    function getAllPros(){
+        
+        $data = array();
+         $this->db->select("id,status,product_name,product_amount,product_pv,product_code,recurring_type,product_type,description,images,brand,category");
+                $this->db->from("products");
+                $res =$this->db->get();
+               // echo $this->db->last_query();die;
+        $i = 0;
+        foreach ($res->result() as $row) {
+            $data[$i]['sl_no'] = $i + 1;
+            $data[$i]['id'] = $row->id;
+            $data[$i]['product_name'] = $row->product_name;
+            $data[$i]['product_amount'] = $row->product_amount;
+            $data[$i]['product_pv'] = $row->product_pv;
+            $data[$i]['product_code'] = $row->product_code;
+            $data[$i]['recurring_type'] = $row->recurring_type;
+            $data[$i]['product_type'] = $row->product_type;
+            $data[$i]['status'] = $row->status;
+            $data[$i]['description'] = $row->description;
+            $data[$i]['files'] = $this->getAllFiles($row->images);
+            $data[$i]['brand'] = $row->brand;
+            $data[$i]['category'] = $row->category;
+            $i++;
+
+        }
+        return $data;
+    }
+
 }
