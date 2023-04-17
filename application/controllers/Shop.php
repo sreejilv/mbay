@@ -499,7 +499,6 @@ class Shop extends Base_Controller {
             $min_amt = $post['min_amt'];
             $max_amt = $post['max_amt'];
         }
-        // echo $min_amt.'==='.$max_amt;die;
         $products = $this->product_model->getAllProducts($config['per_page'], $page, $min_amt,$max_amt,$brand,$category);
         $brands = $this->product_model->getAllBrands();
         $categories = $this->product_model->getAllCaegories();

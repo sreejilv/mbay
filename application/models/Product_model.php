@@ -897,7 +897,6 @@ class Product_model extends CI_Model {
 
     function getProducts($cat_id,$min_amt='',$max_amt='',$brand=[]) {
         $data = array();
-        // echo $min_amt.'===='.$max_amt;die;
         $this->db->select("pro.id, product_name, pro.category, pro.description, product_amount, product_pv, quantity, pro.sort_order, pro.keyword, images, pro.brand");
           
         $this->db->from("products as pro");
@@ -1056,43 +1055,12 @@ class Product_model extends CI_Model {
         return $name;
     }
 
-    function getFilterProducts($cat_id, $min_amt, $max_amt) {
-        // print_r($max_amt);
-        $data = array();
-        $res = $this->db->select("pro.id, product_name, pro.category, pro.description, pro.product_amount, product_pv, quantity, pro.sort_order, pro.keyword, images, pro.brand")
-                ->from("products as pro")
-                ->join("category as cat", 'cat.id = pro.category', 'inner')
-                ->where("cat.cat_nav", 1)
-                ->where("cat.id", $cat_id)
-                ->where("pro.product_amount", '>=', $min_amt)
-                ->where("pro.product_amount", '<=', $max_amt)
-                ->get();
-                // print_r($this->db->last_query());die;
-        $i = 0;
-        foreach ($res->result() as $row) {
-            $data[$i]['id'] = $row->id;
-            $data[$i]['product_name'] = $row->product_name;
-            $data[$i]['category'] = $row->category;
-            $data[$i]['description'] = $row->description;
-            $data[$i]['product_amount'] = $row->product_amount;
-            $data[$i]['product_pv'] = $row->product_pv;
-            $data[$i]['quantity'] = $row->quantity;
-            $data[$i]['sort_order'] = $row->sort_order;
-            $data[$i]['keyword'] = $row->keyword;
-            $data[$i]['files'] = $this->getAllFiles($row->images);
-            $data[$i]['brand'] = $this->getBrandName($row->brand);
-            $i ++;
-        }
-        return $data;
-    }
-
     function getAllPros(){
         
         $data = array();
          $this->db->select("id,status,product_name,product_amount,product_pv,product_code,recurring_type,product_type,description,images,brand,category");
                 $this->db->from("products");
                 $res =$this->db->get();
-               // echo $this->db->last_query();die;
         $i = 0;
         foreach ($res->result() as $row) {
             $data[$i]['sl_no'] = $i + 1;
