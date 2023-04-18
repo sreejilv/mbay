@@ -318,7 +318,10 @@
                         required: true,
                     },
                     image: {
-                        required: true,
+                        required: function(){
+                            var image= $('input[type=file]').val().replace(/.*(\/|\\)/, '');
+                            return (image!='')?true:false;
+                        },
                     },
                     type: {
                         required: true,

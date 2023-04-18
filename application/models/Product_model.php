@@ -372,7 +372,7 @@ class Product_model extends CI_Model {
         if ($this->db->affected_rows() > 0) {
             return true;
         }
-        return false;
+        return true;
     }
 
     /**
@@ -821,7 +821,7 @@ class Product_model extends CI_Model {
 
     function getCategoryLists() {
         $data = array();
-        $res = $this->db->select("id, category, description, sort_order, creation_date")
+        $res = $this->db->select("id, category, description, sort_order,keyword,creation_date")
                 ->from("category")
                 ->get();
         $i = 0;
@@ -830,6 +830,7 @@ class Product_model extends CI_Model {
             $data[$i]['category'] = $row->category;
             $data[$i]['description'] = strip_tags($row->description);
             $data[$i]['sort_order'] = $row->sort_order;
+            $data[$i]['keyword'] = $row->keyword;
             $data[$i]['creation_date'] = $row->creation_date;
             $i++;
         }

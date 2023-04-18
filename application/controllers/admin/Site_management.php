@@ -17,6 +17,7 @@ class Site_management extends Base_Controller {
      *
      */
     function site_configuration() {
+
         $title = lang('site_settings');
         $this->setData('title', lang('menu_name_42'));
         $this->setData('page_title', $title);
@@ -65,6 +66,7 @@ class Site_management extends Base_Controller {
             }
 
             $result = $this->site_management_model->updateSiteInformation($company_name, $admin_email, $company_address, $company_email, $company_phone, $logo_name, $fav_icon);
+            // dd($result);
             if ($result) {
                 $this->session->unset_userdata('mlm_site_info');
                 $this->helper_model->insertActivity(($this->aauth->getUserType() == 'employee') ? $this->base_model->getAdminUserId() : $this->aauth->getId(), 'site_information_updated', $post_arr);
@@ -644,8 +646,22 @@ class Site_management extends Base_Controller {
         $edit_flag = FALSE;
         $seo_details =[];
         if ($action && $seo_id) {
+            if($action=='seo_edit'){ 
               $edit_flag = TRUE;
               $seo_details = $this->site_management_model->getSeoDetails($seo_id);
+          }elseif($action=='seo_delete'){
+
+             $res = $this->site_management_model->deleteSeoSettings($seo_id);
+                if ($res) {
+                    $data['seo_id'] = $seo_id;
+                    $this->helper_model->insertActivity($loged_user_id, 'seo_deleted', $data);
+                    $this->loadPage(lang('seo_deleted_complete'), 'seo-url','success');
+                } else {
+                    $this->loadPage(lang('seo_deleted_failed'), 'seo-url', 'danger');
+                }
+            } else {
+                $this->loadPage(lang('invalid_action'), 'seo-url', 'danger');
+          }
         }
 
         if ($this->input->post('add_seo_url')) {

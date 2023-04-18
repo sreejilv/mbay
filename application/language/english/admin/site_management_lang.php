@@ -154,4 +154,9 @@ $lang['nothing_to_edit'] = 'Nothing to Edit';
 $lang['seo_keyword_req_js'] = 'Required';
 $lang['seo_key_req_js'] = 'Required';
 $lang['seo_value_req_js'] = 'Required';
+$lang['seo_safe_js'] = "Seo Url Safe";
+$lang['delete_this_seo_js'] = "Delete This Seo Url";
+$lang['seo_deleted_complete'] = "SEO URL Deleted Successfully";
+$lang['seo_deleted_failed'] = "Failed to Delete SEO URL";
+
 

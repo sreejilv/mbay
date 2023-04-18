@@ -19,7 +19,18 @@
 <div id="js_messages" style="display: none;"> 
     <span id="seo_value_req_js">{{lang('seo_value_req_js')}}</span>   
     <span id="seo_key_req_js">{{lang('seo_key_req_js')}}</span>   
-    <span id="seo_keyword_req_js">{{lang('seo_keyword_req_js')}}</span>           
+    <span id="seo_keyword_req_js">{{lang('seo_keyword_req_js')}}</span>  
+     <span id="title_req_js">{{lang('title_req_js')}}</span>   
+    <span id="subtitle_req_js">{{lang('subtitle_req_js')}}</span>   
+    <span id="image_req_js">{{lang('image_req_js')}}</span>   
+    <span id="user_photo_ext_js">{{lang('user_photo_ext_js')}}</span>  
+
+    <span id="are_you_sure_js">{{lang('are_you_sure_js')}}</span>  
+    <span id="cancel_it_js">{{lang('cancel_it_js')}}</span>  
+    <span id="canceled_js">{{lang('canceled_js')}}</span>  
+    <span id="seo_safe_js">{{lang('seo_safe_js')}}</span>  
+    <span id="delete_this_seo_js">{{lang('delete_this_seo_js')}}</span>  
+    <span id="delete_it_js">{{lang('delete_it_js')}}</span>           
 </div>
 
 {% include('admin/partials/body.twig')%}
@@ -125,7 +136,7 @@
                                             <td>{{row.seo_keyword}}</td>
                                             <td>{{row.seo_key}}</td>
                                             <td>{{row.seo_value}}</td>
-                                            <td><a href="{{BASE_URL}}admin/seo-url/seo_edit/{{row.id}}" button type="submit"class="btn btn-primary"><i class="fas fa-pencil-alt"></i></td>
+                                            <td><a href="{{BASE_URL}}admin/seo-url/seo_edit/{{row.id}}" button type="submit"class="btn btn-primary"><i class="fas fa-pencil-alt"></i></a>&nbsp;<a href="javascript:seo_delete({{row.id}})" button type="submit" class="btn btn-danger"><i class="fa fa-trash fa fa-white"></i></a></td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>                                    
@@ -280,8 +291,38 @@
         });
     }
 
-</script>
 
+        
+function seo_delete(id) {
+    var are_you_sure_js = $('#are_you_sure_js').html();
+    var cancel_it_js = $('#cancel_it_js').html();
+    var canceled_js = $('#canceled_js').html();  
+    
+    var seo_safe_js = $('#seo_safe_js').html();
+    
+    var delete_this_seo_js = $('#delete_this_seo_js').html();
+    var delete_it_js = $('#delete_it_js').html();
+    
+    swal({
+        title: are_you_sure_js,
+        text: delete_this_seo_js,
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: delete_it_js,
+        cancelButtonText: cancel_it_js,
+        closeOnConfirm: false,
+        closeOnCancel: false
+    },
+    function (isConfirm) {
+        if (isConfirm) {
+            document.location.href = 'admin/seo-url/seo_delete/' + id;
+        } else {
+            swal(canceled_js, seo_safe_js, "error");
+        }
+    }); 
+}
+    </script>
 
     </body>
 

@@ -77,7 +77,7 @@ class Report extends Base_Controller {
             $update_user_data = $this->security->xss_clean($this->input->post());
             $res = $this->report_model->updategeneral($update_user_data,$update_user_data['user_id']);
 
-            $this->loadPage('Update Profile Details Success','join-report/', 'success');
+            $this->loadPage('Update Profile Details Success','join-report/'.$user_id, 'success');
         }
 
         if ($this->input->post('update_password') && $this->validate_general_password()){
@@ -85,7 +85,7 @@ class Report extends Base_Controller {
             $this->load->helper('security');
             $update_user_data = $this->security->xss_clean($this->input->post());
             $res =  $this->report_model->updatepassword($update_user_data,$update_user_data['user_id']);
-            $this->loadPage(lang('Update Password Success'),'join-report', 'success');
+            $this->loadPage(lang('Update Password Success'),'join-report/'.$user_id, 'success');
         }
 
         if($this->input->post('add_address')){
@@ -93,7 +93,7 @@ class Report extends Base_Controller {
             $address_post = $this->security->xss_clean($this->input->post());
             $res = $this->report_model->updateAddaddress($address_post);
 
-          $this->loadPage(lang('Update Address Success'),'join-report', 'success');
+          $this->loadPage(lang('Update Address Success'),'join-report/'.$user_id, 'success');
          
         }
         $details = $this->report_model->edituserdetails($user_id);

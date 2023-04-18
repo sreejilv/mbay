@@ -312,6 +312,7 @@ $route['admin/manage-ticket/(:any)'] = 'admin/ticket_system/view_all_details/$1'
 $route['remove-ip'] = 'auto_register/reset_blacklist_ip';
 $route['admin/ip-blacklist'] = 'admin/settings/ip_blacklist'; 
 $route['admin/ip-blacklist/(:any)/(:num)'] = 'admin/settings/ip_blacklist/$1/$2'; 
+$route['order-history'] = 'admin/member/order_history';
 $route['(:any)/order-history'] = '$1/member/order_history';
 $route['(:any)/invoice-details'] = '$1/member/invoice_details';
 $route['(:any)/invoice-details/(:num)'] = '$1/member/invoice_details/$2';

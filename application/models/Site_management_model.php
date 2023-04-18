@@ -63,7 +63,7 @@ class Site_management_model extends CI_Model {
         if ($this->db->affected_rows() > 0) {
             return true;
         }
-        return false;
+        return true;
 //        if ($result) {
 //            $this->db->set('email', $admin_email)->where('user_type', 'admin')->where('mlm_user_id', 1900)->update('user');
 //        }
@@ -736,6 +736,15 @@ class Site_management_model extends CI_Model {
     function deleteSliderSettings($id) {
         $this->db->where('id', $id)
                 ->delete('slider_info');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    function deleteSeoSettings($id) {
+        $this->db->where('id', $id)
+                ->delete('seo_url');
         if ($this->db->affected_rows() > 0) {
             return true;
         }
