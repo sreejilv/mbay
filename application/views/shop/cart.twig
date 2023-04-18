@@ -17,7 +17,12 @@
         <!-- CART -->
         <section class="cart-main-area pt-115 pb-120 cart-area bg-white">
             <div class="container">
-                {% if user_id %}
+                {% if not user_id %}     
+                    <div class="alert alert-danger alert-dismissible alert-label-icon label-arrow fade show"   role="alert">
+                        <i class="mdi mdi-block-helper label-icon"></i><strong></strong>Checkout Page Not Available.Please Login: <a href="{{BASE_URL}}login-site">Click here</a>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endif %}
                 <h3 class="cart-page-title">Your cart items</h3>
                 <div class="row">
                     <div class="col-lg-8 col-md-12 col-sm-12 col-12">
@@ -87,17 +92,12 @@
                                 </ul>
                             </div>
                             <h4 class="grand-totall-title">Grand Total <span>{{cart_amount}}</span></h4>
-                            <a href="{{BASE_URL}}checkout">Checkout Now</a>
-                            
+                            {% if user_id %}
+                              <a href="{{BASE_URL}}checkout">Checkout Now</a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
-                {% else %}     
-                    <div class="alert alert-danger alert-dismissible alert-label-icon label-arrow fade show"   role="alert">
-				<i class="mdi mdi-block-helper label-icon"></i><strong></strong>Checkout Page Not Available.Please Login: <a href="{{BASE_URL}}login-site">Click here</a>
-				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-			</div>
-                {% endif %}    
             </div>
         </section>
         <!-- END CART -->
