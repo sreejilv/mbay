@@ -139,8 +139,6 @@ class Product_model extends CI_Model {
 
     function getAllProducts($limit='',$offset='',$min_amt='',$max_amt='',$brand=[],$category=[]) {
 
-        // echo "$limit'===='$offset'====='$min_amt'===='$max_amt'===='$brand'===='$category";die;
-       // print_r($category);die;
         $data = array();
          $this->db->select("id,status,product_name,product_amount,product_pv,product_code,recurring_type,product_type,description,images,brand,category");
                 $this->db->from("products");
@@ -166,7 +164,6 @@ class Product_model extends CI_Model {
 
 
                 $res =$this->db->get();
-               // echo $this->db->last_query();die;
         $i = 0;
         foreach ($res->result() as $row) {
             $data[$i]['sl_no'] = $i + 1;
@@ -932,6 +929,7 @@ class Product_model extends CI_Model {
         }
         return $data;
     }
+    
     function getProductDtls($pro_id) {
         $data = array();
         $res = $this->db->select("pro.id, product_name, pro.category, pro.description, product_amount, product_pv, quantity, pro.sort_order, pro.keyword, images, bnd.image")
