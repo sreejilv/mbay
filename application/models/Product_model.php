@@ -160,6 +160,10 @@ class Product_model extends CI_Model {
                     $this->db->where_in("category",$category);
                 }elseif($min_amt!=''&& $max_amt!=''){
                     $this->db->where('product_amount  BETWEEN  "'. $min_amt .'" and "'. $max_amt.'"');
+                }elseif($min_amt!=''){
+                    $this->db->where('product_amount >=',$min_amt);
+                }elseif($max_amt!=''){
+                    $this->db->where('product_amount <=',$max_amt);
                 }
 
 
@@ -906,8 +910,12 @@ class Product_model extends CI_Model {
                 $this->db->where_in("pro.brand",$brand);
             }elseif($min_amt!=''&& $max_amt!=''){
                 $this->db->where('pro.product_amount  BETWEEN  "'. $min_amt .'" and "'. $max_amt.'"');
+            }elseif($min_amt!=''){
+                $this->db->where('pro.product_amount >=',$min_amt);
+            }elseif($max_amt!=''){
+                $this->db->where('pro.product_amount <=',$max_amt);
             }
-
+            
             $this->db->where("cat.cat_nav", 1);
             $this->db->where("cat.id", $cat_id);
         $res = $this->db->get();
@@ -929,7 +937,7 @@ class Product_model extends CI_Model {
         }
         return $data;
     }
-    
+
     function getProductDtls($pro_id) {
         $data = array();
         $res = $this->db->select("pro.id, product_name, pro.category, pro.description, product_amount, product_pv, quantity, pro.sort_order, pro.keyword, images, bnd.image")
