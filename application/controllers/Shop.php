@@ -96,6 +96,7 @@ class Shop extends Base_Controller {
         $min_amt=$max_amt=$color ='';
         $brand=[];
         $brands = $this->product_model->getAllBrands();
+        $set_brands=[];
         if ($this->input->post('filter_btn')) {
             
             $this->load->helper('security');
@@ -104,16 +105,24 @@ class Shop extends Base_Controller {
             $brand=(isset($post['brand']))?$post['brand']:[];
             $min_amt = $post['min_amt'];
             $max_amt = $post['max_amt'];
+            if(count($brand)>0){
+                $this->session->set_userdata('session_brand' , $brand);
+                $set_brands=$this->session->userdata('session_brand');
+            }else{
+                $this->session->unset_userdata('session_brand');
+            }
         }
 
         $products = '';
         if ($cat_id) {
             $products = $this->product_model->getProducts($cat_id,$min_amt,$max_amt,$brand);
         }
-
         $cat_name = $this->product_model->getCatName($cat_id);
+        $this->setData('min_amt', $min_amt);
+        $this->setData('max_amt', $max_amt);
+        $this->setData('brand', $brand);
         $this->setData('brands', $brands);
-        $this->setData('cat_name', $cat_name);
+        $this->setData('session_brands', $set_brands);
         $this->setData('nav_category', $nav_category);
         $this->setData('products', $products);
         $this->setData('items', $this->cart->total_items());
@@ -553,6 +562,8 @@ class Shop extends Base_Controller {
         $min_amt=$max_amt=$color ='';
         $brand=[];
         $category=[];
+        $set_brands=[];
+        $set_category=[];
         if ($this->input->post('filter_btn')) {
             
             $this->load->helper('security');
@@ -561,6 +572,20 @@ class Shop extends Base_Controller {
             $category=(isset($post['category']))?$post['category']:'';
             $min_amt = $post['min_amt'];
             $max_amt = $post['max_amt'];
+            if(is_array($brand) && count($brand) > 0){
+                $this->session->set_userdata('session_brand' , $brand);
+                $set_brands=$this->session->userdata('session_brand');
+            }else{
+                $this->session->unset_userdata('session_brand');
+            }
+
+            if(is_array($category) && count($category)>0){
+                $this->session->set_userdata('session_category' , $category);
+                $set_category=$this->session->userdata('session_category');
+            }else{
+                $this->session->unset_userdata('session_category');
+            }
+
         }
         $products = $this->product_model->getAllProducts($config['per_page'], $page, $min_amt,$max_amt,$brand,$category);
         $brands = $this->product_model->getAllBrands();
@@ -572,6 +597,10 @@ class Shop extends Base_Controller {
         $this->setData('nav_category', $nav_category);
         $this->setData('products', $products);
         $this->setData('brands', $brands);
+        $this->setData('min_amt', $min_amt);
+        $this->setData('max_amt', $max_amt);
+        $this->setData('session_brands', $set_brands);
+        $this->setData('session_category', $set_category);
         $this->setData('categories', $categories);
 
         $this->loadView();
