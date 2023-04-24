@@ -392,7 +392,7 @@ function myaddresss(){
 
     html += '<div class="row mb-4"><label for="horizontal-email-input" class="col-sm-3 col-form-label">Country</label>'; 
     html += '<div class="col-sm-9" > ';
-    html += '<select id="country_id_'+sum+'" name="address['+i+'][country]" class="form-control">';
+    html += '<select id="country_id_'+sum+'" name="address['+i+'][country]" onchange="javascript:changeCountry('+sum+')"class="form-control">';
     html +=  ' <option value="">Select A Country</option>';
     $.each(myDatfa, function (key, value) {
         html += '<option value="' + value.id + '">' + value.name + '</option>';
@@ -402,8 +402,8 @@ function myaddresss(){
 
     html += '<div class="row mb-4"><label for="horizontal-email-input" class="col-sm-3 col-form-label">State</label>';
     html += '<div class="col-sm-9">';
-    html += '<span class="input-icon" id="state_span_'+ i +'">';
-    html += '<select id="state_'+ i +'" name="address['+i+'][state]" class="form-control">';
+    html += '<span class="input-icon" id="state_span_'+ sum +'">';
+    html += '<select id="state_'+ sum +'" name="address['+i+'][state]" class="form-control">';
     html += '<option value="">Select A State</option>';
 
     $.each(myData, function (key, value) {

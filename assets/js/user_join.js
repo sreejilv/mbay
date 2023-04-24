@@ -262,7 +262,15 @@ $('#country_id').on('change', function (e) {
     });
 
 });
-$(document.body).on('change','#country_id_1',function(){
+
+function changeCountry(id){
+    // alert(id);
+    var country_id = $("#country_id_"+id);
+    var state_id = $("#state_span_"+id);
+    var state_span_id = $("#state_"+id);
+  console.log(country_id);
+$(country_id).on('change',function(){
+
        var optionSelected = $("option:selected", this);
     var valueSelected = this.value;
 
@@ -270,65 +278,17 @@ $(document.body).on('change','#country_id_1',function(){
         data: {country_id: valueSelected},
         async: false,
         success: function (msg) {
-            $('#state_span_1').html(msg);
-            $("#state_1").select({
+            console.log(msg);
+            $(state_id).html(msg);
+            $(state_span_id).select({
                 placeholder: "Select a State",
                 allowClear: false
             });
         }
     });
 });
+}
 
-$(document.body).on('change','#country_id_2',function(){
-       var optionSelected = $("option:selected", this);
-    var valueSelected = this.value;
-
-    $.ajax({url: "register/get_states",
-        data: {country_id: valueSelected},
-        async: false,
-        success: function (msg) {
-            $('#state_span_2').html(msg);
-            $("#state_2").select({
-                placeholder: "Select a State",
-                allowClear: false
-            });
-        }
-    });
-});
-
-$(document.body).on('change','#country_id_3',function(){
-       var optionSelected = $("option:selected", this);
-    var valueSelected = this.value;
-
-    $.ajax({url: "register/get_states",
-        data: {country_id: valueSelected},
-        async: false,
-        success: function (msg) {
-            $('#state_span_3').html(msg);
-            $("#state_3").select({
-                placeholder: "Select a State",
-                allowClear: false
-            });
-        }
-    });
-});
-
-$(document.body).on('change','#country_id_4',function(){
-       var optionSelected = $("option:selected", this);
-    var valueSelected = this.value;
-
-    $.ajax({url: "register/get_states",
-        data: {country_id: valueSelected},
-        async: false,
-        success: function (msg) {
-            $('#state_span_4').html(msg);
-            $("#state_4").select({
-                placeholder: "Select a State",
-                allowClear: false
-            });
-        }
-    });
-});
 
 $(document).ready(function () {
     validate_password_form();
