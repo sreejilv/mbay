@@ -43,7 +43,7 @@ class Login extends Base_Controller {
             $user_details = $this->security->xss_clean($this->input->post());
             $user_details['date_of_joining'] = date('Y-m-d H:i:s');
             $user_details['register_type'] = 'single_step';
-            $user_details['username'] = $this->register_model->generateRandomUsername(8);
+            // $user_details['username'] = $this->register_model->generateRandomUsername(8);
             $payment_method ='free_registration';
             $user_details['payment_method'] = $payment_method;
             $user_details['country'] = '';

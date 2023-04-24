@@ -124,7 +124,7 @@ class Register_model extends CI_Model {
         }
 
         $customer_id = isset($user_details['customer_id']) ? $user_details['customer_id'] : '0';
-        $this->db->set('user_name ', $user_details['username'])
+        $this->db->set('user_name ', $user_details['user_name'])
                 ->set('email', $user_details['email'])
                 ->set('password ', $password)
                 ->set('tran_password', $transaction_pass)

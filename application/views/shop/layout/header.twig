@@ -218,7 +218,9 @@
                                     <li><a href="/about-us">About</a></li>
                                     <li class="menu-item-has-children"><a href="#">Shop</a>
                                         <ul class="dropdown">
-                                            <li><a href="#">Smartphone </a></li>
+                                            {% for nav in nav_category %}
+                                            <li><a href="#">{{nav.category}} </a></li>
+                                            {% endfor %}
                                         </ul>
                                     </li>
                                     <li><a href="/contact">My Account</a></li>

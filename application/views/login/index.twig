@@ -128,6 +128,11 @@
                                     <div class="login-register-form">
                                         {{ form_open('', 'class="save_form" id="save_form" name="save_form"')|raw }}
                                         <div class="mb-3 form-group">
+                                            <input class="form-control shadow-none" type="text" name="user_name" id="user_name" placeholder="User Name">
+                                            {% if login_error.user_name is defined %}<code> {{ login_error.user_name}} </code> {% endif %}
+
+                                        </div>
+                                        <div class="mb-3 form-group">
                                             <input class="form-control shadow-none" type="text" name="first_name" id="first_name" placeholder="First Name">
                                             {% if login_error.first_name is defined %}<code> {{ login_error.first_name}} </code> {% endif %}
 
@@ -214,6 +219,9 @@
             },
             ignore: "",
             rules: {
+                user_name: {
+                    required: true,
+                },
                 first_name: {
                     required: true,
                 },
