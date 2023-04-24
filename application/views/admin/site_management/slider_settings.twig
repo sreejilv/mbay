@@ -287,8 +287,11 @@
         });
     </script>
     <script>
+
         var validate_slider_settings = function () {
             var form = $('#update_form');
+            var flag='{{edit_flag}}';
+
             var errorHandler1 = $('.errorHandler', form);
             var successHandler1 = $('.successHandler', form);
             $(form).validate({
@@ -319,8 +322,15 @@
                     },
                     image: {
                         required: function(){
-                            var image= $('input[type=file]').val().replace(/.*(\/|\\)/, '');
-                            return (image!='')?true:false;
+                                              
+                            if(flag>0){
+                             var image= $('input[type=file]').val().replace(/.*(\/|\\)/, '');
+                            return (image!='')?true:false; 
+                             }else{
+                            return true;
+
+                            }
+                           
                         },
                     },
                     type: {

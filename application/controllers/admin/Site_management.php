@@ -373,9 +373,7 @@ class Site_management extends Base_Controller {
 
                 }else{
                     $res = $this->site_management_model->deleteBrandSettings($brand_id);
-                
                     if ($res) {
-                        $data['brand_id'] = $brand_id;
                         $this->helper_model->insertActivity($loged_user_id, 'brand_deleted', $data);
                         $this->loadPage(lang('brand_deleted_complete'), 'brand-settings','success');
                     } else {
@@ -467,6 +465,7 @@ class Site_management extends Base_Controller {
                 }
             }
             $res = $this->site_management_model->updateBrand($post, $brand_image);
+
             if ($res) {
                 $this->helper_model->insertActivity($loged_user_id, 'brand_updated', $post);
                 $this->loadPage(lang('brand_updated_successfully'), 'brand-settings','success');

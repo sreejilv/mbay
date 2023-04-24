@@ -274,13 +274,13 @@
             company_logo: {
                 required: function(){
                             var image= $('#company_logo').val().replace(/.*(\/|\\)/, '');
-                            return (image!='')?true:false;
+                            return true;
                         },
             },
             company_fav_icon: {
                 required: function(){
                             var image= $('#company_fav_icon').val().replace(/.*(\/|\\)/, '');
-                            return (image!='')?true:false;
+                            return true;
                         },
             }
         },
