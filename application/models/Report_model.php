@@ -2308,17 +2308,13 @@ if ($where) {
         return $data;
     }
     public function updateAddaddress($address_post){
-        // print_r($address_post);die;
         $user_id =$address_post['user_id'];
-        $default = $address_post['default'];
-        $i = 0;
-        foreach($address_post['address'] as $updateaddress){
-            if($i==$default){
-                $useraddAddress = $updateaddress;
-                // print_r($useraddAddress);die;
+        if(array_key_exists("default",$address_post)){
+            $default=$address_post['default']; 
+            if($default=='on'){ 
                 $data = [
                     'address_1' => $address_post['address_1'],
-                    'address_2' => $useraddAddress['address_2'],
+                    'address_2' => $address_post['address_2'],
                     'city' => $address_post['city'],
                     'country_id' => $address_post['country_id'],
                     'state_id' => $address_post['state'],
@@ -2326,26 +2322,89 @@ if ($where) {
                 ];
                 $this->db->where('mlm_user_id', $user_id);
                 $this->db->update('user_details', $data);
+            
+                if(array_key_exists("address",$address_post)){
+                    foreach($address_post['address'] as $updateaddress){
 
-            }else{
-
-                    // $res = $this->deleteadduser_address($user_id);
-                    // if($res){
-
-                $useraddAddress = $updateaddress;
-                $this->db->set('address_1', $address_post['address_1'])
-                ->set('mlm_user_id', $user_id)
-                ->set('address_2', $useraddAddress['address_2'])
-                ->set('city', $address_post['city'])
-                ->set('zip_code', $address_post['zip_code'])
-                ->set('country_id', $address_post['country_id'])
-                ->set('state_id', $address_post['state'])
-                ->insert('user_address');
-
-                    // }
+                        $this->db->set('address_1', $updateaddress['address_1'])
+                        ->set('mlm_user_id', $user_id)
+                        ->set('address_2', $updateaddress['address_2'])
+                        ->set('city', $updateaddress['city'])
+                        ->set('zip_code', $updateaddress['zip_code'])
+                        ->set('country_id', $updateaddress['country'])
+                        ->set('state_id',  $updateaddress['state'])
+                        ->insert('user_address');  
+                    }
+                }
             }
-            $i++;
+        }else{
+            foreach($address_post['address'] as $updateaddress){
+                if(array_key_exists("default",$updateaddress)){
+                    $data = [
+                        'address_1' => $updateaddress['address_1'],
+                        'address_2' => $updateaddress['address_2'],
+                        'city' => $updateaddress['city'],
+                        'country_id' => $updateaddress['country'],
+                        'state_id' => $updateaddress['state'],
+                        'zip_code' =>$updateaddress['zip_code'],
+                    ];
+                    $this->db->where('mlm_user_id', $user_id);
+                    $this->db->update('user_details', $data);
+                   }
+                   else{
+                    $this->db->set('address_1', $updateaddress['address_1'])
+                            ->set('mlm_user_id', $user_id)
+                            ->set('address_2', $updateaddress['address_2'])
+                            ->set('city', $updateaddress['city'])
+                            ->set('zip_code', $updateaddress['zip_code'])
+                            ->set('country_id', $updateaddress['country'])
+                            ->set('state_id', $user_id)
+                            ->insert('user_address');   
+                   }
+            }
+             $this->db->set('address_1', $address_post['address_1'])
+                            ->set('mlm_user_id', $user_id)
+                            ->set('address_2', $address_post['address_2'])
+                            ->set('city', $address_post['city'])
+                            ->set('zip_code', $address_post['zip_code'])
+                            ->set('country_id', $address_post['country_id'])
+                            ->set('state_id', $address_post['state'])
+                            ->insert('user_address');
         }
+
+        // $default = $address_post['default'];
+        // $i = 0;
+        //     if($i==$default){
+                
+        //         $data = [
+        //             'address_1' => $address_post['address_1'],
+        //             'address_2' => $address_post['address_2'],
+        //             'city' => $address_post['city'],
+        //             'country_id' => $address_post['country_id'],
+        //             'state_id' => 1,
+        //             'zip_code' =>$address_post['zip_code'],
+        //         ];
+               
+        //         $this->db->where('mlm_user_id', $user_id);
+        //         $this->db->update('user_details', $data);      
+
+        //     }else {
+        //         // $res = $this->deleteadduser_address($user_id);
+        //         // if($res){
+
+        //         foreach($address_post['address'] as $updateaddress){
+
+        //         $this->db->set('address_1', $updateaddress['address_1'])
+        //         ->set('mlm_user_id', $user_id)
+        //         ->set('address_2', $updateaddress['address_2'])
+        //         ->set('city', $updateaddress['city'])
+        //         ->set('zip_code', $updateaddress['zip_code'])
+        //         ->set('country_id', $updateaddress['country'])
+        //         ->set('state_id', $user_id)
+        //         ->insert('user_address');
+        //         }
+        //         $i++; 
+        //     }
         return true;
 
     }

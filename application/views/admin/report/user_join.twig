@@ -214,7 +214,7 @@
                                                         <div class="row mb-4">
                                                             <label for="horizontal-email-input" class="col-sm-2 col-form-label">Addressline 2 <span class="text-danger">*</span></label>
                                                             <div class="col-sm-9">
-                                                                <input type="text" class="form-control" id="address_2" name="address[0][address_2]"  value="{{details.address_2}}">
+                                                                <input type="text" class="form-control" id="address_2" name="address_2"  value="{{details.address_2}}">
                                                             </div>
                                                         </div>
                                                      
@@ -258,7 +258,9 @@
                                                                 </div>
                                                             </div>
                                                         <div class="form-check form-check-right mb-3 ">
-                                                            <input class="form-check-input" type="radio" name="default" value="0"  checked id="default" >
+                                                            <input class="form-check-input radio-button" type="radio" name="default"  checked  id="default" onclick="defaultbutton('default')" >
+
+
                                                             <label class="form-check-label" for="default">
                                                                Default
                                                            </label>
@@ -266,62 +268,9 @@
                                                     </div> 
                                                 </div>
                                             </div>
-                                            <!-- {% set j = 1 %}
-                                            {% if details.add_address  %}
-                                            {% for add_dress in details.add_address %}
-                                            <div class="card-header">
-                                              <h5 class="card-title">Address{{ j }}</h5>
-                                            </div>
-                                            <br>
-                                            <div class="row">
-                                                <div class="col-lg-12 ms-lg-auto">
-                                                    <div class="mt-4 mt-lg-0">
-
-                                                        <div class="row mb-4">
-                                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">Addressline 1</label>
-                                                            <div class="col-sm-9">
-                                                                <input type="text" class="form-control" id="address_1" name="address[{{j}}][address_1]" value="{{details.address_1}}">
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mb-4">
-                                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">Addressline 2</label>
-                                                            <div class="col-sm-9">
-                                                                <input type="text" class="form-control" id="address_2" name="address[{{j}}][address_2]"  value="{{details.address_2}}">
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mb-4">
-                                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">City</label>
-                                                            <div class="col-sm-9">
-                                                                <input type="text" class="form-control" id="city"  name="address[{{j}}][city]" value="{{details.city}}">
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mb-4">
-                                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">country</label>
-                                                            <div class="col-sm-9">
-                                                                <input type="text" class="form-control" id="country_id" name="address[{{j}}][country_id]"  value="{{details.country_id}}">
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mb-4">
-                                                            <label for="horizontal-email-input" class="col-sm-3 col-form-label">Zip</label>
-                                                            <div class="col-sm-9">
-                                                                <input type="text" class="form-control" id="zip_code"  name="address[{{j}}][zip_code]" value="{{details.zip_code}}">
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-check form-check-right mb-3 ">
-                                                            <input class="form-check-input" type="radio" name="default" value="{{j}}" id="formRadiosRight1" >
-                                                            <label class="form-check-label" for="formRadiosRight1">
-                                                               Default
-                                                           </label>
-                                                       </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {% set j = j + 1 %}
-                                            {% endfor %}  
-                                            {% endif  %} -->
+                                  
                                             <input type="hidden" value="{{j}}" id="total_chq">
-                                                <span id="add_address_view"></span>
+                                                <div id="add_address_view"></div>
                                                     <div class="row mb-4">
                                                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                                                             <a class="btn btn-primary" onclick="myaddresss()"><i class="bx bx-plus"></i> Add Address</a>
@@ -416,10 +365,7 @@
 <!-- Responsive examples -->
 <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
 <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
-<!-- pristine js -->
-<script src="assets/libs/pristinejs/pristine.min.js"></script>
-<!-- form validation -->
-<script src="assets/js/pages/form-validation.init.js"></script>
+
 <!-- Datatable init js -->
 <script src="assets/js/pages/datatables.init.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -429,27 +375,24 @@ function myaddresss(){
     var myDatfa = {{ countries|json_encode|raw }};
     var myData = {{ states|json_encode|raw }};
     var count = $('#total_chq').val();
-
-    var sum = 0;
+    var sum = 1;
 
     for (var i = 0; i < count.length; i++) {
       sum += parseInt(count[i]);
-    }
-
-    console.log(sum);
-
+    } 
     var html ='<div class="card-body p-1">';
     html +='<div class="card-header">';
     html += '<h5 class="card-title"> Address '+ sum +'</h5></div><br><div class="row">';
     html += '<div class="col-lg-12 ms-lg-auto"><div class="mt-4 mt-lg-0"><div class="row mb-4">';
-    html += '<label for="horizontal-email-input" class="col-sm-3 col-form-label">Addressline 1</label><div class="col-sm-9"><input type="text" class="form-control" id="address_1" name="address['+ count +'][address_1]" ></div></div>';
-    html += '<div class="row mb-4"><label for="horizontal-email-input" class="col-sm-3 col-form-label">Addressline 2</label><div class="col-sm-9"> <input type="text" class="form-control" id="address_2" name="address['+ count +'][address_2]" ></div></div>';
-    html += '<div class="row mb-4"><label for="horizontal-email-input" class="col-sm-3 col-form-label">City</label><div class="col-sm-9"><input type="text" class="form-control" id="city"  name="address['+ count +'][city]"> </div></div>';
+    html += '<label for="horizontal-email-input" class="col-sm-3 col-form-label">Addressline 1</label><div class="col-sm-9"><input type="text" class="form-control" id="address_1" name="address['+i+'][address_1]" ></div></div>';
+
+    html += '<div class="row mb-4"><label for="horizontal-email-input" class="col-sm-3 col-form-label">Addressline 2</label><div class="col-sm-9"> <input type="text" class="form-control" id="address_2" name="address['+i+'][address_2]" ></div></div>';
+
+    html += '<div class="row mb-4"><label for="horizontal-email-input" class="col-sm-3 col-form-label">City</label><div class="col-sm-9"><input type="text" class="form-control" id="city"  name="address['+i+'][city]"> </div></div>';
 
     html += '<div class="row mb-4"><label for="horizontal-email-input" class="col-sm-3 col-form-label">Country</label>'; 
     html += '<div class="col-sm-9" > ';
-            // html += '<select id="country_1" name="address['+ count +'][country_id]" class="form-control">';
-    html += '<select id="country_1" name="country_1" class="form-control">';
+    html += '<select id="country_id_'+sum+'" name="address['+i+'][country]" class="form-control">';
     html +=  ' <option value="">Select A Country</option>';
     $.each(myDatfa, function (key, value) {
         html += '<option value="' + value.id + '">' + value.name + '</option>';
@@ -459,8 +402,8 @@ function myaddresss(){
 
     html += '<div class="row mb-4"><label for="horizontal-email-input" class="col-sm-3 col-form-label">State</label>';
     html += '<div class="col-sm-9">';
-    html += '<span class="input-icon" id="state_span_1">';
-    html += '<select id="state" name="address['+ count +'][state]" class="form-control">';
+    html += '<span class="input-icon" id="state_span_'+ i +'">';
+    html += '<select id="state_'+ i +'" name="address['+i+'][state]" class="form-control">';
     html += '<option value="">Select A State</option>';
 
     $.each(myData, function (key, value) {
@@ -471,8 +414,9 @@ function myaddresss(){
     html += '</span>';
     html += '</div></div>';
 
-    html += '<div class="row mb-4"> <label for="horizontal-email-input" class="col-sm-3 col-form-label">Zip</label><div class="col-sm-9"> <input type="text" class="form-control" id="zip_code"  name="address['+ count +'][zip_code]"></div> </div>';
-    html += '<div class="form-check form-check-right mb-3 "><input class="form-check-input" type="radio" name="default" value="'+ count +'" id="formRadiosRight1" ><label class="form-check-label" for="formRadiosRight1"> Default</label> </div>';
+    html += '<div class="row mb-4"> <label for="horizontal-email-input" class="col-sm-3 col-form-label">Zip</label><div class="col-sm-9"> <input type="text" class="form-control" id="zip_code"  name="address['+i+'][zip_code]"></div> </div>';
+    
+    html += '<div><input type="radio" name="address['+i+'][default]" class="form-check-input radio-button"   onclick="defaultbutton('+i+')" id="default_'+i+'">&nbsp;<label class="form-check-label" for="default">Default</label></div>';
     count +=1;
     $('#total_chq').val(count);
     $('#add_address_view').append(html);
@@ -480,6 +424,68 @@ function myaddresss(){
 
 </script>
 
+
+
+
+    <!-- <script>let currentCheckedButton;
+const buttons = document.querySelectorAll('.radio-button');
+
+
+buttons.forEach(button => {
+
+
+button.addEventListener('click', () => {
+    // alert(123);
+
+if (currentCheckedButton && currentCheckedButton !== button) {
+currentCheckedButton.checked = false;
+}
+currentCheckedButton = button;
+});
+});
+</script> -->
+<!-- <script>
+
+$(':radio').mousedown(function(e){
+    alert(456);
+  var $self = $(this);
+  if( $self.is(':unchecked') ){
+    var uncheck = function(){
+      setTimeout(function(){$self.removeAttr('checked');},0);
+    };
+    var unbind = function(){
+      $self.unbind('mouseup',up);
+    };
+    var up = function(){
+      uncheck();
+      unbind();
+    };
+    $self.bind('mouseup',up);
+    $self.one('mouseout', unbind);
+  }
+});
+</script> -->
+<script>
+function defaultbutton(id) {
+    var radios = document.querySelectorAll('input[type=radio]');
+  
+    var previousValue = null;
+    for (var i = 0; i < radios.length; i++) {
+        if (radios[i].checked&& id!='default') {
+            if(i==id){
+                $('.form-check-input:checked').prop('checked', false);
+            }
+            else{
+                $('.form-check-input:checked').prop('checked', true);
+            }
+        }else{
+            $('#default:checked').prop('checked', false);
+ 
+        }
+    }
+  
+}
+</script>
 </body>
 
 </html>

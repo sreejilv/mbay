@@ -254,7 +254,7 @@ $('#country_id').on('change', function (e) {
         async: false,
         success: function (msg) {
             $('#state_span').html(msg);
-            $("#state").select2({
+            $("#state").select({
                 placeholder: "Select a State",
                 allowClear: false
             });
@@ -262,9 +262,8 @@ $('#country_id').on('change', function (e) {
     });
 
 });
-
-$('#country_1').on('change', function (e) {
-    var optionSelected = $("option:selected", this);
+$(document.body).on('change','#country_id_1',function(){
+       var optionSelected = $("option:selected", this);
     var valueSelected = this.value;
 
     $.ajax({url: "register/get_states",
@@ -272,13 +271,63 @@ $('#country_1').on('change', function (e) {
         async: false,
         success: function (msg) {
             $('#state_span_1').html(msg);
-            $("#state").select2({
+            $("#state_1").select({
                 placeholder: "Select a State",
                 allowClear: false
             });
         }
     });
+});
 
+$(document.body).on('change','#country_id_2',function(){
+       var optionSelected = $("option:selected", this);
+    var valueSelected = this.value;
+
+    $.ajax({url: "register/get_states",
+        data: {country_id: valueSelected},
+        async: false,
+        success: function (msg) {
+            $('#state_span_2').html(msg);
+            $("#state_2").select({
+                placeholder: "Select a State",
+                allowClear: false
+            });
+        }
+    });
+});
+
+$(document.body).on('change','#country_id_3',function(){
+       var optionSelected = $("option:selected", this);
+    var valueSelected = this.value;
+
+    $.ajax({url: "register/get_states",
+        data: {country_id: valueSelected},
+        async: false,
+        success: function (msg) {
+            $('#state_span_3').html(msg);
+            $("#state_3").select({
+                placeholder: "Select a State",
+                allowClear: false
+            });
+        }
+    });
+});
+
+$(document.body).on('change','#country_id_4',function(){
+       var optionSelected = $("option:selected", this);
+    var valueSelected = this.value;
+
+    $.ajax({url: "register/get_states",
+        data: {country_id: valueSelected},
+        async: false,
+        success: function (msg) {
+            $('#state_span_4').html(msg);
+            $("#state_4").select({
+                placeholder: "Select a State",
+                allowClear: false
+            });
+        }
+    });
 });
 
 $(document).ready(function () {
