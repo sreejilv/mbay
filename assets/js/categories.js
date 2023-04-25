@@ -7,6 +7,7 @@ $.validator.addMethod("ckeditor_required", function(value, element) {
        return false;
     }, "This field is required.");
 
+
 // var validate_user_profile = function () {
 //     var form = $('#pristine-valid-example');
 //     var errorHandler1 = $('.errorHandler', form);
@@ -83,7 +84,6 @@ $.validator.addMethod("ckeditor_required", function(value, element) {
 //               },
 //               unhighlight: function(element) { // revert the change done by hightlight
 //                      //display Checkbox invalid Data
-
 //                      $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
 //                      $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
 //                      // set error class to the control group
