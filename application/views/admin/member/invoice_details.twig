@@ -3,17 +3,7 @@
     <base href="{{ base_url() }}" />
     <?= $title_meta ?>
 
-    {% include('admin/partials/head-css.twig')%}
-    <link href="assets/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css">
-    <!-- DataTables -->
-    <link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-    <link href="assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-    <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
-    <!-- Responsive datatable examples -->
-    <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-
-    <link href="assets/libs/dropify/dropify.min.css" rel="stylesheet" type="text/css" />
-
+    {% include('admin/partials/head-css.twig')%}    
 </head>
 <div id="js_messages" style="display: none;"> 
     <span id="status_change_successfully_js">{{lang('status_change_successfully_js')}}</span>   
@@ -186,7 +176,8 @@
     </div>
 
     {% include('admin/partials/footer.twig')%}
-
+    {% include('admin/partials/vendor-scripts.twig')%}
+    <script src="assets/js/app.js"></script>
     </body>
 
 </html>
