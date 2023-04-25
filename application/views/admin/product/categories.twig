@@ -64,7 +64,7 @@
                             <div class="card-body">
                                 <div>
                                     {{ form_open_multipart('', ' id="pristine-valid-example" name="cat_form"')|raw }}
-                                   
+                                    {# <form id="pristine-valid-example" novalidate method="post"> #}
                                         <input type="hidden" />
                                         <div class="row">
 
@@ -200,7 +200,6 @@
                                             {% endif %}
                                         </div>
                                     {# </form> #}
-                                    <input type='hidden' id='edit_flag' value='{{edit_flag}}'/>
                                     {{ form_close()|raw }}
                                 </div>
                             </div>
@@ -301,19 +300,15 @@
 <link href="assets/plugins/sweetalert/lib/sweet-alert.css" rel="stylesheet" />
 <script src="assets/plugins/sweetalert/lib/sweet-alert.min.js"></script>
 <script src="assets/js/categories.js"></script>
-<script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
 <script>
 
 $('.input-images-1').imageUploader({
      maxFiles: 6,
 
 });
-
-
 $(function() {
    validate_user_profile();
 });
-
 
 var validate_user_profile = function () {
     var form = $('#pristine-valid-example');
@@ -335,10 +330,11 @@ var validate_user_profile = function () {
               },
               
               rules: {
-                     // "images[]" : {
-                     //        required: true,
-                     // },
-                 "images[]":{
+                    //  "images[]" : {
+                    //         required: true,
+                    //  },
+                    
+                    "images[]":{
                    required: function(){
                             if(flag>0){
                              var image= $('input[type=file]').val().replace(/.*(\/|\\)/, '');
@@ -349,7 +345,6 @@ var validate_user_profile = function () {
                             }
                         },
                 },
-           
                      category: {
                            required: true,
                      },
@@ -369,18 +364,17 @@ var validate_user_profile = function () {
               },
               messages: {
                      "images[]": "Please select Image",
-
-                     //        category: {
-                     //        required: 'Required',
-                     // }, 
+                    //         category: {
+                    //         required: 'Required',
+                    //  }, 
                      // parent: {
                      //     required: 'Required',
                      // },
-                category: {
+                     category: {
                      required: 'Required',
                      },
                      description: {
-                     ckeditor_required: 'Required',
+                     ckeditor_required: 'This field is required',
                      }, 
                      sort_order: {
                      required: 'Required',
@@ -427,7 +421,7 @@ var validate_user_profile = function () {
 </script>
 
 <script>
-var product_id = '{{ product_id }}';
+var product_id = {{ product_id }};
 
   var image = {{ cat_image|json_encode|raw }};
         $('.input-images-2').imageUploader({
