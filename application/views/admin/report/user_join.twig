@@ -427,44 +427,6 @@ function myaddresss(){
 
 
 
-    <!-- <script>let currentCheckedButton;
-const buttons = document.querySelectorAll('.radio-button');
-
-
-buttons.forEach(button => {
-
-
-button.addEventListener('click', () => {
-    // alert(123);
-
-if (currentCheckedButton && currentCheckedButton !== button) {
-currentCheckedButton.checked = false;
-}
-currentCheckedButton = button;
-});
-});
-</script> -->
-<!-- <script>
-
-$(':radio').mousedown(function(e){
-    alert(456);
-  var $self = $(this);
-  if( $self.is(':unchecked') ){
-    var uncheck = function(){
-      setTimeout(function(){$self.removeAttr('checked');},0);
-    };
-    var unbind = function(){
-      $self.unbind('mouseup',up);
-    };
-    var up = function(){
-      uncheck();
-      unbind();
-    };
-    $self.bind('mouseup',up);
-    $self.one('mouseout', unbind);
-  }
-});
-</script> -->
 <script>
 function defaultbutton(id) {
     var radios = document.querySelectorAll('input[type=radio]');

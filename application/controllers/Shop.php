@@ -122,6 +122,7 @@ class Shop extends Base_Controller {
         $this->setData('max_amt', $max_amt);
         $this->setData('brand', $brand);
         $this->setData('brands', $brands);
+        $this->setData('cat_name', $cat_name);
         $this->setData('session_brands', $set_brands);
         $this->setData('nav_category', $nav_category);
         $this->setData('products', $products);
