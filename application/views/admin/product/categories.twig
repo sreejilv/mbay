@@ -64,7 +64,7 @@
                             <div class="card-body">
                                 <div>
                                     {{ form_open_multipart('', ' id="pristine-valid-example" name="cat_form"')|raw }}
-                                    {# <form id="pristine-valid-example" novalidate method="post"> #}
+                                   
                                         <input type="hidden" />
                                         <div class="row">
 
@@ -200,6 +200,7 @@
                                             {% endif %}
                                         </div>
                                     {# </form> #}
+                                    <input type='hidden' id='edit_flag' value='{{edit_flag}}'/>
                                     {{ form_close()|raw }}
                                 </div>
                             </div>
@@ -300,6 +301,7 @@
 <link href="assets/plugins/sweetalert/lib/sweet-alert.css" rel="stylesheet" />
 <script src="assets/plugins/sweetalert/lib/sweet-alert.min.js"></script>
 <script src="assets/js/categories.js"></script>
+<script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
 <script>
 
 $('.input-images-1').imageUploader({
@@ -310,10 +312,120 @@ $(function() {
    validate_user_profile();
 });
 
+
+var validate_user_profile = function () {
+    var form = $('#pristine-valid-example');
+    var flag='{{edit_flag}}';
+    var errorHandler1 = $('.errorHandler', form);
+    var successHandler1 = $('.successHandler', form);
+    $(form).validate({
+              ignore: [],
+              errorElement: "div", // contain the error msg in a span tag
+              errorClass: 'invalid-feedback',
+              errorPlacement: function (error, element) { // render error placement for each input type
+                     if (element.hasClass("ck-editor")) {
+                            error.insertBefore(element);
+                     }else if (element.attr("name") == "description") {
+                            $("#errordescription").append(error);
+                     } else{
+                            error.appendTo($(element).closest('.form-group'));
+                     }  
+              },
+              
+              rules: {
+                     // "images[]" : {
+                     //        required: true,
+                     // },
+                 "images[]":{
+                   required: function(){
+                            if(flag>0){
+                             var image= $('input[type=file]').val().replace(/.*(\/|\\)/, '');
+                            return (image!='')?true:false; 
+                             }else{
+                            return true;
+
+                            }
+                        },
+                },
+           
+                     category: {
+                           required: true,
+                     },
+                       // parent: {
+                       //     required: true,
+                       // },
+                     description: {
+                           ckeditor_required: true,
+                     },
+                     sort_order: {
+                           required: true,
+                           digits: true
+                     },
+                     keyword:{
+                           required: true, 
+                     }
+              },
+              messages: {
+                     "images[]": "Please select Image",
+
+                     //        category: {
+                     //        required: 'Required',
+                     // }, 
+                     // parent: {
+                     //     required: 'Required',
+                     // },
+                category: {
+                     required: 'Required',
+                     },
+                     description: {
+                     ckeditor_required: 'Required',
+                     }, 
+                     sort_order: {
+                     required: 'Required',
+                     digits: 'Only Number Format',
+                     },
+                     keyword: {
+                     required: 'Required',
+                     }
+              },
+              invalidHandler: function(event, validator) { 
+
+                     successHandler1.hide();
+                     errorHandler1.show();
+              },
+              highlight: function(element) {
+                     $(element).closest('.form-control').removeClass('is-invalid');
+                     //display Checkbox invalid Data
+                     $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+                     // display OK icon
+                     $(element).closest('.form-control').removeClass('is-valid').addClass('is-invalid').find('.symbol').removeClass('ok').addClass('required');
+                     // add the Bootstrap error class to the control group
+              },
+              unhighlight: function(element) { // revert the change done by hightlight
+                     //display Checkbox invalid Data
+
+                     $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+                     $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
+                     // set error class to the control group
+              },
+              success: function(label, element) {
+                     //display Checkbox invalid Data
+                     $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+                     $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
+                     // mark the current input as valid and display OK icon
+              },
+              submitHandler: function(form) {
+                     successHandler1.show();
+                     errorHandler1.hide();
+                     form.submit();
+              }
+       });
+    };
+
 </script>
 
 <script>
-var product_id = {{ product_id }};
+var product_id = '{{ product_id }}';
 
   var image = {{ cat_image|json_encode|raw }};
         $('.input-images-2').imageUploader({

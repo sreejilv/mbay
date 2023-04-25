@@ -7,121 +7,133 @@ $.validator.addMethod("ckeditor_required", function (value, element) {
     return false;
 }, "This field is required.");
 
-var validate_product = function () {
-    var form = $('#pristine-valid-example');
-    var errorHandler1 = $('.errorHandler', form);
-    var successHandler1 = $('.successHandler', form);
-    $(form).validate({
-        ignore: [],
-            errorElement: "div", // contain the error msg in a span tag
-            errorClass: 'invalid-feedback',
-            errorPlacement: function (error, element) { // render error placement for each input type
-                if (element.hasClass("ck-editor")) {
-                    error.insertBefore(element);
-                } else if (element.attr("name") == "description") {
-                    $("#errordescription").append(error);
-                } else {
-                    error.appendTo($(element).closest('.form-group'));
-                }
-            },
+// var validate_product = function () {
+//     var form = $('#pristine-valid-example');
+//     var errorHandler1 = $('.errorHandler', form);
+//     var successHandler1 = $('.successHandler', form);
+//     $(form).validate({
+//         ignore: [],
+//             errorElement: "div", // contain the error msg in a span tag
+//             errorClass: 'invalid-feedback',
+//             errorPlacement: function (error, element) { // render error placement for each input type
+//                 if (element.hasClass("ck-editor")) {
+//                     error.insertBefore(element);
+//                 } else if (element.attr("name") == "description") {
+//                     $("#errordescription").append(error);
+//                 } else {
+//                     error.appendTo($(element).closest('.form-group'));
+//                 }
+//             },
 
-            rules: {
-                // "images[]": {
-                //     required: true,
-                // },
-                product_name: {
-                    required: true,
-                },
-                quantity: {
-                    required: true,
-                    digits: true
-                },
-                description: {
-                    ckeditor_required: true,
-                },
-                product_amount: {
-                    required: true,
-                    digits: true
-                },
-                category: {
-                    required: true,
-                },
-                brand: {
-                    required: true,
-                },
-                sort_order: {
-                    required: true,
-                },
-                keyword: {
-                    required: true,
-                }
+//             rules: {
+//                 // "images[]": {
+//                 //     required: true,
+//                 // },
+//                  "images[]":{
+//                    required: function(){
+//                             // if(flag>0){
+//                              var image= $('input[type=file]').val().replace(/.*(\/|\\)/, '');
+//                             return (image!='')?false:true; 
+//                             //  }else{
+//                             // return true;
 
-            },
-            messages: {
-                // "images[]": "Please select Image",
-                product_name: {
-                    required: 'Required',
-                },
-                quantity: {
-                    required: 'Required',
-                    digits: 'Only Number Format',
-                },
-                description: {
-                    ckeditor_required: 'Required',
-                },
-                product_amount: {
-                    required: 'Required',
-                    digits: 'Only Number Format',
-                },
-                category: {
-                    required: 'Required',
-                },
-                brand: {
-                    required: 'Required',
-                },
-                sort_order: {
-                    required: 'Required',
-                },
-                keyword: {
-                    required: 'Required',
-                }
-            },
-            invalidHandler: function (event, validator) {
+//                             // }
+//                         },
+//                 },
+           
+//                 product_name: {
+//                     required: true,
+//                 },
+//                 quantity: {
+//                     required: true,
+//                     digits: true
+//                 },
+//                 description: {
+//                     ckeditor_required: true,
+//                 },
+//                 product_amount: {
+//                     required: true,
+//                     digits: true
+//                 },
+//                 category: {
+//                     required: true,
+//                 },
+//                 brand: {
+//                     required: true,
+//                 },
+//                 sort_order: {
+//                     required: true,
+//                 },
+//                 keyword: {
+//                     required: true,
+//                 }
 
-                successHandler1.hide();
-                errorHandler1.show();
-            },
-            highlight: function (element) {
-                $(element).closest('.form-control').removeClass('is-invalid');
-                //display Checkbox invalid Data
-                $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
-                // display OK icon
-                $(element).closest('.form-control').removeClass('is-valid').addClass('is-invalid').find(
-                    '.symbol').removeClass('ok').addClass('required');
-                // add the Bootstrap error class to the control group
-            },
-            unhighlight: function (element) { // revert the change done by hightlight
-                //display Checkbox invalid Data
+//             },
+//             messages: {
+//                 "images[]": "Please select Image",
+//                 product_name: {
+//                     required: 'Required',
+//                 },
+//                 quantity: {
+//                     required: 'Required',
+//                     digits: 'Only Number Format',
+//                 },
+//                 description: {
+//                     ckeditor_required: 'Required',
+//                 },
+//                 product_amount: {
+//                     required: 'Required',
+//                     digits: 'Only Number Format',
+//                 },
+//                 category: {
+//                     required: 'Required',
+//                 },
+//                 brand: {
+//                     required: 'Required',
+//                 },
+//                 sort_order: {
+//                     required: 'Required',
+//                 },
+//                 keyword: {
+//                     required: 'Required',
+//                 }
+//             },
+//             invalidHandler: function (event, validator) {
 
-                $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
-                $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find(
-                    '.symbol').removeClass('ok').addClass('required');
-                // set error class to the control group
-            },
-            success: function (label, element) {
-                //display Checkbox invalid Data
-                $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
-                $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find(
-                    '.symbol').removeClass('ok').addClass('required');
-                // mark the current input as valid and display OK icon
-            },
-            submitHandler: function (form) {
-                successHandler1.show();
-                errorHandler1.hide();
-                form.submit();
-            }
-        });
-};
+//                 successHandler1.hide();
+//                 errorHandler1.show();
+//             },
+//             highlight: function (element) {
+//                 $(element).closest('.form-control').removeClass('is-invalid');
+//                 //display Checkbox invalid Data
+//                 $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+//                 // display OK icon
+//                 $(element).closest('.form-control').removeClass('is-valid').addClass('is-invalid').find(
+//                     '.symbol').removeClass('ok').addClass('required');
+//                 // add the Bootstrap error class to the control group
+//             },
+//             unhighlight: function (element) { // revert the change done by hightlight
+//                 //display Checkbox invalid Data
+
+//                 $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+//                 $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find(
+//                     '.symbol').removeClass('ok').addClass('required');
+//                 // set error class to the control group
+//             },
+//             success: function (label, element) {
+//                 //display Checkbox invalid Data
+//                 $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+//                 $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find(
+//                     '.symbol').removeClass('ok').addClass('required');
+//                 // mark the current input as valid and display OK icon
+//             },
+//             submitHandler: function (form) {
+//                 successHandler1.show();
+//                 errorHandler1.hide();
+//                 form.submit();
+//             }
+//         });
+// };
 $('.input-images-1').imageUploader({
     maxFiles: 6,
 
