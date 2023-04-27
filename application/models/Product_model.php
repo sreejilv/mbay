@@ -1089,4 +1089,156 @@ class Product_model extends CI_Model {
         return $data;
     }
 
+    // Options
+
+    function getOptionLists() {
+        $data = array();
+        $res = $this->db->select("id, option_name, sort_order")
+                ->from("options")
+                ->get();
+        $i = 0;
+        foreach ($res->result() as $row) {
+            $data[$i]['id'] = $row->id;
+            $data[$i]['option_name'] = $row->option_name;
+            $data[$i]['sort_order'] = $row->sort_order;
+            $i++;
+        }
+        return $data;
+    }
+
+    function getOptionDetails($id) {
+        $data = array();
+        $res = $this->db->select("option_name,sort_order")
+                ->from("options")
+                ->where('id', $id)
+                ->limit(1)
+                ->get();
+        foreach ($res->result() as $row) {
+            $data['option_name'] = $row->option_name;
+            $data['sort_order'] = $row->sort_order;
+        }
+        return $data;
+    }
+
+    function updateOptions($data) {
+
+        $this->db->set('option_name', $data['option_name'])
+                ->set('sort_order', $data['sort_order'])
+                ->where('id', $data['update_option'])
+                ->update('options');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    // public function addOptionValues($value_post, $option_id){
+    // // print_r($address_post);die;
+
+    //       $i = 0;
+    //     foreach($address_post['address'] as $updateaddress){
+    //             // if($i==$default){
+    //                 $useraddAddress = $updateaddress;
+    //                 $data = [
+    //                     'address_1' => $address_post['address_1'],
+    //                     'address_2' => $useraddAddress['address_2'],
+    //                     'country_id' => $address_post['country_id'],
+    //                     'state_id' => $address_post['state'],
+    //                     'zip_code' =>$address_post['zip_code'],
+    //                 ];
+    //                 $this->db->where('mlm_user_id', $user_id);
+    //                 $this->db->update('user_details', $data);
+    //             // }else{
+                   
+    //             //     $res = $this->deleteadduser_address($user_id);
+    //             //     if($res){
+              
+    //             //         $useraddAddress = $updateaddress;
+    //             //         $this->db->set('address_1', $useraddAddress['address_1'])
+    //             //         ->set('mlm_user_id', $user_id)
+    //             //         ->set('address_2', $useraddAddress['address_2'])
+    //             //         ->set('city', $useraddAddress['city'])
+    //             //         ->set('zip_code', $useraddAddress['zip_code'])
+    //             //         ->set('country_id', $address_post['country_id'])
+    //             //         ->insert('user_address');
+    //             //     }
+    //             // }
+    //              $i++;
+    //       }
+    //       return true;
+    // }
+
+    
+
+    function addOptionValues($data, $option_id) {
+        $this->db->set('option_id', $option_id)
+                ->set('option_value', $data['option_value'])
+                ->set('sort_order', $data['sort_order'])
+                ->insert('option_values');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    function deleteOptValues($option_id){
+          return $this->db->where('option_id', $option_id)
+                ->delete('option_values');
+
+    }
+
+    function getOptionValueLists($option_id) {
+        $data = array();
+        $res = $this->db->select("id, option_id, option_value, sort_order")
+                ->where('option_id', $option_id)
+                ->from("option_values")
+                ->get();
+        $i = 0;
+        foreach ($res->result() as $row) {
+            $data[$i]['id'] = $row->id;
+            $data[$i]['option_id'] = $row->option_id;
+            $data[$i]['option_value'] = $row->option_value;
+            $data[$i]['sort_order'] = $row->sort_order;
+            $i++;
+        }
+        return $data;
+    }
+
+    function updateOptionValues($data) {
+
+        $this->db->set('option_value', $data['option_value'])
+                ->set('sort_order', $data['opt_sort_order'])
+                ->where('id', $data['opt_id'])
+                ->update('option_values');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    function getOptValueDetails($id) {
+        $data = array();
+        $res = $this->db->select("id,option_id,option_value,sort_order")
+                ->from("option_values")
+                ->where('id', $id)
+                ->limit(1)
+                ->get();
+        foreach ($res->result() as $row) {
+            $data['id'] = $row->id;
+            $data['option_id'] = $row->option_id;
+            $data['option_value'] = $row->option_value;
+            $data['sort_order'] = $row->sort_order;
+        }
+        return $data;
+    }
+
+    function deleteOptionValue($id) {
+        $this->db->where('id', $id)
+                ->delete('option_values');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return true;
+    }
+
 }

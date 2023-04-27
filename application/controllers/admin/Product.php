@@ -901,4 +901,82 @@ class Product extends Base_Controller {
         echo 'no';
         exit();
     }
+
+    // Options
+
+    public function options($action = "", $option_id = "", $val_id = " ") {
+        $loged_user_id = ($this->aauth->getUserType() == 'employee') ? $this->base_model->getAdminUserId() : $this->aauth->getId();
+        $option_details = array();
+        $opt_value_details = array();
+        $edit_flag = FALSE;
+        if ($action && $option_id) {
+
+            if ($action == "edit") {
+                $edit_flag = TRUE;
+                $option_details = $this->product_model->getOptionDetails($option_id);
+            } elseif ($action == "val_delete") {
+                
+                $res = $this->product_model->deleteOptionValue($val_id);
+                if ($res) {
+                    $this->loadPage(lang('option_value_deleted'), 'options/edit/'.$option_id);
+                } else {
+                    $this->loadPage(lang('option_value_deletion_failed'), 'options/edit/'.$option_id, 'danger');
+                } 
+            }
+            
+            else {
+                $this->loadPage(lang('invalid_action'), 'options', 'danger');
+            }
+        }
+
+        if ($this->input->post('update_option')) {
+            $edit_flag = TRUE;
+            $this->load->helper('security');
+            $post = $this->security->xss_clean($this->input->post());
+            $res = $this->product_model->updateOptions($post);
+            if ($res) {
+                $this->helper_model->insertActivity($loged_user_id, 'options_updated', $post);
+                $this->loadPage(lang('opt_updated_successfully'), 'options','success');
+            }
+        }
+        if($this->input->post('add_opt_value')){
+
+            $value_post = $this->security->xss_clean($this->input->post());
+            $res = $this->product_model->addOptionValues($value_post, $option_id);
+            $this->loadPage(lang('add_opt_value_success'),'options/edit/'.$option_id, 'success');
+         
+        }
+        if($this->input->post('edit_opt_value')){
+            $this->load->helper('security');
+            $post = $this->security->xss_clean($this->input->post());
+            $res = $this->product_model->updateOptionValues($post);
+            $this->loadPage(lang('update_opt_value_success'),'options/edit/'.$option_id, 'success');
+         
+        }
+
+        $data = $this->product_model->getOptionLists();
+        $opt_values = $this->product_model->getOptionValueLists($option_id);
+
+        $this->setData('data', $data);
+        $this->setData('edit_flag', $edit_flag);
+        $this->setData('option', $option_details);
+        $this->setData('opt_value_details', $opt_value_details);
+        $this->setData('opt_val', $opt_values);
+        $this->setData('option_id', $option_id);
+        $this->setData('val_id', $val_id);
+        $this->setData('session_id', $session_id);
+        $this->setData('title', lang('menu_name_204'));
+
+        $this->loadView();
+    }
+
+    function get_option_value(){
+        $option_id=$this->input->get('id');
+        $opt_values = $this->product_model->getOptValueDetails($option_id);
+       echo json_encode($opt_values);
+       exit();
+
+
+    }
+
 }

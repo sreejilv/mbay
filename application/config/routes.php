@@ -413,3 +413,7 @@ $route['account/user-invoice/(:any)'] = 'shop/user_invoice/$1';
 
 $route['index'] = 'shop/index';
 $route['(:any)'] = 'shop/index/$1';
+
+$route['admin/options'] = 'admin/product/options';
+$route['admin/options/(:any)/(:num)'] = 'admin/product/options/$1/$2';
+$route['admin/options/(:any)/(:num)/(:num)'] = 'admin/product/options/$1/$2/$3';

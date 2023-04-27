@@ -1,0 +1,592 @@
+{% include('admin/partials/head-main.twig')%}
+<head>
+    <base href="{{ base_url() }}" />
+    <?= $title_meta ?>
+
+
+    <!-- DataTables -->
+    <link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+
+
+    <!-- Responsive datatable examples -->
+    <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="assets/libs/imageupload/dist/image-uploader.min.css">
+
+
+
+
+
+
+    <?= $this->include('partials/head-css') ?>
+
+
+{% include('admin/partials/head-css.twig')%}
+</head>
+
+<div id="js_messages" style="display: none;"> 
+    <span id="are_you_sure_js">{{lang('are_you_sure_js')}}</span>
+    <span id="cancel_it_js">{{lang('cancel_it_js')}}</span>
+    <span id="canceled_js">{{lang('canceled_js')}}</span>
+    <span id="category_safe_js">{{lang('category_safe_js')}}</span>
+    <span id="delete_this_category_js">{{lang('delete_this_category_js')}}</span>
+    <span id="delete_it_js">{{lang('delete_it_js')}}</span>
+</div>
+
+{% include('admin/partials/body.twig')%}
+<!-- <body data-layout="horizontal"> -->
+
+<!-- Begin page -->
+<div id="layout-wrapper">
+
+{% include('admin/partials/menu.twig')%}
+
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+
+    <!-- ============================================================== -->
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+            {% include('admin/layout/notification.twig') %}
+                <!-- start page title -->
+                <?= $page_title ?>
+                <h4 class="panel-title">
+                    <span class="text-bold">
+                        {% if not edit_flag %}
+                            {{lang('option_list')}}
+                        {% elseif edit_flag == 1 %} 
+                            {{lang('edit_option')}}
+                        {% endif %}    
+                    </span>
+                </h4>
+                {% if not edit_flag %}
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <table id="datatable" class="table table-bordered dt-responsive  nowrap w-100">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>{{lang('option_name')}}</th>
+                                            <th>{{lang('sort_order')}}</th>
+                                            <th>{{lang('action')}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for row in data %}  
+                                        <tr>
+                                            <td>{{loop.index}}</td>
+                                            <td>{{row.option_name}}</td>
+                                            <td>{{row.sort_order}}</td>
+                                            <td><a href=" admin/options/edit/{{row.id}}" button type="submit"class="btn btn-primary"><i class="fas fa-pencil-alt"></i></a></td>
+
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+
+                {% elseif edit_flag == 1 %}
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div>
+                                    
+                                    {{ form_open('', ' id="edit_option_form" name="edit_option_form"')|raw }}
+                                        <input type="hidden" />
+                                        <div class="row">
+
+                                            <div class="col-xl-6 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>Option Name</label>
+                                                    <input type="text"   class="form-control" id="option_name" name="option_name" value="{{ option.option_name }}"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xl-6 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>Sort Order</label>
+                                                    <input type="text"   class="form-control" id="sort_order" name="sort_order" value="{{ option.sort_order }}"/>
+                                                </div>
+                                            </div>
+
+                                            
+                                        <!-- end row -->
+                                       
+                                        <div class="form-group">
+                                           
+                                            <button type="submit"class="btn btn-primary" value="{{ option_id }}" name="update_option" id="update_option">
+                                                {{lang('update')}}  <i class="fa fa-arrow-circle-right"></i>
+                                            </button>
+
+                                            
+                                        </div>
+                                    {{ form_close()|raw }}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end card -->
+                    </div>
+                    <!-- end col -->
+                </div>
+
+
+                <h4 class="panel-title">
+                    <span class="text-bold">
+                        {{lang('option_value_list')}}
+
+                    </span>
+                </h4>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="main-login" style="display: flex;justify-content: right;align-items: right;">
+                            <button type="button" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#myModal">Add</button>
+                        </div>
+                        <br>
+                        <div class="card">
+                            <div class="card-body">
+                                <table id="datatable" class="table table-bordered dt-responsive  nowrap w-100">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>{{lang('option_value')}}</th>
+                                            <th>{{lang('sort_order')}}</th>
+                                            <th>{{lang('action')}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for row in opt_val %}  
+                                        <tr>
+                                            <td>{{loop.index}}</td>
+                                            {% if option_id == 3 %}
+                                            <td><div   style="  height: 20px;
+                                              width: 20px;
+                                              margin-bottom: 15px;
+                                              border: 1px solid black;
+                                              clear: both;background-color:{{row.option_value}}"></div></td>
+                                            {%else%}
+                                            <td>{{row.option_value}}</td>  
+                                            {%endif%}
+                                            <td>{{row.sort_order}}</td>
+                                            <td>
+                                                <button type="button" onClick="editModalFunction('{{row.id}}')" class="btn btn-primary waves-effect waves-light"><i class="fas fa-pencil-alt"></i></button>
+
+                                                <a href="admin/options/val_delete/{{option_id}}/{{row.id}}" button type="submit" class="btn btn-danger"><i class="fa fa-trash fa fa-white"></i></a> 
+
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                
+                                    </tbody>
+                                </table>
+
+                                <!-- edit modal content -->
+                                    <div id="editModal" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="myModalLabel">Edit Option values</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    
+                                                    {{ form_open('', ' id="edit_option_value_form" name="edit_option_value_form"')|raw }}
+                                                   <input type="hidden" />
+                                                    <div class="row">
+                                                        <input type="hidden" id="opt_id" name="opt_id"/>
+                                                        <div class="col-xl-6 col-md-6">
+                                                            <div class="form-group mb-3">
+                                                                <label>Option Value</label>
+                                                                {% if option_id == 3 %}
+                                                                    <input type="color"   class="form-control" id="option_value" name="option_value" value="{{ opt_value_details.option_value }}"/>
+                                                                {%else%}
+                                                                    <input type="text"   class="form-control" id="option_value" name="option_value" value="{{ opt_value_details.option_value }}"/>
+                                                                {%endif%}
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-xl-6 col-md-6">
+                                                            <div class="form-group mb-3">
+                                                                <label>Sort Order</label>
+                                                                <input type="text"   class="form-control" id="opt_sort_order" name="opt_sort_order" value="{{opt_value_details.sort_order}}"/>
+                                                            </div>
+                                                        </div>
+ 
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Close</button>
+                                                    
+                                                    <button type="submit" name="edit_opt_value" value="edit_opt_value"id="edit_opt_value" class="btn btn-primary w-md">Update</button>
+                                                </div>
+                                                {{ form_close()|raw }}
+                                            </div><!-- /.modal-content -->
+                                        </div><!-- /.modal-dialog -->
+                                    </div><!-- /.modal -->
+                            </div>
+
+                             <!-- add modal content -->
+                                    <div id="myModal" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="myModalLabel">Add Option values</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    
+                                                    {{ form_open('', ' id="option_value_form" name="option_value_form"')|raw }}
+                                                   <input type="hidden" />
+                                                    <div class="row">
+
+                                                        <div class="col-xl-6 col-md-6">
+                                                            <div class="form-group mb-3">
+                                                                <label>Option Value</label>
+                                                                {%if option_id == 3 %}
+                                                                    <input type="color"   class="form-control" id="option_value" name="option_value"/>
+                                                                {% else %}
+                                                                    <input type="text"   class="form-control" id="option_value" name="option_value"/>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-xl-6 col-md-6">
+                                                            <div class="form-group mb-3">
+                                                                <label>Sort Order</label>
+                                                                <input type="text"   class="form-control" id="sort_order" name="sort_order"/>
+                                                            </div>
+                                                        </div>
+ 
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Close</button>
+                                                    
+                                                    <button type="submit" name="add_opt_value" value="add_opt_value"id="add_opt_value" class="btn btn-primary w-md">Submit</button>
+                                                </div>
+                                                {{ form_close()|raw }}
+                                            </div><!-- /.modal-content -->
+                                        </div><!-- /.modal-dialog -->
+                                    </div><!-- /.modal -->
+                        </div>
+                    </div> 
+                </div>
+
+                {% endif %}
+ 
+            </div>
+        </div> <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+
+   {% include('admin/partials/footer.twig')%}
+    </div>
+    <!-- end main content-->
+
+</div>
+<!-- END layout-wrapper -->
+
+{% include('admin/partials/right-sidebar.twig')%}
+<!-- JAVASCRIPT -->
+{% include('admin/partials/vendor-scripts.twig')%}
+      
+
+<!-- Required datatable js -->
+<script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+<!-- Buttons examples -->
+<script src="assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+<script src="assets/libs/jszip/jszip.min.js"></script>
+<script src="assets/libs/pdfmake/build/pdfmake.min.js"></script>
+<script src="assets/libs/pdfmake/build/vfs_fonts.js"></script>
+<script src="assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+
+<!-- Responsive examples -->
+<script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+
+<!-- Datatable init js -->
+<script src="assets/js/pages/datatables.init.js"></script>
+
+<script src="assets/libs/dropzone/min/dropzone.min.js"></script>
+
+
+<script src="assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
+<script src="assets/js/pages/form-editor.init.js"></script>
+
+<script type="text/javascript" src="assets/libs/imageupload/dist/image-uploader.min.js"></script>
+
+
+<script src="assets/js/app.js"></script>
+
+<script src="https://cdn.ckeditor.com/4.5.6/standard/ckeditor.js"></script>
+<link href="assets/plugins/sweetalert/lib/sweet-alert.css" rel="stylesheet" />
+<script src="assets/plugins/sweetalert/lib/sweet-alert.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+ 
+$(function() {
+   validate_option();
+   validate_option_values();
+   validate_edit_option_values();
+});
+
+function editModalFunction(id){
+    $.ajax({
+        url:'admin/product/get_option_value',
+        data:{id:id},
+        dataType:'json',
+        success:function(result){
+            $("#editModal").modal('toggle');
+            $("#option_value").val(result.option_value);
+            $("#opt_id").val(result.id);
+            $("#opt_sort_order").val(result.sort_order);
+        }
+    });
+}
+
+ 
+var validate_option = function () {
+    var form = $('#edit_option_form');
+    var errorHandler1 = $('.errorHandler', form);
+    var successHandler1 = $('.successHandler', form);
+    $(form).validate({
+              ignore: [],
+              errorElement: "div", // contain the error msg in a span tag
+              errorClass: 'invalid-feedback',
+              errorPlacement: function (error, element) { // render error placement for each input type
+                     if (element.hasClass("ck-editor")) {
+                            error.insertBefore(element);
+                     }else if (element.attr("name") == "description") {
+                            $("#errordescription").append(error);
+                     } else{
+                            error.appendTo($(element).closest('.form-group'));
+                     }  
+              },
+              
+                rules: {
+                    
+                    option_name: {
+                        required: true,
+                    },
+                       
+                    sort_order: {
+                        required: true,
+                        digits: true
+                    },
+                         
+                },
+                messages: {
+                    
+                    option_name: {
+                        required: 'Required',
+                    },
+                     
+                    sort_order: {
+                        required: 'Required',
+                        digits: 'Only Number Format',
+                    },
+                    
+                },
+              invalidHandler: function(event, validator) { 
+
+                     successHandler1.hide();
+                     errorHandler1.show();
+              },
+              highlight: function(element) {
+                     $(element).closest('.form-control').removeClass('is-invalid');
+                     //display Checkbox invalid Data
+                     $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+                     // display OK icon
+                     $(element).closest('.form-control').removeClass('is-valid').addClass('is-invalid').find('.symbol').removeClass('ok').addClass('required');
+                     // add the Bootstrap error class to the control group
+              },
+              unhighlight: function(element) { // revert the change done by hightlight
+                     //display Checkbox invalid Data
+
+                     $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+                     $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
+                     // set error class to the control group
+              },
+              success: function(label, element) {
+                     //display Checkbox invalid Data
+                     $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+                     $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
+                     // mark the current input as valid and display OK icon
+              },
+              submitHandler: function(form) {
+                     successHandler1.show();
+                     errorHandler1.hide();
+                     form.submit();
+              }
+       });
+    };
+
+var validate_option_values = function () {
+    var form = $('#option_value_form');
+    var errorHandler1 = $('.errorHandler', form);
+    var successHandler1 = $('.successHandler', form);
+    $(form).validate({
+              ignore: [],
+              errorElement: "div", // contain the error msg in a span tag
+              errorClass: 'invalid-feedback',
+              errorPlacement: function (error, element) { // render error placement for each input type
+                     if (element.hasClass("ck-editor")) {
+                            error.insertBefore(element);
+                     }else if (element.attr("name") == "description") {
+                            $("#errordescription").append(error);
+                     } else{
+                            error.appendTo($(element).closest('.form-group'));
+                     }  
+              },
+              
+                rules: {
+                    
+                    option_value: {
+                        required: true,
+                    },
+                       
+                    sort_order: {
+                        required: true,
+                        digits: true
+                    },
+                         
+                },
+                messages: {
+                    
+                    option_value: {
+                        required: 'Required',
+                    },
+                     
+                    sort_order: {
+                        required: 'Required',
+                        digits: 'Only Number Format',
+                    },
+                    
+                },
+              invalidHandler: function(event, validator) { 
+
+                     successHandler1.hide();
+                     errorHandler1.show();
+              },
+              highlight: function(element) {
+                     $(element).closest('.form-control').removeClass('is-invalid');
+                     //display Checkbox invalid Data
+                     $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+                     // display OK icon
+                     $(element).closest('.form-control').removeClass('is-valid').addClass('is-invalid').find('.symbol').removeClass('ok').addClass('required');
+                     // add the Bootstrap error class to the control group
+              },
+              unhighlight: function(element) { // revert the change done by hightlight
+                     //display Checkbox invalid Data
+
+                     $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+                     $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
+                     // set error class to the control group
+              },
+              success: function(label, element) {
+                     //display Checkbox invalid Data
+                     $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+                     $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
+                     // mark the current input as valid and display OK icon
+              },
+              submitHandler: function(form) {
+                     successHandler1.show();
+                     errorHandler1.hide();
+                     form.submit();
+              }
+       });
+    }; 
+
+var validate_edit_option_values = function () {
+    var form = $('#edit_option_value_form');
+    var errorHandler1 = $('.errorHandler', form);
+    var successHandler1 = $('.successHandler', form);
+    $(form).validate({
+              ignore: [],
+              errorElement: "div", // contain the error msg in a span tag
+              errorClass: 'invalid-feedback',
+              errorPlacement: function (error, element) { // render error placement for each input type
+                     if (element.hasClass("ck-editor")) {
+                            error.insertBefore(element);
+                     }else if (element.attr("name") == "description") {
+                            $("#errordescription").append(error);
+                     } else{
+                            error.appendTo($(element).closest('.form-group'));
+                     }  
+              },
+              
+                rules: {
+                    
+                    option_value: {
+                        required: true,
+                    },
+                       
+                    sort_order: {
+                        required: true,
+                        digits: true
+                    },
+                         
+                },
+                messages: {
+                    
+                    option_value: {
+                        required: 'Required',
+                    },
+                     
+                    sort_order: {
+                        required: 'Required',
+                        digits: 'Only Number Format',
+                    },
+                    
+                },
+              invalidHandler: function(event, validator) { 
+
+                     successHandler1.hide();
+                     errorHandler1.show();
+              },
+              highlight: function(element) {
+                     $(element).closest('.form-control').removeClass('is-invalid');
+                     //display Checkbox invalid Data
+                     $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+                     // display OK icon
+                     $(element).closest('.form-control').removeClass('is-valid').addClass('is-invalid').find('.symbol').removeClass('ok').addClass('required');
+                     // add the Bootstrap error class to the control group
+              },
+              unhighlight: function(element) { // revert the change done by hightlight
+                     //display Checkbox invalid Data
+
+                     $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+                     $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
+                     // set error class to the control group
+              },
+              success: function(label, element) {
+                     //display Checkbox invalid Data
+                     $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+                     $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
+                     // mark the current input as valid and display OK icon
+              },
+              submitHandler: function(form) {
+                     successHandler1.show();
+                     errorHandler1.hide();
+                     form.submit();
+              }
+       });
+    };    
+
+</script>
+
+</body>
+
+</html>
