@@ -1,0 +1,563 @@
+{% include('admin/partials/head-main.twig')%}
+<head>
+    <base href="{{ base_url() }}" />
+    <?= $title_meta ?>
+
+
+    <!-- DataTables -->
+    <link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+
+
+    <!-- Responsive datatable examples -->
+    <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="assets/libs/imageupload/dist/image-uploader.min.css">
+
+    <?= $this->include('partials/head-css') ?>
+
+
+{% include('admin/partials/head-css.twig')%}
+</head>
+
+<div id="js_messages" style="display: none;"> 
+    <span id="are_you_sure_js">{{lang('are_you_sure_js')}}</span>
+    <span id="cancel_it_js">{{lang('cancel_it_js')}}</span>
+    <span id="canceled_js">{{lang('canceled_js')}}</span>
+    <span id="category_safe_js">{{lang('category_safe_js')}}</span>
+    <span id="delete_this_category_js">{{lang('delete_this_category_js')}}</span>
+    <span id="delete_it_js">{{lang('delete_it_js')}}</span>
+</div>
+
+{% include('admin/partials/body.twig')%}
+<!-- <body data-layout="horizontal"> -->
+
+<!-- Begin page -->
+<div id="layout-wrapper">
+
+{% include('admin/partials/menu.twig')%}
+
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+
+    <!-- ============================================================== -->
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+            {% include('admin/layout/notification.twig') %}
+                <!-- start page title -->
+                <?= $page_title ?>
+                <h4 class="panel-title">
+                    <span class="text-bold">
+                        {% if not edit_flag %}
+                            {{lang('product_list')}}
+                        {% elseif edit_flag == 1 %} 
+                            {{lang('product_options')}}
+                        {% endif %}    
+                    </span>
+                </h4>
+                {% if not edit_flag %}
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <table id="datatable" class="table table-bordered dt-responsive  nowrap w-100">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>{{lang('product_name')}}</th>
+                                            <th>{{lang('pro_option')}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for row in product %}  
+                                        <tr>
+                                            <td>{{loop.index}}</td>
+                                            <td>{{row.product_name}}</td>
+                                            <td><a href=" admin/product-options/edit/{{row.id}}" button type="submit"class="btn btn-primary"><i class="fas fa-pencil-alt"></i></a></td>
+
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+
+                {% elseif edit_flag == 1 %}
+                <div class="row">
+                    <div class="col-xl-12">
+
+                        <div class="main-login" style="display: flex;justify-content: right;align-items: right;">
+                            <button type="button" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#myModal">Add</button>
+                        </div>
+                        <br>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+
+                                            <!-- {% for row in data %}
+                                                {% if row.id == 1%}
+                                                    <a class="nav-link mb-2 active" id="v-pills-home-tab" data-bs-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">{{row.option_name}}</a>
+                                                {% else %}
+                                                    <a class="nav-link mb-2" id="v-pills-home-tab" data-bs-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">{{row.option_name}}</a>
+                                                {% endif %}
+                                            {% endfor %} -->
+
+
+                                            <a class="nav-link mb-2 active" id="v-pills-ram-tab" data-bs-toggle="pill" href="#v-pills-ram" role="tab" aria-controls="v-pills-ram" aria-selected="true">RAM</a>
+                                            <a class="nav-link mb-2" id="v-pills-rom-tab" data-bs-toggle="pill" href="#v-pills-rom" role="tab" aria-controls="v-pills-rom" aria-selected="true">ROM</a>
+                                            <a class="nav-link mb-2" id="v-pills-color-tab" data-bs-toggle="pill" href="#v-pills-color" role="tab" aria-controls="v-pills-color" aria-selected="true">Color</a>
+                                            
+                                        </div>
+                                    </div><!-- end col -->
+                                    <div class="col-md-9">
+                                        <div class="tab-content text-muted mt-4 mt-md-0" id="v-pills-tabContent">
+                                            <div class="tab-pane fade show active" id="v-pills-ram-tab" role="tabpanel" aria-labelledby="v-pills-ram-tab">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="card">
+                                                            <div class="card-body">
+                                                                <table id="datatable" class="table table-bordered dt-responsive  nowrap w-100">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>#</th>
+                                                                            <th>{{lang('option_value')}}</th>
+                                                                            <th>{{lang('quantity')}}</th>
+                                                                            <th>{{lang('price')}}</th>
+                                                                            <th>{{lang('action')}}</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    {% for row in product_options %}  
+                                                                        <tr>
+                                                                            <td>{{loop.index}}</td>
+                                                                            <td>{{row.option_value}}</td>
+                                                                            <td>{{row.quantity}}</td>
+                                                                            <td>{{row.price}}</td>
+                                                                            <td><button type="button" onClick="editProOptModal('{{row.id}}')" class="btn btn-primary waves-effect waves-light"><i class="fas fa-pencil-alt"></i></button> <a href="admin/product-options/delete/{{pro_id}}/{{row.id}}" button type="submit" class="btn btn-danger"><i class="fa fa-trash fa fa-white"></i></a></td>
+
+
+                                                                        </tr>
+                                                                    {% endfor %}
+                                                                    </tbody>
+                                                                </table>
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="v-pills-rom" role="tabpanel" aria-labelledby="v-pills-rom-tab">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="card">
+                                                            <div class="card-body">
+                                                                <table id="datatable" class="table table-bordered dt-responsive  nowrap w-100">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>#</th>
+                                                                            <th>{{lang('option_value')}}</th>
+                                                                            <th>{{lang('quantity')}}</th>
+                                                                            <th>{{lang('price')}}</th>
+                                                                            <th>{{lang('action')}}</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    {% for row in product_options1 %}  
+                                                                        <tr>
+                                                                            <td>{{loop.index}}</td>
+                                                                            <td>{{row.option_value}}</td>
+                                                                            <td>{{row.quantity}}</td>
+                                                                            <td>{{row.price}}</td>
+                                                                            <td><button type="button" onClick="editProOptModal('{{row.id}}')" class="btn btn-primary waves-effect waves-light"><i class="fas fa-pencil-alt"></i></button> <a href="admin/product-options/delete/{{pro_id}}/{{row.id}}" button type="submit" class="btn btn-danger"><i class="fa fa-trash fa fa-white"></i></a></td>
+
+                                                                        </tr>
+                                                                    {% endfor %}
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="v-pills-color" role="tabpanel" aria-labelledby="v-pills-color-tab">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="card">
+                                                            <div class="card-body">
+                                                                <table id="datatable" class="table table-bordered dt-responsive  nowrap w-100">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>#</th>
+                                                                            <th>{{lang('option_value')}}</th>
+                                                                            <th>{{lang('quantity')}}</th>
+                                                                            <th>{{lang('price')}}</th>
+                                                                            <th>{{lang('action')}}</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    {% for row in product_options2 %}  
+                                                                        <tr>
+                                                                            <td>{{loop.index}}</td>
+                                                                            <td>{{row.option_value}}</td>
+                                                                            <td>{{row.quantity}}</td>
+                                                                            <td>{{row.price}}</td>
+                                                                            <td><button type="button" onClick="editProOptModal('{{row.id}}')" class="btn btn-primary waves-effect waves-light"><i class="fas fa-pencil-alt"></i></button> <a href="admin/product-options/delete/{{pro_id}}/{{row.id}}" button type="submit" class="btn btn-danger"><i class="fa fa-trash fa fa-white"></i></a></td>
+
+                                                                        </tr>
+                                                                    {% endfor %}
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                            </div>  
+
+                                            <div id="editProModal" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="myModalLabel">Edit Option values</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            
+                                                            {{ form_open('', ' id="edit_option_value_form" name="edit_option_value_form"')|raw }}
+                                                           <input type="hidden" />
+                                                            <div class="row">
+                                                                <input type="hidden" id="val_id" name="val_id"/>
+                                                                <div class="col-xl-6 col-md-6">
+                                                                    <div class="form-group mb-3">
+                                                                        <label>Product Option</label>
+                                                                        <select name="option_id" id="option_id" class="form-control search-select" tabindex='5'>
+                                                                            <option value="">{{lang('select_a_option')}}</option>
+                                                                            {% for opt in data %}
+                                                                                <option value="{{opt.id}}">{{opt.option_name}}</option>
+
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <div class="col-xl-6 col-md-6">
+                                                                    <div class="form-group mb-3">
+                                                                        <label>Product Option Values</label>
+                                                                        
+                                                                        <select name="option_value" id="option_value" class="form-control search-select" tabindex='5'>
+                                                                            <option value="">{{lang('select_a_option_value')}}</option>
+                                                                            {% for opt_val in option_values %}
+                                                                                <option value="{{opt_val.id}}">{{opt_val.option_value}}</option>
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <div class="col-xl-6 col-md-6">
+                                                                    <div class="form-group mb-3">
+                                                                        <label>Quantity</label>
+                                                                            <input type="text"   class="form-control" id="quantity" name="quantity" value="{{product_options.quantity}}"/>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-xl-6 col-md-6">
+                                                                    <div class="form-group mb-3">
+                                                                        <label>Price</label>
+                                                                        <input type="text"   class="form-control" id="price" name="price" value="{{product_options.price}}"/>
+                                                                    </div>
+                                                                </div>
+         
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Close</button>
+                                                            
+                                                            <button type="submit" name="edit_pro_opt" value="edit_pro_opt"id="edit_pro_opt" class="btn btn-primary w-md">Update</button>
+                                                        </div>
+                                                        {{ form_close()|raw }}
+                                                    </div><!-- /.modal-content -->
+                                                </div><!-- /.modal-dialog -->
+                                            </div><!-- /.modal -->
+
+
+                                        </div>
+                                    </div><!--  end col -->
+
+                                    
+                                    <!-- add modal content -->
+                                    <div id="myModal" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="myModalLabel">Add Product Option values</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    
+                                                    {{ form_open('', ' id="add_pro_option_form" name="add_pro_option_form"')|raw }}
+                                                   <input type="hidden" />
+                                                    <div class="row">
+
+                                                        <div class="col-xl-6 col-md-6">
+                                                            <div class="form-group mb-3">
+                                                                <label>Product Option</label>
+                                                                <select name="option_id" id="option_id" class="form-control search-select" tabindex='5'>
+                                                                    <option value="">{{lang('select_a_option')}}</option>
+                                                                    {% for opt in data %}
+                                                                        <option value="{{opt.id}}">{{opt.option_name}}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="col-xl-6 col-md-6">
+                                                            <div class="form-group mb-3">
+                                                                <label>Product Option Values</label>
+                                                                <span class="input-icon" id="opt_value_span">
+                                                                <select name="option_value" id="option_value" class="form-control search-select" tabindex='5'>
+                                                                    <option value="">{{lang('select_a_option_value')}}</option>
+                                                                    {% for opt_val in option_values %}
+                                                                        <option value="{{opt_val.id}}">{{opt_val.option_value}}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="col-xl-6 col-md-6">
+                                                            <div class="form-group mb-3">
+                                                                <label>Quantity</label>
+                                                                    <input type="text"   class="form-control" id="quantity" name="quantity"/>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-xl-6 col-md-6">
+                                                            <div class="form-group mb-3">
+                                                                <label>Price</label>
+                                                                <select name="price_prefix" class="form-control">
+                                                                    <option value="+" selected="selected">+</option>
+                                                                    <option value="-">-</option>
+                                                                </select>
+                                                                <input type="text"   class="form-control" id="price" name="price"/>
+                                                            </div>
+                                                        </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Close</button>
+                                                    
+                                                    <button type="submit" name="add_pro_opt" value="add_pro_opt"id="add_pro_opt" class="btn btn-primary w-md">Submit</button>
+                                                </div>
+                                                {{ form_close()|raw }}
+                                            </div><!-- /.modal-content -->
+                                        </div><!-- /.modal-dialog -->
+                                    </div><!-- /.modal -->
+                                </div><!-- end row -->
+
+
+                            </div><!-- end card-body -->
+                        </div><!-- end card -->
+                    </div><!-- end col -->
+                    
+                </div><!-- end row -->
+
+                {% endif %}
+ 
+            </div>
+        </div> <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+
+   {% include('admin/partials/footer.twig')%}
+    </div>
+    <!-- end main content-->
+
+</div>
+<!-- END layout-wrapper -->
+
+{% include('admin/partials/right-sidebar.twig')%}
+<!-- JAVASCRIPT -->
+{% include('admin/partials/vendor-scripts.twig')%}
+      
+
+<!-- Required datatable js -->
+<script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+<!-- Buttons examples -->
+<script src="assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+<script src="assets/libs/jszip/jszip.min.js"></script>
+<script src="assets/libs/pdfmake/build/pdfmake.min.js"></script>
+<script src="assets/libs/pdfmake/build/vfs_fonts.js"></script>
+<script src="assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+
+<!-- Responsive examples -->
+<script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+
+<!-- Datatable init js -->
+<script src="assets/js/pages/datatables.init.js"></script>
+
+<script src="assets/libs/dropzone/min/dropzone.min.js"></script>
+
+
+<script src="assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
+<script src="assets/js/pages/form-editor.init.js"></script>
+
+<script type="text/javascript" src="assets/libs/imageupload/dist/image-uploader.min.js"></script>
+
+
+<script src="assets/js/app.js"></script>
+
+<script src="https://cdn.ckeditor.com/4.5.6/standard/ckeditor.js"></script>
+<link href="assets/plugins/sweetalert/lib/sweet-alert.css" rel="stylesheet" />
+<script src="assets/plugins/sweetalert/lib/sweet-alert.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+ 
+$(function() {
+   // validate_pro_option();
+});
+
+function editProOptModal(id){
+    $.ajax({
+        url:'admin/product/get_pro_option_value',
+        data:{id:id},
+        dataType:'json',
+        success:function(result){
+            console.log(result);
+            $("#editProModal").modal('toggle');
+            $("#val_id").val(result.id);
+            $("#option_id").val(result.option_id);
+            $("#option_value").val(result.option_value);
+            $("#quantity").val(result.quantity);
+            $("#price").val(result.price);
+        }
+    });
+}
+ 
+// var validate_pro_option = function () {
+//     var form = $('#add_pro_option_form');
+//     var errorHandler1 = $('.errorHandler', form);
+//     var successHandler1 = $('.successHandler', form);
+//     $(form).validate({
+//               ignore: [],
+//               errorElement: "div", // contain the error msg in a span tag
+//               errorClass: 'invalid-feedback',
+//               errorPlacement: function (error, element) { // render error placement for each input type
+//                      if (element.hasClass("ck-editor")) {
+//                             error.insertBefore(element);
+//                      }else if (element.attr("name") == "description") {
+//                             $("#errordescription").append(error);
+//                      } else{
+//                             error.appendTo($(element).closest('.form-group'));
+//                      }  
+//               },
+              
+//                 rules: {
+                    
+//                     option_id: {
+//                         required: true,
+//                     },
+//                     option_value: {
+//                         required: true,
+//                     },
+//                     quantity: {
+//                         required: true,
+//                         digits: true
+//                     },
+//                     price: {
+//                         required: true,
+//                         digits: true
+//                     },
+                         
+//                 },
+//                 messages: {
+                    
+//                     option_id: {
+//                         required: 'Required',
+//                     },
+//                     option_value: {
+//                         required: 'Required',
+//                     },
+//                     quantity: {
+//                         required: 'Required',
+//                         digits: 'Only Number Format',
+//                     },
+//                     price: {
+//                         required: 'Required',
+//                         digits: 'Only Number Format',
+//                     },
+                    
+//                 },
+//               invalidHandler: function(event, validator) { 
+
+//                      successHandler1.hide();
+//                      errorHandler1.show();
+//               },
+//               highlight: function(element) {
+//                      $(element).closest('.form-control').removeClass('is-invalid');
+//                      //display Checkbox invalid Data
+//                      $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+//                      // display OK icon
+//                      $(element).closest('.form-control').removeClass('is-valid').addClass('is-invalid').find('.symbol').removeClass('ok').addClass('required');
+//                      // add the Bootstrap error class to the control group
+//               },
+//               unhighlight: function(element) { // revert the change done by hightlight
+//                      //display Checkbox invalid Data
+
+//                      $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+//                      $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
+//                      // set error class to the control group
+//               },
+//               success: function(label, element) {
+//                      //display Checkbox invalid Data
+//                      $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+//                      $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
+//                      // mark the current input as valid and display OK icon
+//               },
+//               submitHandler: function(form) {
+//                      successHandler1.show();
+//                      errorHandler1.hide();
+//                      form.submit();
+//               }
+//        });
+//     };
+
+</script>
+
+<script>
+    
+    $('#option_id').on('change', function (e) {
+        var optionSelected = $("option:selected", this);
+        var valueSelected = this.value;
+
+        $.ajax({url: "admin/product/get_option_values",
+            data: {option_id: valueSelected, tab_index: 14},
+            async: false,
+            success: function (msg) {
+                $('#opt_value_span').html(msg);
+
+                $("#option_value").select2({
+                    placeholder: "Select a Option Value",
+                    allowClear: false
+                });
+            }
+        });
+
+    });
+</script>
+
+</body>
+
+</html>

@@ -417,3 +417,6 @@ $route['(:any)'] = 'shop/index/$1';
 $route['admin/options'] = 'admin/product/options';
 $route['admin/options/(:any)/(:num)'] = 'admin/product/options/$1/$2';
 $route['admin/options/(:any)/(:num)/(:num)'] = 'admin/product/options/$1/$2/$3';
+$route['admin/product-options'] = 'admin/product/product_options';
+$route['admin/product-options/(:any)/(:num)'] = 'admin/product/product_options/$1/$2';
+$route['admin/product-options/(:any)/(:num)/(:num)'] = 'admin/product/product_options/$1/$2/$3';

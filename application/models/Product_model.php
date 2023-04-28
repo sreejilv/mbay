@@ -1241,4 +1241,95 @@ class Product_model extends CI_Model {
         return true;
     }
 
+    // Product Options
+
+    function getProductOptions($pro_id="",$option_id = "") {
+        $data = array();
+        $res = $this->db->select("id,pro_id,option_id,option_value,quantity,price")
+                ->where("pro_id",$pro_id)
+                ->where("option_id",$option_id)
+                ->from("product_option_values")
+                ->get();
+        $i = 0;
+        foreach ($res->result() as $row) {
+            $data[$i]['id'] = $row->id;
+            $data[$i]['pro_id'] = $row->pro_id;
+            $data[$i]['option_id'] = $row->option_id;
+            $data[$i]['option_value'] = $this->getProOptionValue($row->option_value);
+            $data[$i]['quantity'] = $row->quantity;
+            $data[$i]['price'] = $row->price;
+            $i++;
+        }
+        return $data;
+    }
+
+    function addProOptionValues($data, $pro_id) {
+        $this->db->set('pro_id', $pro_id)
+                ->set('option_id', $data['option_id'])
+                ->set('option_value', $data['option_value'])
+                ->set('quantity', $data['quantity'])
+                ->set('price', $data['price'])
+                ->insert('product_option_values');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public function getProOptionValue($id) {
+        $option_value = lang('na');
+        $query = $this->db->select('option_value')
+                ->where('id', $id)
+                ->limit(1)
+                ->get('option_values');
+        if ($query->num_rows() > 0) {
+            $option_value = lang($query->row()->option_value);
+        }
+        return $option_value;
+    }
+
+    function deleteProOptionValue($id) {
+        $this->db->where('id', $id)
+                ->delete('product_option_values');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return true;
+    }
+
+    function updateProOptionValues($data) {
+        print_r($data);die;
+        $this->db->set('option_id', $data['option_id'])
+                ->set('option_value', $data['option_value'])
+                ->set('quantity', $data['quantity'])
+                ->set('price', $data['price'])
+                ->where('id', $data['val_id'])
+                ->update('product_option_values');
+                echo $this->db->last_query();die;
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    function getProOptions($id) {
+        $data = array();
+        $res = $this->db->select("id,pro_id,option_id,option_value,quantity,price")
+                ->where("id",$id)
+                ->from("product_option_values")
+                ->get();
+
+        $i = 0;
+        foreach ($res->result() as $row) {
+            $data[$i]['id'] = $row->id;
+            $data[$i]['pro_id'] = $row->pro_id;
+            $data[$i]['option_id'] = $row->option_id;
+            $data[$i]['option_value'] = $this->getProOptionValue($row->option_value);
+            $data[$i]['quantity'] = $row->quantity;
+            $data[$i]['price'] = $row->price;
+            $i++;
+        }
+        return $data;
+    }
+
 }

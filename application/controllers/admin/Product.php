@@ -964,7 +964,6 @@ class Product extends Base_Controller {
         $this->setData('opt_val', $opt_values);
         $this->setData('option_id', $option_id);
         $this->setData('val_id', $val_id);
-        $this->setData('session_id', $session_id);
         $this->setData('title', lang('menu_name_204'));
 
         $this->loadView();
@@ -974,6 +973,107 @@ class Product extends Base_Controller {
         $option_id=$this->input->get('id');
         $opt_values = $this->product_model->getOptValueDetails($option_id);
        echo json_encode($opt_values);
+       exit();
+
+
+    }
+
+    // Product Options
+
+    public function product_options($action = "", $pro_id = "", $val_id = "") {
+        $loged_user_id = ($this->aauth->getUserType() == 'employee') ? $this->base_model->getAdminUserId() : $this->aauth->getId();
+        $option_values = array();
+        $product_options = array();
+        $product_options1 = array();
+        $product_options2 = array();
+        $edit_flag = FALSE;
+        $tab = FALSE;
+        if ($action && $pro_id) {
+
+            if ($action == "edit") {
+                $edit_flag = TRUE;
+
+                    $product_options = $this->product_model->getProductOptions($pro_id,1);
+                    $product_options1 = $this->product_model->getProductOptions($pro_id,2);
+                    $product_options2 = $this->product_model->getProductOptions($pro_id,3);                
+
+            } elseif ($action == "delete") {
+                $edit_flag = TRUE;
+                $res = $this->product_model->deleteProOptionValue($val_id);
+                if ($res) {
+                    $this->loadPage(lang('pro_option_value_deleted'), 'product-options/edit/'.$pro_id);
+                } else {
+                    $this->loadPage(lang('pro_option_value_deletion_failed'), 'product-options/edit/'.$pro_id, 'danger');
+                } 
+            }
+            
+            else {
+                $this->loadPage(lang('invalid_action'), 'options', 'danger');
+            }
+        }
+
+        if($this->input->post('add_pro_opt')){
+            $edit_flag = TRUE;
+            $value_post = $this->security->xss_clean($this->input->post());
+            $option_id = $value_post['option_id'];
+            $option_values = $this->product_model->getOptionValueLists($option_id);
+            $res = $this->product_model->addProOptionValues($value_post, $pro_id);
+            $this->loadPage(lang('add_pro_opt_value_success'),'product-options/edit/'.$pro_id, 'success');
+         
+        }
+
+        if($this->input->post('edit_pro_opt')){
+            $this->load->helper('security');
+            $post = $this->security->xss_clean($this->input->post());
+             // print_r($post);die;
+            $res = $this->product_model->updateProOptionValues($post);
+            $this->loadPage(lang('update_opt_value_success'),'product-options/edit/'.$pro_id, 'success');
+         
+        }
+
+        $product_lists = $this->product_model->getAllProducts();
+        $data = $this->product_model->getOptionLists();
+        $option_values = $this->product_model->getOptionValueLists($pro_id);
+        $pro_opt_list = $this->product_model->getProOptions($id);
+        // print_r($pro_opt_list);die;
+        
+        $this->setData('data', $data);
+        $this->setData('option_values', $option_values);
+        $this->setData('product', $product_lists);
+        $this->setData('product_options', $product_options);
+        $this->setData('product_options1', $product_options1);
+        $this->setData('product_options2', $product_options2);
+        $this->setData('pro_opt_list', $pro_opt_list);
+        $this->setData('pro_id', $pro_id);
+        $this->setData('edit_flag', $edit_flag);
+        $this->setData('title', lang('menu_name_205'));
+
+        $this->loadView();
+    }
+
+
+    function get_option_values($id = 'option_value') {
+        $get = $this->input->get();
+        $tab_index = isset($get['tab_index']) ? $get['tab_index'] : '0';
+        $options = "<select class='form-control search-select' id='" . $id . "' name='" . $id . "' tabindex='" . $tab_index . "'><option value=''>" . lang('select_a_option_value') . "</option>";
+
+        if ($this->input->get('option_id')) {
+            $option_values = $this->product_model->getOptionValueLists($this->input->get('option_id'));
+            foreach ($option_values as $opt) {
+                $options .= "<option value='" . $opt['id'] . "'>" . $opt['option_value'] . "</option>";
+            }
+        }
+        $options .= "</select>";
+
+        echo $options;
+        exit();
+    }
+
+    function get_pro_option_value(){
+        $id=$this->input->get('id');
+        $product_options = $this->product_model->getProOptions($id);
+        // print_r($product_options);die;
+       echo json_encode($product_options);
        exit();
 
 

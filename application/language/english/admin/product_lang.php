@@ -135,3 +135,10 @@ $lang['add_opt_value_success'] = 'Successfully Added Option Values';
 $lang['option_value'] = 'Option Value';
 $lang['edit_option_value'] = 'Edit Option Value';
 $lang['update_opt_value_success'] = 'Successfully Updated Option Value';
+$lang['product_options'] = 'Product Options';
+$lang['product_list'] = 'Product List';
+$lang['pro_option'] = 'Product Option';
+$lang['price'] = 'Price';
+$lang['select_a_option'] = 'Select a Option';
+$lang['select_a_option_value'] = 'Select a Option Value';
+
