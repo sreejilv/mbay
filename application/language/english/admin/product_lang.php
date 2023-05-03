@@ -141,4 +141,5 @@ $lang['pro_option'] = 'Product Option';
 $lang['price'] = 'Price';
 $lang['select_a_option'] = 'Select a Option';
 $lang['select_a_option_value'] = 'Select a Option Value';
+$lang['add_pro_opt_value_success'] = 'Successfully Added Product Option Value';
 

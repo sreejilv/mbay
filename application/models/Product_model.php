@@ -1187,7 +1187,7 @@ class Product_model extends CI_Model {
 
     }
 
-    function getOptionValueLists($option_id) {
+    function getOptionValueLists($option_id="") {
         $data = array();
         $res = $this->db->select("id, option_id, option_value, sort_order")
                 ->where('option_id', $option_id)
@@ -1245,7 +1245,7 @@ class Product_model extends CI_Model {
 
     function getProductOptions($pro_id="",$option_id = "") {
         $data = array();
-        $res = $this->db->select("id,pro_id,option_id,option_value,quantity,price")
+        $res = $this->db->select("id,pro_id,option_id,option_value,quantity,price,")
                 ->where("pro_id",$pro_id)
                 ->where("option_id",$option_id)
                 ->from("product_option_values")
@@ -1269,6 +1269,7 @@ class Product_model extends CI_Model {
                 ->set('option_value', $data['option_value'])
                 ->set('quantity', $data['quantity'])
                 ->set('price', $data['price'])
+                ->set('price_change', $data['price_change'])
                 ->insert('product_option_values');
         if ($this->db->affected_rows() > 0) {
             return true;
@@ -1298,14 +1299,13 @@ class Product_model extends CI_Model {
     }
 
     function updateProOptionValues($data) {
-        print_r($data);die;
-        $this->db->set('option_id', $data['option_id'])
-                ->set('option_value', $data['option_value'])
-                ->set('quantity', $data['quantity'])
-                ->set('price', $data['price'])
+        $this->db->set('option_id', $data['edit_option_id'])
+                ->set('option_value', $data['edit_option_value'])
+                ->set('quantity', $data['edit_quantity'])
+                ->set('price', $data['edit_price'])
+                ->set('price_change', $data['edit_price_change'])
                 ->where('id', $data['val_id'])
                 ->update('product_option_values');
-                echo $this->db->last_query();die;
         if ($this->db->affected_rows() > 0) {
             return true;
         }
@@ -1314,20 +1314,21 @@ class Product_model extends CI_Model {
 
     function getProOptions($id) {
         $data = array();
-        $res = $this->db->select("id,pro_id,option_id,option_value,quantity,price")
+        $res = $this->db->select("id,pro_id,option_id,option_value,quantity,price,price_change")
                 ->where("id",$id)
                 ->from("product_option_values")
                 ->get();
 
         $i = 0;
         foreach ($res->result() as $row) {
-            $data[$i]['id'] = $row->id;
-            $data[$i]['pro_id'] = $row->pro_id;
-            $data[$i]['option_id'] = $row->option_id;
-            $data[$i]['option_value'] = $this->getProOptionValue($row->option_value);
-            $data[$i]['quantity'] = $row->quantity;
-            $data[$i]['price'] = $row->price;
-            $i++;
+            $data['id'] = $row->id;
+            $data['pro_id'] = $row->pro_id;
+            $data['option_id'] = $row->option_id;
+            $data['option_value'] = $row->option_value;
+            $data['quantity'] = $row->quantity;
+            $data['price'] = $row->price;
+            $data['price_change'] = $row->price_change;
+        
         }
         return $data;
     }

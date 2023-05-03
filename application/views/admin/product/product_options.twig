@@ -172,6 +172,7 @@
                                                                     {% for row in product_options1 %}  
                                                                         <tr>
                                                                             <td>{{loop.index}}</td>
+
                                                                             <td>{{row.option_value}}</td>
                                                                             <td>{{row.quantity}}</td>
                                                                             <td>{{row.price}}</td>
@@ -205,7 +206,14 @@
                                                                     {% for row in product_options2 %}  
                                                                         <tr>
                                                                             <td>{{loop.index}}</td>
-                                                                            <td>{{row.option_value}}</td>
+
+                                                                            
+                                                                            <td><div   style="  height: 20px;
+                                                                              width: 20px;
+                                                                              margin-bottom: 15px;
+                                                                              border: 1px solid black;
+                                                                              clear: both;background-color:{{row.option_value}}"></div></td>
+                                                                            
                                                                             <td>{{row.quantity}}</td>
                                                                             <td>{{row.price}}</td>
                                                                             <td><button type="button" onClick="editProOptModal('{{row.id}}')" class="btn btn-primary waves-effect waves-light"><i class="fas fa-pencil-alt"></i></button> <a href="admin/product-options/delete/{{pro_id}}/{{row.id}}" button type="submit" class="btn btn-danger"><i class="fa fa-trash fa fa-white"></i></a></td>
@@ -236,7 +244,7 @@
                                                                 <div class="col-xl-6 col-md-6">
                                                                     <div class="form-group mb-3">
                                                                         <label>Product Option</label>
-                                                                        <select name="option_id" id="option_id" class="form-control search-select" tabindex='5'>
+                                                                        <select name="edit_option_id" id="edit_option_id" class="form-control search-select" tabindex='5'>
                                                                             <option value="">{{lang('select_a_option')}}</option>
                                                                             {% for opt in data %}
                                                                                 <option value="{{opt.id}}">{{opt.option_name}}</option>
@@ -250,42 +258,48 @@
                                                                 <div class="col-xl-6 col-md-6">
                                                                     <div class="form-group mb-3">
                                                                         <label>Product Option Values</label>
-                                                                        
-                                                                        <select name="option_value" id="option_value" class="form-control search-select" tabindex='5'>
+                                                                        <span class="input-icon" id="edit_opt_value_span">
+                                                                        <select id="edit_option_value" name="edit_option_value" class="form-control search-select" tabindex='5'>
                                                                             <option value="">{{lang('select_a_option_value')}}</option>
                                                                             {% for opt_val in option_values %}
                                                                                 <option value="{{opt_val.id}}">{{opt_val.option_value}}</option>
                                                                             {% endfor %}
                                                                         </select>
+                                                                        </span>
                                                                     </div>
                                                                 </div>
-
 
                                                                 <div class="col-xl-6 col-md-6">
                                                                     <div class="form-group mb-3">
                                                                         <label>Quantity</label>
-                                                                            <input type="text"   class="form-control" id="quantity" name="quantity" value="{{product_options.quantity}}"/>
+                                                                            <input type="text"   class="form-control" id="edit_quantity" name="edit_quantity" value="{{product_options.quantity}}"/>
                                                                     </div>
                                                                 </div>
 
-                                                                <div class="col-xl-6 col-md-6">
-                                                                    <div class="form-group mb-3">
+                                                                <div class="col-xl-6 col-md-6 d-flex justify-content-between">
+                                                                      <div class="form-group mb-3">
                                                                         <label>Price</label>
-                                                                        <input type="text"   class="form-control" id="price" name="price" value="{{product_options.price}}"/>
+                                                                        <input type="text" class="form-control" id="edit_price" name="edit_price" value="{{product_options.price}}"/>
+                                                                      </div>
+                                                                      <div class="form-group mb-3">
+                                                                        <label>&nbsp;</label>
+                                                                        <select id="edit_price_change" name="edit_price_change" class="form-control">
+                                                                          <option value="+" {% if product_options.price_change=="+" %} selected {% endif %}>+</option>
+                                                                          <option value="-" {% if product_options.price_change=="-" %} selected {% endif %}>-</option>
+                                                                        </select>
+                                                                      </div>
                                                                     </div>
-                                                                </div>
-         
+
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Close</button>
-                                                            
+
                                                             <button type="submit" name="edit_pro_opt" value="edit_pro_opt"id="edit_pro_opt" class="btn btn-primary w-md">Update</button>
                                                         </div>
                                                         {{ form_close()|raw }}
                                                     </div><!-- /.modal-content -->
                                                 </div><!-- /.modal-dialog -->
                                             </div><!-- /.modal -->
-
 
                                         </div>
                                     </div><!--  end col -->
@@ -328,6 +342,7 @@
                                                                         <option value="{{opt_val.id}}">{{opt_val.option_value}}</option>
                                                                     {% endfor %}
                                                                 </select>
+                                                                </span>
                                                             </div>
                                                         </div>
 
@@ -339,14 +354,18 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-xl-6 col-md-6">
+                                                        <div class="col-xl-6 col-md-6 d-flex justify-content-between">
                                                             <div class="form-group mb-3">
                                                                 <label>Price</label>
-                                                                <select name="price_prefix" class="form-control">
+                                                                
+                                                                <input type="text"   class="form-control" id="price" name="price"/>
+                                                            </div>
+                                                            <div class="form-group mb-3">
+                                                                <label>&nbsp;</label>
+                                                                <select id="price_change" name="price_change" class="form-control">
                                                                     <option value="+" selected="selected">+</option>
                                                                     <option value="-">-</option>
                                                                 </select>
-                                                                <input type="text"   class="form-control" id="price" name="price"/>
                                                             </div>
                                                         </div>
                                                 </div>
@@ -426,119 +445,11 @@
 <script>
  
 $(function() {
-   // validate_pro_option();
+   validate_pro_option();
+   validate_edit_pro_option();
 });
 
-function editProOptModal(id){
-    $.ajax({
-        url:'admin/product/get_pro_option_value',
-        data:{id:id},
-        dataType:'json',
-        success:function(result){
-            console.log(result);
-            $("#editProModal").modal('toggle');
-            $("#val_id").val(result.id);
-            $("#option_id").val(result.option_id);
-            $("#option_value").val(result.option_value);
-            $("#quantity").val(result.quantity);
-            $("#price").val(result.price);
-        }
-    });
-}
- 
-// var validate_pro_option = function () {
-//     var form = $('#add_pro_option_form');
-//     var errorHandler1 = $('.errorHandler', form);
-//     var successHandler1 = $('.successHandler', form);
-//     $(form).validate({
-//               ignore: [],
-//               errorElement: "div", // contain the error msg in a span tag
-//               errorClass: 'invalid-feedback',
-//               errorPlacement: function (error, element) { // render error placement for each input type
-//                      if (element.hasClass("ck-editor")) {
-//                             error.insertBefore(element);
-//                      }else if (element.attr("name") == "description") {
-//                             $("#errordescription").append(error);
-//                      } else{
-//                             error.appendTo($(element).closest('.form-group'));
-//                      }  
-//               },
-              
-//                 rules: {
-                    
-//                     option_id: {
-//                         required: true,
-//                     },
-//                     option_value: {
-//                         required: true,
-//                     },
-//                     quantity: {
-//                         required: true,
-//                         digits: true
-//                     },
-//                     price: {
-//                         required: true,
-//                         digits: true
-//                     },
-                         
-//                 },
-//                 messages: {
-                    
-//                     option_id: {
-//                         required: 'Required',
-//                     },
-//                     option_value: {
-//                         required: 'Required',
-//                     },
-//                     quantity: {
-//                         required: 'Required',
-//                         digits: 'Only Number Format',
-//                     },
-//                     price: {
-//                         required: 'Required',
-//                         digits: 'Only Number Format',
-//                     },
-                    
-//                 },
-//               invalidHandler: function(event, validator) { 
-
-//                      successHandler1.hide();
-//                      errorHandler1.show();
-//               },
-//               highlight: function(element) {
-//                      $(element).closest('.form-control').removeClass('is-invalid');
-//                      //display Checkbox invalid Data
-//                      $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
-//                      // display OK icon
-//                      $(element).closest('.form-control').removeClass('is-valid').addClass('is-invalid').find('.symbol').removeClass('ok').addClass('required');
-//                      // add the Bootstrap error class to the control group
-//               },
-//               unhighlight: function(element) { // revert the change done by hightlight
-//                      //display Checkbox invalid Data
-
-//                      $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
-//                      $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
-//                      // set error class to the control group
-//               },
-//               success: function(label, element) {
-//                      //display Checkbox invalid Data
-//                      $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
-//                      $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
-//                      // mark the current input as valid and display OK icon
-//               },
-//               submitHandler: function(form) {
-//                      successHandler1.show();
-//                      errorHandler1.hide();
-//                      form.submit();
-//               }
-//        });
-//     };
-
-</script>
-
-<script>
-    
-    $('#option_id').on('change', function (e) {
+$('#option_id').on('change', function (e) {
         var optionSelected = $("option:selected", this);
         var valueSelected = this.value;
 
@@ -556,6 +467,225 @@ function editProOptModal(id){
         });
 
     });
+
+
+$('#edit_option_id').on('change', function (e) {
+        var optionSelected = $("option:selected", this);
+        var valueSelected = this.value;
+
+        $.ajax({url: "admin/product/get_option_values",
+            data: {option_id: valueSelected, tab_index: 14},
+            async: false,
+            success: function (msg) {
+                $('#edit_opt_value_span').html(msg);
+
+                $("#edit_option_value").select2({
+                    placeholder: "Select a Option Value",
+                    allowClear: false
+                });
+            }
+        });
+
+    });
+
+
+function editProOptModal(id){
+    $.ajax({
+        url:'admin/product/get_pro_option_value',
+        data:{id:id},
+        dataType:'json',
+        success:function(result){
+            $("#editProModal").modal('toggle');
+            $("#val_id").val(result.id);
+            $("#edit_option_id").val(result.option_id);
+            $("#edit_option_value").val(result.option_value);
+            $("#edit_quantity").val(result.quantity);
+            $("#edit_price").val(result.price);
+            $("#edit_price_change").val(result.price_change);
+        }
+
+    });
+}
+ 
+var validate_pro_option = function () {
+    var form = $('#add_pro_option_form');
+    var errorHandler1 = $('.errorHandler', form);
+    var successHandler1 = $('.successHandler', form);
+    $(form).validate({
+              ignore: [],
+              errorElement: "div", // contain the error msg in a span tag
+              errorClass: 'invalid-feedback',
+              errorPlacement: function (error, element) { // render error placement for each input type
+                     if (element.hasClass("ck-editor")) {
+                            error.insertBefore(element);
+                     }else if (element.attr("name") == "description") {
+                            $("#errordescription").append(error);
+                     } else{
+                            error.appendTo($(element).closest('.form-group'));
+                     }  
+              },
+              
+                rules: {
+                    
+                    option_id: {
+                        required: true,
+                    },
+                    option_value: {
+                        required: true,
+                    },
+                    quantity: {
+                        required: true,
+                        digits: true
+                    },
+                    price: {
+                        required: true,
+                        digits: true
+                    },
+                         
+                },
+                messages: {
+                    
+                    option_id: {
+                        required: 'Required',
+                    },
+                    option_value: {
+                        required: 'Required',
+                    },
+                    quantity: {
+                        required: 'Required',
+                        digits: 'Only Number Format',
+                    },
+                    price: {
+                        required: 'Required',
+                        digits: 'Only Number Format',
+                    },
+                    
+                },
+              invalidHandler: function(event, validator) { 
+
+                     successHandler1.hide();
+                     errorHandler1.show();
+              },
+              highlight: function(element) {
+                     $(element).closest('.form-control').removeClass('is-invalid');
+                     //display Checkbox invalid Data
+                     $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+                     // display OK icon
+                     $(element).closest('.form-control').removeClass('is-valid').addClass('is-invalid').find('.symbol').removeClass('ok').addClass('required');
+                     // add the Bootstrap error class to the control group
+              },
+              unhighlight: function(element) { // revert the change done by hightlight
+                     //display Checkbox invalid Data
+
+                     $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+                     $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
+                     // set error class to the control group
+              },
+              success: function(label, element) {
+                     //display Checkbox invalid Data
+                     $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+                     $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
+                     // mark the current input as valid and display OK icon
+              },
+              submitHandler: function(form) {
+                     successHandler1.show();
+                     errorHandler1.hide();
+                     form.submit();
+              }
+       });
+    };
+
+
+
+var validate_edit_pro_option = function () {
+    var form = $('#edit_option_value_form');
+    var errorHandler1 = $('.errorHandler', form);
+    var successHandler1 = $('.successHandler', form);
+    $(form).validate({
+              ignore: [],
+              errorElement: "div", // contain the error msg in a span tag
+              errorClass: 'invalid-feedback',
+              errorPlacement: function (error, element) { // render error placement for each input type
+                     if (element.hasClass("ck-editor")) {
+                            error.insertBefore(element);
+                     }else if (element.attr("name") == "description") {
+                            $("#errordescription").append(error);
+                     } else{
+                            error.appendTo($(element).closest('.form-group'));
+                     }  
+              },
+              
+                rules: {
+                    
+                    edit_option_id: {
+                        required: true,
+                    },
+                    edit_option_value: {
+                        required: true,
+                    },
+                    edit_quantity: {
+                        required: true,
+                        digits: true
+                    },
+                    edit_price: {
+                        required: true,
+                        digits: true
+                    },
+                         
+                },
+                messages: {
+                    
+                    edit_option_id: {
+                        required: 'Required',
+                    },
+                    edit_option_value: {
+                        required: 'Required',
+                    },
+                    edit_quantity: {
+                        required: 'Required',
+                        digits: 'Only Number Format',
+                    },
+                    edit_price: {
+                        required: 'Required',
+                        digits: 'Only Number Format',
+                    },
+                    
+                },
+              invalidHandler: function(event, validator) { 
+
+                     successHandler1.hide();
+                     errorHandler1.show();
+              },
+              highlight: function(element) {
+                     $(element).closest('.form-control').removeClass('is-invalid');
+                     //display Checkbox invalid Data
+                     $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+                     // display OK icon
+                     $(element).closest('.form-control').removeClass('is-valid').addClass('is-invalid').find('.symbol').removeClass('ok').addClass('required');
+                     // add the Bootstrap error class to the control group
+              },
+              unhighlight: function(element) { // revert the change done by hightlight
+                     //display Checkbox invalid Data
+
+                     $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+                     $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
+                     // set error class to the control group
+              },
+              success: function(label, element) {
+                     //display Checkbox invalid Data
+                     $(element).closest('.checkbox').removeClass('is-invalid').addClass('is-valid');
+                     $(element).closest('.form-control').removeClass('is-invalid').addClass('is-valid').find('.symbol').removeClass('ok').addClass('required');
+                     // mark the current input as valid and display OK icon
+              },
+              submitHandler: function(form) {
+                     successHandler1.show();
+                     errorHandler1.hide();
+                     form.submit();
+              }
+       });
+    };
+
+
 </script>
 
 </body>

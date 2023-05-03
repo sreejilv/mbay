@@ -995,7 +995,8 @@ class Product extends Base_Controller {
 
                     $product_options = $this->product_model->getProductOptions($pro_id,1);
                     $product_options1 = $this->product_model->getProductOptions($pro_id,2);
-                    $product_options2 = $this->product_model->getProductOptions($pro_id,3);                
+                    $product_options2 = $this->product_model->getProductOptions($pro_id,3);
+                
 
             } elseif ($action == "delete") {
                 $edit_flag = TRUE;
@@ -1011,7 +1012,6 @@ class Product extends Base_Controller {
                 $this->loadPage(lang('invalid_action'), 'options', 'danger');
             }
         }
-
         if($this->input->post('add_pro_opt')){
             $edit_flag = TRUE;
             $value_post = $this->security->xss_clean($this->input->post());
@@ -1024,8 +1024,9 @@ class Product extends Base_Controller {
 
         if($this->input->post('edit_pro_opt')){
             $this->load->helper('security');
+            $opt_id = $this->session->userdata('opt_id');
+            $option_values = $this->product_model->getOptionValueLists($opt_id);
             $post = $this->security->xss_clean($this->input->post());
-             // print_r($post);die;
             $res = $this->product_model->updateProOptionValues($post);
             $this->loadPage(lang('update_opt_value_success'),'product-options/edit/'.$pro_id, 'success');
          
@@ -1033,9 +1034,11 @@ class Product extends Base_Controller {
 
         $product_lists = $this->product_model->getAllProducts();
         $data = $this->product_model->getOptionLists();
-        $option_values = $this->product_model->getOptionValueLists($pro_id);
-        $pro_opt_list = $this->product_model->getProOptions($id);
-        // print_r($pro_opt_list);die;
+
+        $opt_id = $this->session->userdata('opt_id');
+        $option_values = $this->product_model->getOptionValueLists($opt_id);
+
+        $this->session->unset_userdata('opt_id');
         
         $this->setData('data', $data);
         $this->setData('option_values', $option_values);
@@ -1043,7 +1046,6 @@ class Product extends Base_Controller {
         $this->setData('product_options', $product_options);
         $this->setData('product_options1', $product_options1);
         $this->setData('product_options2', $product_options2);
-        $this->setData('pro_opt_list', $pro_opt_list);
         $this->setData('pro_id', $pro_id);
         $this->setData('edit_flag', $edit_flag);
         $this->setData('title', lang('menu_name_205'));
@@ -1056,11 +1058,10 @@ class Product extends Base_Controller {
         $get = $this->input->get();
         $tab_index = isset($get['tab_index']) ? $get['tab_index'] : '0';
         $options = "<select class='form-control search-select' id='" . $id . "' name='" . $id . "' tabindex='" . $tab_index . "'><option value=''>" . lang('select_a_option_value') . "</option>";
-
         if ($this->input->get('option_id')) {
             $option_values = $this->product_model->getOptionValueLists($this->input->get('option_id'));
             foreach ($option_values as $opt) {
-                $options .= "<option value='" . $opt['id'] . "'>" . $opt['option_value'] . "</option>";
+                $options .="<option  value='" . $opt['id'] . "'>" . $opt['option_value'] . "</option>";
             }
         }
         $options .= "</select>";
@@ -1072,7 +1073,10 @@ class Product extends Base_Controller {
     function get_pro_option_value(){
         $id=$this->input->get('id');
         $product_options = $this->product_model->getProOptions($id);
-        // print_r($product_options);die;
+        $opt_id = $product_options['option_id'];
+
+        $this->session->set_userdata('opt_id', $opt_id);
+
        echo json_encode($product_options);
        exit();
 
